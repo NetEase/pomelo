@@ -1,0 +1,19 @@
+{
+  "name": "webgame-demo", 
+  "version": "0.0.1",
+  "private": true, 
+  "dependencies": {
+   	"dnode": ">=0.0.1" 
+  , "express": "2.5.2"
+  , "jade": ">= 0.0.1"
+  , "log4js": ">= 0.4.1"
+  , "socket.io": ">=0.8.6"
+  , "generic-pool": ">=1.0.9"
+  , "mysql": ">=0.9.5"
+  , "joose": ">=0.0.1"
+  , "redis": ">=0.7.1"
+  }, 
+  "devDependencies": {
+  	"flow": ">=0.2.2"
+  }
+}
