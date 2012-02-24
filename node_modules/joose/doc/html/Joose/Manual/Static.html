@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Static - Static methods and attributes, "out of the box"</p>
+
+<h1 id="whatisastaticproperty">WHAT IS A STATIC PROPERTY?</h1>
+
+<p>Static method (or attribute) is a method, defined on the class itself, not on its instances. Its somewhat similar to singleton concept. 
+Static methods often manage some system-wide state or set of helper functions.</p>
+
+<h1 id="syntax">SYNTAX</h1>
+
+<p>To declare a static part of your class use <code>my</code> builder:</p>
+
+<pre><code>    Class('TypeRegistry', {
+
+        my : {
+            has : {
+                types : Joose.I.Object
+            },
+
+            does : [ JooseX.Storable ],
+
+            methods : {
+                registerType : function (type, value) {
+                    ....
+                }
+            }
+        }
+    })
+</code></pre>
+
+<p>You may use any usual builders inside of <code>my</code>, including method modifires, <code>isa</code>, <code>does</code>, etc. Static properties are also <a href="Mutability.html">mutable</a> </p>
+
+<h1 id="usage">USAGE</h1>
+
+<p>To access static properties "outside" of class context, use <code>my</code> property of its constructor, like</p>
+
+<pre><code>    TypeRegistry.my.types['someTypeName']
+
+    TypeRegistry.my.registerType('textfield', Ext.form.TextField)
+</code></pre>
+
+<p>Static methods are also aliased to the constructor, so you can call them directly, w/o <code>my</code>:</p>
+
+<pre><code>    TypeRegistry.registerType('textfield', Ext.form.TextField)
+</code></pre>
+
+<p>Inside of <em>static</em> methods, <em>static</em> attributes are available via <code>this</code>. Inside of the <em>usual</em> methods, <em>static</em> properties are available via <code>my</code>: </p>
+
+<pre><code>    Class('TypeRegistry', {
+
+        my : {
+            has : {
+                types : Joose.I.Object
+            }
+
+            methods : {
+                registerType : function (type, value) {
+                    this.types[ type ] = value
+                }
+            }
+        },
+
+        methods : {
+
+            someMethod : function () {
+                this.my.registerType('someTypeName', someValue)
+
+                this.my.types[ 'someType' ]
+            }
+        }
+    })
+
+    //or
+
+    var registry = new TypeRegistry()
+
+    registry.my.registerType('someTypeName', someValue)
+</code></pre>
+
+<h1 id="acessinghostingclass">ACESSING HOSTING CLASS</h1>
+
+<p>If you need to access the constructor of the hosting class from static methods, add a special static attribute <code>HOST</code>.
+During instantiation, it will be provided with the correct value: </p>
+
+<pre><code>    Class('FileType', {
+
+        has : {
+            ...
+        },
+
+
+        methods : {
+            ...
+        },
+
+
+        my : {
+            has : {
+                types   : { init : {} },
+
+                HOST    : null,
+            },
+
+
+            methods : {
+                register : function (name, param1, param2) {
+
+                    // this.HOST == FileType
+
+                    this.types[ name ] = new this.HOST({
+                        param1 : param1,
+                        param2 : param2
+                    })
+                }
+            }
+        }
+    })
+</code></pre>
+
+<p>Static method <code>register</code> shown in the example will also correctly work in the subclasses of <code>FileType</code>.</p>
+
+<h1 id="inheritanceofstaticproperties">INHERITANCE OF STATIC PROPERTIES</h1>
+
+<p>Static properties are inheritable like any other. There are though some additional details you should take into account.
+Under the hood, static properties implemented as a singleton class, and you can specify from what class it should inherit directly:</p>
+
+<h2 id="directinheritance">Direct inheritance</h2>
+
+<p>You may use <code>isa</code> builder to directly specify from what class your static part should inherit:</p>
+
+<pre><code>    Class('TypeRegistry', {
+
+        my : {
+            isa : Registry,
+
+            ....
+        }
+    })
+</code></pre>
+
+<p>Direct inheritance has a highest priority.</p>
+
+<h2 id="indirectinheritance">Indirect inheritance</h2>
+
+<p>Otherwise if the class have static properties they'll be inheried by this class subclasses:</p>
+
+<pre><code>    Class('Registry', {
+
+        my : {
+            ....
+        }
+    })
+
+    Class('TypeRegistry', {
+        isa : Registry
+    })
+</code></pre>
+
+<p><code>TypeRegistry</code> will inherit all the attributes of <code>Registry</code>, including static, which will be accessible as <code>TypeRegistry.my</code>. <code>TypeRegistry.my</code> will be a subclass of the <code>Registry.my</code> class. </p>
+
+<p>You may specify any additional builders, which will customize the static methods of subclass: </p>
+
+<pre><code>    Class('TypeRegistry', {
+        isa : Registry,
+
+        my : {
+            override : {
+                registerType : function (type, value) {
+                    ....
+                }
+            }
+        }
+    })
+</code></pre>
+
+<h1 id="roleswithstaticproperties">ROLES WITH STATIC PROPERTIES</h1>
+
+<p>In addition to all this static wizardry you can create a role with static methods just fine:</p>
+
+<pre><code>    Role('TypeRegistry.Storable', {
+
+        my : {
+            has : {
+                storageId : { is : 'rw' }
+            },
+
+            override : {
+                registerType : function (type, value) {
+                    ....
+                }
+            }
+        }
+    })
+</code></pre>
+
+<p>Such roles should be applied in "indirect form", to the usual class, which should contain the static part, being modified.</p>
+
+<pre><code>    Class('TypeRegistry', {
+
+        does : TypeRegistry.Storable
+    })
+</code></pre>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

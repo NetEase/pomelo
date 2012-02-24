@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">Name</h1>
+
+<p>JooseX.Class.Singleton - a trait, turning your class into singleton</p>
+
+<h1 id="synopsis">SYNOPSIS</h1>
+
+<pre><code>    Class("Some.Class", {
+
+        trait : JooseX.Class.Singleton,
+
+        has : {
+            attribute   : null
+        },
+
+
+        methods : {
+
+            configure : function (params) {
+            }
+        }
+    })
+
+    var instance1 = new Some.Class({
+        attribute : 'value'
+    })
+
+    var instance2 = new Some.Class()
+
+    //preferred way
+    var instance3 = Some.Class()
+
+    t.ok(instance1 == instance2 &amp;&amp; instance2 == instance3, '3 ways to access a singleton instance - choose one')
+
+
+    //or equivalent declaration
+
+    Singleton("Some.Class", {
+
+        has : {
+            attribute   : null
+        },
+
+
+        methods : {
+
+            configure : function (params) {
+                this.attribute = params
+            }
+        }
+    })
+</code></pre>
+
+<h1 id="description">DESCRIPTION</h1>
+
+<p><code>JooseX.Class.Singleton</code> is a meta-role, turning your class into singleton.</p>
+
+<p>You can apply it as a trait (the 1st example in the synopsys), or you can use the new declaration helper: <code>Singleton</code></p>
+
+<h1 id="usage">USAGE</h1>
+
+<p>To receive the singleton instance use the constructor of the class. You can use it in any form - with or without <code>new</code> keyword.</p>
+
+<pre><code>    Singleton('Some.Class', {
+        ...
+    })
+
+    var instance = Some.Class()
+
+    //or
+
+    var instance = new Some.Class()
+</code></pre>
+
+<p>The first call to constructor will <em>instantiate</em> singleton. The parameters passed to this first call, will be passed into actual underlaying constructor.</p>
+
+<p>The further calls to constructor will <em>reconfigure</em> singleton. The parameters passed to further calls, will be passed into call to <code>configure</code> method
+of the class (if it has one).</p>
+
+<h1 id="inheritance">INHERITANCE</h1>
+
+<p>Note, that by default, the subclasses uses the same metaclass as their parents. Thus, if you'll subclass the singleton, the resulting class will be 
+a singleton either (even without applied traits or <code>Singleton</code> helper usage):</p>
+
+<pre><code>    Class('Some.Singleton', {
+        trait : JooseX.Class.Singleton,
+        ...
+    })
+
+
+    // this class will be a singleton as well
+
+    Class('Another.Class', {
+        isa : Some.Singleton
+    })
+</code></pre>
+
+<p>If you'd like to avoid this - then specify the metaclass explicitly:</p>
+
+<pre><code>    // this class will be a usual class 
+    // inheriting all attributes/methods of Some.Singleton
+    // but not its "singleton-nessment"
+
+    Class('Another.Class', {
+        meta : Joose.Meta.Class,
+
+        isa : Some.Singleton
+    })
+</code></pre>
+
+<h1 id="gettinghelp">GETTING HELP</h1>
+
+<p>This extension is supported via github issues tracker: <a href="http://github.com/SamuraiJack/JooseX-Class-Singleton/issues">http://github.com/SamuraiJack/JooseX-Class-Singleton/issues</a></p>
+
+<p>For general Joose questions you can also visit #joose on irc.freenode.org or the forum at: <a href="http://joose.it/forum">http://joose.it/forum</a></p>
+
+<h1 id="seealso">SEE ALSO</h1>
+
+<p>Web page of this module: <a href="http://github.com/SamuraiJack/JooseX-Class-Singleton/">http://github.com/SamuraiJack/JooseX-Class-Singleton/</a></p>
+
+<p>General documentation for Joose: <a href="http://Joose.github.com/Joose">http://Joose.github.com/Joose</a></p>
+
+<h1 id="bugs">BUGS</h1>
+
+<p>All complex software has bugs lurking in it, and this module is no exception.</p>
+
+<p>Please report any bugs through the web interface at <a href="http://github.com/SamuraiJack/JooseX-Class-Singleton/issues">http://github.com/SamuraiJack/JooseX-Class-Singleton/issues</a></p>
+
+<h1 id="authors">AUTHORS</h1>
+
+<p>Nickolay Platonov <a href="&#x6D;&#97;&#x69;l&#116;&#111;:&#x6E;&#x70;la&#116;&#111;&#110;&#111;&#x76;&#64;&#99;&#112;&#x61;&#x6E;&#46;&#111;&#x72;&#x67;">&#x6E;&#x70;la&#116;&#111;&#110;&#111;&#x76;&#64;&#99;&#112;&#x61;&#x6E;&#46;&#111;&#x72;&#x67;</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2009, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Nickolay Platonov nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Reflection - The Joose reflection API</p>
+
+<h1 id="introduction">INTRODUCTION</h1>
+
+<p>Joose provides a powerful reflection API, which allows you fully introspect classes, attributes, methods, and so on.</p>
+
+<p>These introspection methods are also handy if you want to generate docs or inheritance graphs, or do some other runtime reflection.</p>
+
+<p>This document is currently not a complete reference for the introspection API. We're just going to cover some of the highlights, and give you a sense of how it all works. 
+To really understand it, you'll have to read a other docs, or may be examine sources. </p>
+
+<h1 id="gettingstarted">GETTING STARTED</h1>
+
+<p>The usual entry point to the meta API is through a class's metaclass instance, which is usually a <code>Joose.Meta.Class</code>. This is available by accessing the <code>meta</code> property on a class or instance:</p>
+
+<pre><code>    Class('User', {
+        ...
+    })
+
+    var user = new User()
+
+    var meta = User.meta
+    -or-
+    var meta = user.meta
+</code></pre>
+
+<h1 id="usingthemetaclassinstance">USING THE METACLASS INSTANCE</h1>
+
+<p>The metaclass instance can tell you about a class's attributes, methods, roles, parent, and more. For example, to scan through all of the class's attributes:</p>
+
+<pre><code>    meta.getAttributes().eachAll(function (attribute, name, isOwn) {
+        console.log('class has attribute ' + name)
+    })
+</code></pre>
+
+<p>The <code>getAttributes</code> method returns an instance of <code>Joose.Managed.PropertySet</code> class, which represents a set of attributes defined in the class (and its parent).</p>
+
+<p>This instance provides an <code>eachAll</code> iterator, which will call a provided function for each element ('all' stands for: either defined in the class or in the superclass).</p>
+
+<p>The 1st argument for iterator function will be usually an instance of "Joose.Managed.Attribute"
+Note that sometimes it may actually be a subclass of <code>Joose.Managed.Attribute</code>, as Joose uses different classes to represent usual attribute, delegation attributes, etc.</p>
+
+<p>You can also get a list of methods:</p>
+
+<pre><code>    meta.getMethods().eachAll(function (method, name, isOwn) {
+        console.log('class has method ' + name)
+    })
+</code></pre>
+
+<p>We receive an instance of <code>Joose.Managed.PropertySet.Containable</code> as well in this case.</p>
+
+<h1 id="alteringclasses">ALTERING CLASSES</h1>
+
+<p>The metaclass object can change the class directly, by adding or removing attributes, methods, etc.</p>
+
+<p>The recommended way is to call <code>extend</code> method of metaclass instance:</p>
+
+<pre><code>    meta.extend({
+        has : {
+            newAttribute : { is : 'rw', init : 'value' }
+        }
+    })
+</code></pre>
+
+<p>This way is guaranteed to produce consistent changes.</p>
+
+<h1 id="goingfurther">GOING FURTHER</h1>
+
+<p>If you're interested in extending Joose, we recommend reading all of the "Meta" and "Extending" recipes in the <a href="../Cookbook.html">Joose.Cookbook</a>. Those recipes show various practical applications of the metaclass API.</p>
+
+<p>If you'd like to write your own extensions, one of the best ways to learn more about this is to look at other similar extensions to see how they work. 
+You'll probably also need to read various API docs, including the docs for the various <code>Joose.Meta.*</code> classes.</p>
+
+<p>Finally, we welcome questions on the Joose mailing list and IRC. Information on the mailing list, IRC, and more references can be found in the <a href="../../Joose.html">Joose</a> docs.</p>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<p>Heavily based on the original content of Moose::Manual, by Dave Rolsky <a href="mailto:autarch@urth.org">autarch@urth.org</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

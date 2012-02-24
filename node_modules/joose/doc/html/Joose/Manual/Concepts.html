@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Concepts - Joose OO concepts. </p>
+
+<h2 id="jooseconceptsvsrawjavascript">Joose CONCEPTS (VS "RAW" JavaScript)</h2>
+
+<p>In the past, you may not have thought too much about the difference between packages and classes, attributes and methods, constructors and methods, etc. 
+With Joose, these are all conceptually separate things, even though under the hood they're implemented with plain old JavaScript.</p>
+
+<p>Our meta-object protocol (aka MOP) provides well-defined introspection features for each of those concepts, and Joose in turn provides distinct sugar for each of them. 
+Joose also introduces additional concepts such as roles, method modifiers, and declarative delegation.</p>
+
+<p>Knowing what these concepts mean in Joose-speak, and how they used to be done in "raw" JavaScript OO is a good way to start learning to use Joose.</p>
+
+<h2 id="class">Class</h2>
+
+<p>At its simplest, a class will consist simply of attributes and/or methods. It can also include roles, method modifiers, and more.</p>
+
+<p>A class has zero or more attributes.</p>
+
+<p>A class has zero or more methods.</p>
+
+<p>A class has zero or <strong>one</strong> superclasses (aka parent class). A class inherits from its superclass.</p>
+
+<p>A class has zero or more method modifiers. These modifiers can apply to its own methods or methods that are inherited from its ancestors.</p>
+
+<p>A class does (<em>consumes</em>) zero or more roles.</p>
+
+<p>A class has a constructor. Its provided for you "for free" by Joose.</p>
+
+<p>The constructor accepts named parameters corresponding to the class's attributes and uses them to initialize an object instance.</p>
+
+<p>A class has a metaclass, which in turn has meta-attributes, meta-methods, and meta-roles. This metaclass describes the class.</p>
+
+<p>A class is usually analogous to a category of nouns, like "People" or "Users".</p>
+
+<pre><code>    Class('Person', {})
+    # now it's a Joose class!
+</code></pre>
+
+<h2 id="attribute">Attribute</h2>
+
+<p>An attribute is a property of the class that defines it. It always has a name, and it may have a number of other properties.</p>
+
+<p>These properties can include a read/write flag, accessor method names, a default value, and more.</p>
+
+<p>Attributes are not methods, but defining them causes various accessor methods to be created. Usually, an attribute will always have at least a reader accessor method. Many attributes also have other methods, such as a writer method.</p>
+
+<p>An attribute is something that the class's members have. For example, People have first and last names. Users have passwords and last login datetimes.</p>
+
+<pre><code>    has : {
+        firstName : { is : 'rw' }
+    }
+</code></pre>
+
+<h1 id="method">Method</h1>
+
+<p>A method is very straightforward. Any function you define in your class is a method.</p>
+
+<p>Methods correspond to verbs, and are what your objects can do. For example, a User can login.</p>
+
+<pre><code>    methods : {
+
+        login : function () {
+            ...
+        }
+    }
+</code></pre>
+
+<h1 id="roles">Roles</h1>
+
+<p>A role is something that a class does. We also say that classes <em>consume</em> roles (or that a role is <em>composed</em> to the class). 
+For example, a 'Eagle' class might do the 'Winged' role, and so could a 'Gryphon' class. A role is used to define some concept that cuts across multiple unrelated classes, like "winged", or "has a color".</p>
+
+<p>A role has zero or more attributes.</p>
+
+<p>A role has zero or more methods.</p>
+
+<p>A role has zero or more method modifiers.</p>
+
+<p>A role has zero or more required methods.</p>
+
+<p>A required method is not implemented by the role. Required methods say "to use this Role you must implement this method".</p>
+
+<p>Roles are <em>composed</em> into classes (or other roles). When a role is composed into a class (or other roles), its attributes and methods are <em>flattened</em> into that class.
+Roles do not show up in the inheritance hierarchy.
+When a role is composed, its attributes and methods appear as <em>if they were defined in the consuming class</em>.</p>
+
+<p>Role are somewhat like mixins or interfaces in other OO languages.</p>
+
+<pre><code>    Role('Horny', {
+        has : {
+            hornLength : { is : 'rw' }
+        },
+
+        methods : {
+            butt : function () {
+                ...
+            }
+        }
+    })
+</code></pre>
+
+<h2 id="methodmodifiers">Method modifiers</h2>
+
+<p>A method modifier is a hook that is called when a named method is called. For example, you could say "before calling login(), call this modifier first". Modifiers come in different flavors like "before", "after", "around", and "augment", and you can apply more than one modifier to a single method.</p>
+
+<p>Method modifiers are often used as an alternative to overriding a method in a parent class. They are also used in roles as a way of modifying methods in the consuming class.</p>
+
+<p>Under the hood, a method modifier is just a plain JavaScript function that gets called before or after (or around, etc.) some named method.</p>
+
+<pre><code>    before : {
+        login : function (pwd) {
+            alert("Called login() with password : " + pwd)
+        }
+    }
+</code></pre>
+
+<h2 id="constructor">Constructor</h2>
+
+<p>A constructor creates an object instance for the class. In raw JavaScript, this is a function, which usually accepts several arguments and initialize the class instance with its values.</p>
+
+<p>With Joose, this constructor method is created for you, and it simply does the right thing. It accepts an object as 1st argument, which properties will be used as values of class's attributes. More over, you generally should never define your own constructor! </p>
+
+<p>When you want to do something whenever an object is created, you should provide a 'initialize' method in your class. Joose will call this method for you after creating a new object, with the same arguments as were passed to constructor.</p>
+
+<h2 id="objectinstance">Object instance</h2>
+
+<p>An object instance is a specific noun in the class's "category". For example, one specific Person or User. An instance is created by the class's constructor.</p>
+
+<p>An instance has values for its attributes. For example, a specific person has a first and last name.</p>
+
+<h2 id="joosevsrawjavascriptsummary">Joose vs raw JavaScript summary</h2>
+
+<ul>
+<li><p>Class</p>
+
+<p>A function with no introspection other than mucking about in the prototype.</p>
+
+<p>With Joose, you get well-defined declaration and introspection.</p></li>
+<li><p>Attributes</p>
+
+<p>Hand-written accessor methods or just plain values in prototype.</p>
+
+<p>With Joose, these are declaratively defined, and distinct from methods.</p></li>
+<li><p>Method</p>
+
+<p>These are pretty much the same in Joose as in raw JavaScript.</p></li>
+<li><p>Roles</p>
+
+<p>May be provided by some frameworks.</p>
+
+<p>With Joose, they're part of the core feature set, and are introspectable like everything else.</p></li>
+<li><p>Method Modifiers</p>
+
+<p>Could only be done through serious prototype wizardry, and you probably never saw this before (at least in really "raw" JavaScript).</p></li>
+<li><p>Constructor</p>
+
+<p>A function, which process all the passed attributes to initialize the class.</p>
+
+<p>Comes for free when you define a class with Joose.</p></li>
+</ul>
+
+<h1 id="metawhat">META WHAT? </h1>
+
+<p>A metaclass is a class that describes classes. With Joose, every class you define gets a 'meta' property. It returns an instance of Joose.Meta.Class object (usually), which has an introspection API that can tell you about the class it represents.</p>
+
+<p>Almost every concept we defined earlier has a meta class, so we have Joose.Meta.Class, Joose.Meta.Role and so on.</p>
+
+<h1 id="butineedtodoitmyway">BUT I NEED TO DO IT MY WAY!</h1>
+
+<p>One of the great things about Joose is that if you dig down and find that it does something the "wrong way", you can change it by extending a metaclass. 
+For example, you can make your constructors strict (no unknown parameters allowed!), you can re-define a naming scheme for attribute accessors, you can make a class a Singleton, and much, much more.</p>
+
+<p>Many of these extensions require surprisingly small amounts of code, and once you've done it once, you'll never have to hand-code "your way of doing things" again. Instead you'll just load your favorite extension.</p>
+
+<h1 id="whatnext">WHAT NEXT?</h1>
+
+<p>So you're sold on Joose. Time to learn how to really use it - jump straight to <a href="Classes.html">Joose.Manual.Classes</a> and the rest of the <a href="../Manual.html">Joose.Manual</a>.</p>
+
+<p>After that we recommend that you start with the <a href="../Cookbook.html">Joose.Cookbook</a>. If you work your way through all the recipes under the basics section, you should have a pretty good sense of how Joose works, and all of its basic OO features.</p>
+
+<p>After that, check out the Role recipes. If you're really curious, go on and read the Meta and Extending recipes, but those are mostly there for people who want to be Joose wizards and change how Joose works.</p>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<p>Heavily based on the original content of Moose::Manual, by Dave Rolsky <a href="mailto:autarch@urth.org">autarch@urth.org</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual - What is Joose, and how do I use it?</p>
+
+<h1 id="whatisjoose">WHAT IS Joose?</h1>
+
+<p>Joose is a complete object system for JavaScript. Consider any modern object-oriented language. 
+It provides keywords for attribute declaration, object construction, inheritance, and maybe more. These keywords are part of the language, and you don't care how they are implemented.</p>
+
+<p>Joose aims to do the same thing for JavaScript. We can't actually create new keywords, but we do offer "sugar" that looks a lot like them. More importantly, with Joose, you define your class declaratively, 
+without needing to know about prototype chains, etc.</p>
+
+<p>With Joose, you can concentrate on the logical structure of your classes, focusing on "what" rather than "how". A class definition with Joose reads like a list of very concise English sentences.</p>
+
+<p>Joose provides complete introspection for all Joose-using classes. This means you can ask classes about their attributes, parents, children, methods, etc., all using a well-defined API.</p>
+
+<p>Joose is based in large part on the <a href="http://iinteractive.com/moose/">Moose</a> system, which in turn borrows a lot of from Perl 6 object system, as well as drawing on the best ideas from CLOS, Smalltalk, and many other languages.</p>
+
+<h1 id="whatisntjoose">WHAT ISN'T Joose?</h1>
+
+<p>Joose isn't a new language or sources preprocessor. The code written in Joose, executes like regular JavaScript, and can be run in any modern JavaScript engine.</p>
+
+<h1 id="whyjoose">WHY Joose?</h1>
+
+<p>Joose makes JavaScript OO both simpler and more powerful. It encapsulates JavaScript power tools in high-level declarative APIs which are easy to use. 
+Best of all, you don't need to be a wizard to use it. </p>
+
+<p>But if you want to dig about in the guts, Joose lets you do that too, by using and extending its powerful introspection API.</p>
+
+<h1 id="anexample">AN EXAMPLE</h1>
+
+<pre><code>    Class('Person', {
+        has : {
+            firstName : { is : 'rw' },
+            lastName : { is : 'rw' }
+        }
+    })
+</code></pre>
+
+<p>This is a complete and usable class definition!</p>
+
+<pre><code>    Class('User', {
+
+        isa : Person,
+
+        has : {
+            password : { is : 'rw' },
+            lastLogin : { is : 'rw' }
+        },
+
+        methods : {
+
+            login : function (pwd) {
+                if (pwd != this.getPassword()) return false
+
+                this.setLastLogin(new Date())
+
+                return true
+            }
+        }
+    })
+</code></pre>
+
+<p>We'll leave the line-by-line explanation of this code to other documentation, but you can see how Joose reduces common OO idioms to simple declarative constructs.</p>
+
+<h1 id="tableofcontents">TABLE OF CONTENTS</h1>
+
+<p>This manual consists of a number of documents.</p>
+
+<ul>
+<li><p><a href="Manual/Installation.html">Joose.Manual.Installation</a></p>
+
+<p>Describes the installation procedure for Joose.</p></li>
+<li><p><a href="Manual/Concepts.html">Joose.Manual.Concepts</a></p>
+
+<p>Introduces Joose concepts, and contrasts them against "raw" JavaScript.</p></li>
+<li><p><a href="Manual/Unsweetened.html">Joose.Manual.Unsweetened</a></p>
+
+<p>Shows two example classes, each written first with Joose and then with "raw JavaScript".</p></li>
+<li><p><a href="Manual/Classes.html">Joose.Manual.Classes</a></p>
+
+<p>How do you make use of Joose in your classes? Now that I'm a Joose, how do I subclass something?</p></li>
+<li><p><a href="Manual/Attributes.html">Joose.Manual.Attributes</a></p>
+
+<p>Attributes are a core part of the Joose OO system. An attribute is a piece of data that an object has. Joose has a lot of attribute-related features!</p></li>
+<li><p><a href="Manual/Construction.html">Joose.Manual.Construction</a></p>
+
+<p>Learn how objects are built in Joose.</p></li>
+<li><p><a href="Manual/MethodModifiers.html">Joose.Manual.MethodModifiers</a></p>
+
+<p>A method modifier lets you say "before calling method X, do this first", or "wrap method X in this code". Method modifiers are particularly handy in roles and with attribute accessors.</p></li>
+<li><p><a href="Manual/Roles.html">Joose.Manual.Roles</a></p>
+
+<p>A role is something a class does (like "Debuggable" or "Printable"). Roles provide a way of adding behavior to classes that is orthogonal to inheritance.</p></li>
+<li><p><a href="Manual/Traits.html">Joose.Manual.Traits</a></p>
+
+<p>A trait is just a role, applied to a particular instance and modified its behaviour only, not a whole class.</p></li>
+<li><p><a href="Manual/Static.html">Joose.Manual.Static</a></p>
+
+<p>Joose also provides static methods and attributes. </p></li>
+<li><p><a href="Manual/Mutability.html">Joose.Manual.Mutability</a></p>
+
+<p>All Joose classes are dynamic or "mutable". Joose lets you add/remove attributes and methods, apply/unaplly roles, and much more - right in the run-time.</p></li>
+<li><p><a href="Manual/Reflection.html">Joose.Manual.Reflection</a></p>
+
+<p>Joose's meta API system lets you ask classes about their parent, children, methods, attributes, etc.</p></li>
+<li><p><a href="Manual/MetaRoles.html">Joose.Manual.MetaRoles</a></p>
+
+<p>Joose allows you to modify not only class's behavior, but also behaviour of its metaclass. Read this document to know how. </p></li>
+<li><p><a href="Manual/JooseX.html">Joose.Manual.JooseX</a></p>
+
+<p>This document describes a few of the most useful Joose extensions on JSAN.</p></li>
+<li><p><a href="Manual/BestPractices.html">Joose.Manual.BestPractices</a></p>
+
+<p>Joose has a lot of features, and there's definitely more than one way to do it. However, we think that picking a subset of these features and using them consistently makes everyone's life easier.</p></li>
+<li><p><a href="Manual/FAQ.html">Joose.Manual.FAQ</a></p>
+
+<p>Frequently asked questions about Joose.</p></li>
+<li><p><a href="Manual/Contributing.html">Joose.Manual.Contributing</a></p>
+
+<p>Interested in hacking on Joose? Read this.</p></li>
+<li><p><a href="Manual/Delta.html">Joose.Manual.Delta</a></p>
+
+<p>This document details backwards-incompatibilities and other major changes to Joose.</p></li>
+</ul>
+
+<h1 id="justification">JUSTIFICATION</h1>
+
+<p>If you're still asking yourself "Why do I need this?", then this section is for you.</p>
+
+<ul>
+<li><p>Another object system!?!?</p>
+
+<p>Yes, we know there are many, many ways to build objects in JavaScript, many of the JavaScript frameworks provide their own class system along with DOM manipulation capabilities. </p>
+
+<p>Joose is different because it focus only on class system, following the principle : "Do one thing, and do it good".</p></li>
+<li><p>Is this for real? Or is this just an experiment?</p>
+
+<p>Joose is NOT an experiment or prototype; it is for real.</p></li>
+<li><p>Is this ready for use in production?</p>
+
+<p>Yes.</p>
+
+<p>Joose has been used successfully in production environments by many people and companies. There are Joose applications which have been in production with little or no issue now for year. 
+We consider it highly stable and we are committed to keeping it stable.</p>
+
+<p>Of course, in the end, you need to make this call yourself. If you have any questions or concerns, please feel free to email Nickolay or just stop by #joose on irc.freenode.org and ask away.</p></li>
+</ul>
+
+<h1 id="authors">AUTHORS</h1>
+
+<p>Nickolay Platonov <a href="mailto:nplatonov@cpan.org">nplatonov@cpan.org</a></p>
+
+<p>Based on original Moose::Manual content, written by:</p>
+
+<p>Dave Rolsky <a href="mailto:autarch@urth.org">autarch@urth.org</a></p>
+
+<p>Stevan Little <a href="mailto:stevan@iinteractive.com">stevan@iinteractive.com</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+
+<p>Documentation is based on original Moose::Manual documentation, copyright 2006-2009 by Infinity Interactive, Inc.</p>
+</body>
+</html>

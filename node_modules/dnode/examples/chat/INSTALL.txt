@@ -1,0 +1,4 @@
+Do this first:
+
+    mkdir node_modules
+    npm install jquery-browserify

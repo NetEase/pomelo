@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Classes - Making your classes use Joose (and subclassing)</p>
+
+<h2 id="usingjoose">USING Joose</h2>
+
+<p>Using Joose is very simple, just include the appropriate files in your page (see the <a href="Installation.html">Joose.Manual.Installation</a> section) a type:</p>
+
+<pre><code>    Class('Person', {
+    })
+</code></pre>
+
+<p>That's it, you've made a class with Joose!</p>
+
+<p>There's actually a lot going on here under the hood, so let's step through it.</p>
+
+<p>When you constructing a class with Joose, a properties of 2nd argument passed to <code>Class</code> call are called <em>builders</em>. These include things like <code>has</code>, <code>isa</code>, <code>does</code> and more. 
+These builders are what you use to define your class. For example, you might define an attribute and a method:</p>
+
+<pre><code>    Class('Person', {
+        has : {
+            firstName : { is : 'rw' }
+        },
+
+        methods : {
+            trimLeading : function () {
+                ...
+            }
+        }
+    })
+</code></pre>
+
+<p>Attributes are described in the <a href="Attributes.html">Joose.Manual.Attributes</a> documentation.</p>
+
+<p>When you use Joose, your class will become a subclass of <code>Joose.Meta.Object</code>. The <code>Joose.Meta.Object</code> class provides a default constructor and a number of additional methods. 
+You can read more about this in the <a href="Construction.html">Joose</a> document.</p>
+
+<p>Joose creates an instance of <code>Joose.Meta.Class</code> for your class. This metaclass instance is now available as a <code>meta</code> property on your class, for example: <code>Person.meta</code></p>
+
+<p>The metaclass object provides an introspection API for your class. It is also used by Joose itself under the hood to add attributes, compose roles, and so on. 
+In fact, all of Joose's sugar does the real work by calling methods on this metaclass object (and other meta API objects).</p>
+
+<h1 id="aliases">ALIASES</h1>
+
+<p>In case your global scope already contains <code>Class</code> symbol, you can use the <code>Joose.Class</code> alias to declare your classes.
+There are also corresponding <code>Joose.Role</code> and <code>Joose.Module</code> aliases.</p>
+
+<h1 id="versionauthority">VERSION &amp; AUTHORITY</h1>
+
+<p>Each class supports the <code>VERSION</code> and <code>AUTHORITY</code> builders:</p>
+
+<pre><code>    Class('Person', {
+
+        VERSION     : 0.01,
+        AUTHORITY   : 'jsan:SomeCleverGuy', 
+
+        ...
+    })
+</code></pre>
+
+<p>Version is self-explanatory, and "authority" is an URI identifying the author (or another authorizing authority). This information is availbale in corresponding properties
+of <code>meta</code> instance:</p>
+
+<pre><code>    Person.meta.VERSION
+    Person.meta.AUTHORITY
+</code></pre>
+
+<p>Among other use-cases, this information is used by the dependencies loader <code>JooseX.Namespace.Depended</code>, which is provided in separate distribution, see <a href="JooseX.html">JooseX</a>  </p>
+
+<h1 id="anonymousclasses">ANONYMOUS CLASSES</h1>
+
+<p>If you'll omit the class name, Joose will create an <em>anonymous</em> class. Anonymous class behave very much the same as usual class, expect that it will not have
+publically available constructor's. Its a good idea to capture this constructor in the variable:</p>
+
+<pre><code>    var anonoymous = Class({
+        has : {
+            firstName : { is : 'rw' }
+        },
+
+        methods : {
+            trimLeading : function () {
+                ...
+            }
+        }
+    })
+</code></pre>
+
+<h1 id="subclassingisabuilder">SUBCLASSING (<code>isa</code> builder)</h1>
+
+<p>Joose provides a simple builder for declaring your parent class: <code>isa</code></p>
+
+<pre><code>    Class('User', {
+        isa : Person,
+
+        has : {
+            userName : { is : 'rw' }
+        },
+
+        methods : {
+            trimLeading : function () {
+                this.SUPER()
+                ...
+            }
+        }
+    })
+</code></pre>
+
+<p>A class inherit all the attributes and methods from its parent class, and can also re-declare (override) them. In the re-declared method you can use <code>this.SUPER(arg1, arg2, ...)</code> call to execute the same method from the parent class.
+There is also another form of this call : <code>this.SUPERARG(arg)</code> In this form, arguments are passed in the array, this is the equivalent of <code>this.SUPER.apply(this, arg)</code></p>
+
+<p>Note that Joose allows a single parent class only. As cleaner alternative to multiple inheritance approach, Joose provides Roles mechanism. See <a href="Roles.html">Joose.Manual.Roles</a>.</p>
+
+<h1 id="subclassingnon-jooseclasses">SUBCLASSING NON-JOOSE CLASSES</h1>
+
+<p>You can subclass non-Joose classes as well: </p>
+
+<pre><code>    require('joose')
+
+    var EventEmitter    = require('events').EventEmitter
+    var puts            = require('sys').puts
+
+    Class('My.Class', {
+
+        meta : Joose.Meta.Class,
+
+        isa : EventEmitter,
+
+
+        before : {
+
+            emit : function (event) {
+                puts('Emitting event [' + event + ']')
+            }
+        }
+    })
+
+
+    var obj = new My.Class()
+
+    obj.emit('yo') // Emitting event [yo]
+
+    puts(EventEmitter.meta.hasMethod('emit')) // true
+</code></pre>
+
+<p>Things to note:</p>
+
+<ul>
+<li><p>Joose <em>will alter</em> the superclass - it will create a <code>meta</code> property in it's prototype and constructor.
+Actually it will turn the superclass into Joose class, just with <code>meta</code> of the lower level. </p></li>
+<li><p>Always specify the desired meta-class (Joose.Meta.Class usually).</p></li>
+<li><p>Reflection will also work with properties inherited from non-Joose classes. Every <code>function</code> in the prototype 
+of such class will be considered as a "method" (unless it has a <code>meta</code> attached). Everything else will be considered as
+"attribute". </p></li>
+</ul>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<p>Heavily based on the original content of Moose::Manual, by Dave Rolsky <a href="mailto:autarch@urth.org">autarch@urth.org</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

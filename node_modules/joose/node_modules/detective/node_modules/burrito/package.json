@@ -1,0 +1,43 @@
+{
+    "name" : "burrito",
+    "description" : "Wrap up expressions with a trace function while walking the AST with rice and beans on the side",
+    "version" : "0.2.11",
+    "repository" : {
+        "type" : "git",
+        "url" : "git://github.com/substack/node-burrito.git"
+    },
+    "main" : "./index.js",
+    "keywords" : [
+        "trace",
+        "ast",
+        "walk",
+        "syntax",
+        "source",
+        "tree",
+        "uglify"
+    ],
+    "directories" : {
+        "lib" : ".",
+        "example" : "example",
+        "test" : "test"
+    },
+    "scripts" : {
+        "test" : "expresso"
+    },
+    "dependencies" : {
+        "traverse" : ">=0.5.1 <0.6.0",
+        "uglify-js" : "1.0.7"
+    },
+    "devDependencies" : {
+        "expresso" : "=0.7.x"
+    },
+    "engines" : {
+        "node" : ">=0.4.0"
+    },
+    "license" : "BSD",
+    "author" : {
+        "name" : "James Halliday",
+        "email" : "mail@substack.net",
+        "url" : "http://substack.net"
+    }
+}

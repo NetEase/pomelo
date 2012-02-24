@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Unsweetened - Joose code, de-sugared.</p>
+
+<h1 id="joose">Joose</h1>
+
+<p>Lets imagine we have two simple classes in Joose:</p>
+
+<pre><code>    Class('Person', {
+        has : {
+            firstName : { is : 'rw', required : true },
+            lastName  : { is : 'rw', required : true }
+        },
+
+        methods : {
+            eat : function () {
+            }
+        }
+    })
+
+
+
+    Class('Person.Tidy', {
+
+        isa : Person,
+
+        has : {
+            teethBrush : {
+                is : 'rw',
+                required : true
+            }
+        },
+
+
+        before : {
+            eat : function () {
+                this.washHands()
+            }
+        },
+
+
+        after : {
+            eat : function () {
+                this.brushTeeths()
+            }
+        },
+
+
+        methods : {
+
+            washHands : function () {
+                ...
+            },
+
+
+            brushTeeths : function () {
+                ...
+            }
+        }
+    })
+</code></pre>
+
+<h1 id="rawjavascript">RAW JAVASCRIPT</h1>
+
+<p>Now the same classes are rewritten in "raw" javascript (the functionality is strictly the same).</p>
+
+<pre><code>    if (typeof Person != 'undefined') throw "Namespace 'Person' is already allocated"
+
+    Person = function (firstName, lastName) {
+        if (!firstName) throw "Required attribute 'firstName' was not provided to constructor"
+        if (!lastName)  throw "Required attribute 'lastName' was not provided to constructor"
+
+        this.firstName = firstName
+        this.lastName = lastName
+    }
+
+    Person.prototype = {
+
+        getFirstName : function () {
+            return this.firstName
+        },
+
+
+        setFirstName : function (firstName) {
+            this.firstName = firstName
+
+            return this
+        },
+
+
+        getLastName : function () {
+            return this.lastName
+        },
+
+
+        setLastName : function (lastName) {
+            this.lastName = lastName
+
+            return this
+        },
+
+        eat : function () {
+            ...
+        }
+    }
+
+    //eof Person
+
+    (function(){
+
+        if (typeof Person == 'undefined') throw "Parent class 'Person' is not defined"
+
+        if (typeof Person.Tidy != 'undefined') throw "Namespace 'Person.Tidy' is already allocated"
+
+
+        //establishing inheritance chain
+        var temp = function () {}
+        temp.prototype = Person.prototype
+
+        Person.Tidy = function (firstName, lastName, teethBrush) {
+            Person.call(this, firstName, lastName)
+
+            if (!teethBrush)  throw "Required attribute 'teethBrush' was not provided to constructor"
+
+            this.teethBrush = teethBrush
+        }
+
+        var proto = Person.Tidy.prototype = new temp()
+
+
+        proto.setTeethBrush = function (teethBrush) {
+            this.teethBrush = teethBrush
+
+            return this
+        }
+
+
+        proto.washHands = function () {
+            ...
+        }
+
+
+        proto.brushTeeths = function () {
+            ...
+        }
+
+
+        proto.eat = function () {
+            this.washHands()
+
+            var res = Person.eat.apply(this, arguments)
+
+            this.brushTeeths()
+
+            return res
+        }
+
+    })()
+</code></pre>
+
+<p>Wow, that was a mouthful! One thing to note is that in "raw" JavaScript the inheritance hierarchy is hard-coded - 
+if you'll change the superclass of <code>Person.Tidy</code> you'll have to manually scan through the code and replace all call to <code>Person</code>.</p>
+
+<p>Of course, there are several JavaScript frameworks that do some of what Joose does, like ExtJS, Dojo, Prototype, and so on. 
+But none of them put together all of Joose's features along with a layer of declarative sugar, nor are these other modules designed for extensibility in the
+same way as Joose. With Joose, it's easy to write a JooseX module to replace or extend a piece of built-in functionality.</p>
+
+<p>Joose is a complete OO package in and of itself, and is part of a rich ecosystem of extensions. It also has an enthusiastic community of users, 
+and is being actively maintained and developed.</p>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

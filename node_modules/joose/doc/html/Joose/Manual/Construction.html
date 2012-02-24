@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Construction - Object construction with Joose</p>
+
+<h1 id="wherestheconstructor">WHERE'S THE CONSTRUCTOR?</h1>
+
+<p>You do not need to define a constructor method for your classes. Really. Joose provides your classes with the default constructor which will initialize the attributes of your class.
+Instead, define the <code>initialize</code> method, which will be called after all attributes were initialized.</p>
+
+<h1 id="objectconstructionandattributes">OBJECT CONSTRUCTION AND ATTRIBUTES</h1>
+
+<p>The Joose-provided constructor accepts an object with properties, matching your attributes. This is just another way in which Joose keeps you from worrying how classes are implemented. 
+Simply define a class and you're ready to start creating objects!</p>
+
+<pre><code>    Class('User', {
+        isa : Person,
+
+        has : {
+            username : { init : 'nobody' },
+            password : { init : '12345' },
+            lastLogin : { init : function () { return new Date() } }
+        },
+
+        after : {
+            initialize : function (props) {
+                if (props.custom == '...') { ... }
+            } 
+        }
+    })
+
+    var user = new User({
+        password : 'abcdef',
+        lastLogin : 'Yesterday',
+
+        custom  : 'custom'
+    })
+</code></pre>
+
+<p>If, during <em>construction</em>, you'll provide a function as an initializing value, it will be assigned as-is (will not be called).</p>
+
+<h1 id="theinstantiationworkflow">THE INSTANTIATION WORKFLOW</h1>
+
+<p><code>new constructor(property1, property2)</code></p>
+
+<blockquote>
+  <p><code>var attrs = this.BUILD(property1, property2)</code></p>
+  
+  <p><code>return this.initialize(attrs) || this</code></p>
+</blockquote>
+
+<p>When you building a class with Joose, it provides a <em>default constructor</em> for you. This constructor will perform some low-level initialization and then will call a <code>BUILD</code> method with the same arguments.</p>
+
+<p><code>BUILD</code> method should return an object, which properties directly corresponds to class attributes - they will be used to initialize them.</p>
+
+<p><strong>Important</strong>: The order of attributes initialization is <em>not defined</em>. You shouldn't rely on it. If you need to initialize some attribute after another, consider to use <a href="http://samuraijack.github.com/JooseX-Attribute/doc/html/JooseX/Attribute/Lazy.html">lazy attributes</a>  </p>
+
+<p>Default <code>BUILD</code> method just checks whether the 1st arguments passed to it is an <code>Object</code>, if so - its returned.</p>
+
+<p>The object, returned from <code>BUILD</code> method is passed to <code>initialize</code>. In turn, if <code>initialize</code> method will return something, 
+that value will be returned from constructor, otherwise the instance itself will be returned. </p>
+
+<p>If you inherit from parent class, you need to call the inherited <code>initialize</code>. You may just define an <code>after</code> modifier (see above for an example).</p>
+
+<h1 id="customparameterstoconstructor">CUSTOM PARAMETERS TO CONSTRUCTOR</h1>
+
+<p>If you need to pass the parameters to constructor in another way, override the <code>BUILD</code> method, and "normalize" the parameters. 
+For example, lets imagine we need to define the <code>User</code> class, which will accept the <code>username</code> as 1st argument to constructor and <code>password</code> as 2nd:</p>
+
+<pre><code>    var user = new User('root', 'foobar') 
+</code></pre>
+
+<p>Then we need to provide the following <code>BUILD</code> method:        </p>
+
+<pre><code>    Class('User', {
+
+        ...
+
+        methods : {
+            BUILD : function (usr, pwd) {
+                return {
+                    username : usr,
+                    password : pwd
+                }
+            }
+        }
+
+        after : {
+            initialize : function (props) {
+                if (props.username == '...') { ... }
+            } 
+        }
+    })
+</code></pre>
+
+<h1 id="namespaces">NAMESPACES</h1>
+
+<p>In Joose, each class also act a namespace with the same name. </p>
+
+<p>The name of the class can consist from one or several <em>namespace segments</em>. The separator symbol is a dot: <code>.</code> 
+After declaration, Joose translates the class's name to constructor and place it into appropriate namespace.
+You don't need to manually pre-create the namespace for your class - just go ahead. For example:</p>
+
+<pre><code>    Class("MyApp.Point", {
+        has: {
+            x: {is: "ro"},
+            y: {is: "rw"},
+        }
+    })
+
+    var point = new MyApp.Point()
+
+
+    Class("MyApp.Point.ThreeD", {
+        isa: Point,
+
+        has: {
+            z: {}
+        }
+    })
+
+    var point3d = new MyApp.Point.ThreeD()
+
+
+    Class("MyApp", {
+        has: {
+            name: null
+        }
+    })
+
+    var myapp = new MyApp()
+</code></pre>
+
+<p>Note, how <code>MyApp</code> class was created already <em>after</em> its namespace segment was declared. This is a perfectly valid declaration.</p>
+
+<h1 id="nestingnamespaces">NESTING NAMESPACES</h1>
+
+<p>Each class also support special builder <code>body</code>, which should be a function. This function will be called right after class construction, with the class's constructor as 1st argument and in the same scope. </p>
+
+<p>You may declare new classes (or roles) in the <code>body</code>. Such class's constructor will be placed in the namespace of the outer class. If you need to declare the class in the global namespace from <code>body</code>, then
+prefix its name with dot:  </p>
+
+<pre><code>    Class("MyApp.Point", {
+
+        body : function (myAppPoint) {
+            console.log(myAppPoint == MyApp.Point) //prints 'true'
+
+            console.log(this == MyApp.Point) //prints 'true'
+
+            ...
+
+            // nested class
+            Class("ThreeD", {
+                isa: MyApp.Point,
+
+                has: {
+                    z: {}
+                }
+            }
+
+            // class in global namespace
+            Class(".MyApp.Circle", {
+                has: {
+                    radius: {}
+                }
+            }
+        }
+    })
+
+    var point       = new MyApp.Point()
+    var point3d     = new MyApp.Point.ThreeD()
+    var circle      = new MyApp.Circle()
+</code></pre>
+
+<p>The class will be already fully constructed at the time of <code>body</code> execution, you can create its instances or even <em>extend</em> it with some additional
+methods (see <a href="Mutability.html">Joose.Manual.Mutability</a> for details)</p>
+
+<pre><code>    Class("MyApp.Point.ThreeD", {
+        isa: Point,
+
+        has: {
+            z: {}
+        },
+
+        body : function (myAppPoint3D) {
+            console.log(myAppPoint3D == MyApp.Point.ThreeD) //prints 'true'
+
+            console.log(this == MyApp.Point.ThreeD) //prints 'true'
+
+            ....
+
+            var private = new MyApp.Point.ThreeD({ x: 1, y : 2, z: 3})
+
+            ....
+
+            MyApp.Point.ThreeD.meta.extend({
+                methods : {
+                    additionalMethod : function () {}
+                }
+            })
+        }
+    })
+</code></pre>
+
+<p><strong>NOTE:</strong> <code>body</code> builder is a correct place to perform some action after creation of class, because in general case, the creation may be asynchronous (for dependency loading for example).</p>
+
+<h1 id="modules">MODULES</h1>
+
+<p>Modules are classes, which consists from the <code>body</code> only. Modules may not be instantiated. <code>Module</code> helper also can be called with <code>body</code> as 2nd argument directly: </p>
+
+<pre><code>    Module("MyApp", function () {
+
+        Module("Point", function () {
+
+            Class("ThreeD", {
+                isa: Point,
+
+                has: {
+                    z: {}
+                }
+            }
+        })
+    })
+
+    var myapp = new MyApp() //exception, modules can't be instantiated
+
+    var point3d = new MyApp.Point.ThreeD() //ok
+</code></pre>
+
+<p>Its possible to "promote" Module to Class.</p>
+
+<pre><code>    //promoting Module to class
+    Class("MyApp", {
+        ...
+    })
+    var myapp = new MyApp() //ok
+</code></pre>
+
+<h1 id="customconstructors">CUSTOM CONSTRUCTORS</h1>
+
+<p>If you are still sure you need a custom constructor you may provide it using a <code>constructor</code> builder:</p>
+
+<pre><code>    Class('User', {
+
+        constructor : function (i, really, know, what, iam, doing) {
+        }
+
+        ....
+    })
+</code></pre>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<p>Heavily based on the original content of Moose::Manual, by Dave Rolsky <a href="mailto:autarch@urth.org">autarch@urth.org</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

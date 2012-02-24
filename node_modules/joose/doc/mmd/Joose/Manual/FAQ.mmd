@@ -1,0 +1,86 @@
+
+
+NAME
+====
+
+Joose.Manual.FAQ - Frequently asked questions about Joose
+
+
+FREQUENTLY ASKED QUESTIONS
+==========================
+
+
+Module Stability
+----------------
+
+- Is Joose "production ready"?
+
+Yes! Many sites with household names are using Joose to build high-traffic services. Countless others are using Joose in production.
+
+- Is Joose's API stable?
+
+Yes. The sugary API, the one 95% of users will interact with, is very stable. Any changes will be 100% backwards compatible.
+
+The meta API is less set in stone. We reserve the right to tweak parts of it to improve efficiency or consistency. This will not be done lightly. We do perform deprecation cycles. 
+We really do not like making ourselves look bad by breaking your code. Submitting test cases is the best way to ensure that your code is not inadvertently broken by refactoring.
+
+Constructors
+------------
+
+- How do I write custom constructors with Joose?
+
+Ideally, you should never write your own constructor, and should use Joose's other features to handle your specific object construction needs. 
+
+Accessors
+---------
+
+Method Modifiers
+----------------
+
+- Can I use `before` to stop execution of a method?
+
+No, `before` modifier execute original method unconditionally. Use `override` or `around` modifiers instead. 
+
+
+Roles
+-----
+
+- What are Traits, and how are they different from Roles?
+
+In Joose, a trait is almost exactly the same thing as a role, which is usually composed into an instance of a class at runtime to add or modify the behavior of just that instance.
+
+Outside the context of Joose, traits and roles generally mean exactly the same thing. The original [paper](http://scg.unibe.ch/archive/papers/Scha02bTraits.pdf) called them Traits, however Perl 6 will call them Roles.
+
+
+Compatibility
+-------------
+
+- Can I use Joose with Prototype or MooTools which defins their own global 'Class' symbol?
+
+Yes, you can use aliases Joose.Class, Joose.Role and Joose.Module to declare your classes.
+
+
+
+AUTHOR
+======
+
+Nickolay Platonov [nickolay8@gmail.com](mailto:nickolay8@gmail.com)
+
+Heavily based on the original content of Moose::Manual, by Dave Rolsky [autarch@urth.org](mailto:autarch@urth.org)
+
+
+COPYRIGHT AND LICENSE
+=====================
+
+Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+

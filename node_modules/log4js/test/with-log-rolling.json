@@ -1,0 +1,11 @@
+{
+  "appenders": [
+    {
+      "type": "file",
+      "filename": "tmp-test.log",
+      "maxLogSize": 1024,
+      "backups": 3,
+      "pollInterval": 15
+    }
+  ]
+}

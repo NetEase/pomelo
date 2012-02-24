@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Cookbook.Basics.Recipe1 - The (always classic) <strong>Point</strong> example.</p>
+
+<h1 id="synopsis">SYNOPSIS</h1>
+
+<pre><code>    Class('Point', {
+        has : {
+            x : { is : 'rw', required : true },
+            y : { is : 'rw', required : true }
+        },
+
+
+        methods : {
+            clear : function () {
+                this.setX(0)
+                this.setY(0)
+            }
+        }
+
+    })
+
+    Class('Point3D', {
+        isa : Point,
+
+        has : {
+            z : { is : 'rw', required : true }
+        },
+
+
+        after : {
+            clear : function () {
+                this.setZ(0)
+            }
+        }
+
+    })
+
+    var point1 = new Point({ x : 5, y : 7})
+    var point3d = new Point3D({ x : 5, y : 7, z : -5})
+</code></pre>
+
+<h1 id="description">DESCRIPTION</h1>
+
+<p>When Joose is loaded, it exports a set of sugar functions into global namespace. 
+This means that we import some functions which serve as Joose "keywords". 
+These aren't real language keywords, they're just JavaScript functions exported into our package.</p>
+
+<p>Joose automatically makes our class a subclass of "Joose.Meta.Object".
+This class provides us with a constructor that respects our attributes, as well other features. </p>
+
+<p>Now, onto the keywords. The first one we see here is <code>Class</code>, which starts the declaration of the class.</p>
+
+<p><code>Class</code> accepts 1 or 2 arguments - optional class name and a object, describing a class. Each property of that
+object is called <em>builder</em>. </p>
+
+<p><code>Class</code> converts given class name into constructor. If no class name were provided the anonymous class will be created. </p>
+
+<p><code>Class</code> returns a constructor of declared class.</p>
+
+<h2 id="builders">Builders</h2>
+
+<p>The first builder we see is <code>has</code>, which defines the attributes in our class:</p>
+
+<pre><code>        has : {
+            x : { is : 'rw', required : true },
+            y : { is : 'rw', required : true }
+        }
+</code></pre>
+
+<p>This will create attributes named <code>x</code> and <code>y</code>. The accessors, generated for this attributes will be read-write.</p>
+
+<p>The <code>required : true</code> parameter means that this attribute must be provided when a new object is created. 
+A point object without coordinates doesn't make much sense, so we don't allow it.</p>
+
+<p>We have defined our attributes; next we define our methods. In Joose, as with regular JavaScript, a method is just a function.
+It should be defined in the <code>methods</code> builder:</p>
+
+<pre><code>        methods : {
+            clear : function () {
+                this.setX(0)
+                this.setY(0)
+            }
+        }
+</code></pre>
+
+<p>That concludes the <code>Point</code> class.</p>
+
+<p>Next we have a subclass of <code>Point</code>, <code>Point3D</code>. To declare our superclass, we use the <code>isa</code> builder:</p>
+
+<pre><code>        isa : Point
+</code></pre>
+
+<p>Note, that Joose allows you to have only one superclass. As a cleaner alternative for multiple inheritance Joose provides <a href="../../Manual/Roles.html">Roles</a> mechanism.</p>
+
+<p>Next we create a new attribute for <code>Point3D</code> called <code>z</code>.</p>
+
+<pre><code>        has : {
+            z : { is : 'rw', required : true }
+        },
+</code></pre>
+
+<p>This attribute is just like <code>Point</code>'s <code>x</code> and <code>y</code> attributes.</p>
+
+<p>The <code>after</code> builder demonstrates a Joose feature called "method modifiers" (or "advice" for the AOP inclined):</p>
+
+<pre><code>        after : {
+            clear : function () {
+                this.setZ(0)
+            }
+        }
+</code></pre>
+
+<p>When <code>clear</code> is called on a <code>Point3D</code> object, our modifier method gets called as well. Unsurprisingly, the modifier is called <em>after</em> the real method.</p>
+
+<p>In this case, the real <code>clear</code> method is inherited from <code>Point</code>. Our modifier method receives the same arguments as those passed to the modified method.</p>
+
+<p>Of course, using the <code>after</code> modifier is not the only way to accomplish this. You can get the same results with this code:</p>
+
+<pre><code>        methods : {
+            clear : function () {
+                this.SUPER()
+                this.setZ(0)
+            }
+        }
+</code></pre>
+
+<p>You could also use another Joose method modifier, <code>override</code>:</p>
+
+<pre><code>        override : {
+            clear : function () {
+                this.SUPER()
+                this.setZ(0)
+            }
+        }
+</code></pre>
+
+<p>The <code>override</code> modifier allows you to use the <code>this.SUPER</code> call to dispatch to the superclass's method in a very Ruby-ish style.</p>
+
+<p>The choice of whether to use a method modifier, and which one to use, is often a question of style as much as functionality.</p>
+
+<p>Since <code>Point</code> inherits from [Joose.Meta.Object][protoobject], it will also inherit the default <code>Joose.Meta.Object</code> constructor:</p>
+
+<pre><code>    var point1 = new Point({ x : 5, y : 7})
+    var point3d = new Point3D({ x : 5, y : 7, z : -5})
+</code></pre>
+
+<p>This constructor accepts a named argument pair for each attribute defined by the class. 
+In this particular example, the attributes are required, and calling constructor without them will throw an error.</p>
+
+<pre><code>    var point1 = new Point({ x : 5 }) //no y, kaboom!
+</code></pre>
+
+<p>From here on, we can use <code>point</code> and <code>point3d</code> just as you would any other JavaScript object. </p>
+
+<h1 id="conclusion">CONCLUSION</h1>
+
+<p>This recipe demonstrates some basic Joose concepts, attributes, subclassing, and a simple method modifier.</p>
+
+<h1 id="seealso">SEE ALSO</h1>
+
+<ul>
+<li>Method Modifiers</li>
+</ul>
+
+<p>The concept of method modifiers is directly ripped off from CLOS. 
+A great explanation of them can be found by following this <a href="http://www.gigamonkeys.com/book/object-reorientation-generic-functions.html">link</a></p>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<p>Based on original Moose::Cookbook content, written by:</p>
+
+<p>Stevan Little <a href="mailto:stevan@iinteractive.com">stevan@iinteractive.com</a></p>
+
+<p>Dave Rolsky<a href="mailto:autarch@urth.org">autarch@urth.org</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

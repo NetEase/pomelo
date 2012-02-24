@@ -1,0 +1,12 @@
+{
+  "name"          : "flow",
+  "description"   : "Flow-JS makes it easy to express multi-step asynchronous logic in Node or the browser",
+  "url"           : "http://github.com/willconant/flow-js",
+  "keywords"      : ["util", "functional", "server", "client", "browser"],
+  "author"        : "Will Conant <will.conant@gmail.com>",
+  "contributors"  : [],
+  "dependencies"  : [],
+  "lib"           : ".",
+  "main"          : "flow.js",
+  "version"       : "0.2.2"
+}

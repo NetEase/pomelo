@@ -1,0 +1,67 @@
+div#prompt {
+    width: 600px;
+    height: 400px;
+    margin: auto;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background-color: rgb(30,30,30);
+    color: white;
+}
+
+div#chat {
+    width: 600px;
+    margin: auto;
+}
+
+div#messages {
+    display: none;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0.5em;
+    width: 600px;
+    height: 400px;
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+    background-color: rgb(30,30,30);
+}
+
+form#post input {
+    width: 600px;
+    padding: 0.5em;
+    background-color: black;
+    color: white;
+    border-width: 0px;
+}
+
+span.who {
+    font-weight: bold;
+    margin-right: 1em;
+    color: rgb(200,200,200);
+}
+
+span.me {
+    font-weight: bold;
+    margin-right: 1em;
+    color: white;
+}
+
+span.msg {
+    color: white;
+}
+
+div.join {
+    color: rgb(200,250,150);
+    font-weight: bold;
+}
+
+div.part {
+    color: rgb(250,200,150);
+    font-weight: bold;
+}
+
+div.users {
+    color: rgb(150,200,250);
+    font-weight: bold;
+}

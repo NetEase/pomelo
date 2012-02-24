@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Roles - Roles, an alternative to deep hierarchies and base classes</p>
+
+<h1 id="whatisarole">WHAT IS A ROLE?</h1>
+
+<p>A role is something that classes do. Usually, a role encapsulates some piece of behavior or state that can be shared between classes. It is important to understand that roles are not classes. 
+You cannot inherit from a role, and a role cannot be instantiated. We sometimes say that roles are <em>consumed</em>, either by classes or <em>other roles</em>.</p>
+
+<p>Instead, a role is <em>composed</em> into a class. In practical terms, this means that all of the methods and attributes defined in a role are added directly to (we sometimes say <em>composed into</em>) the class that consumes the role.
+However attributes or methods, alredy defined in the class <em>will not be overriden</em>.  </p>
+
+<p>Composed attributes and methods then appear as if they were <em>defined in the class itself</em>. Thus, they <em>will override</em> the methods, inherited from superclass.
+Further subclasses of the consuming class, will inherit all of these composed methods and attributes.</p>
+
+<p>Joose roles are similar to mixins or interfaces in other languages.</p>
+
+<p>Besides defining their own methods and attributes, roles can also require that the consuming class define certain methods of its own. You could have a role that consisted only of a list of required methods, 
+in which case the role would be very much like a Java interface.</p>
+
+<p>Note that attribute accessors also count as methods for the purposes of satisfying the requirements of a role.</p>
+
+<h1 id="doesbuilder"><code>does</code> BUILDER</h1>
+
+<p>Creating a role looks a lot like creating a Joose class:</p>
+
+<pre><code>    Role('Winged', {
+        has : {
+            leftWing : { is : 'rw' },
+            rightWing : { is : 'rw' }
+        },
+
+        methods : {
+
+            flight : function () {
+                this.leftWing.flutter()
+                this.rightWing.flutter()
+            },
+
+            land : function () {
+                this.leftWing.hold()
+                this.rightWing.hold()
+            }
+        }
+    })
+</code></pre>
+
+<p>Except for our use of Role, this looks just like a class definition with Joose. However, this is not a class, and it cannot be instantiated.</p>
+
+<p>Instead, its attributes and methods will be composed into classes which use the role:</p>
+
+<pre><code>    Class('Bird', {
+        isa : Animal,
+
+        does : Winged
+    })
+</code></pre>
+
+<p>The <code>does</code> builder composes roles into a class. Once that is done, the <code>Bird</code> class has an <code>leftWing/rightWing</code> attributes and a number of <code>fly*</code> methods. </p>
+
+<pre><code>    var bird = new Bird()
+
+    bird.flight()
+    bird.land()
+</code></pre>
+
+<p>You may ask, whats the point of defining such role, if all birds can fly? The answer is that sometimes, other animals can also fly:</p>
+
+<pre><code>    Class('Gryphon', {
+        isa : Lion,
+
+        does : Winged
+    })
+
+    var gryphon = new Gryphon()
+
+    gryphon.flight()
+    gryphon.land()
+</code></pre>
+
+<p>Defining a role for flying will allow us to re-use "flying logic" in any other class.</p>
+
+<h1 id="requiredmethods.usingmethodmodifiers">REQUIRED METHODS. USING METHOD MODIFIERS</h1>
+
+<p>As mentioned previously, a role can require that consuming classes provide one or more methods (attribute accessors also count as methods for the purpose). Using our 'Winged' example, make it require that consuming classes implement their own 'turnLeft' and 'turnRight' methods:</p>
+
+<pre><code>    Role('Winged', {
+        requires : [ 'turnLeft', 'turnRight' ],
+
+        has : {
+            isFlying : false,
+
+            leftWing : { is : 'rw' },
+            rightWing : { is : 'rw' }
+        },
+
+        methods : {
+
+            flight : function () {
+                leftWing.flutter()
+                rightWing.flutter()
+
+                this.isFlying = true
+            },
+
+            land : function () {
+                leftWing.hold()
+                rightWing.hold()
+
+                this.isFlying = false
+            },
+
+            flyLeft : function () {
+                leftWing.hold()
+                rightWing.flutter()
+            },
+
+            flyRight : function () {
+                leftWing.flutter()
+                rightWing.hold()
+            },
+        },
+
+        override : {
+            turnLeft : function () {
+                if (this.isFlying) 
+                    this.flyLeft()
+                else
+                    this.SUPER()
+            },
+
+            turnRight : function () {
+                if (this.isFlying)
+                    this.flyRight()
+                else
+                    this.SUPER()
+            }
+        }
+    })
+</code></pre>
+
+<p>If we try to consume this role in a class that does not have a <code>turnRight</code> or <code>turnLeft</code> method, we will get an exception.</p>
+
+<p>You can see that we added a method modifier on <code>turnLeft/turnRight</code>. We want classes that consume this role to implement their own "ground" logic for turning, but we make sure that this logic will be overriden during flight.</p>
+
+<p>Method modifiers and roles are a very powerful combination. Often, a role will combine method modifiers and required methods. We already saw one example with our Winged role.</p>
+
+<p>Method modifiers increase the complexity of roles, because they make the role application order relevant. 
+If a class uses multiple roles, each of which modify the same method, those modifiers will be applied in the same order as the roles are used.</p>
+
+<h2 id="rolesversusabstractbaseclasses">Roles Versus Abstract Base Classes</h2>
+
+<p>If you are familiar with the concept of abstract base classes in other languages, you may be tempted to use roles in the same way.</p>
+
+<p>You can define an "interface-only" role, one that contains just a list of required methods.</p>
+
+<p>However, any class which consumes this role must implement all of the required methods, either directly or through inheritance from a parent. 
+You cannot delay the method requirement check so that they can be implemented by future subclasses.</p>
+
+<p>Because the role defines the required methods directly, adding a base class to the mix would not achieve anything. 
+We recommend that you simply consume the interface role in each class which implements that interface.</p>
+
+<h1 id="methodconflicts">METHOD CONFLICTS</h1>
+
+<p>If a class (or role) consumes multiple roles, and those roles have methods of the same name, we will have a <em>methods conflict</em>. One of the solutions for such case, is that the composing class is required to provide its own method of the same name. 
+For example:</p>
+
+<pre><code>    Role('Walk', {
+        have : {
+            walking : false
+        },
+
+        methods : {
+            walk : function (where) { this.walking = true },
+            stop : function () { this.walking = false }
+        }
+    }) 
+
+    Role('Eat', {
+        have : {
+            eating : false
+        },
+
+        methods : {
+            eat : function (food) { this.eating = true },
+            stop : function () { this.eating = false }
+        }
+    })
+</code></pre>
+
+<p>If we compose both Walk and Eat in a class, we must provide our own 'stop' method:</p>
+
+<pre><code>    Class('Creature', {
+        does : [ Walk, Eat ],
+
+        methods : {
+            stop : function () {
+                this.walking = false
+                this.eating = false
+            }
+        }
+    })
+</code></pre>
+
+<h1 id="methodexclusionandaliasing">METHOD EXCLUSION AND ALIASING</h1>
+
+<p>If we want our <code>Creature</code> class to be able to call the methods from both its roles, we can alias the methods:</p>
+
+<pre><code>    Class('Creature', {
+        does : [{
+            role : Walk,
+            alias : {
+                stop : 'stopWalk'
+            }
+        }, {
+            role : Eat,
+            alias : {
+                stop : 'stopEat'
+            }
+        }]
+    })
+</code></pre>
+
+<p>However, aliasing a method simply makes a copy of the method with the new name. We also need to exclude the original name:</p>
+
+<pre><code>    Class('Creature', {
+        does : [{
+            role : Walk,
+            alias : {
+                stop : 'stopWalk'
+            },
+            exclude : [ 'stop' ]
+        }, {
+            role : Eat,
+            alias : {
+                stop : 'stopEat'
+            },
+            exclude : [ 'stop' ]
+        }]
+    })
+</code></pre>
+
+<p>The <code>exclude</code> parameter prevents the <code>stop</code> method from being composed into the <code>Creature</code> class, so we don't have a conflict. This means that Creature does not need to implement its own <code>stop</code> method.</p>
+
+<p>This is useful, but it's worth noting that this breaks the contract implicit in consuming a role. Our <code>Creature</code> class does both the <code>Walk</code> and <code>Eat</code>, but does not provide a <code>stop</code> method. 
+If some API expects an object that does one of those roles, it probably expects it to implement that method.</p>
+
+<p>In some use cases we might alias and exclude methods from roles, but then provide a method of the same name in the class itself.</p>
+
+<h1 id="theoreticalbackgroundofroles">THEORETICAL BACKGROUND OF ROLES </h1>
+
+<p>If you would like to dig into theoretical roots of Roles, refer to <a href="http://scg.unibe.ch/archive/papers/Scha02bTraits.pdf">this publication.</a></p>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<p>Heavily based on the original content of Moose::Manual, by Dave Rolsky <a href="mailto:autarch@urth.org">autarch@urth.org</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

@@ -1,0 +1,280 @@
+
+
+NAME
+====
+
+Joose.Cookbook - How to cook a Joose
+
+DESCRIPTION
+===========
+
+The Moose cookbook is a series of recipes showing various Joose features. 
+Most recipes present some code demonstrating some feature, and then explain the details of the code.
+
+You should probably read the [Joose.Manual][manual] first. The manual explains Joose concepts without being too code-heavy.
+
+
+RECIPES
+=======
+
+Basic Joose
+-----------
+
+
+These recipes will give you a good overview of Joose's capabilities, starting with simple attribute declaration, 
+and moving on to more powerful features like method modifiers, and more.
+
+- [Joose.Cookbook.Basics.Recipe1][basics1] - The (always classic) **Point** example
+
+A simple Joose-based class. Demonstrates Joose attributes and subclassing.
+
+<div style="display:none">
+
+=item L<Joose::Cookbook::Basics::Recipe2> - A simple B<BankAccount> example
+
+A slightly more complex Joose class. Demonstrates using a method
+modifier in a subclass.
+
+=item L<Joose::Cookbook::Basics::Recipe3> - A lazy B<BinaryTree> example
+
+Demonstrates several attribute features, including types, weak
+references, predicates ("does this object have a foo?"), defaults,
+laziness, and triggers.
+
+=item L<Joose::Cookbook::Basics::Recipe4> - Subtypes, and modeling a simple B<Company> class hierarchy
+
+Introduces the creation and use of custom types, a C<BUILD> method,
+and the use of C<override> in a subclass.
+
+=item L<Joose::Cookbook::Basics::Recipe5> - More subtypes, coercion in a B<Request> class
+
+More type examples, including the use of type coercions.
+
+=item L<Joose::Cookbook::Basics::Recipe6> - The augment/inner example
+
+Demonstrates the use of C<augment> method modifiers, a way of turning
+the usual method overriding style "inside-out".
+
+=item L<Joose::Cookbook::Basics::Recipe7> - Making Joose fast with immutable
+
+Making a class immutable greatly increases the speed of accessors and
+object construction.
+
+=item L<Joose::Cookbook::Basics::Recipe8> - Builder methods and lazy_build
+
+The builder feature provides an inheritable and role-composable way to
+provide a default attribute value.
+
+=item L<Joose::Cookbook::Basics::Recipe9> - Operator overloading, subtypes, and coercion
+
+Demonstrates using operator overloading, coercion, and subtypes to
+model how eye color is determined during reproduction.
+
+=item L<Joose::Cookbook::Basics::Recipe10> - Using BUILDARGS and BUILD to hook into object construction
+
+This recipe demonstrates the use of C<BUILDARGS> and C<BUILD> to hook
+into object construction.
+
+=item L<Joose::Cookbook::Basics::Recipe11> - Extending a non-Joose base class
+
+In this recipe, we make a Joose-based subclass of L<DateTime>, a
+module which does not use Joose itself.
+
+=back
+
+=head2 Joose Roles
+
+These recipes will show you how to use Joose roles.
+
+=over 4
+
+=item L<Joose::Cookbook::Roles::Recipe1> - The Joose::Role example
+
+Demonstrates roles, which are also sometimes known as traits or
+mix-ins. Roles provide a method of code re-use which is orthogonal to
+subclassing.
+
+=item L<Joose::Cookbook::Roles::Recipe2> - Advanced Role Composition - method exclusion and aliasing
+
+Sometimes you just want to include part of a role in your
+class. Sometimes you want the whole role but one of its methods
+conflicts with one in your class. With method exclusion and aliasing,
+you can work around these problems.
+
+=item L<Joose::Cookbook::Roles::Recipe3> - Applying a role to an object instance
+
+In this recipe, we apply a role to an existing object instance.
+
+=back
+
+=head2 Meta Joose
+
+These recipes show you how to write your own meta classes, which lets
+you extend the object system provided by Joose.
+
+=over 4
+
+=item L<Joose::Cookbook::Meta::Recipe1> - Welcome to the meta-world (Why Go Meta?)
+
+If you're wondering what all this "meta" stuff is, and why you should
+care about it, read this "recipe".
+
+=item L<Joose::Cookbook::Meta::Recipe2> - A meta-attribute, attributes with labels
+
+One way to extend Joose is to provide your own attribute
+metaclasses. Attribute metaclasses let you extend attribute
+declarations (with C<has>) and behavior to provide additional
+attribute functionality.
+
+=item L<Joose::Cookbook::Meta::Recipe3> - Labels implemented via attribute traits
+
+Extending Joose's attribute metaclass is a great way to add
+functionality. However, attributes can only have one metaclass.
+Applying roles to the attribute metaclass lets you provide
+composable attribute functionality.
+
+=item L<Joose::Cookbook::Meta::Recipe4> - Adding a "table" attribute to the metaclass
+
+If you want to store more information about your classes, you'll have
+to extend C<Joose::Meta::Class>. Doing so is simple, but you'll
+probably also want to provide some sugar, so see
+L<Joose::Cookbook::Extending::Recipe2> as well.
+
+=item L<Joose::Cookbook::Meta::Recipe5> - The "table" attribute implemented as a metaclass trait
+
+This recipe takes the class metaclass we saw in the previous recipe
+and reimplements it as a metaclass trait.
+
+=item L<Joose::Cookbook::Meta::Recipe6> - A method metaclass for marking methods public or private
+
+This recipe shows a custom method metaclass that implements making a
+method private.
+
+=item L<Joose::Cookbook::Meta::Recipe7> - Using a blessed array reference as an object instance
+
+This recipe shows an example of how you create your own meta-instance
+class. The meta-instance determines the internal structure of object
+instances and provide access to attribute slots.
+
+=item Joose::Cookbook::Meta::Recipe8 - Hooking into immutabilization (TODO)
+
+Joose has a feature known as "immutabilization". By calling C<<
+__PACKAGE__->meta()->make_immutable() >> after defining your class
+(attributes, roles, etc), you tell Joose to optimize things like
+object creation, attribute access, and so on.
+
+If you are creating your own metaclasses, you may need to hook into
+the immutabilization system. This cuts across a number of spots,
+including the metaclass class, meta method classes, and possibly the
+meta-instance class as well.
+
+This recipe shows you how to write extensions which immutabilize
+properly.
+
+=back
+
+=head2 Extending Joose
+
+These recipes cover some more ways to extend Joose, and will be useful
+if you plan to write your own C<MooseX> module.
+
+=over 4
+
+=item L<Joose::Cookbook::Extending::Recipe1> - Joose extension overview
+
+There are quite a few ways to extend Joose. This recipe provides an
+overview of each method, and provides recommendations for when each is
+appropriate.
+
+=item L<Joose::Cookbook::Extending::Recipe2> - Providing a base object class role
+
+Many base object class extensions can be implemented as roles. This
+example shows how to provide a base object class debugging role that
+is applied to any class that uses a notional C<MooseX::Debugging>
+module.
+
+=item L<Joose::Cookbook::Extending::Recipe3> - Providing an alternate base object class
+
+You may find that you want to provide an alternate base object class
+along with a meta extension, or maybe you just want to add some
+functionality to all your classes without typing C<extends
+'MyApp::Base'> over and over.
+
+=item L<Joose::Cookbook::Extending::Recipe4> - Acting like Joose.pm and providing sugar Joose-style
+
+This recipe shows how to provide a replacement for C<Joose.pm>. You
+may want to do this as part of the API for a C<MooseX> module,
+especially if you want to default to a new metaclass class or base
+object class.
+
+=back
+
+=head1 SNACKS
+
+=over 4
+
+=item L<Joose::Cookbook::Snack::Keywords>
+
+=item L<Joose::Cookbook::Snack::Types>
+
+=back
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<http://www.gsph.com/index.php?Lang=En&ID=291>
+
+=back
+
+=head1 AUTHOR
+
+Stevan Little E<lt>stevan@iinteractive.comE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2006-2009 by Infinity Interactive, Inc.
+
+L<http://www.iinteractive.com>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+
+</div>
+
+AUTHORS
+=======
+
+Nickolay Platonov [nplatonov@cpan.org](mailto:nplatonov@cpan.org)
+
+Based on original Moose::Cookbook content, written by:
+
+Stevan Little [stevan@iinteractive.com](mailto:stevan@iinteractive.com)
+
+
+COPYRIGHT AND LICENSE
+=====================
+
+Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+
+
+Documentation is based on original Moose::Manual documentation, copyright 2006-2009 by Infinity Interactive, Inc.
+
+
+[manual]: Manual.html
+[basics1]: Cookbook/Basics/Recipe1.html
+
+

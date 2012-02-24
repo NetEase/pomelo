@@ -1,0 +1,471 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">Name</h1>
+
+<p>Joose - A postmodern class system for JavaScript</p>
+
+<h1 id="synopsis">SYNOPSIS</h1>
+
+<p>In browsers (see <a href="Joose/Manual/Installation.html">Manual.Installation</a>):</p>
+
+<pre><code>    &lt;script type="text/javascript" src="/jsan/Task/Joose/Core.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>Then:</p>
+
+<pre><code>    Class("Point", {
+
+        has: {
+            x: {is: "ro"},
+            y: {is: "rw"},
+        },
+
+        methods: {
+            clear: function () {
+                var x = this.getX()
+                this.setY(0)
+            }
+        }
+    })
+
+    Class("Point.ThreeD", {
+
+        isa: Point,
+
+        has: {
+            z: {}
+        },
+
+        after: {
+            clear: function () {
+                this.z = 0
+            }
+        }
+    })
+
+    var point = new Point.ThreeD({
+        x : 1,
+        y : 2,
+        z : 3
+    })
+</code></pre>
+
+<p>In NodeJS:</p>
+
+<pre><code>    var Class = require('joose').Class
+
+    var Point = exports.Point = Class({
+        has: {
+            x: {is: "ro"},
+            y: {is: "rw"},
+        },
+
+        methods: {
+            clear: function () {
+                var x = this.getX()
+                this.setY(0)
+            }
+        }
+    })
+
+
+    exports.Point3D = Class({
+
+        isa: Point,
+
+        has: {
+            z: {}
+        },
+
+        after: {
+            clear: function () {
+                this.z = 0
+            }
+        }
+    })
+</code></pre>
+
+<h1 id="description">DESCRIPTION</h1>
+
+<p>Joose is a self-hosting meta object system for JavaScript with support for classes, inheritance, roles (aka traits), method modifiers and much more.</p>
+
+<p>The main goal of Joose is to make JavaScript Object Oriented Programming easier, more consistent and less tedious. With Joose you can to think more about what you want to do and less about the mechanics of OOP.</p>
+
+<p>The Joose framework has been successfully used in multiple production systems for twelve months now and has been proven to be very stable. 
+Joose is being tested using an automated unit-test suite that is being run in all major browsers (Firefox, IE, Safari, Opera and Chrome) and on NodeJS server-side platform.</p>
+
+<p>Joose core package is only 8kb (YUI+gz).</p>
+
+<h2 id="newtojoose">New to Joose?</h2>
+
+<p>If you're new to Joose, the best place to start is the <a href="Joose/Manual.html">Joose.Manual</a> docs, followed by the <a href="Joose/Cookbook.html">Joose.Cookbook</a>. The intro will show you what Joose is, and how it makes JavaScript OO better.</p>
+
+<p>The cookbook recipes on Joose basics will get you up to speed with many of Joose's features quickly. Once you have an idea of what Joose can do, you can use the API documentation to get more detail on features which interest you.</p>
+
+<h1 id="buildingclasseswithjoose">BUILDING CLASSES WITH JOOSE</h1>
+
+<p>Joose makes every attempt to provide as much convenience as possible during class construction/definition, but still stay out of your way if you want it to. Here are a few items to note when building classes with Joose.</p>
+
+<ul>
+<li>Unless specified with 'isa', any class which uses Joose will inherit from Joose.Meta.Object.</li>
+</ul>
+
+<h1 id="providedinstancemethods">PROVIDED INSTANCE METHODS</h1>
+
+<p>Joose provides a number of methods to all your classes, mostly through the inheritance from Joose.Meta.Object.</p>
+
+<ul>
+<li><code>this.SUPER(arg1, arg2, ...)</code></li>
+</ul>
+
+<p>Only valid in the scope of usual methods and OVERRIDE method modifiers. Calls a superclass's method with the arguments provided.</p>
+
+<ul>
+<li><code>this.SUPERARG(Array arg)</code></li>
+</ul>
+
+<p>Only valid in the scope of usual methods and OVERRIDE method modifiers. Calls a superclass's method with the "packed" arguments, provided as array. Usually used as: <code>this.SUPERARG(arguments)</code>
+This method is just a shortcut for <code>this.SUPER.apply(this, arguments)</code></p>
+
+<ul>
+<li><code>this.BUILD([Object arg])</code></li>
+</ul>
+
+<p>Default <code>BUILD</code> method checks whether the 1st argument passed to it is an Object. If so, it passes it to <code>initialize</code> method. This method also optionally <em>detaches</em> current instance. 
+See <a href="Joose/Manual/Traits.html">Joose.Manual.Traits</a> for details.</p>
+
+<ul>
+<li><code>this.initialize(Object properties)</code></li>
+</ul>
+
+<p>Default <code>initialize</code> method uses <code>properties</code> to initialize the attributes of current instance.</p>
+
+<ul>
+<li><code>this.toString()</code></li>
+</ul>
+
+<p>Defalt string coercion is string "a ClassName", where ClassName is a name of instance's class.</p>
+
+<h1 id="providedinstanceproperties">PROVIDED INSTANCE PROPERTIES</h1>
+
+<p>Joose provides a number of properties to all instances of your classes.</p>
+
+<ul>
+<li><code>this.constructor</code></li>
+</ul>
+
+<p>A class with which <code>this</code> instance was constructed.</p>
+
+<ul>
+<li><code>this.meta</code></li>
+</ul>
+
+<p>An instance of metaclass for <code>this</code> instance's class. </p>
+
+<h1 id="providedclassproperties">PROVIDED CLASS PROPERTIES</h1>
+
+<p>Joose also provides a number of properties to classes.</p>
+
+<ul>
+<li><code>class.meta</code></li>
+</ul>
+
+<p>An instance of metaclass for this class. The same as <code>this.meta</code> for instances of <code>class</code></p>
+
+<ul>
+<li><code>class.my</code></li>
+</ul>
+
+<p>A static instance. See <a href="Joose/Manual/Static.html">Joose.Manual.Static</a> for more details.</p>
+
+<ul>
+<li><code>class.superClass</code></li>
+</ul>
+
+<p>A superclass (constructor function) of given <code>class</code></p>
+
+<h1 id="providedhelpers">PROVIDED HELPERS</h1>
+
+<h2 id="declarationhelpers">Declaration helpers</h2>
+
+<p>Declaration helpers allows you to declare a class, role or module.</p>
+
+<ul>
+<li><code>Class(String name, Object builders)</code></li>
+</ul>
+
+<p>Declares a class, using provided builders. <code>name</code> will be transformed into class's constructor. See the details <a href="Joose/Manual/Construction.html">here</a></p>
+
+<ul>
+<li><code>Class(Object buildersObj)</code></li>
+</ul>
+
+<p>Declares an anonymous class.</p>
+
+<ul>
+<li><p><code>Role(String name, Object builders)</code></p></li>
+<li><p><code>Role(Object buildersObj)</code></p></li>
+</ul>
+
+<p>The same helpers for Roles. See <a href="Joose/Manual/Roles.html">Roles</a>.</p>
+
+<ul>
+<li><p><code>Module(String name, Object builders)</code></p></li>
+<li><p><code>Module(String name, Function body)</code></p></li>
+</ul>
+
+<p>The same helpers for Modules. See the details <a href="Joose/Manual/Construction.html">here</a></p>
+
+<p>Joose also provides a number of small helpers functions, which you might found useful. </p>
+
+<h2 id="helpersforarrays">Helpers for Arrays</h2>
+
+<ul>
+<li><code>Joose.A.each(array, func, scope)</code></li>
+</ul>
+
+<p>Calls a <code>func</code> in the optional <code>scope</code> for each element of <code>array</code> as: <code>func(element, index)</code>, where <code>index</code> is the index of element in the <code>array</code>. Returning a <code>false</code> from <code>func</code> stops the iteration.
+If the iteration were stopped with returned <code>false</code> value, this helper also return <code>false</code>. Otherwise it returns undefined value.</p>
+
+<ul>
+<li><code>Joose.A.map(array, func, scope)</code></li>
+</ul>
+
+<p>Calls a <code>func</code> in the optional <code>scope</code> for each element of <code>array</code> as: <code>func(element, index)</code>, where <code>index</code> is the index of element in the <code>array</code>. 
+Returning values from all calls to <code>func</code> are collected in the resulting array, which is returned. </p>
+
+<ul>
+<li><code>Joose.A.exists(array, value)</code></li>
+</ul>
+
+<p>Returns boolean value, indicating whether this <code>value</code> is exists in the <code>array</code>.</p>
+
+<ul>
+<li><code>Joose.A.grep(array, func)</code></li>
+</ul>
+
+<p>Calls the <code>func</code> for each element of <code>array</code> and returns an array, consisted from only those elements, for which it returns 'true' value</p>
+
+<ul>
+<li><code>Joose.A.remove(array, removeEle)</code></li>
+</ul>
+
+<p>Returns a "shallow copy" of <code>array</code>, without the all the occurrences of <code>removeEle</code> (if any). Comparison is performing with '===' operator. Do not modifies original <code>array</code>.</p>
+
+<h2 id="helpersforstrings">Helpers for Strings</h2>
+
+<ul>
+<li><code>Joose.S.saneSplit(str, delimeter)</code></li>
+</ul>
+
+<p>Implements a perl-like 'split', which returns empty array for splitted empty string (not an array with an empty string). Behave as standard <code>String.prototype.split</code> in other aspects.</p>
+
+<ul>
+<li><code>Joose.S.uppercaseFirst(string)</code></li>
+</ul>
+
+<p>Returns a copy of <code>string</code>, with uppercased first letter.</p>
+
+<h2 id="helpersforobjects">Helpers for Objects</h2>
+
+<ul>
+<li><code>Joose.O.each(object, func, scope)</code></li>
+</ul>
+
+<p>Calls a <code>func</code> in the optional <code>scope</code> for <em>all</em> properties of the <code>object</code> (<em>including</em> inherited via prototype chain). 
+<code>func</code> is called as: <code>func(value, name), where</code>value<code>is the value of the</code>name<code>property of</code>object<code>. Returning a</code>false<code>from</code>func<code>stops the iteration.
+If the iteration were stopped with returned</code>false<code>value, this helper also return</code>false`. Otherwise it returns undefined value.</p>
+
+<ul>
+<li><code>Joose.O.eachOwn(object, func, scope)</code></li>
+</ul>
+
+<p>Calls a <code>func</code> in the optional <code>scope</code> for only "own" properties of the <code>object</code>. <code>func</code> is called as: <code>func(value, name), where</code>value<code>is the value of the</code>name<code>property of</code>object<code>.
+Returning a</code>false<code>from</code>func<code>stops the iteration. If the iteration were stopped with returned</code>false<code>value, this helper also return</code>false`. Otherwise it returns undefined value.</p>
+
+<ul>
+<li><code>Joose.O.copy(source, target?)</code></li>
+</ul>
+
+<p>Copies <em>all</em> the properties of <code>source</code> object to the <code>target</code> (which is created as empty object if not supplied). (<em>including</em> inherited via prototype chain). Returns <code>target</code>. </p>
+
+<ul>
+<li><code>Joose.O.copyOwn(source, target?)</code></li>
+</ul>
+
+<p>Copies only the "own" properties of <code>source</code> object to the <code>target</code> (which is created as empty object if not supplied).. Returns <code>target</code>. </p>
+
+<ul>
+<li><code>Joose.O.getMutableCopy(object)</code></li>
+</ul>
+
+<p>Returns a "mutable copy" of <code>object</code>. "Mutable copy" is an empty object, which however inherit all the properties of original via prototype chain.</p>
+
+<ul>
+<li><code>Joose.O.extend(target, source)</code></li>
+</ul>
+
+<p>Copies all the properties of <code>source</code> object to the <code>target</code> (<em>including</em> inherited via prototype chain). </p>
+
+<ul>
+<li><code>Joose.O.isEmpty(object)</code></li>
+</ul>
+
+<p>Returns boolean value, indicating whether the <code>object</code> have no <em>own</em> properties.</p>
+
+<ul>
+<li><code>Joose.O.isInstance(obj)</code></li>
+</ul>
+
+<p>Returns boolean value, indicating whether the passed <code>obj</code> is an instance of some Joose class.</p>
+
+<ul>
+<li><code>Joose.O.wantArray(obj)</code></li>
+</ul>
+
+<p>Returns <code>obj</code> itself if <code>obj</code> is an array, or <code>[ obj ]</code> otherwise.</p>
+
+<h2 id="helpersforattributesdeclaration">Helpers for Attributes declaration</h2>
+
+<p>To simplify declaration of attributes Joose provides a number of default attributes initializers (see <a href="Joose/Manual/Attributes.html">Joose.Manual.Attributes</a> for details)</p>
+
+<ul>
+<li><code>Joose.I.Array</code></li>
+</ul>
+
+<p>Returns empty Array when called</p>
+
+<ul>
+<li><code>Joose.I.Object</code></li>
+</ul>
+
+<p>Returns empty Object when called</p>
+
+<ul>
+<li><code>Joose.I.Function</code></li>
+</ul>
+
+<p>Returns empty Function when called (which in turn will return Joose.I.Function)</p>
+
+<ul>
+<li><code>Joose.I.Now</code></li>
+</ul>
+
+<p>Returns new instance of <code>Date</code> (at the time of class instantiation)</p>
+
+<h1 id="configuration">CONFIGURATION</h1>
+
+<p>You can provide some configuration options to Joose. To specify them before Joose has been loaded, create a global <code>JOOSE_CFG</code> object. At the time of Joose loading, it will alias it as <code>Joose.C</code> symbol.</p>
+
+<p><code>Joose.C</code> is the place, where various extension will check for configuration options.</p>
+
+<h1 id="metaclass">METACLASS</h1>
+
+<p>When you use Joose, you can specify which metaclass to use:</p>
+
+<pre><code>    Class("Point", {
+
+        meta : NewMetaClass,
+        ....
+    })
+</code></pre>
+
+<p>You can also specify traits which will be applied to your metaclass:</p>
+
+<pre><code>    Class("Point", {
+
+        trait : TraitWithCustomBuilder,
+
+        coords : [ 1, 2, 3 ]
+
+        ....
+    })
+</code></pre>
+
+<p>When you do this, your class's meta object will have the specified traits applied to it. See <a href="Joose/Manual/Roles.html">Joose.Manual.Roles</a> and <a href="Joose/Manual/Traits.html">Joose.Manual.Traits</a> for further details.</p>
+
+<h1 id="thejoosex.namespace">The JooseX. namespace</h1>
+
+<p>Generally if you're writing an extension for Joose itself you'll want to put your extension in the JooseX. namespace. This namespace is specifically for extensions that make Joose better or different in some fundamental way. 
+It is traditionally not for a package that just happens to use Joose. </p>
+
+<p>These extensions can be found in the <a href="http://npmjs.org">npm registry</a>. See <a href="Joose/Manual/JooseX.html">Joose.Manual.JooseX</a> for more details.</p>
+
+<div style="display:none">
+
+CAVEATS
+=======
+
+Refering to meta instance from the constructor
+
+Method modifiers order in Rhino
+
+</div>
+
+<h1 id="gettinghelp">GETTING HELP</h1>
+
+<p>We offer a mailing list and an active IRC channel.</p>
+
+<p>The mailing list is <a href="mailto:joose-js@googlegroups.com">joose-js@googlegroups.com</a>. To subscribe, visit: <a href="http://groups.google.com/group/joose-js">http://groups.google.com/group/joose-js</a></p>
+
+<p>You can also visit us at <a href="http://webchat.freenode.net/?randomnick=1&amp;channels=joose&amp;prompt=1">#joose</a> on freenode. Questions at all levels (on Joose-related topics ;) are welcome.</p>
+
+<h1 id="acknowledgements">ACKNOWLEDGEMENTS</h1>
+
+<p>Many thanks to the whole Moose community for being icebreaker in the meta world. </p>
+
+<p>Special thanks to Dave Rolsky for the excellent Moose documentation written, on which this document is based.</p>
+
+<h1 id="seealso">SEE ALSO</h1>
+
+<p><a href="http://joose.it">http://joose.it</a> - This is the official web home of Joose.</p>
+
+<p><a href="http://github.com/Joose/Joose">http://github.com/Joose/Joose</a> - Our version control repository</p>
+
+<p><a href="http://www.iinteractive.com/moose">http://www.iinteractive.com/moose</a> - Home page of Moose - post-modern class system for perl</p>
+
+<h1 id="bugs">BUGS</h1>
+
+<p>All complex software has bugs lurking in it, and this module is no exception.</p>
+
+<p>Please report any bugs through the web interface at <a href="https://github.com/Joose/Joose/issues">https://github.com/Joose/Joose/issues</a></p>
+
+<h1 id="featurerequests">FEATURE REQUESTS</h1>
+
+<p>We are very strict about what features we add to the Joose core, especially the user-visible features. Instead we have made sure that the underlying meta-system of Joose is as extensible as possible so that you can add your own features easily.</p>
+
+<p>That said, occasionally there is a feature needed in the meta-system to support your planned extension, in which case you should 
+either email the mailing list (<a href="mailto:joose-js@googlegroups.com">joose-js@googlegroups.com</a>) or join us on IRC at <irc://irc.freenode.org/#joose> to discuss. 
+The <a href="Joose/Manual/Contributing.html">Joose.Manual.Contributing</a> has more detail about how and when you can contribute.</p>
+
+<h1 id="authors">AUTHORS</h1>
+
+<p>Malte Ubl </p>
+
+<p>Jeremy Wall</p>
+
+<p>Nickolay Platonov</p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+
+<p>Documentation is based on original Moose::Manual documentation, copyright 2006-2009 by Infinity Interactive, Inc.</p>
+</body>
+</html>

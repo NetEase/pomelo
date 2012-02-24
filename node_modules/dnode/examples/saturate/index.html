@@ -1,0 +1,83 @@
+<html>
+<head>
+<script type="text/javascript" src="/dnode.js"></script>
+<script type="text/javascript">
+    
+    window.onload = function () {
+        var stats = document.getElementById("stats");
+        var unit = document.getElementById("unit");
+        var ping = document.getElementById("ping");
+        
+        var connections = document.getElementById("connections");
+        connections.innerHTML = (Number(connections.innerHTML) + 1).toString();
+        
+        var bytes = 0;
+        
+        var em = new EventEmitter;
+        em.on('data', function (buf) {
+            bytes += buf.length;
+            if (bytes > 1e6) u = 1e6;
+            else if (bytes > 1e3) u = 1e3;
+            else u = 1;
+            
+            var x = bytes / u;
+            var d = (x - Math.floor(x)).toString().replace(/^0\./, '');
+            stats.innerHTML = Math.floor(x) + '.'
+                + d.slice(0,2) + '00'.slice(d.length);
+            unit.innerHTML = { 1e6 : 'M', 1e3 : 'K', 1 : 'B' }[u];
+        });
+        
+        DNode({
+            emit : function () { em.emit.apply(em, arguments) }
+        }).connect({ ping : 5000, timeout : 2000 }, function (remote, conn) {
+            conn.on('ping', function (elapsed) {
+                ping.innerHTML = elapsed;
+            });
+            
+            function reconnect () {
+                conn.reconnect(1000, function (err) {
+                    if (err) {
+                        if (window.console) {
+                            console.error(err);
+                        }
+                        else {
+                            throw err;
+                        }
+                        reconnect();
+                    }
+                    else {
+                        ping.style.color = 'black';
+                        stats.style.color = 'black';
+                    }
+                });
+            }
+            
+            conn.on('timeout', function () {
+                ping.style.color = 'red';
+                reconnect();
+            });
+            
+            conn.on('end', function () {
+                stats.style.color = 'rgb(200,200,200)';
+                reconnect();
+            });
+        });
+    };
+</script>
+</head>
+<body>
+    <div>
+        <span id="stats">0</span>
+        <span id="unit">bytes</span>
+        transferred
+    </div>
+
+    <div>
+        ping <span id="ping">X</span> milliseconds
+    </div>
+
+    <div>
+        <span id="connections">0</span> connections
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "mysql",
+  "version": "0.9.5",
+  "author": "Felix Geisendörfer <felix@debuggable.com> (http://debuggable.com/)",
+  "description": "A pure node.js JavaScript Client implementing the MySQL protocol.",
+  "homepage": "https://github.com/felixge/node-mysql",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/felixge/node-mysql.git"
+  },
+  "main": "./index",
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "hashish": "0.0.4"
+  },
+  "devDependencies": {
+    "gently": "0.8.0",
+    "urun": "0.0.4",
+    "utest": "0.0.3"
+  },
+  "engines": {
+    "node": "*"
+  }
+}

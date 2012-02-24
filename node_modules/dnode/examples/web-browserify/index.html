@@ -1,0 +1,19 @@
+<html>
+<head>
+<script src="/browserify.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var dnode = require('dnode');
+    
+    window.onload = function () {
+        dnode.connect(function (remote, conn) {
+            remote.cat(function (says) {
+                document.getElementById('says').innerHTML = says;
+            });
+        });
+    };
+</script>
+</head>
+<body>
+    The cat says <span id="says">?</span>.
+</body>
+</html>

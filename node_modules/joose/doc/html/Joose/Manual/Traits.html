@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Traits - Special kind of Roles in Joose.</p>
+
+<h1 id="whatisatrait">WHAT IS A TRAIT?</h1>
+
+<p>In Joose, a trait is almost exactly the same thing as a role, which is composed into an instance of a class at runtime to add or modify the behavior of <em>just that instance</em>. 
+Other instances are not affected. </p>
+
+<p>Any role can be used as a trait. There is no special <code>Trait</code> helper or other syntax constructs.</p>
+
+<pre><code>    Role('Logger', {
+
+        requires : [ 'process' ],
+
+        before : {
+            process : function () {
+                this.log("'process' method was called with the arguments:" + arguments)
+            }
+        },
+
+
+        methods : {
+            log : function () {
+                ...
+            }
+        }
+    })
+
+
+    Class('Parser', {
+
+        methods : {
+            process : function () {
+                ...
+            }
+        }
+    })
+</code></pre>
+
+<h1 id="applyingtrait.detaching">APPLYING TRAIT. DETACHING</h1>
+
+<p>Traits can be applied only during object's instantiation. To apply the trait, provide the "pseudo-builder" <code>trait</code> (or <code>traits</code>) to class constructor:</p>
+
+<pre><code>    var parser = new Parser({
+        trait : Logger
+    })
+</code></pre>
+
+<p>Now this particular <code>parser</code> instance will perform additional loging during work. Note that any other instances of <code>Parser</code> will not be not affected.</p>
+
+<p>You may also return the <code>trait</code> builder from the <code>BUILD</code> method (if you are using custom parameters processing).</p>
+
+<p>Under the hood, the <code>parser</code> instance will have its own instance of metaclass, separated from <code>Person</code>:</p>
+
+<pre><code>    console.log(parser.meta != Parser.meta) // true, instance was detached
+    console.log(parser instanceof Parser)   // true, its still Parser however )
+</code></pre>
+
+<p>You can <em>extend</em> this particular instance as usual class:</p>
+
+<pre><code>    parser.meta.extend({
+        does : AnotherLogger
+    })
+</code></pre>
+
+<p>If you don't want to apply trait during object's instantiation, but planning to do it later, you need to create it as <em>detached</em>. Use pseudo-builder <code>detached</code> for that:</p>
+
+<pre><code>    var parser = new Parser({
+        detached : true
+    })
+
+    ...
+
+    //later
+
+    if (...) parser.meta.extend({
+        does : Logger
+    })
+</code></pre>
+
+<h1 id="removingtrait.">REMOVING TRAIT.</h1>
+
+<p>You may decide to remove the trait (rememeber, all Joose classes are mutable at run-time).</p>
+
+<pre><code>    parser.meta.extend({
+        doesnot : Logger
+    })
+</code></pre>
+
+<h1 id="traitsasmeta-roles">TRAITS AS META-ROLES</h1>
+
+<p>Sometime traits are also mentioned in <em>meta-role</em> context. This means, that this trait is being applied to the instance of meta-class.
+Such traits modifies the <em>behaviour of class itself</em> (its meta), not its methods or attributes. </p>
+
+<p>An example of such trait can be a <a href="http://samuraijack.github.com/JooseX-Class-Singleton">JooseX.Class.Singleton</a>:</p>
+
+<pre><code>    Class('Some.Class', {
+        trait : JooseX.Class.Singleton,
+
+        has : {
+            ...
+        },
+
+        methods : {
+            ...
+        }
+    })
+</code></pre>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>

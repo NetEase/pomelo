@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://joose.it/markdown.css " />
+	</head>
+<body>
+<h1 id="name">NAME</h1>
+
+<p>Joose.Manual.Installation - The installation procedure for Joose.</p>
+
+<h1 id="description">DESCRIPTION</h1>
+
+<p>You can install Joose from the following sources:</p>
+
+<h1 id="installingfromtarball">1. INSTALLING FROM TARBALL</h1>
+
+<p>The latest released tarball is available for downloading from <a href="http://search.npmjs.org/#/joose">http://search.npmjs.org/#/joose</a>. Alternative locations: <a href="http://nodul.es/modules/joose">http://nodul.es/modules/joose</a> and <a href="http://npm.mape.me/">http://npm.mape.me/</a> (search for package 'joose').</p>
+
+<h2 id="sourcefilestoinclude">Source files to include</h2>
+
+<p>To use Joose include the following source file in your page/project (from the root of the tarball)</p>
+
+<pre><code>task-joose-core.js
+</code></pre>
+
+<p>or from another location:</p>
+
+<pre><code>lib/Task/Joose/Core.js
+</code></pre>
+
+<p>It contains all the individual source files concatenated into one.</p>
+
+<h1 id="installingfromnpm">2. INSTALLING FROM <code>npm</code></h1>
+
+<p>First, install <code>npm</code> (please refer to : <a href="http://github.com/isaacs/npm/">http://github.com/isaacs/npm/</a>). Then, from command line:</p>
+
+<pre><code>    &gt; npm install joose
+</code></pre>
+
+<p>You may need to <code>sudo</code> the command above.</p>
+
+<p>After this you can use Joose as follows:</p>
+
+<pre><code>    require('joose')
+
+    Class('My.Class', {
+
+        methods : {
+            ...
+        }
+    })
+
+    // or 
+
+    var Class = require('joose').Class
+
+
+    var MyClass = Class({
+
+        methods : {
+            ...
+        }
+    })
+</code></pre>
+
+<p>Please note, that Joose aims to be client/server neutral, and behaves a bit differently than usual CommonJS module.  </p>
+
+<p><code>require('joose')</code> will <em>modify the global scope</em> - will add the <code>Joose</code>, <code>Class</code>, <code>Role</code> and <code>Module</code> symbols to it.
+<code>Class</code>, <code>Role</code> and <code>Module</code> are also being exported from <code>require</code>. </p>
+
+<h1 id="configuringyoursystemforcross-platformcode.">3. Configuring your system for cross-platform code.</h1>
+
+<p>If you are planning to use Joose and Joose extensions in the browsers, you way want to also complete the following steps:</p>
+
+<h2 id="addthenpm_root.jsantoyournode_pathenviromentvariable">3.1 Add the <code>$NPM_ROOT/.jsan</code> to your NODE_PATH enviroment variable</h2>
+
+<p>Here the <code>$NPM_ROOT</code> is the "root" setting of your <code>npm</code> installation. You can retrieve it with the following command:</p>
+
+<pre><code>npm config get root 2&gt;/dev/null
+</code></pre>
+
+<p>Typically its <code>/usr/local/lib/node</code>. So, to do that, add this line to your <code>~/.bashrc</code>:</p>
+
+<pre><code>export NODE_PATH=/usr/local/lib/node/.jsan
+</code></pre>
+
+<h2 id="createanaliasforyourlocalwebserver">3.2 Create an alias for your local webserver</h2>
+
+<p>Configure you local web server that way, that the url <code>http://localhost/jsan</code> will point to the <code>/usr/local/lib/node/.jsan</code> (the directory from previous step).</p>
+
+<p>After theis setup, you can either require the browser-related code from NodeJS (it uses CamelCase for modules names as a convention):</p>
+
+<pre><code>require('Useful/Module')
+
+// or, with JooseX.Namespace.Depended
+
+use('Useful.Module', function () { ... })
+</code></pre>
+
+<p>Or you can load it in the browsers in the exactly the same way:</p>
+
+<pre><code>// JooseX.Namespace.Depended only
+
+use('Useful.Module', function () { ... })
+</code></pre>
+
+<h1 id="author">AUTHOR</h1>
+
+<p>Nickolay Platonov <a href="mailto:nickolay8@gmail.com">nickolay8@gmail.com</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2008-2011, Malte Ubl, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Malte Ubl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>
