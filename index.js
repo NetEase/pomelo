@@ -1,3 +1,1 @@
-module.exports = require('./lib/connector/ChannelManager');
-module.exports = require('./lib/connector/ConnectorServer');
-module.exports = require('./lib/connector/SessionManager');
+module.exports = require('./lib/pomelo');
