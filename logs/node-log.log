@@ -739,3 +739,7 @@ all servers started
  enterServerGateWay
  fight user: xcc  target: zy
  handler server process in attach iAttach
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
