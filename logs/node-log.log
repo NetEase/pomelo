@@ -743,3 +743,26 @@ all servers started
     self._dispatch(session, next);
   }
 [app.use] route: / func: [object Object]
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+undefined
+failed to locate view "index.html", tried:
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index.html
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index/index.html
+  - /home/xcc/nodeWorkspace/pomelo-core/views/../index/index.html
+undefined
+Error: failed to locate view "index.html"
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:58:15)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:414:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:315:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:23:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+    at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
+    at next (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/node_modules/connect/lib/http.js:203:15)

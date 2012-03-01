@@ -1,7 +1,8 @@
-var app = module.exports = pomelo();
-
 var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
+
+var app = module.exports = pomelo();
+
 
 var args = process.argv;
 // config
@@ -43,6 +44,9 @@ app.configure(function(){
   app.enabled('scheduler');
   
    // 全部生成代理
+  app.genRemote('../lib/connector/remote');
+  
+  //user proxy
   app.genHandler('./app/connector/handler');
   app.genRemote('./app/connector/remote');
   app.genHandler('./app/area/handler');
@@ -74,14 +78,6 @@ app.configure('production', '^master', function(){
 })
 
 function startWebServer(){
-    var app-express = require('app-express');
-    console.log(' web server started');
+    var app_express = require('./app_express');
+    console.log(' express web server started');
 }
-
-
-
-
-
-
-
-
