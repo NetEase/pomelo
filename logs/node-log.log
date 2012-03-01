@@ -766,3 +766,548 @@ Error: failed to locate view "index.html"
     at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
     at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
     at next (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/node_modules/connect/lib/http.js:203:15)
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+undefined
+failed to locate view "index", tried:
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index.jade
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index/index.jade
+  - /home/xcc/nodeWorkspace/pomelo-core/views/../index/index.jade
+undefined
+Error: failed to locate view "index"
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:58:15)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:414:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:315:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:23:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+    at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
+    at next (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/node_modules/connect/lib/http.js:203:15)
+undefined
+failed to locate view "index", tried:
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index.jade
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index/index.jade
+  - /home/xcc/nodeWorkspace/pomelo-core/views/../index/index.jade
+undefined
+Error: failed to locate view "index"
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:58:15)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:414:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:315:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:23:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+    at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
+    at next (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/node_modules/connect/lib/http.js:203:15)
+undefined
+failed to locate view "index", tried:
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index.jade
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index/index.jade
+  - /home/xcc/nodeWorkspace/pomelo-core/views/../index/index.jade
+undefined
+Error: failed to locate view "index"
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:58:15)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:414:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:315:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:23:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+    at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
+    at next (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/node_modules/connect/lib/http.js:203:15)
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+[loock up view] view: [object Object] orig: {"view":"index","root":"/home/xcc/nodeWorkspace/pomelo-core/views","relative":true,"defaultEngine":"jade","basename":"index","engine":"jade","extension":".jade","name":"index","path":"/home/xcc/nodeWorkspace/pomelo-core/views/index.jade","dirname":"/home/xcc/nodeWorkspace/pomelo-core/views"}
+undefined
+failed to locate view "index", tried:
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index.jade
+  - /home/xcc/nodeWorkspace/pomelo-core/views/index/index.jade
+  - /home/xcc/nodeWorkspace/pomelo-core/views/../index/index.jade
+undefined
+Error: failed to locate view "index"
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:58:15)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:23:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+    at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
+    at next (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/node_modules/connect/lib/http.js:203:15)
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+ReferenceError: /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/public/index.jade:4
+    2| html(lang="en")
+    3|   head
+  > 4|     title= pageTitle
+    5|     script(type='text/javascript')
+    6|       if (foo) {
+    7|          bar()
+
+pageTitle is not defined
+    at eval at <anonymous> (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Object.<anonymous> (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:166:12)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:423:21)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+    at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
+ReferenceError: /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/public/index.jade:12
+    10|     h1 Jade - node template engine
+    11|     #container
+  > 12|       if youAreUsingJade
+    13|         p You are amazing
+    14|       else
+    15|         p Get on it!
+
+youAreUsingJade is not defined
+    at eval at <anonymous> (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Object.<anonymous> (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:166:12)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:423:21)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+    at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
+undefined
+failed to locate view "layout", tried:
+  - /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/public/layout.jade
+undefined
+Error: failed to locate view "layout"
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:58:15)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:430:10)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+undefined
+failed to locate view "layout", tried:
+  - /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/public/layout.jade
+undefined
+Error: failed to locate view "layout"
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:58:15)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:430:10)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+undefined
+failed to locate view "layout", tried:
+  - /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/public/layout.jade
+undefined
+Error: failed to locate view "layout"
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:58:15)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:430:10)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:24:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:25:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:25:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:25:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:25:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:25:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:25:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+SyntaxError: Unexpected identifier
+    at Object.Function (unknown source)
+    at Object.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Function.compile (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:65:33)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:415:18)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:25:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+ReferenceError: /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/public/index.jade:19
+    17|       
+    18|       p result:
+  > 19|       textarea(id=result, style='width:600;height300')
+
+result is not defined
+    at eval at <anonymous> (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:161:8)
+    at Object.<anonymous> (/home/xcc/nodeWorkspace/pomelo-core/node_modules/jade/lib/jade.js:166:12)
+    at ServerResponse._render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:423:21)
+    at ServerResponse.render (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/view.js:316:17)
+    at /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app_express.js:25:7
+    at callbacks (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:272:11)
+    at param (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:246:11)
+    at pass (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:253:5)
+    at Router._dispatch (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:280:4)
+    at Object.handle (/home/xcc/nodeWorkspace/pomelo-core/node_modules/express/lib/router/index.js:45:10)
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+static file location: /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/public
+ express web server started
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+static file location: /home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/public
+ express web server started
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+[app.use] route: / func: function router(session, next){
+    self._dispatch(session, next);
+  }
+[app.use] route: / func: [object Object]
+[app.use] route: / func: [object Object]
+ express web server started
+ express web server started
+ express web server started
+ express web server started
+ express web server started
+before app.configure development callback 
+ express web server started
+before app.configure development callback 
+start create application 
+end create application 
+ express web server started
+before app.configure development callback 
+end create application app: [object Object]
+ express web server started
+before app.configure development callback 
+end create application app: {"stack":[],"cache":{},"settings":{"env":"development"},"engines":{},"_router":{"routes":{},"map":{},"params":{},"_params":[]},"routes":{},"handlerManager":{}}
+ express web server started
+before app.configure development callback 
+end create application app: {"stack":[],"cache":{},"settings":{"env":"development"},"engines":{},"_router":{"routes":{},"map":{},"params":{},"_params":[]},"routes":{},"handlerManager":{}}
+ express web server started
+before app.configure development callback 
+before app.configure
+ express web server started
+before app.configure development callback 
+before app.configure
+ express web server started
+before app.configure development callback 
+before app.configure
+ express web server started
+before app.configure development callback 
+app.init invoked
+before app.configure
+start app.configure
+[app.configure] runEnv development serverType:all setting.env:node setting.serverType: all
+start app.configure
+[app.configure] runEnv production serverType:all setting.env:node setting.serverType: all
+start app.configure
+[app.configure] runEnv production serverType:all setting.env:node setting.serverType: all
+start app.configure
+[app.configure] runEnv production serverType:all setting.env:node setting.serverType: all
+before app.configure development callback 
+start app.configure
+[app.configure] runEnv development serverType:all setting.env:node setting.serverType: all
+start app.configure
+[app.configure] runEnv production serverType:master setting.env:node setting.serverType: all
+start app.configure
+[app.configure] runEnv production serverType:^master setting.env:node setting.serverType: all
+app.init invoked
+before app.configure
+[app.configure] runEnv all serverType:all setting.env:node setting.serverType: all
+ express web server started
+[app.configure] runEnv development serverType:all setting.env:node setting.serverType: all
+[app.configure] runEnv production serverType:all setting.env:node setting.serverType: all
+[app.configure] runEnv production serverType:master setting.env:node setting.serverType: all
+[app.configure] runEnv all serverType:all setting.env:node setting.serverType: all
+app.init invoked
+before app.configure
+[app.configure] runEnv all serverType:all setting.env:/home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app.js setting.serverType: all
+ express web server started
+[app.configure] runEnv development serverType:all setting.env:/home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app.js setting.serverType: all
+[app.configure] runEnv production serverType:all setting.env:/home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app.js setting.serverType: all
+[app.configure] runEnv production serverType:master setting.env:/home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app.js setting.serverType: all
+[app.configure] runEnv all serverType:all setting.env:/home/xcc/nodeWorkspace/pomelo-core/demos/webrunner/app.js setting.serverType: all
+app.init invoked
+before app.configure
+[app.configure] runEnv all serverType:all setting.env:development setting.serverType: all
+ express web server started
+[app.configure] runEnv development serverType:all setting.env:development setting.serverType: all
+[app listenListenAll] listen on servers invoked undefined
+[app.configure] runEnv production serverType:all setting.env:development setting.serverType: all
+[app.configure] runEnv production serverType:master setting.env:development setting.serverType: all
+[app.configure] runEnv all serverType:all setting.env:development setting.serverType: all
+app.init invoked
+before app.configure
+[app.configure] runEnv all serverType:all setting.env:development setting.serverType: all
+ express web server started
+[app.configure] runEnv development serverType:all setting.env:development setting.serverType: all
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked [object Object]
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+[app listen] listen on servers invoked [object Object]
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked [object Object]
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked [object Object]
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+[app.configure] runEnv production serverType:all setting.env:development setting.serverType: all
+[app.configure] runEnv production serverType:master setting.env:development setting.serverType: all
+[app.configure] runEnv all serverType:all setting.env:development setting.serverType: all
