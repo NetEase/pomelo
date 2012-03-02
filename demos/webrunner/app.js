@@ -1,7 +1,8 @@
 var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
+var handlerManager = require('../../lib/handlerManager');
 
-var app = module.exports = pomelo();
+var app = module.exports = pomelo.createApplication();
 
 
 var args = process.argv;
@@ -16,8 +17,8 @@ var serverType = 'all';  // if dev, means all server
 var serverId = '';
 
 if ((args.length >= 4) && (env == 'production')){
-    serverType = args[3];  //  area, logic, login or other servers
-    serverId = args[4]==undefined?null:args[4];
+  serverType = args[3];  //  area, logic, login or other servers
+  serverId = args[4]==undefined?null:args[4];
 }
 
 
@@ -29,7 +30,7 @@ app.set('serverId', serverId);
 console.log('before app.configure with ' + '[serverType]:' + serverType + ' [serverId]:'  + serverId);
 
 app.configure(function(){
-	  app.use(app.router); //filter out requests
+	  //app.use(app.router); //filter out requests
 	  app.use(logFilter); //filter out requests
 	  app.set('scheduler', '../config/scheduler.coffee');
 	  app.enabled('scheduler');
@@ -45,7 +46,6 @@ app.configure(function(){
 	  app.genHandler('./app/logic/handler');
 	  app.genRemote('./app/logic/remote');
       
-    startWebServer();
 });
 
 // use is filter
@@ -71,7 +71,8 @@ app.configure('production', 'master', function(){
 
 
 app.configure(function(){
-  app.use(app.handlerManager); //the last handler
+  app.use(handlerManager); //the last handler
+  startWebServer();
 });
 
 
