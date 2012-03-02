@@ -1,7 +1,0 @@
-{
-    "dependencies" : {
-        "jquery-browserify" : "*",
-        "browserify" : "1.0.x",
-        "express" : "0.7.x"
-    }
-}
