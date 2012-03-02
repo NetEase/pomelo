@@ -6,7 +6,6 @@ var app = module.exports = pomelo();
 
 var args = process.argv;
 // config
-
 var env = 'development';
 
 if (args.length > 2){
@@ -16,10 +15,11 @@ if (args.length > 2){
 var serverType = 'all';  // if dev, means all server
 var serverId = '';
 
-if ((args.length == 4) && (env == 'production')){
-    serverType = args[2];  //  area, logic, login or other servers
-    servereId = args[3];
+if ((args.length >= 4) && (env == 'production')){
+    serverType = args[3];  //  area, logic, login or other servers
+    servereId = args[4]==undefined?null:args[4];
 }
+
 
 app.set('name', 'webrunner');
 app.set('env', env);
@@ -45,7 +45,7 @@ app.configure(function(){
 	  app.genHandler('./app/logic/handler');
 	  app.genRemote('./app/logic/remote');
       
-      startWebServer();
+    startWebServer();
 });
 
 // use is filter
@@ -54,12 +54,12 @@ app.configure('development',function(){
   app.set('database',__dirname+'/config/database.json');
   
   app.listenAll(app.get('servers'));  // listenAll servers on certain port
-})
+});
 
 app.configure('production',function(){
   app.set('servers', __dirname + '/config/servers-production.json');
   app.set('database',__dirname + '/config/database.json');
-  
+
   app.listen(app.serverType, app.serverId);  
 });
 
@@ -67,7 +67,7 @@ app.configure('production',function(){
 //master run other servers 
 app.configure('production', 'master', function(){
  app.runAll(app.get('servers'), 'master'); // run other servers except master
-})
+});
 
 
 app.configure(function(){
@@ -77,6 +77,6 @@ app.configure(function(){
 
 
 function startWebServer(){
-    //var app_express = require('./app_express');
-    //console.log(' express web server started');
+    var app_express = require('./app_express');
+    console.log(' express web server started');
 }
