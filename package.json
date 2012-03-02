@@ -14,7 +14,7 @@
   , "redis": ">=0.7.1"
   , "seq-queue": ">=0.0.1"
   , "mail-box": ">=0.0.1"
-  , "data-sync": ">=0.0.1"
+  , "data-sync": ">=0.0.2"
   , "mime": "1.2.5"
   , "coffee-script":">=1.2.0"
   , "debug": "*"
