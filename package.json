@@ -16,6 +16,7 @@
   , "mail-box": ">=0.0.1"
   , "data-sync": ">=0.0.1"
   , "mime": "1.2.5"
+  , "coffee-script":">=1.2.0"
   , "debug": "*"
   }, 
   "devDependencies": {
