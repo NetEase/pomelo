@@ -17,7 +17,7 @@ var serverId = '';
 
 if ((args.length >= 4) && (env == 'production')){
     serverType = args[3];  //  area, logic, login or other servers
-    servereId = args[4]==undefined?null:args[4];
+    serverId = args[4]==undefined?null:args[4];
 }
 
 
@@ -26,7 +26,7 @@ app.set('env', env);
 app.set('serverType', serverType);
 app.set('serverId', serverId);
 
-console.log('before app.configure');
+console.log('before app.configure with ' + '[serverType]:' + serverType + ' [serverId]:'  + serverId);
 
 app.configure(function(){
 	  app.use(app.router); //filter out requests
