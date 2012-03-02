@@ -1,5 +1,6 @@
 .project
-node_modules/
 logs/
+node_modules/
 .project
 .settings/
+
