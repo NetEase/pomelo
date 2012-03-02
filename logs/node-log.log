@@ -1517,3 +1517,584 @@ before app.configure
 [connector] server socket connected!
 [connector server] get msg: [object Object]
  [handle session] route: undefined params: undefined
+app.init invoked
+before app.configure
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+app.init invoked
+before app.configure
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+app.init invoked
+before app.configure
+[application.use] route: [object Object] handler:undefined
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+[application.use] route: undefined handler:undefined
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+[application.use] route: [object Object] handler:undefined
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+[application.use] route: undefined handler:undefined
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: undefined
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+pomelo getApplication app: undefined
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+[callbackInHandler] in session handler, index: 0
+ [filterManager.doFilterInternal] fIndex: 1 stack.length: 2  session: [object Object]
+pomelo getApplication app: [object Object]
+handleManager app: [object Object]
+[handleManager]  params: "{sourceUserId:10, targetUserId: 20}"
+[handler.kick]  params: "{sourceUserId:10, targetUserId: 20}"
+[handle kick] with session: area.handler.fightHandler.kick sUserId: undefined tUserId: undefined
+[callbackInHandler] in session handler, index: 1
+ [filterManager.doFilterInternal] fIndex: 2 stack.length: 2  session: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+[callbackInHandler] in session handler, index: 0
+ [filterManager.doFilterInternal] fIndex: 1 stack.length: 2  session: [object Object]
+pomelo getApplication app: [object Object]
+handleManager app: [object Object]
+[handleManager]  params: "{sourceUserId:10, targetUserId: 20}"
+[handler.kick]  params: {sourceUserId:10, targetUserId: 20}
+[handle kick] with session: area.handler.fightHandler.kick sUserId: undefined tUserId: undefined
+[callbackInHandler] in session handler, index: 1
+ [filterManager.doFilterInternal] fIndex: 2 stack.length: 2  session: [object Object]
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+[callbackInHandler] in session handler, index: 0
+ [filterManager.doFilterInternal] fIndex: 1 stack.length: 2  session: [object Object]
+pomelo getApplication app: [object Object]
+handleManager app: [object Object]
+[handleManager]  params: "{sourceUserId:10, targetUserId: 20}"
+[handler.kick]  params: {sourceUserId:10, targetUserId: 20}
+[handle kick] with session: area.handler.fightHandler.kick sUserId: undefined tUserId: undefined
+[callbackInHandler] in session handler, index: 1
+ [filterManager.doFilterInternal] fIndex: 2 stack.length: 2  session: [object Object]
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+[callbackInHandler] in session handler, index: 0
+ [filterManager.doFilterInternal] fIndex: 1 stack.length: 2  session: [object Object]
+pomelo getApplication app: [object Object]
+handleManager app: [object Object]
+[handleManager]  params: "{sourceUserId:10, targetUserId: 20}"
+[handler.kick]  params: {sourceUserId:10, targetUserId: 20}
+[handle kick] with session: area.handler.fightHandler.kick sUserId: undefined tUserId: undefined
+[callbackInHandler] in session handler, index: 1
+ [filterManager.doFilterInternal] fIndex: 2 stack.length: 2  session: [object Object]
+[connector] server socket connected!
+app.init invoked
+before app.configure
+filterManager.use route: * handler: [object Object]
+[app listenListenAll] listen on servers invoked [object Object]
+[app listen] listen on servers invoked {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+ [connector server] start listen on server: {"id":"connector-server-1","host":"127.0.0.1","port":5050}
+   [36minfo  -[39m 'socket.io started'
+[app listen] listen on servers invoked {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+ [logic server] start listen on server: {"id":"logic-server-1","host":"127.0.0.1","port":6050}
+[app listen] listen on servers invoked {"id":"area-server-1","host":"127.0.0.1","port":8050}
+ [area server] start listen on server: {"id":"area-server-1","host":"127.0.0.1","port":8050}
+[app listen] listen on servers invoked {"id":"login-server-1","host":"127.0.0.1","port":9050}
+ [login server] start listen on server: {"id":"login-server-1","host":"127.0.0.1","port":9050}
+filterManager.use route: * handler: [object Object]
+ express web server started
+[connector] server socket connected!
+[connector] server socket connected!
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+[callbackInHandler] in session handler, index: 0
+ [filterManager.doFilterInternal] fIndex: 1 stack.length: 2  session: [object Object]
+pomelo getApplication app: [object Object]
+handleManager app: [object Object]
+[handleManager]  params: "{sourceUserId:10, targetUserId: 20}"
+[handler.kick]  params: {sourceUserId:10, targetUserId: 20}
+[handle kick] with session: area.handler.fightHandler.kick sUserId: undefined tUserId: undefined
+[callbackInHandler] in session handler, index: 1
+ [filterManager.doFilterInternal] fIndex: 2 stack.length: 2  session: [object Object]
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+[callbackInHandler] in session handler, index: 0
+ [filterManager.doFilterInternal] fIndex: 1 stack.length: 2  session: [object Object]
+pomelo getApplication app: [object Object]
+handleManager app: [object Object]
+[handleManager]  params: "{sourceUserId:10, targetUserId: 20}"
+[handler.kick]  params: {sourceUserId:10, targetUserId: 20}
+[handle kick] with session: area.handler.fightHandler.kick sUserId: undefined tUserId: undefined
+[callbackInHandler] in session handler, index: 1
+ [filterManager.doFilterInternal] fIndex: 2 stack.length: 2  session: [object Object]
+[connector] server socket connected!
+[connector] server socket connected!
+[connector] server socket connected!
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: "{sourceUserId:10, targetUserId: 20}"
+[callbackInHandler] in session handler, index: 0
+ [filterManager.doFilterInternal] fIndex: 1 stack.length: 2  session: [object Object]
+pomelo getApplication app: [object Object]
+handleManager app: [object Object]
+[handleManager]  params: "{sourceUserId:10, targetUserId: 20}"
+[handler.kick]  params: {sourceUserId:10, targetUserId: 20}
+[handle kick] with session: area.handler.fightHandler.kick sUserId: undefined tUserId: undefined
+[callbackInHandler] in session handler, index: 1
+ [filterManager.doFilterInternal] fIndex: 2 stack.length: 2  session: [object Object]
+[connector] server socket connected!
+[connector] server socket connected!
+[connector server] get msg: [object Object]
+ [filterManager.doFilterInternal] fIndex: 0 stack.length: 2  session: [object Object]
+ [handle session] route: area.handler.fightHandler.kick params: {"sourceUserId":10,"targetUserId":20}
+[callbackInHandler] in session handler, index: 0
+ [filterManager.doFilterInternal] fIndex: 1 stack.length: 2  session: [object Object]
+pomelo getApplication app: [object Object]
+handleManager app: [object Object]
+[handleManager]  params: {"sourceUserId":10,"targetUserId":20}
+[handler.kick]  params: [object Object]
+[handle kick] with session: area.handler.fightHandler.kick sUserId: 10 tUserId: 20
+[callbackInHandler] in session handler, index: 1
+ [filterManager.doFilterInternal] fIndex: 2 stack.length: 2  session: [object Object]

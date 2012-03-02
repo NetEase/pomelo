@@ -1,7 +1,8 @@
 var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
+var handlerManager = require('../../lib/handlerManager');
 
-var app = module.exports = pomelo();
+var app = module.exports = pomelo.createApplication();
 
 
 var args = process.argv;
@@ -70,7 +71,7 @@ app.configure('production', 'master', function(){
 
 
 app.configure(function(){
-  app.use(app.handlerManager); //the last handler
+  app.use(handlerManager); //the last handler
   startWebServer();
 });
 
