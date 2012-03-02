@@ -29,7 +29,7 @@ app.set('serverId', serverId);
 console.log('before app.configure');
 
 app.configure(function(){
-	  app.use(app.router); //filter out requests
+	  //app.use(app.router); //filter out requests
 	  app.use(logFilter); //filter out requests
 	  app.set('scheduler', '../config/scheduler.coffee');
 	  app.enabled('scheduler');
@@ -45,7 +45,6 @@ app.configure(function(){
 	  app.genHandler('./app/logic/handler');
 	  app.genRemote('./app/logic/remote');
       
-      startWebServer();
 });
 
 // use is filter
@@ -72,6 +71,7 @@ app.configure('production', 'master', function(){
 
 app.configure(function(){
   app.use(app.handlerManager); //the last handler
+  startWebServer();
 });
 
 
