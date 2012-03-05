@@ -39,19 +39,19 @@ app.configure(function(){
 	  app.genRemote('../lib/connector/remote');
 	  
 	  //user proxy
-	  app.genHandler('./app/connector/handler');
+//	  app.genHandler('connector', __dirname + '/app/connector/handler');
 	  app.genRemote('./app/connector/remote');
-	  app.genHandler('./app/area/handler');
+	  app.genHandler('area', __dirname + '/app/area/handler');
 	  app.genRemote('./app/area/remote');
-	  app.genHandler('./app/logic/handler');
+//	  app.genHandler('logic', __dirname + '/app/logic/handler');
 	  app.genRemote('./app/logic/remote');
       
 });
 
 // use is filter
 app.configure('development',function(){
-  app.set('servers', __dirname+'/config/servers-development.json');
-  app.set('database',__dirname+'/config/database.json');
+  app.set('servers', __dirname + '/config/servers-development.json');
+  app.set('database', __dirname + '/config/database.json');
   
   app.listenAll(app.get('servers'));  // listenAll servers on certain port
 });
