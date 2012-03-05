@@ -73,7 +73,8 @@ app.configure('production', 'master', function(){
 
 app.configure(function(){
   app.use(handlerManager); //the last handler
-  startWebServer();
+  if (app.serverType==='master')
+  	startWebServer();
 });
 
 process.on('uncaughtException', function(err) {
