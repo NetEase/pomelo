@@ -73,7 +73,7 @@ app.configure('production', 'master', function(){
 
 app.configure(function(){
   app.use(handlerManager); //the last handler
-  if (app.serverType==='master')
+  if (env === 'development' || app.serverType==='master')
   	startWebServer();
 });
 
