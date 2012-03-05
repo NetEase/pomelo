@@ -61,6 +61,7 @@ app.configure('production',function(){
   app.set('database',__dirname + '/config/database.json');
 
   app.listen(app.serverType, app.serverId);  
+  app.startMonitor();
 });
 
 
@@ -75,7 +76,9 @@ app.configure(function(){
   startWebServer();
 });
 
-
+process.on('uncaughtException', function(err) {
+	logger.error('Caught exception: ' + err.stack);
+});
 
 function startWebServer(){
     var app_express = require('./app_express');
