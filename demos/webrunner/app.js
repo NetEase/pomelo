@@ -33,18 +33,17 @@ app.configure(function(){
 	  //app.use(app.router); //filter out requests
 	  app.use(logFilter); //filter out requests
 	  app.set('scheduler', __dirname+ '/config/scheduler.json');
-	  app.enable('scheduler');
-	  console.log("After enable scheduler");
+	  app.enabled('scheduler');
 	  
 	   // 全部生成代理
 	  app.genRemote('../lib/connector/remote');
-	  
+	 
 	  //user proxy
-	  app.genHandler('./app/connector/handler');
+//  app.genHandler('connector', __dirname + '/app/connector/handler');
 	  app.genRemote('./app/connector/remote');
-	  app.genHandler('./app/area/handler');
+	  app.genHandler('area', __dirname + '/app/area/handler');
 	  app.genRemote('./app/area/remote');
-	  app.genHandler('./app/logic/handler');
+//  app.genHandler('logic', __dirname + '/app/logic/handler');
 	  app.genRemote('./app/logic/remote');
       
 });
@@ -62,6 +61,7 @@ app.configure('production',function(){
   app.set('database',__dirname + '/config/database.json');
 
   app.listen(app.serverType, app.serverId);  
+  app.startMonitor();
 });
 
 
@@ -73,10 +73,13 @@ app.configure('production', 'master', function(){
 
 app.configure(function(){
   app.use(handlerManager); //the last handler
-  startWebServer();
+  if (env === 'development' || app.serverType==='master')
+  	startWebServer();
 });
 
-
+process.on('uncaughtException', function(err) {
+	logger.error('Caught exception: ' + err.stack);
+});
 
 function startWebServer(){
     var app_express = require('./app_express');
