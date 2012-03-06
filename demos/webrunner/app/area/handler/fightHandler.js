@@ -13,7 +13,7 @@ handler.kick = function(session, fn){
     // use mail box to send back to connector
     //proxy.connector.sessionManager.send(session, {"blood": blood});
     
-    utils.invokeCallback(fn,session);
+    utils.invokeCallback(fn, null, session);
 }
 
 
