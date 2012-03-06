@@ -13,6 +13,7 @@
   , "mysql": ">=0.9.5"
   , "redis": ">=0.7.1"
   , "seq-queue": ">=0.0.1"
+  , "pomelo-schedule": ">=0.2.1"
   , "mail-box": ">=0.0.1"
   , "data-sync": ">=0.0.2"
   , "mime": "1.2.5"
