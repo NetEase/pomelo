@@ -1,0 +1,20 @@
+{
+  "appenders": [
+    { 
+	    "type": "file", 
+	    "filename": "./logs/node-log.log", 
+	    "fileSize": 1048576, 
+	    "layout": { 
+       	 	"type": "messagePassThrough" 
+      	} 
+	    ,"backups": 5
+    }, 
+    {
+    	"type": "console"
+    }
+  ],
+  
+  "levels": {
+    "tests":  "DEBUG"
+  }
+}
