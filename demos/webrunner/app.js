@@ -1,6 +1,5 @@
 var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
-var monitorFilter = require('../../lib/filters/monitorFilter');
 var handlerManager = require('../../lib/handlerManager');
 
 var app = module.exports = pomelo.createApplication();
@@ -32,22 +31,30 @@ console.log('before app.configure with ' + '[serverType]:' + serverType + ' [ser
 
 app.configure(function(){
 	  //app.use(app.router); //filter out requests
-	  app.use(monitorFilter);
 	  app.use(logFilter); //filter out requests
-	  app.set('scheduler', __dirname+ '/config/scheduler.json');
+	  app.set('scheduler', '../config/scheduler.coffee');
 	  app.enabled('scheduler');
 	  
-	   // 全部生成代理
-	  app.genRemote('../lib/connector/remote');
-	 
 	  //user proxy
-//  app.genHandler('connector', __dirname + '/app/connector/handler');
-	  app.genRemote('./app/connector/remote');
-	  app.genHandler('area', __dirname + '/app/area/handler');
-	  app.genRemote('./app/area/remote');
-//  app.genHandler('logic', __dirname + '/app/logic/handler');
-	  app.genRemote('./app/logic/remote');
-      
+	  app.genProxy('connector', __dirname + '/app/connector/remote');
+	  app.genProxy('area', __dirname + '/app/area/remote');
+	  app.genProxy('logic', __dirname + '/app/logic/remote');
+});
+
+//generate handlers and remote services, but not listen now.
+app.configure('production|development', 'area', function(){
+	app.genHandler('area', __dirname + '/app/area/handler');
+	app.genRemote('area', __dirname + '/app/area/remote');
+});
+
+app.configure('production|development', 'logic', function(){
+	app.genHandler('logic', __dirname + '/app/logic/handler');
+	app.genRemote('logic', __dirname + '/app/logic/remote');
+});
+
+app.configure('production|development', 'connector', function(){
+	app.genHandler('connector', __dirname + '/app/connector/handler');
+	app.genRemote('connector', __dirname + '/app/connector/remote');
 });
 
 // use is filter
@@ -63,16 +70,13 @@ app.configure('production',function(){
   app.set('database',__dirname + '/config/database.json');
 
   app.listen(app.serverType, app.serverId);  
-  if (app.serverType!='master')
-  	app.startMonitor();
+  app.startMonitor();
 });
-
 
 //master run other servers 
 app.configure('production', 'master', function(){
  app.runAll(app.get('servers'), 'master'); // run other servers except master
 });
-
 
 app.configure(function(){
   app.use(handlerManager); //the last handler
@@ -80,9 +84,9 @@ app.configure(function(){
   	startWebServer();
 });
 
-//process.on('uncaughtException', function(err) {
-	//logger.error('Caught exception: ' + err.stack);
-//});
+process.on('uncaughtException', function(err) {
+	logger.error('Caught exception: ' + err.stack);
+});
 
 function startWebServer(){
     var app_express = require('./app_express');

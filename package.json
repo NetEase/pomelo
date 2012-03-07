@@ -21,6 +21,8 @@
   , "coffee-script":">=1.2.0"
   , "debug": "*"
   , "module-loader": ">=0.0.1"
+  , "local-proxy": ">=0.0.1"
+  , "rpc-gateway": ">=0.0.1"
   }, 
   "devDependencies": {
   	"flow": ">=0.2.2"
