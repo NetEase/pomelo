@@ -35,7 +35,7 @@ function init(params){
       if (data.code == -1) alert(data.msg);
     }
     console.log('received message type: '+data.type+' code:'+data.code+' body:'+ JSON.stringify(data));
-    
+    document.getElementById('result').value += JSON.stringify(data);
 //    msgHandler = msgHandlerMap[type];
 //    if(!!msgHandler && typeof(msgHandler)=='function')
 //      msgHandler(data);

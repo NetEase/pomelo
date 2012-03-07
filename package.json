@@ -16,11 +16,14 @@
   , "pomelo-schedule": ">=0.2.1"
   , "pomelo-monitor": ">=0.1.0"
   , "mail-box": ">=0.0.1"
+  , "mail-router": ">=0.0.1"
   , "data-sync": ">=0.0.2"
   , "mime": "1.2.5"
   , "coffee-script":">=1.2.0"
   , "debug": "*"
   , "module-loader": ">=0.0.1"
+  , "local-proxy": ">=0.0.1"
+  , "rpc-gateway": ">=0.0.1"
   }, 
   "devDependencies": {
   	"flow": ">=0.2.2"

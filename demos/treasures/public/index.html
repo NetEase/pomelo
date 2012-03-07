@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!--css样式文件-->
+        <link href="css/client.css" rel="stylesheet" type="text/css">
+				
+				<!--colorbox js start-->
+				<script src="./js/lib/colorbox/colorbox_header.js"></script>
+        <script src="./js/lib/colorbox/Box2dWeb-2.1.a.3.js"></script>
+        <script src="./js/lib/colorbox/JXGUtil.js"></script>
+        <script src="./js/lib/colorbox/base.js"></script>
+        <script src="./js/lib/colorbox/base64.js"></script>
+        <script src="./js/lib/colorbox/debug.js"></script>
+        <script src="./js/lib/colorbox/geometry.js"></script>
+        <script src="./js/lib/colorbox/gzip.js"></script>
+        <script src="./js/lib/colorbox/helper.js"></script>
+        <script src="./js/lib/colorbox/path.js"></script>
+        <script src="./js/lib/colorbox/platform.js"></script>
+        <script src="./js/lib/colorbox/processing.js"></script>
+        <script src="./js/lib/colorbox/util.js"></script>
+        <script src="./js/lib/colorbox/xmlload.js"></script>
+        <script src="./js/lib/colorbox/animate.js"></script>
+        <script src="./js/lib/colorbox/director.js"></script>
+        <script src="./js/lib/colorbox/level.js"></script>
+        <script src="./js/lib/colorbox/logic.js"></script>
+        <script src="./js/lib/colorbox/node.js"></script>
+        <script src="./js/lib/colorbox/physicsnode.js"></script>
+        <script src="./js/lib/colorbox/pipe.js"></script>
+        <script src="./js/lib/colorbox/scene.js"></script>
+        <script src="./js/lib/colorbox/tiled_map.js"></script>
+        <script src="./js/lib/colorbox/model.js"></script>
+        <script src="./js/lib/colorbox/view.js"></script>
+        <script src="./js/lib/colorbox/component.js"></script>
+        <script src="./js/lib/colorbox/matrix.js"></script>
+        <script src="./js/lib/colorbox/clocker.js"></script>
+        <script src="./js/lib/colorbox/sound.js"></script>
+        <script src="./js/lib/colorbox/colorbox_module.js"></script>
+		<!--colorbox js end-->
+				
+		<!--js文件，控制逻辑-->
+		<script src="./js/client/mapView.js"></script>
+        <script src="./js/client/roleView.js"></script>
+        <script src="js/client/treasureView.js" type="text/javascript"></script>
+        <script src="js/client/vo/voData.js" type="text/javascript"></script>
+        <script src="js/lib/socket.io.js" type="text/javascript"></script>
+        <script src="js/client/clientManager.js" type="text/javascript"></script>
+        <script src="js/client/client.js" type="text/javascript"></script>
+        <script src="js/client/switchManager.js" type="text/javascript"></script>
+        <script src="js/client/heroSelectView.js" type="text/javascript"></script>
+        <script src="js/client/sceneManager.js" type="text/javascript"></script>
+        <script src="js/client/rankManager.js" type="text/javascript"></script>
+        <script src="js/client/tickViewManager.js" type="text/javascript"></script>
+        <script src="js/client/serverMsgHandler.js" type="text/javascript"></script>
+
+        <script src="js/Constant.js" type="text/javascript"> </script>
+        <script src="./js/client/main.js"></script>
+    </head>
+    <body>
+        <div id="loginPanel" class="m-login">
+            <div class="m-input">
+                <label>帐号： </label>
+                <input id="loginUser" type="text"/>
+                <br/>
+                <label>密码： </label>
+                <input id="loginPwd" type="password"/>
+                <br/>
+                <input id="login" type='button' value="登陆" onclick=""/>
+            </div>
+        </div>
+        <div id="heroSelectPanel" class="m-heroSelect m-switch-model-hiden">
+            <div class="m-hero">
+                <div id="boyHeros">
+                    <img id="0001" name="m-roleImg" class="m-hero-selected" src="images/heros/0001.png" onclick="">
+					<img id="0002" name="m-roleImg" src="images/heros/0002.png" onclick="">
+					<img id="0005" name="m-roleImg" src="images/heros/0005.png" onclick="">
+					<img id="0006" name="m-roleImg" src="images/heros/0006.png" onclick="">
+					<img id="0009" name="m-roleImg" src="images/heros/0009.png" onclick="">
+					<img id="0010" name="m-roleImg" src="images/heros/0010.png" onclick="">
+                </div>
+                <div id="girlHeros">
+                	<img id="0003" name="m-roleImg" src="images/heros/0003.png" onclick="">
+					<img id="0004" name="m-roleImg" src="images/heros/0004.png" onclick="">
+                    <img id="0007" name="m-roleImg" src="images/heros/0007.png" onclick="">
+					<img id="0008" name="m-roleImg" src="images/heros/0008.png" onclick="">
+					<img id="0011" name="m-roleImg" src="images/heros/0011.png" onclick="">
+					<img id="0012" name="m-roleImg" src="images/heros/0012.png" onclick="">
+                </div>
+            </div>
+            <div class="m-hero-input">
+                <label>取名：</label>
+                <input id="gameUserName" type="text">
+                <br/>
+                <input id="heroSelectBtn" type='button' value="选择英雄" onclick=""/>
+            </div>
+        </div>
+				
+        <div id="canvasPanel" class="m-gameview m-switch-model-hiden">
+		</div>
+		
+		<div id="rank-view" class='m-switch-model-hiden'>
+		</div>
+		
+		<div id="tick-view" class='m-switch-model-hiden'>
+			宝物刷新倒计时：<span id='tick-label'></span>
+		</div>
+		
+		
+    </body>
+
+</html>
