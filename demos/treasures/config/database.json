@@ -1,0 +1,18 @@
+{
+"development": 
+    { 
+      "host" : "192.168.130.107", 
+      "port" : "3306", 
+      "database" : "pomelo", 
+      "username" : "xcc", 
+      "password" : "" 
+    },
+"production": 
+    {
+     "host" : "192.168.130.107", 
+     "port" : "3306", 
+     "database" : "pomelo", 
+     "username" : "xcc", 
+     "password" : "" 
+    }
+}
