@@ -4,27 +4,26 @@ var handler = module.exports;
  * Login server
  */
 
-
-var logger = require('../util/log/log').getLogger(__filename);
-
-
-
+var utils = require('../../../../../lib/util/utils');
+var logger = require('../../../../../lib/util/log/log').getLogger(_filename);
+var userService = require('../../service/userService');
 
 
-handler.checkPassport = function (msg, cb){
-  var msgBody = msg.body;
-  var username = msgBody.username;
-  var pwd = msgBody.password;
+
+handler.checkPassport = function (msg, session, cb){
+  var params = msg.params;
+  var username = params.username;
+  var pwd = params.password;
   
   logger.debug('Start check passport ',+{'username':username,'password':pwd});
   
   if(!!username && !! pwd){
-    logicServerClient.getUserInfo(username, pwd, function(err, data){
+    userService.getUserInfo(username, pwd, function(err, data){
     		if(!!err){
     			cb(err);
     		}else{
-	        logger.debug('Get userInfo from logic server:' + JSON.stringify(data));
-	        cb(null, {type: msg.type, body:data, code: 200}, {type: agentCommonConst.LOGINED, userInfo: {username: data.username,uid:data.uid, roleId: data.roleId}});
+    	        logger.debug('Get userInfo from logic server:' + JSON.stringify(data));
+    	        cb(null, {type: msg.type, body:data, code: 200}, {type: agentCommonConst.LOGINED, userInfo: {username: data.username,uid:data.uid, roleId: data.roleId}});
     		}
     });
   }else{
@@ -32,17 +31,17 @@ handler.checkPassport = function (msg, cb){
   }
 };
 
-handler.register = function(msg, cb){
-  var body = msg.body;
-  var username = body.username;
-  var name = body.name;
-  var pwd = body.password;
-  var roleId = body.roleId;
+handler.register = function(msg, session, cb){
+  var params = msg.params;
+  var username = params.username;
+  var name = params.name;
+  var pwd = params.password;
+  var roleId = params.roleId;
   
   logger.debug('Start register user ',{'username':username,'password':pwd});
   
   if(!!username && !!name && !!roleId){
-    logicServerClient.register(username, name, roleId, function(err, data){
+    userService.register(username, name, roleId, function(err, data){
     		if(!!err){
     			cb(err);
     		}else{

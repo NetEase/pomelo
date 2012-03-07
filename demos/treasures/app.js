@@ -22,7 +22,7 @@ if ((args.length >= 4) && (env == 'production')){
 }
 
 
-app.set('name', 'webrunner');
+app.set('name', '抢宝');
 app.set('env', env);
 app.set('serverType', serverType);
 app.set('serverId', serverId);
@@ -36,15 +36,16 @@ app.configure(function(){
 	  app.enabled('scheduler');
 	  
 	   // 全部生成代理
-	  app.genRemote('../lib/connector/remote');
+      
+	  app.genRemote('connector.remote.lib',__dirname+'/../lib/connector/remote');
 	  
 	  //user proxy
-	  app.genHandler('./app/connector/handler');
-	  app.genRemote('./app/connector/remote');
-	  app.genHandler('./app/area/handler');
-	  app.genRemote('./app/area/remote');
-	  app.genHandler('./app/logic/handler');
-	  app.genRemote('./app/logic/remote');
+	  app.genHandler('connector.handler',__dirname + '/app/connector/handler');
+	  app.genRemote('connector.remote',__dirname + '/app/connector/remote');
+	  app.genHandler('area.handler',__dirname + '/app/area/handler');
+	  app.genRemote('area.remote',__dirname + '/app/area/remote');
+	  app.genHandler('logic.handler',__dirname + '/app/logic/handler');
+	  app.genRemote('logic.remote',__dirname + '/app/logic/remote');
       
 });
 

@@ -1,7 +1,7 @@
 /**
  * 宝贝的dao
  */
-var redis = require('../../store/redis/redisClient').redis;
+var redis = require('../dao/redis/redisClient').redis;
 var logger = require('../../util/log/log').getLogger(__filename);
 var utils = require('../../util/Utils'); 
 var trConfig = require('../../config/scene/TreasureConfig');

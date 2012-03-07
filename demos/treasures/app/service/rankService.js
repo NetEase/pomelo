@@ -1,7 +1,7 @@
-var utils = require('../../util/Utils');
-var dbclient = require('../../dao/mysql/mysql');
-var WGError = require('../../meta/WGError');
-var comConst = require('../../common/Constant');
+var utils = require('../../../../lib/util/utils');
+var dbclient = require('../dao/mysql/mysql');
+var WGError = require('../meta/WGError');
+var comConst = require('../config/constant');
 
 var rankService = module.exports;
 

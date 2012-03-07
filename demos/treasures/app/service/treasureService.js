@@ -1,11 +1,11 @@
-var utils = require('../../util/Utils');
-var Treasure = require('../../meta/Treasure');
-var WGError = require('../../meta/WGError');
-var logger = require('../../util/log/log').getLogger(__filename);
-var trConfig = require('../../config/scene/TreasureConfig');
-var rs = require('./RankService');
-var ServerConstant = require('../../common/ServerConstant');
-var treasureDao = require('../../dao/scene/TreasureDao');
+var utils = require('../../../../lib/util/utils');
+var treasure = require('../meta/treasure');
+var WGError = require('../meta/WGError');
+var logger = require('../../../../lib/util/log/log').getLogger(__filename);
+var trConfig = require('../config/treasureConfig');
+var rs = require('./rankService');
+var serverConstant = require('../config/serverConstant');
+var treasureDao = require('../dao/treasureDao');
 
 var trservice = module.exports;
 var allTreasureInfo = trConfig.TREASURE_DATA;
@@ -15,7 +15,7 @@ var lastGenTime = new Date().getTime();
 /**
  * 刷新宝物倒计时
  */
-var leftTime = ServerConstant.treasurePeriod;
+var leftTime = serverConstant.treasurePeriod;
 
 trservice.generateTreasures = function (sceneId,cb){
 	logger.debug("in treasure service:"+sceneId);
@@ -27,7 +27,7 @@ trservice.generateTreasures = function (sceneId,cb){
 			var posX = Math.floor(Math.random() * 2001),
 				posY = Math.floor(Math.random() * 1201),
 				trId = allTreasureId[newIdList[i]];
-			tmpLTreasure[trId] = Treasure.create({
+			tmpLTreasure[trId] = treasure.create({
 			  id: trId,
 				imgId: trId,
 				name: allTreasureInfo[trId]['name'],

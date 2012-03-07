@@ -33,10 +33,10 @@ handler.addUser = function(uid,cb) {
  * 2、新增新的寻路数据
  * @param move
  */
-handler.addMove = function(move) {
-	delete this.moveMap[move.uid];
-	this.moveMap[move.uid] = move;
-},
+//handler.addMove = function(move) {
+//	delete this.moveMap[move.uid];
+//	this.moveMap[move.uid] = move;
+//},
         
 /**
  * 用户移动
