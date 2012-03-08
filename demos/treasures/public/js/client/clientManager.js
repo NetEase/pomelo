@@ -13,7 +13,6 @@ var socketClient = require('client');
 
 
 //暴露的接口和对象
-exports.msgHandlerMap = msgHandlerMap;
 exports.init = init;
 exports.login = login;
 exports.register = register;
@@ -29,7 +28,7 @@ var sid = 0;
 
 function init(){
   //初始化socketClient
-  socketClient.init({msgHandlerMap: msgHandlerMap});
+  socketClient.init();
 }
 
 /**
@@ -55,7 +54,7 @@ function login(){
   if(localStorage){
     localStorage.setItem('username', username);
   }
-  socketClient.pushMessage({route:"login.loginHandler.checkPassport", params:{username: username, password: pwd}});
+  socketClient.pushMessage({route:"logic.loginHandler.checkPassport", params:{username: username, password: pwd}});
 }
 
 /**
@@ -81,7 +80,7 @@ function register(){
     alert('干嘛蛋疼取这么长的名字。。。');
   }
   else {
-    socketClient.pushMessage({route:"login.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
+    socketClient.pushMessage({route:"logic.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
   }
 }
 

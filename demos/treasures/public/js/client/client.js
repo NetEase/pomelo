@@ -12,22 +12,20 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 
 
 	function pushMessage(msg){
-	  if(!!msg){
-        msg.timeStamp = new Date().getTime();
-	    socket.emit('message', msg);
-	  }
-	  else {
-	    console.log('Error message type!');
-	  }
+      console.log('[client.pushMessage], msg: '+msg.route+ ' params:'+JSON.stringify(msg.params));
+	    if(!!msg)
+            socket.emit('message', msg);
+        else
+            console.log('Error message type!');
 	}
 
-	function init(params){
+	function init(){
 	  //使用参数值进行初始化
 	  //线上的配置
 	  socket = io.connect('http://localhost:5050');
 	  
 	  socket.on('connect', function(data){
-	    console.log("On connect, yes we connected" + data);
+	    console.log("On connect, yes we connected" + JSON.stringify(data));
 	  });
 
 

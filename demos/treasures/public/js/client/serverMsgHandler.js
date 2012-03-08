@@ -4,7 +4,7 @@
  * 负责客户端的初始化工作
  */
 
-__resources__["/respHandler.js"] = {meta: {mimetype: "application/javascript"}, data: function(exports, require, module, __filename, __dirname) {
+__resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascript"}, data: function(exports, require, module, __filename, __dirname) {
 
     
 	var switchManager = require('switchManager'); //切换管理
