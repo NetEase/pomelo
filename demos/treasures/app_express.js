@@ -5,7 +5,7 @@ app.configure(function(){
     app.use(express.methodOverride());
     app.use(express.bodyParser());
     app.use(app.router);
-    app.set('view engine', 'html');
+    app.set('view engine', 'jade');
     app.set('views', __dirname + '/public');
     app.set('view options', {layout: false});
     app.set('basepath',__dirname + '/public');
@@ -27,4 +27,4 @@ app.get('/', function(req, res){
   res.render('index',{userName: 'xcc'});
 });
 
-app.listen(3000);
+app.listen(3001);

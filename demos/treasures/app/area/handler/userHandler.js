@@ -1,6 +1,6 @@
 var handler = module.exports;
 
-var sceneDao = require('..\dao\sceneDao');
+var sceneDao = require('../../dao/sceneDao');
     
 
 /**
@@ -9,7 +9,8 @@ var sceneDao = require('..\dao\sceneDao');
 		 * @param uid
 		 * @param cb
 		 */
-handler.removeUser = function(uid) {
+handler.removeUser = function(msg, session) {
+    var uid = msg.params.uid;
     logger.debug('user logout :'+uid);
     sceneDao.removeOnline(this.name,uid);
     //delete this.uidList[uid];
@@ -20,7 +21,8 @@ handler.removeUser = function(uid) {
 		 * @param uid
 		 * @param cb
 		 */
-handler.addUser = function(uid,cb) {
+handler.addUser = function(msg, session) {
+    var uid = msg.params.uid;
 	logger.debug('user login :'+uid+","+this.name);
 	var sceneId = this.name;
 	userService.getUserById(uid,function(err, data){
@@ -45,7 +47,7 @@ handler.addUser = function(uid,cb) {
  * 
  * @param msg
  */
-handler.move = function (msg, cb){
+handler.move = function (msg, session){
 	var uid = msg.context.uid;
 	var startx = msg.path[0].x;
 	var starty = msg.path[0].y;
@@ -64,6 +66,6 @@ handler.move = function (msg, cb){
 		var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 		var event = Event.create({period: period, loop: false, method: "moveCalc", params: move, host: handler.host, hash: handler.getSceneServer()+":moveCalc:"+move.uid});
 		addEvent(event);
-		cb(null,{type: msg.type,code: 200});
+		session.response(null,{type: msg.type,code: 200});
 	});
 };

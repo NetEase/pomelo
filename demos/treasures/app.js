@@ -35,18 +35,28 @@ app.configure(function(){
 	  app.set('scheduler', '../config/scheduler.coffee');
 	  app.enabled('scheduler');
 	  
-	   // 全部生成代理
+	  app.genProxy('connector', __dirname + '/app/connector/remote');
+	  app.genProxy('area', __dirname + '/app/area/remote');
+	  app.genProxy('logic', __dirname + '/app/logic/remote');
+	  //app.genProxy('login', __dirname + '/app/login/remote');
       
-	  app.genRemote('connector.remote.lib',__dirname+'/../lib/connector/remote');
-	  
-	  //user proxy
-	  app.genHandler('connector.handler',__dirname + '/app/connector/handler');
-	  app.genRemote('connector.remote',__dirname + '/app/connector/remote');
-	  app.genHandler('area.handler',__dirname + '/app/area/handler');
-	  app.genRemote('area.remote',__dirname + '/app/area/remote');
-	  app.genHandler('logic.handler',__dirname + '/app/logic/handler');
-	  app.genRemote('logic.remote',__dirname + '/app/logic/remote');
-      
+});
+
+
+//generate handlers and remote services, but not listen now.
+app.configure('production|development', 'area', function(){
+	app.genHandler('area', __dirname + '/app/area/handler');
+	app.genRemote('area', __dirname + '/app/area/remote');
+});
+
+app.configure('production|development', 'logic', function(){
+	app.genHandler('logic', __dirname + '/app/logic/handler');
+	app.genRemote('logic', __dirname + '/app/logic/remote');
+});
+
+app.configure('production|development', 'connector', function(){
+	app.genHandler('connector', __dirname + '/app/connector/handler');
+	app.genRemote('connector', __dirname + '/app/connector/remote');
 });
 
 // use is filter

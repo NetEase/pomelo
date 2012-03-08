@@ -1,14 +1,14 @@
 var UserService = module.exports;
-var logger = require('../../util/log/log').getLogger(__filename);
-var dbclient = require('../../dao/mysql/mysql');
-var comConst = require('../../common/Constant');
-var ServerConstant = require('../../common/ServerConstant');
-var WGError = require('../../meta/WGError');
+var logger = require('../../../../lib/util/log/log').getLogger(__filename);
+var dbclient = require('../dao/mysql/mysql');
+var comConst = require('../config/constant');
+var ServerConstant = require('../config/serverConstant');
+var WGError = require('../meta/WGError');
 
-var User = require('../../meta/User');
-var utils = require('../../util/Utils');
+var User = require('../meta/user');
+var utils = require('../../../../lib/util/utils');
 
-var ServerConstant = require('../../common/ServerConstant');
+var ServerConstant = require('../config/serverConstant');
 /**
  * 用户登录信息
  * @param username

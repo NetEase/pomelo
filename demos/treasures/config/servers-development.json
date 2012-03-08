@@ -1,14 +1,14 @@
 {
   "connector": [
-  	{"id": "connector-server-1", "host": "127.0.0.1", "port": 5050}
+  	{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050}
+  ], 
+  "login": [
+  	{"id": "login-server-1", "host": "127.0.0.1", "port": 4060}
   ], 
   "logic": [
   	{"id": "logic-server-1", "host": "127.0.0.1", "port": 6050}
   ], 
   "area": [
   	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050}
-  ], 
-  "login": [
-  	{"id": "login-server-1", "host": "127.0.0.1", "port": 9050}
   ]
 }

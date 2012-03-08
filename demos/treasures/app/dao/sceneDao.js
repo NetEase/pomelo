@@ -1,9 +1,9 @@
 /**
  * 场景服务的dao
  */
-var redis = require('../../store/redis/redisClient').redis;
-var logger = require('../../util/log/log').getLogger(__filename);
-var utils = require('../../util/Utils'); 
+var redis = require('./redis/redisClient').redis;
+var logger = require('../../../../lib/util/log/log').getLogger(__filename);
+var utils = require('../../../../lib/util/utils'); 
 
 
 var sceneDao = module.exports;
