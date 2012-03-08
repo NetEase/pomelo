@@ -6,5 +6,3 @@ exp.getUserInfo = function(uid, fn) {
 	logger.info('[userService.getUserInfo] recv request, uid:' + uid);
   utils.invokeCallback(fn, null, {uid: uid, username: 'username'});
 }
-
-
