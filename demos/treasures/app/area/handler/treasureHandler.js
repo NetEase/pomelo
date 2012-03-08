@@ -9,7 +9,7 @@ var treasureService = require('../../service/treasureService');
  * @param sceneId
  */ 
 
-handler.pickItem = function (msg, session, cb){
+handler.pickItem = function (msg, session){
     var params = msg.params;
     var userId = session.userId;
     var treasureId = params.treasureId;
@@ -20,7 +20,13 @@ handler.pickItem = function (msg, session, cb){
 		var msg={'type':commonConstant.PROTOCOL.SCENE.PICK_TREASURE, 'code':200 ,'body':{success:result,treasureId:treasureId}};
 		channelClient.publishState(msg);
 		handler.updateRankList();
-		utils.invokeCallback(cb, null, result);
+        if (err){
+        	session.response(err);
+        }
+        else{
+        	session.response(null, {result: result});
+        }
+		//utils.invokeCallback(cb, null, result);
 	});
 };
 
@@ -28,13 +34,19 @@ handler.pickItem = function (msg, session, cb){
  * 生成新的宝物配置
  * 宝物位置可能重叠，未区分位置
  */
-handler.generateTreasures = function(msg, session, cb){
+handler.generateTreasures = function(msg, session){
     var params = msg.params;
     var sceneId = 0;
 	logger.debug('generateTreasures event info'+sceneId);
 	treasureService.generateTreasures(sceneId,function(err,data){
         var msg={'type':clientConstant.CREATE_TREASURE, 'code':200 ,'body':data};
 		channelClient.publishState(msg);
+        if (err){
+        	session.response(err);
+        }
+        else{
+        	session.response(null, {data: data});
+        }
 	});
 };
 /**

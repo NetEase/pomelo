@@ -2,11 +2,11 @@
  * 宝贝的dao
  */
 var redis = require('../dao/redis/redisClient').redis;
-var logger = require('../../util/log/log').getLogger(__filename);
-var utils = require('../../util/Utils'); 
-var trConfig = require('../../config/scene/TreasureConfig');
-var Treasure = require('../../meta/Treasure');
-var WGError = require('../../meta/WGError');
+var logger = require('../../../../lib/util/log/log').getLogger(__filename);
+var utils = require('../../../../lib/util/utils'); 
+var trConfig = require('../config/treasureConfig');
+var Treasure = require('../meta/treasure');
+var WGError = require('../meta/WGError');
 
 var treasureDao = module.exports;
 
