@@ -127,7 +127,7 @@ UserService.register = function (username,name,roleId,cb){
 		} else {
 			var userId = res.insertId;
 			var user = User.create({uid:userId,username:username,roleId:roleId,name:name,level:level,sceneId:sceneId,x:x,y:y});
-			utils.invokeCallback(cb,null,user,{type:comConst.PROTOCOL.AGENT.REGISTERED,uid:userId});
+			utils.invokeCallback(cb,null,user);
 		}
 	});
 };

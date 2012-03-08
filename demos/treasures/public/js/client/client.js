@@ -19,7 +19,7 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
             console.log('Error message type!');
 	}
 
-	function init(){
+	function init(params){
 	  //使用参数值进行初始化
 	  //线上的配置
 	  socket = io.connect('http://localhost:5050');
@@ -33,14 +33,11 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	    var type = data.type;
 	    var code = data.code;
 	    if(!type){
-	      console.log('Message type error!');
+	      console.log('Message type error! data: ' + JSON.stringify(data));
 	      if (data.code == -1) alert(data.msg);
 	    }
-	    console.log('received message type: '+data.type+' code:'+data.code+' body:'+ JSON.stringify(data));
-	    
 	    var msgHandler = serverMsgHandler.msgHandlerMap[type];
         
-//	    msgHandler = msgHandlerMap[type];
 	    if(!!msgHandler && typeof(msgHandler)=='function')
 	      msgHandler(data);
 	  });

@@ -7,6 +7,7 @@
 __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascript"}, data: function(exports, require, module, __filename, __dirname) {
 
     
+	var clientManager = require('clientManager');
 	var switchManager = require('switchManager'); //切换管理
 	var sceneManager = require('sceneManager');
 	var heroSelectView = require('heroSelectView');//选角色管理
@@ -16,8 +17,6 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 	var tickViewManager = require('tickViewManager');
 
 
-//暴露的接口和对象
-exports.msgHandlerMap = msgHandlerMap;
 
 
 /**
@@ -147,13 +146,6 @@ var msgHandlerMap = {
   
 };
 
-function init(){
-  //初始化socketClient
-  socketClient.init({msgHandlerMap: msgHandlerMap});
-  
-  //注册事件处理函数
-  msgHandlerMap['onLogin'] = onLogin;
-}
 
 
 /**
@@ -168,12 +160,10 @@ function onPickTreasure(data){
 }
 
 function onLogin(data){
-   var userData = data.body;
-   var username = userData.username;
-   var uid = userData.uid;
+   var userData = data.userData;
    
-   sid = data.sid;
-   if (uid <= 0) { 
+   console.log('onLogin userData: '+JSON.stringify(userData));
+   if (userData.uid <= 0) { 
 //    alert("登录调用成功！用户不存在\n sessionId:" + sid + " code:" + data.code);
     //登陆成功，根据数据来判断是否需要选择角色:默认直接跳转
     switchManager.selectView("heroSelectPanel");
@@ -181,16 +171,16 @@ function onLogin(data){
 //    alert("登录调用成功！用户已经存在\n sessionId:" + sid + " code:" + data.code);
 //    loginUsername = "";
     
-    sceneManager.enterScene(userData, userData);
-    getCurrentScene();
+    clientManager.uid = userData.uid;
+    sceneManager.enterScene({}, userData);
+    //clientManager.getCurrentScene();
   }
 }
 
-function onRegister(data){
-   var userData = data.body;
+function onRegister(userData){
    var username = userData.username;
-   
-   if (sid <= 0) { 
+   var uid = userData.uid;
+   if (uid <= 0) { 
 //    alert("注册失败！用户不存在\n sessionId:" + data.sid + " code:" + data.code);
     //登陆成功，根据数据来判断是否需要选择角色:默认直接跳转
       switchManager.selectView("loginPanel");
@@ -198,8 +188,9 @@ function onRegister(data){
 //    alert("登录调用成功！用户已经存在\n sessionId:" + data.sid + " code:" + data.code);
 //    loginUsername = "";
       
-      sceneManager.enterScene(userData, userData);
-      getCurrentScene();
+      clientManager.uid = userData.uid;
+      sceneManager.enterScene({}, userData);
+      //clientManager.getCurrentScene();
   }  
 }
 
@@ -250,5 +241,8 @@ function onUserLeave(data){
   console.log("用户离开: " + JSON.stringify(data.body));
   sceneManager.getRolesManager().deleteRole(data.body.uid);
 }
+
+//暴露的接口和对象
+exports.msgHandlerMap = msgHandlerMap;
 
 }};
