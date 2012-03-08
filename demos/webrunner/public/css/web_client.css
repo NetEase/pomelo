@@ -1,0 +1,262 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: Verdana, Arial, sans-serif;
+}
+body {
+  background-color: #333;
+  overflow: hidden;
+}
+#container {
+  background-color: #000;
+  display: table-row;
+}
+#controls {
+  background-color: #222;
+  display: table-cell;
+  border-right: 1px solid #333;
+  width: 270px;
+}
+#controls2 {
+  overflow: auto;
+  vertical-align: top;
+}
+#right {
+  display: table-cell;
+  vertical-align: top;
+  position: relative;
+}
+.screen {
+  margin: 10px;
+}
+.screen .bar {
+  font-size:14px;
+  font-weight: bold;
+  background: #333;
+  color: #ccc;
+  text-shadow: #111 1px 1px;
+  padding: 3px 40px 3px 10px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  -webkit-border-top-left-radius: 6px;
+  -webkit-border-top-right-radius: 6px;
+  -moz-border-radius-topleft: 6px;
+  -moz-border-radius-topright: 6px;
+
+  border: 1px solid #333;
+  border-bottom: none;
+
+  background: -webkit-gradient(linear, left top, left bottom, from(#222), to(#333));
+  background: -moz-linear-gradient(top,  #222,  #333);
+  position: relative;
+  overflow: hidden;
+}
+.screen .bar .nodes {
+  font-size: 12px;
+}
+.screen .console {
+  padding: 10px;
+  font-size: 13px;
+  overflow: auto;
+  border: 1px solid #333;
+  border-top: none;
+  background-color: #111;
+  color: #00ff00;
+}
+.screen .console p,
+.screen .console p .label,
+.screen .console p .highlight {
+  font-family: Lucida Console, Courier New, Monaco5, monospace !important;
+  line-height: 15px;
+  font-size: 13px;
+}
+.screen .console p {
+  margin-bottom: 4px;
+  word-wrap: break-word;
+}
+.screen .console .highlight {
+  background-color: #00ff00;
+  color: #000;
+}
+.screen .console .active-match .highlight {
+  background-color: #fff;
+}
+.bar-top-right {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+.screen-buttons {
+  float: right;
+}
+.screen-buttons img {
+  border: none;
+  margin: 1px 2px 0px 2px;
+}
+.screen-buttons .start {
+  display: none;
+}
+.screen-buttons .button {
+  float: right;
+  padding: 0px 0px 0px 3px;
+  font-size: 12px;
+  text-shadow: none;
+  color: #ccc;
+  text-decoration: none;
+  font-weight: normal;
+}
+.screen-search {
+  float: right;
+}
+.screen-search input {
+  font-size: 12px;
+  padding: 1px;
+  width: 250px;
+  border: none;
+  background: none;
+  margin-top: 0px;
+  text-align: right;
+  outline: none;
+  margin-right: 2px;
+}
+.screen-search .inactive {
+  color: #999;
+  font-style: italic;
+}
+.screen-search .active {
+  color: #eee;
+  font-style: normal;
+}
+.screen-search .bad-regex {
+  color: #f00;
+}
+.screen-search .result-count {
+  float: right;
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: normal;
+  width: 30px;
+  text-shadow: none;
+  color: #999;
+  text-decoration: none;
+  outline: none;
+}
+.screen .log {
+  margin-bottom: 4px;
+}
+.screen .log .source {
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+#stats {
+  margin-left: 10px;
+  float: right;
+}
+#stats .stat {
+  color: #666;
+  font-size: 12px;
+  margin: 0px 15px 0px 10px;
+  float: left;
+}
+#stats .stat b {
+  font-size: 24px;
+  color: #ccc;
+  font-weight: normal;
+}
+
+#bottom {
+  position: absolute;
+  bottom: 10px;
+}
+#bottom2 {
+  position: relative;
+}
+
+#add-buttons {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.add-button {
+  margin: 2px 0px 0px 10px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #000;
+  font-weight: bold;
+  background: #444;
+  border: 1px solid #aaa;
+  border-bottom: 1px solid #888;
+  border-right: 1px solid #888;
+  cursor: pointer;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  float: left;
+  background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#777));
+  background: -moz-linear-gradient(top,  #999,  #777);
+}
+div.add-button:hover {
+  color: #fff;
+  background: #666;
+  background: -webkit-gradient(linear, left top, left bottom, from(#777), to(#999));
+  background: -moz-linear-gradient(top,  #777,  #999);
+}
+
+#controls .group {
+}
+#controls .group2 {
+  float: left;
+  overflow: hidden;
+  width: 100%;
+}
+#controls .node {
+  color: #eee;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 8px 8px;
+  background: #111;
+  border-top: 1px solid #000;
+  overflow: hidden;
+  max-width: 270px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#222), to(#000));
+  background: -moz-linear-gradient(top,  #222,  #000);
+}
+#controls .log_file {
+  color: #999;
+  font-size: 12px;
+  border-bottom: 1px dotted #333;
+  float: left;
+  width: 100%;
+}
+#controls .status  {
+  float: left;
+  background-color: #333;
+  margin: 7px 0px 0px 7px;
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;  
+}
+#controls .label {
+  float: left;
+  margin: 4px 4px 5px 6px;
+  font-size: 12px;
+}
+#controls .screens {
+  float: right;
+  margin: 5px 5px 0px 0px;
+  opacity: 0.5;
+}
+#controls div.log_file:hover .screens {
+  opacity: 1.0;
+}
+#controls .screens input {
+  margin: 0px 2px 3px 2px;
+}
+
+
+#templates {
+  display: none;
+}

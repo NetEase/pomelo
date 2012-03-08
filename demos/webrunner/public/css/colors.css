@@ -1,0 +1,124 @@
+
+.labelcolor1 {
+  color: #1f77b4;
+}
+.statuscolor1 {
+  background-color: #1f77b4 !important;
+}
+.labelcolor2 {
+  color: #aec7e8;
+}
+.statuscolor2 {
+  background-color: #aec7e8 !important;
+}
+.labelcolor3 {
+  color: #ff7f0e;
+}
+.statuscolor3 {
+  background-color: #ff7f0e !important;
+}
+.labelcolor4 {
+  color: #ffbb78;
+}
+.statuscolor4 {
+  background-color: #ffbb78 !important;
+}
+.labelcolor5 {
+  color: #2ca02c;
+}
+.statuscolor5 {
+  background-color: #2ca02c !important;
+}
+.labelcolor6 {
+  color: #98df8a;
+}
+.statuscolor6 {
+  background-color: #98df8a !important;
+}
+.labelcolor7 {
+  color: #d62728;
+}
+.statuscolor7 {
+  background-color: #d62728 !important;
+}
+.labelcolor8 {
+  color: #ff9896;
+}
+.statuscolor8 {
+  background-color: #ff9896 !important;
+}
+.labelcolor9 {
+  color: #9467bd;
+}
+.statuscolor9 {
+  background-color: #9467bd !important;
+}
+.labelcolor10 {
+  color: #c5b0d5;
+}
+.statuscolor10 {
+  background-color: #c5b0d5 !important;
+}
+.labelcolor11 {
+  color: #8c564b;
+}
+.statuscolor11 {
+  background-color: #8c564b !important;
+}
+.labelcolor12 {
+  color: #c49c94;
+}
+.statuscolor12 {
+  background-color: #c49c94 !important;
+}
+.labelcolor13 {
+  color: #e377c2;
+}
+.statuscolor13 {
+  background-color: #e377c2 !important;
+}
+.labelcolor14 {
+  color: #f7b6d2;
+}
+.statuscolor14 {
+  background-color: #f7b6d2 !important;
+}
+.labelcolor15 {
+  color: #7f7f7f;
+}
+.statuscolor15 {
+  background-color: #7f7f7f !important;
+}
+.labelcolor16 {
+  color: #c7c7c7;
+}
+.statuscolor16 {
+  background-color: #c7c7c7 !important;
+}
+.labelcolor17 {
+  color: #bcbd22;
+}
+.statuscolor17 {
+  background-color: #bcbd22 !important;
+}
+.labelcolor18 {
+  color: #dbdb8d;
+}
+.statuscolor18 {
+  background-color: #dbdb8d !important;
+}
+.labelcolor19 {
+  color: #17becf;
+}
+.statuscolor19 {
+  background-color: #17becf !important;
+}
+.labelcolor20 {
+  color: #9edae5;
+}
+.statuscolor20 {
+  background-color: #9edae5 !important;
+}
+.ping {
+  background-color: #33ff33 !important;
+}
