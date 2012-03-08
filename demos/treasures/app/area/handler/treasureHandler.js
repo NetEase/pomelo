@@ -55,15 +55,7 @@ handler.generateTreasures = function(msg, session){
  * 
  * @param move
  */
-//handler.moveCalc = function(move){
-//  logger.debug('invoke move:');
-//  var startx = move.startx;
-//  var starty = move.starty;
-//  var target = move.path[1];
-//  var time = move.time;
-//  logger.debug(startx+","+starty+","+time+","+target.x+","+target.y);
-//  channelClient.publishStateByExcept([move.uid],{uid: move.uid, path: [{x: startx, y: starty},{x: target.x, y: target.y}], time: time},clientConstant.USER_MOVE);
-//};
+
 //
 //
 ///**

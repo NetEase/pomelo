@@ -27,8 +27,12 @@ exports.login = login;
 exports.register = register;
 exports.pickTreasure = pickTreasure;
 exports.move = move;
-exports.getCurrentScene = getCurrentScene;
-exports.uid = uid;
+
+var self = this;
+
+self.uid = exports.uid = uid;
+
+
 
 function init(){
   //初始化socketClient
@@ -91,9 +95,9 @@ function register(){
 /**
  * 初始化当前场景
  */
-function getCurrentScene(){
-  socketClient.pushMessage({route:"area.areaHandler.getCurrentScene", params:{uid: uid}});
-}
+//function getCurrentScene(){
+//  socketClient.pushMessage({route:"area.areaHandler.getCurrentScene", params:{uid: uid}});
+//}
 
 /**
  * 用户移动的处理逻辑
@@ -108,7 +112,7 @@ function getCurrentScene(){
  */
 function move(startX, startY, endX, endY, time){
   path = [{x:startX, y:startY},{x:endX, y:endY}];
-  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: uid }});
+  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: self.uid }});
 }
 
 /**

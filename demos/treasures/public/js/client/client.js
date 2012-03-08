@@ -33,7 +33,7 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	    var type = data.type;
 	    var code = data.code;
 	    if(!type){
-	      console.log('Message type error!');
+	      console.log('Message type error! data: ' + JSON.stringify(data));
 	      if (data.code == -1) alert(data.msg);
 	    }
 	    var msgHandler = serverMsgHandler.msgHandlerMap[type];
