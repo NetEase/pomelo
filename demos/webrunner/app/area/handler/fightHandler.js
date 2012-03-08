@@ -13,3 +13,5 @@ handler.kick = function(msg, session){
 }
 
 
+handler.kick2 = function(){
+}
