@@ -48,12 +48,13 @@ handler.addUser = function(msg, session) {
  * @param msg
  */
 handler.move = function (msg, session){
-	var uid = msg.context.uid;
-	var startx = msg.path[0].x;
-	var starty = msg.path[0].y;
-	var path = msg.path;
-	var speed = msg.speed;
-	var time = msg.time;
+    var params = msg.params;
+	var uid = params.uid;
+	var startx = params.path[0].x;
+	var starty = params.path[0].y;
+	var path = params.path;
+	var speed = params.speed;
+	var time = params.time;
 	logger.debug('in scene server move:');
 	logger.debug(uid+","+startx+","+starty+","+speed+","+path);
 	//先结束上次的移动

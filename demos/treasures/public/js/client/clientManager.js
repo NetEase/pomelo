@@ -12,19 +12,23 @@ var heroSelectView = require('heroSelectView');//选角色管理
 var socketClient = require('client');
 
 
-//暴露的接口和对象
-exports.init = init;
-exports.login = login;
-exports.register = register;
-exports.pickTreasure = pickTreasure;
-exports.move = move;
 
 
 
 var loginUsername = "";
 var loginName = "";
 var sid = 0;
+var uid = 0;
 
+
+//暴露的接口和对象
+exports.init = init;
+exports.login = login;
+exports.register = register;
+exports.pickTreasure = pickTreasure;
+exports.move = move;
+exports.getCurrentScene = getCurrentScene;
+exports.uid = uid;
 
 function init(){
   //初始化socketClient
@@ -88,7 +92,7 @@ function register(){
  * 初始化当前场景
  */
 function getCurrentScene(){
-  socketClient.pushMessage({route:"area.areaHandler.getCurrentScene", params:{sid: sid}});
+  socketClient.pushMessage({route:"area.areaHandler.getCurrentScene", params:{uid: uid}});
 }
 
 /**
@@ -104,7 +108,7 @@ function getCurrentScene(){
  */
 function move(startX, startY, endX, endY, time){
   path = [{x:startX, y:startY},{x:endX, y:endY}];
-  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time}});
+  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: uid }});
 }
 
 /**
