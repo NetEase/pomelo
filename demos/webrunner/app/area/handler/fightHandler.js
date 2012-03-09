@@ -9,7 +9,7 @@ handler.kick = function(msg, session){
     
     msg.params.blood = 30;
     
-    session.response(null, {route: msg.route, code: 200});
+    session.response({route: msg.route, code: 200});
 }
 
 

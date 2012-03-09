@@ -7,11 +7,11 @@ handler.getUserInfo = function(msg, session){
   
   try {
   	pomelo.getApplication().get('proxyMap').user.logic.userService.getUserInfo(msg.params.uid, function(err, uinfo) {
-  		session.response(null, {route: msg.route, code: 200, user: uinfo});
+  		session.response({route: msg.route, code: 200, user: uinfo});
   	});
   } catch(err) {
   	logger.error('[userHandler.getUserInfo] fail to handle requrest for:' + err.stack);
-  	session.response(err);
+  	session.response({route: msg.route, code: 500});
   }
 }
 
