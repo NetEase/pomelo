@@ -39,7 +39,7 @@ var msgHandlerMap = {
    *  code:        结果代码
    * }
    */
-  'onLogin': onLogin,     
+  'logic.loginHandler.checkPassport': onLogin,     
   
   /**
    * 接受注册消息返回结果
@@ -55,7 +55,7 @@ var msgHandlerMap = {
    *  code：     结果代码
    * }
    */     
-  'onRegister': onRegister,       
+  'logic.loginHandler.register': onRegister,       
   
   /**
    * 接受角色选择消息返回结果
@@ -170,7 +170,7 @@ function onLogin(data){
   }else{
 //    alert("登录调用成功！用户已经存在\n sessionId:" + sid + " code:" + data.code);
 //    loginUsername = "";
-    
+    console.log('here~~~~~');
     clientManager.uid = userData.uid;
     sceneManager.enterScene({}, userData);
     //clientManager.getCurrentScene();
