@@ -21,10 +21,10 @@ handler.pickItem = function (msg, session){
 		channelClient.publishState(msg);
 		handler.updateRankList();
         if (err){
-        	session.response(err);
+        	session.response({route: msg.route, code:500});
         }
         else{
-        	session.response(null, {result: result});
+        	session.response({route: msg.route, code: 200, result: result});
         }
 		//utils.invokeCallback(cb, null, result);
 	});
@@ -45,7 +45,7 @@ handler.generateTreasures = function(msg, session){
         	session.response(err);
         }
         else{
-        	session.response(null, {data: data});
+        	session.response({route: msg.route, code: 200, data: data});
         }
 	});
 };

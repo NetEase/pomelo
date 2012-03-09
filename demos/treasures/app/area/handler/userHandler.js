@@ -6,33 +6,41 @@ var eventUtils = require('../../../../../lib/util/event/eventUtils');
 var Event= require('../../../../../lib/util/event/event');
 var Move= require('../../meta/move');
     
-
 /**
-		 * 用户退出场景
-		 * 
-		 * @param uid
-		 * @param cb
-		 */
+ * 用户退出场景
+ * 
+ * @param uid
+ * @param cb
+ */
 handler.removeUser = function(msg, session) {
     var uid = msg.params.uid;
     logger.debug('user logout :'+uid);
     sceneDao.removeOnline(this.name,uid);
     //delete this.uidList[uid];
+    session.response({route: msg.route, code: 200})
 };
-		/**
-		 * 用户加入uidList
-		 *  
-		 * @param uid
-		 * @param cb
-		 */
+
+/**
+ * 用户加入uidList
+ *  
+ * @param uid
+ * @param cb
+ */
 handler.addUser = function(msg, session) {
     var uid = msg.params.uid;
 	logger.debug('user login :'+uid+","+this.name);
 	var sceneId = this.name;
 	userService.getUserById(uid,function(err, data){
-		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY},cb);
+		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err) {
+			if(!!err) {
+				session.response({route: msg.route, code: 500});
+			} else {
+				session.response(route: msg.route, code: 200});
+			}
+		});
 	});
 };
+
 /**
  * 用户移动
  * 1、删除原来的寻路数据
@@ -71,11 +79,10 @@ handler.move = function (msg, session){
 		var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 		var event = Event.create({period: period, loop: false, method: handler.moveCalc, params: move, host: handler.host, hash: "areaId:0;moveCalc:"+move.uid});
 		eventUtils.startEvent(event);
-        console.log('[move]  msg: ' + JSON.stringify(msg));
-		session.response(null,{type: "onUserMove", body: move, code: 200});
+    console.log('[move]  msg: ' + JSON.stringify(msg));
+		session.response({route: msg.route, body: move, code: 200});
 	});
 };
-
 
 handler.moveCalc = function(move){
   logger.debug('invoke move:');

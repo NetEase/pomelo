@@ -30,13 +30,14 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 
 
 	  socket.on('message', function(data){
-	    var type = data.type;
+	  	console.log('on message:' + JSON.stringify(data));
+	    var route = data.route;
 	    var code = data.code;
-	    if(!type){
+	    if(!route){
 	      console.log('Message type error! data: ' + JSON.stringify(data));
 	      if (data.code == -1) alert(data.msg);
 	    }
-	    var msgHandler = serverMsgHandler.msgHandlerMap[type];
+	    var msgHandler = serverMsgHandler.msgHandlerMap[route];
         
 	    if(!!msgHandler && typeof(msgHandler)=='function')
 	      msgHandler(data);
