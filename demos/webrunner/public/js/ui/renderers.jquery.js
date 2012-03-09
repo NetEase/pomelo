@@ -30,7 +30,16 @@ Node.prototype.render = function() {
 }
 Node.prototype.destroy = function() {
   this._dom.remove();
-}
+};
+
+formatMsg = function(message){
+	var msg = '';
+  for (var key in message){
+ 		var val = message[key];
+ 		msg+=key + ':' + JSON.stringify(val) + '<br/>';
+	}
+	return msg;
+};
 
 LogFile.prototype.render = function() {
   var log_file = this;
@@ -44,7 +53,7 @@ LogFile.prototype.render = function() {
 
   // Add stream checkboxes
   _(log_file.node.web_client.streams).each(function(stream, sid) {
-    var input = $('<input type="checkbox" class="stream" value="' + sid + '"/>');
+    var input = $('<input type="radio" name="selectedserver" class="stream" value="' + sid + '"/>');
     if (log_file.streams[sid]) input.attr("checked","checked");
     dom.find(".screens").append(input);
     input.data('stream', stream);
@@ -52,18 +61,18 @@ LogFile.prototype.render = function() {
   
   // Bind enable/disable stream events
   dom.find(".screens .stream").click(function() {
-  	log_file.color = 1;
     if ($(this).is(":checked")) {
       try {
         log_file.attach_stream($(this).data('stream'));
-        //alert($(this).parent().parent().attr('id'));
-        var p =  dom.parent().parent().parent().find(".status")
-        jQuery.each(p,function(i,elm){$(elm).removeClass('statuscolor1')});;
+        var p =  dom.parent().parent().parent().find(".status");
+        jQuery.each(p,function(i,elm){$(elm).removeClass('statuscolor1');});;
         dom.parent().parent().find(".status").removeClass('statuscolor1');
         dom.find(".status").addClass("statuscolor1");
         var serverId = $(this).parent().parent().attr('id').split(':')[1];
-        log_file.node.web_client.socket.on('getSystem',function(info){$('.console').html(info);});
+        log_file.node.web_client.socket.on('getSystem',function(data){$('#stream_template').find('.console').html(formatMsg(data));});
+        log_file.node.web_client.socket.on('getApp',function(data){$('#history_template').find('.console').html(formatMsg(data));});
         log_file.node.web_client.socket.emit('message',{method:'getSystem',id:serverId});
+        log_file.node.web_client.socket.emit('message',{method:'getApp',id:serverId});
       } catch(err) {
         $(this).attr("checked","");
         alert(err);
