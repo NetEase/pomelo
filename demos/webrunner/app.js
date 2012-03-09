@@ -4,6 +4,7 @@ var handlerManager = require('../../lib/handlerManager');
 
 var app = module.exports = pomelo.createApplication();
 
+console.log(__dirname + '/config/servers-production.json');
 
 var args = process.argv;
 // config
@@ -57,7 +58,6 @@ app.configure('production|development', 'connector', function(){
 	app.genRemote('connector', __dirname + '/app/connector/remote');
 });
 
-
 // use is filter
 app.configure('development',function(){
   app.set('servers', __dirname+'/config/servers-development.json');
@@ -69,7 +69,6 @@ app.configure('development',function(){
 app.configure('production',function(){
   app.set('servers', __dirname + '/config/servers-production.json');
   app.set('database',__dirname + '/config/database.json');
-
   app.listen(app.serverType, app.serverId);  
   app.startMonitor();
 });
@@ -81,8 +80,9 @@ app.configure('production', 'master', function(){
 
 app.configure(function(){
   app.use(handlerManager); //the last handler
-  if (env === 'development' || app.serverType==='master')
+  if (env === 'development' || app.serverType==='master') {
   	startWebServer();
+  }
 });
 
 process.on('uncaughtException', function(err) {

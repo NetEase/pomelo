@@ -32,3 +32,4 @@ app.get('/m', function(req, res){
 });
 
 app.listen(3000);
+console.log('express server listening on 3000');
