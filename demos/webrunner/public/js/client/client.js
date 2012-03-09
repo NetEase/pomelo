@@ -20,7 +20,7 @@ function init(params){
   //使用参数值进行初始化
   //msgHandlerMap = params.msgHandlerMap;
   //线上的配置
-  socket = io.connect('http://localhost:5050');
+  socket = io.connect('http://localhost:3050');
   
   socket.on('connect', function(data){
     console.log("On connect, yes we connected" + data);
