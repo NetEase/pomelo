@@ -84,7 +84,7 @@ var msgHandlerMap = {
    *  }
    * }
    */
-   'onPickTreasure':onPickTreasure,
+   'area.treasureHandler.pickItem':onPickTreasure,
   
 
   
@@ -133,7 +133,7 @@ var msgHandlerMap = {
    *    code：     结果代码
    * }
    */
-  'onUserMove': onUserMove,           //接受用户移动请求返回结果  
+  'area.userHandler.move': onUserMove,           //接受用户移动请求返回结果  
   
   /**
    * 用户退出
@@ -170,7 +170,6 @@ function onLogin(data){
   }else{
 //    alert("登录调用成功！用户已经存在\n sessionId:" + sid + " code:" + data.code);
 //    loginUsername = "";
-    console.log('here~~~~~');
     clientManager.uid = userData.uid;
     sceneManager.enterScene({}, userData);
     //clientManager.getCurrentScene();

@@ -3,7 +3,6 @@ var handler = module.exports;
 /**
  * Login server
  */
-
 var utils = require('../../../../../lib/util/utils');
 var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 var userService = require('../../service/userService');
