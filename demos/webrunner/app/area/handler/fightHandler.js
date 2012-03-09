@@ -13,5 +13,6 @@ handler.kick = function(msg, session){
 }
 
 
-handler.kick2 = function(){
+handler.kick2 = function(msg, session){
+  session.response({route: msg.route, code: 200});
 }
