@@ -31,7 +31,8 @@ var WebClient = function(io) {
   var wc = this;
 
   // Create socket
-  this.socket = io.connect('http://localhost:8888');
+  //alert(window.location.hostname);
+  this.socket = io.connect('http://'+window.location.hostname+':8888');
 
   // Register connect callback
   this.socket.on('connect', function() {
