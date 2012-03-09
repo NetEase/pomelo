@@ -14,7 +14,7 @@
   , "redis": ">=0.7.1"
   , "seq-queue": ">=0.0.1"
   , "pomelo-schedule": ">=0.2.1"
-  , "pomelo-monitor": ">=0.1.0"
+  , "pomelo-monitor": ">=0.1.2"
   , "mail-box": ">=0.0.1"
   , "mail-router": ">=0.0.1"
   , "data-sync": ">=0.0.2"

@@ -1,5 +1,6 @@
 var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
+var monitorFilter = require('../../lib/filters/monitorFilter');
 var handlerManager = require('../../lib/handlerManager');
 
 var app = module.exports = pomelo.createApplication();
@@ -31,6 +32,7 @@ console.log('before app.configure with ' + '[serverType]:' + serverType + ' [ser
 
 app.configure(function(){
 	  //app.use(app.router); //filter out requests
+	  app.use(monitorFilter); //filter out requests
 	  app.use(logFilter); //filter out requests
 	  app.set('scheduler', __dirname + '/config/scheduler.json');
 	  app.enable('scheduler');

@@ -34,6 +34,7 @@ Node.prototype.destroy = function() {
 
 formatMsg = function(message){
 	var msg = '';
+	console.log(message);
   for (var key in message){
  		var val = message[key];
  		msg+=key + ':' + JSON.stringify(val) + '<br/>';
