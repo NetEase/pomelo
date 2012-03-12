@@ -32,8 +32,9 @@ console.log('before app.configure with ' + '[serverType]:' + serverType + ' [ser
 app.configure(function(){
 	  //app.use(app.router); //filter out requests
 	  app.use(logFilter); //filter out requests
+	  console.log("after config");
 	  app.set('scheduler', __dirname+'/config/scheduler.json');
-	  app.enabled('scheduler');
+	  app.enable('scheduler');
 	  
 	  app.genProxy('connector', __dirname + '/app/connector/remote');
 	  app.genProxy('area', __dirname + '/app/area/remote');
