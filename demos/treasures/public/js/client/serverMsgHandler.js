@@ -39,7 +39,7 @@ var msgHandlerMap = {
    *  code:        结果代码
    * }
    */
-  'logic.loginHandler.checkPassport': onLogin,     
+  'connector.loginHandler.login': onLogin,     
   
   /**
    * 接受注册消息返回结果

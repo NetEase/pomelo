@@ -14,10 +14,10 @@ exp.checkPassport = function (username, pwd, cb){
     userService.getUserInfo(username, pwd, function(err, data){
   		if(!!err){
   			logger.error('[loginService.checkPassport] fail to get userinfo, ' + err.stack);
-  			utils.invokeCallback(err);
+  			utils.invokeCallback(cb, err);
   		}else{
   			logger.debug('[loginService.checkPassport] get userInfo:' + JSON.stringify(data));
-  			utils.invokeCallback(null, data);
+  			utils.invokeCallback(cb, null, data);
   		}
     });
   }else{

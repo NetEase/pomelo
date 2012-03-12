@@ -38,7 +38,7 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	      if (data.code == -1) alert(data.msg);
 	    }
 	    var msgHandler = serverMsgHandler.msgHandlerMap[route];
-        
+      console.log(msgHandler);
 	    if(!!msgHandler && typeof(msgHandler)=='function')
 	      msgHandler(data);
 	  });

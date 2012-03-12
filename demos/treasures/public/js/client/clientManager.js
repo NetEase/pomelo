@@ -62,7 +62,7 @@ function login(){
   if(localStorage){
     localStorage.setItem('username', username);
   }
-  socketClient.pushMessage({route:"logic.loginHandler.checkPassport", params:{username: username, password: pwd}});
+  socketClient.pushMessage({route:"connector.loginHandler.login", params:{username: username, password: pwd}});
 }
 
 /**
