@@ -8,15 +8,15 @@ var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 var userService = require('../../service/userService');
 
 exp.checkPassport = function (username, pwd, cb){
-  logger.info('[loginService.checkPassport] username:'+ username);
+  logger.info('[checkPassport] username:'+ username);
   
   if(!!username && !!pwd){
     userService.getUserInfo(username, pwd, function(err, data){
   		if(!!err){
-  			logger.error('[loginService.checkPassport] fail to get userinfo, ' + err.stack);
+  			logger.error('[checkPassport] fail to get userinfo, ' + err.stack);
   			utils.invokeCallback(cb, err);
   		}else{
-  			logger.debug('[loginService.checkPassport] get userInfo:' + JSON.stringify(data));
+  			logger.debug('[checkPassport] get userInfo:' + JSON.stringify(data));
   			utils.invokeCallback(cb, null, data);
   		}
     });
@@ -31,20 +31,19 @@ exp.register = function(params, cb){
   var pwd = params.password;
   var roleId = params.roleId;
   
-  logger.debug('[loginService.register] ', {'username':username,'password':pwd, 'roleId':roleId});
+  logger.debug('[register] ', {'username':username,'password':pwd, 'roleId':roleId});
   
   if(!!username && !!name && !!roleId){
     userService.register(username, name, roleId, function(err, data){
 			if(!!err){
-				logger.error('[loginService.register] fail to register userinfo, ' + err.stack);
-  			utils.invokeCallback(err);
+				logger.error('[register] fail to register userinfo, ' + JSON.stringify(err));
+  			utils.invokeCallback(cb, err);
 			}else{
-        logger.debug('[loginService.register] register successfully, ' + JSON.stringify(data));
-        session.response({route: msg.route, code: 200, userData: data});
+        logger.debug('[register] register successfully, ' + JSON.stringify(data));
+        utils.invokeCallback(cb, null, data);
 			}
     });
-  }
-  else{
-    session.response(new WGError(comConst.RES_CODE.ERR_FAIL, 'User not exist'));
+  } else{
+  	utils.invokeCallback(cb, new Error('invalid arguments'));
   }
 };

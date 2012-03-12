@@ -25,7 +25,7 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	  socket = io.connect('http://localhost:3050');
 	  
 	  socket.on('connect', function(data){
-	    console.log("On connect, yes we connected" + JSON.stringify(data));
+	    console.log("On connect, yes we connected");
 	  });
 
 
@@ -38,7 +38,6 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	      if (data.code == -1) alert(data.msg);
 	    }
 	    var msgHandler = serverMsgHandler.msgHandlerMap[route];
-      console.log(msgHandler);
 	    if(!!msgHandler && typeof(msgHandler)=='function')
 	      msgHandler(data);
 	  });

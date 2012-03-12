@@ -55,7 +55,7 @@ var msgHandlerMap = {
    *  code：     结果代码
    * }
    */     
-  'logic.loginHandler.register': onRegister,       
+  'connector.loginHandler.register': onRegister,       
   
   /**
    * 接受角色选择消息返回结果
@@ -161,7 +161,6 @@ function onPickTreasure(data){
 
 function onLogin(data){
    var userData = data.userData;
-   
    console.log('onLogin userData: '+JSON.stringify(userData));
    if (userData.uid <= 0) { 
 //    alert("登录调用成功！用户不存在\n sessionId:" + sid + " code:" + data.code);
@@ -176,7 +175,8 @@ function onLogin(data){
   }
 }
 
-function onRegister(userData){
+function onRegister(data){
+	var userData = data.userData;
    var username = userData.username;
    var uid = userData.uid;
    if (uid <= 0) { 

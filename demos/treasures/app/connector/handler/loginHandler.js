@@ -8,20 +8,42 @@ exp.login = function(msg, session) {
 	//TODO: add parameters validating logic
 	pomelo.getApplication().get('proxyMap').user.login.loginService.checkPassport(username, pwd, function(err, uinfo) {
 		if(!!err) {
-			logger.error('fail to invoke remote loginService for ' + err.stack);
+			logger.error('[login] fail to invoke remote loginService for ' + err.stack);
 			session({route: msg.route, code: 500});
 			return;
 		}
 		
-		logger.debug('login success, uid:' + uinfo.uid);
-		session.userLogined(uinfo.uid);
-		session.on('closed', function(session) {
-			if(!session || !session.uid) {
-				return;
-			}
-			//TODO: logout logic
-		});
-		
-		session.response({route: msg.route, code: 200, userData: uinfo});
+		logger.debug('[login] login success, uid:' + uinfo.uid);
+		afterLogin(msg, session, uinfo);
 	});
+};
+
+exp.register = function(msg, session) {
+	//TODO: add parameters validating logic
+	pomelo.getApplication().get('proxyMap').user.login.loginService.register(msg.params, function(err, uinfo) {
+		if(!!err) {
+			logger.error('[register] fail to invoke remote loginService for ' + err.stack);
+			session.response({route: msg.route, code: 500});
+			return;
+		}
+		
+		logger.debug('[register] register success, uid:' + uinfo.uid);
+		afterLogin(msg, session, uinfo);
+	});
+};
+
+var afterLogin = function(msg, session, uinfo) {
+	session.userLogined(uinfo.uid);
+	session.on('closing', onUserLeave);
+	
+	session.response({route: msg.route, code: 200, userData: uinfo});
+};
+
+var onUserLeave = function(session) {
+	if(!session || !session.uid) {
+		return;
+	}
+	//TODO: logout logic
+	//TODO: remember to call session.closed() to finish logout flow finally
+	session.closed();
 };

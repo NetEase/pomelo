@@ -35,7 +35,7 @@ handler.addUser = function(msg, session) {
 			if(!!err) {
 				session.response({route: msg.route, code: 500});
 			} else {
-				session.response(route: msg.route, code: 200});
+				session.response({route: msg.route, code: 200});
 			}
 		});
 	});

@@ -88,7 +88,7 @@ function register(){
     alert('干嘛蛋疼取这么长的名字。。。');
   }
   else {
-    socketClient.pushMessage({route:"logic.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
+    socketClient.pushMessage({route:"connector.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
   }
 }
 

@@ -16,11 +16,9 @@ var ServerConstant = require('../config/serverConstant');
  * @param cb
  */
 UserService.getUserInfo = function (username, passwd, cb){
-	console.log('in');
  	var sql = 'select * from  Hero where username = ?';
 	var args = [username];
 	dbclient.query(sql,args,function(err, res){
-		console.log('back');
 		if(err !== null){
  			utils.invokeCallback(cb,new WGError(comConst.RES_CODE.ERR_FAIL, err.message), null);
 		} else {

@@ -1,5 +1,6 @@
 var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
+var authFilter = require('./app/connector/filter/authFilter');
 var handlerManager = require('../../lib/handlerManager');
 
 var app = module.exports = pomelo.createApplication();
@@ -55,12 +56,12 @@ app.configure('production|development', 'logic', function(){
 });
 
 app.configure('production|development', 'login', function(){
-	console.log('login~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
 	app.genHandler('login', __dirname + '/app/login/handler');
 	app.genRemote('login', __dirname + '/app/login/remote');
 });
 
 app.configure('production|development', 'connector', function(){
+	app.use(authFilter);
 	app.genHandler('connector', __dirname + '/app/connector/handler');
 	app.genRemote('connector', __dirname + '/app/connector/remote');
 });
