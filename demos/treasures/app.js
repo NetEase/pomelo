@@ -38,7 +38,7 @@ app.configure(function(){
 	  app.genProxy('connector', __dirname + '/app/connector/remote');
 	  app.genProxy('area', __dirname + '/app/area/remote');
 	  app.genProxy('logic', __dirname + '/app/logic/remote');
-	  //app.genProxy('login', __dirname + '/app/login/remote');
+	  app.genProxy('login', __dirname + '/app/login/remote');
       
 });
 
@@ -52,6 +52,12 @@ app.configure('production|development', 'area', function(){
 app.configure('production|development', 'logic', function(){
 	app.genHandler('logic', __dirname + '/app/logic/handler');
 	app.genRemote('logic', __dirname + '/app/logic/remote');
+});
+
+app.configure('production|development', 'login', function(){
+	console.log('login~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+	app.genHandler('login', __dirname + '/app/login/handler');
+	app.genRemote('login', __dirname + '/app/login/remote');
 });
 
 app.configure('production|development', 'connector', function(){
