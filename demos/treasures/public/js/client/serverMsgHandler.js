@@ -243,6 +243,12 @@ function onGetTreasures(data){
 
 function onGetOnlineUsers(data){
   var users = data.result;
+  for(var key in users){
+    if(users[key].uid == clientManager.uid){
+      delete users[key];
+      break;
+    }
+  }
   sceneManager.getRolesManager().showRoles(users);
 }
 

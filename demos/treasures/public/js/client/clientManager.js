@@ -94,7 +94,7 @@ function register(){
  */
 function getCurrentScene(){
   addUser();
-//  getOnlineUsers();
+  getOnlineUsers();
   getTreasures();
 }
 
