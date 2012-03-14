@@ -35,7 +35,6 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	    var code = data.code;
 	    if(!route){
 	      console.log('Message type error! data: ' + JSON.stringify(data));
-	      if (data.code == -1) alert(data.msg);
 	    }
 	    var msgHandler = serverMsgHandler.msgHandlerMap[route];
 	    if(!!msgHandler && typeof(msgHandler)=='function')

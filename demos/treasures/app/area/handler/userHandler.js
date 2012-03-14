@@ -1,11 +1,17 @@
 var handler = module.exports;
 
 var sceneDao = require('../../dao/sceneDao');
+var userService = require('../../service/userService');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 var eventUtils = require('../../../../../lib/util/event/eventUtils');
 var Event= require('../../../../../lib/util/event/event');
 var Move= require('../../meta/move');
-    
+ 
+
+var initX = 100;
+var initY = 100;
+var sceneId = 0;
+      
 /**
  * 用户退出场景
  * 
@@ -27,9 +33,8 @@ handler.removeUser = function(msg, session) {
  * @param cb
  */
 handler.addUser = function(msg, session) {
-    var uid = msg.params.uid;
+  var uid = session.uid;
 	logger.debug('user login :'+uid+","+this.name);
-	var sceneId = this.name;
 	userService.getUserById(uid,function(err, data){
 		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err) {
 			if(!!err) {
@@ -93,3 +98,18 @@ handler.moveCalc = function(move){
   logger.debug(startx+","+starty+","+time+","+target.x+","+target.y);
   channelClient.publishStateByExcept([move.uid],{uid: move.uid, path: [{x: startx, y: starty},{x: target.x, y: target.y}], time: time},clientConstant.USER_MOVE);
 };
+
+/**
+ * 获取所有在线用户
+ */
+handler.getOnlineUsers = function(msg, session){
+  sceneDao.getOnlineUsers(0, function(err, result){
+    console.log("users :" + JSON.stringify(result));
+    if (err){
+      session.response({route: msg.route, code:500});
+    }
+    else{
+      session.response({route: msg.route, code: 200, result: result});
+    }
+  })
+}

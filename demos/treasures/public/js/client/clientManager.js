@@ -11,10 +11,6 @@ var heroSelectView = require('heroSelectView');//选角色管理
 
 var socketClient = require('client');
 
-
-
-
-
 var loginUsername = "";
 var loginName = "";
 var sid = 0;
@@ -27,6 +23,9 @@ exports.login = login;
 exports.register = register;
 exports.pickTreasure = pickTreasure;
 exports.move = move;
+exports.getTreasures = getTreasures;
+exports.getOnlineUsers = getOnlineUsers;
+exports.addUser = addUser;
 
 var self = this;
 
@@ -93,11 +92,22 @@ function register(){
 }
 
 /**
- * 初始化当前场景
+ * 获取所有宝物信息
  */
-//function getCurrentScene(){
-//  socketClient.pushMessage({route:"area.areaHandler.getCurrentScene", params:{uid: uid}});
-//}
+function getTreasures(){
+  socketClient.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: uid}});
+}
+
+/**
+ * 获取所有人物信息
+ */
+function addUser(){
+  socketClient.pushMessage({route:"area.userHandler.addUser"});
+}
+
+function getOnlineUsers(){
+  socketClient.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: uid}});
+}
 
 /**
  * 用户移动的处理逻辑

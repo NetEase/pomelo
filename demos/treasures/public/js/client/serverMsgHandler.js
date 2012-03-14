@@ -114,6 +114,16 @@ var msgHandlerMap = {
   'onGetSceneInfo': onGetSceneInfo,
   
   /**
+   * 获取宝物信息
+   */
+  'area.treasureHandler.getTreasures': onGetTreasures,
+  
+  /**
+   * 获取所有在线用户信息
+   */
+  'area.userHandler.getOnlineUsers': onGetOnlineUsers,
+  
+  /**
    * 新用户加入
    * @param data{
    *  
@@ -171,11 +181,18 @@ function onLogin(data){
 //    loginUsername = "";
     clientManager.uid = userData.uid;
     sceneManager.enterScene({}, userData);
-    //clientManager.getCurrentScene();
+    clientManager.addUser();
+//    clientManager.getTreasures();
+    clientManager.getOnlineUsers();
   }
 }
 
 function onRegister(data){
+  if(data.code == 500){
+    alert("注册失败，请更换用户名重试!");
+    return;
+  }
+    
 	var userData = data.userData;
    var username = userData.username;
    var uid = userData.uid;
@@ -189,6 +206,9 @@ function onRegister(data){
       
       clientManager.uid = userData.uid;
       sceneManager.enterScene({}, userData);
+//      clientManager.getTreasures();
+      clientManager.addUser();
+      clientManager.getOnlineUsers();
       //clientManager.getCurrentScene();
   }  
 }
@@ -218,6 +238,15 @@ function onGetSceneInfo(data){
   sceneManager.getTreasureManager().showTreasures(treasures);
 };
 
+function onGetTreasures(data){
+  var treasures = data.result;
+  sceneManager.getTreasureManager().showTreasures(treasures);
+}
+
+function onGetOnlineUsers(data){
+  var users = data.result;
+  sceneManager.getRolesManager().showRoles(users);
+}
 
 function onGenTimeRefresh(data){
 	tickViewManager.refresh(data.body.leftTime);

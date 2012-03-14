@@ -23,7 +23,7 @@ exp.register = function(msg, session) {
 	pomelo.getApplication().get('proxyMap').user.login.loginService.register(msg.params, function(err, uinfo) {
 		if(!!err) {
 			logger.error('[register] fail to invoke remote loginService for ' + err.stack);
-			session.response({route: msg.route, code: 500});
+			session.response({route: msg.route, code: 500, error:err});
 			return;
 		}
 		
