@@ -103,7 +103,7 @@ handler.moveCalc = function(move){
  * 获取所有在线用户
  */
 handler.getOnlineUsers = function(msg, session){
-  sceneDao.getOnlineUsers(0, function(err, result){
+  sceneDao.getOnlineUserInfos(0, function(err, result){
     console.log("users :" + JSON.stringify(result));
     if (err){
       session.response({route: msg.route, code:500});

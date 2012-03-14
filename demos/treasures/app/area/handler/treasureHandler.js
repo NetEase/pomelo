@@ -4,23 +4,22 @@ var treasureService = require('../../service/treasureService');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
 /**
- * 用户把抢宝
+ * 用户抢宝
  * @param userId
  * @param treasureId
  * @param sceneId
  */ 
-
 handler.pickItem = function (msg, session){
   var params = msg.params;
-  var userId = session.userId;
+  var uid = session.uid;
   var treasureId = params.treasureId;
   //var sceneId = session.sceneId;
   var sceneId = 0;
-  treasureService.pickItem(userId,treasureId,sceneId,function(err,result){
-  logger.debug(userId + ' picked up treasure to logic ' + treasureId + "result:" + result + ' ' + commonConstant.PROTOCOL.SCENE.PICK_TREASURE);
-  var msg={'type':commonConstant.PROTOCOL.SCENE.PICK_TREASURE, 'code':200 ,'body':{success:result,treasureId:treasureId}};
-  channelClient.publishState(msg);
-  handler.updateRankList();
+  treasureService.pickItem(uid,treasureId,sceneId,function(err,result){
+  logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + result);
+  var result ={'type':msg.route, 'code':200 ,'body':{success:result,treasureId:treasureId}};
+//  channelClient.publishState(result);
+//  handler.updateRankList();
       if (err){
         session.response({route: msg.route, code:500});
       }
@@ -49,16 +48,16 @@ handler.getTreasures = function(msg, session){
  * @param move
  */
 
-//
-//
-///**
-// * 排名推送
-// *
-// */
-//
-//handler.updateRankList = function(){
-//    rankService.getTopN(ServerConstant.top,function(err,data){
-//    var msg={'type':clientConstant.RANK_LIST_REFRESH, 'code':200 ,'body':data};
-//    channelClient.publishState(msg);
-//  });
-//};
+
+
+/**
+ * 排名推送
+ *
+ */
+
+handler.updateRankList = function(){
+    rankService.getTopN(ServerConstant.top,function(err,data){
+    var msg={'type':clientConstant.RANK_LIST_REFRESH, 'code':200 ,'body':data};
+    channelClient.publishState(msg);
+  });
+};

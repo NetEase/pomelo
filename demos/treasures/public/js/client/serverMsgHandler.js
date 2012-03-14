@@ -181,9 +181,8 @@ function onLogin(data){
 //    loginUsername = "";
     clientManager.uid = userData.uid;
     sceneManager.enterScene({}, userData);
-    clientManager.addUser();
-//    clientManager.getTreasures();
-    clientManager.getOnlineUsers();
+
+    clientManager.getCurrentScene();
   }
 }
 
@@ -206,10 +205,8 @@ function onRegister(data){
       
       clientManager.uid = userData.uid;
       sceneManager.enterScene({}, userData);
-//      clientManager.getTreasures();
-      clientManager.addUser();
-      clientManager.getOnlineUsers();
-      //clientManager.getCurrentScene();
+      
+      clientManager.getCurrentScene();
   }  
 }
 

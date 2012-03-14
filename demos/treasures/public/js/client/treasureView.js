@@ -122,6 +122,8 @@ __resources__["/treasureView.js"] = {
                 if ((!!point) && (!!treasureNode)) {
                     // 获取宝物数据
                     var imgPos = treasureNode._component.matrix._matrix._position;
+                    imgPos.x = Number(imgPos.x);
+                    imgPos.y = Number(imgPos.y);
                     var img = treasureNode._model._image;
                     if (img.loaded) {
                         // 先计算图片的正确起点

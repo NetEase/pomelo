@@ -23,9 +23,7 @@ exports.login = login;
 exports.register = register;
 exports.pickTreasure = pickTreasure;
 exports.move = move;
-exports.getTreasures = getTreasures;
-exports.getOnlineUsers = getOnlineUsers;
-exports.addUser = addUser;
+exports.getCurrentScene = getCurrentScene;
 
 var self = this;
 
@@ -89,6 +87,15 @@ function register(){
   else {
     socketClient.pushMessage({route:"connector.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
   }
+}
+
+/**
+ * 注册用户并获取当前场景信息
+ */
+function getCurrentScene(){
+  addUser();
+//  getOnlineUsers();
+  getTreasures();
 }
 
 /**
