@@ -22,10 +22,10 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	function init(params){
 	  //使用参数值进行初始化
 	  //线上的配置
-	  socket = io.connect('http://localhost:5050');
+	  socket = io.connect('http://localhost:3050');
 	  
 	  socket.on('connect', function(data){
-	    console.log("On connect, yes we connected" + JSON.stringify(data));
+	    console.log("On connect, yes we connected");
 	  });
 
 
@@ -35,10 +35,8 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	    var code = data.code;
 	    if(!route){
 	      console.log('Message type error! data: ' + JSON.stringify(data));
-	      if (data.code == -1) alert(data.msg);
 	    }
 	    var msgHandler = serverMsgHandler.msgHandlerMap[route];
-        
 	    if(!!msgHandler && typeof(msgHandler)=='function')
 	      msgHandler(data);
 	  });

@@ -13,6 +13,25 @@ handler.getUserInfo = function(msg, session){
   	logger.error('[userHandler.getUserInfo] fail to handle requrest for:' + err.stack);
   	session.response({route: msg.route, code: 500});
   }
-}
+};
+
+handler.broadcast = function(msg, session) {
+	var name = 'test-channel';
+	var cm = pomelo.getApplication().get('channelManager');
+	var channel = cm.getChannel(name);
+	if(!channel) {
+		logger.error('[broadcast] channel not exist. name:' + name);
+		session.response({route: msg.route, code: 500});
+		return;
+	}
+	
+	channel.pushMessage({route: 'logic.userHandler.pushMessage', content: msg.params.content}, function(err) {
+		if(!!err) {
+			logger.error('[broadcast] fail to push message, ' + err.stack);
+			return;
+		}
+		session.response({route: msg.route, code: 200});
+	});
+};
 
 

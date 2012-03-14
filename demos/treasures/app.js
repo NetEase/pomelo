@@ -1,5 +1,6 @@
 var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
+var authFilter = require('./app/connector/filter/authFilter');
 var handlerManager = require('../../lib/handlerManager');
 
 var app = module.exports = pomelo.createApplication();
@@ -32,13 +33,14 @@ console.log('before app.configure with ' + '[serverType]:' + serverType + ' [ser
 app.configure(function(){
 	  //app.use(app.router); //filter out requests
 	  app.use(logFilter); //filter out requests
+	  console.log("after config");
 	  app.set('scheduler', __dirname+'/config/scheduler.json');
 	  app.enable('scheduler');
 	  
 	  app.genProxy('connector', __dirname + '/app/connector/remote');
 	  app.genProxy('area', __dirname + '/app/area/remote');
 	  app.genProxy('logic', __dirname + '/app/logic/remote');
-	  //app.genProxy('login', __dirname + '/app/login/remote');
+	  app.genProxy('login', __dirname + '/app/login/remote');
       
 });
 
@@ -54,7 +56,13 @@ app.configure('production|development', 'logic', function(){
 	app.genRemote('logic', __dirname + '/app/logic/remote');
 });
 
+app.configure('production|development', 'login', function(){
+	app.genHandler('login', __dirname + '/app/login/handler');
+	app.genRemote('login', __dirname + '/app/login/remote');
+});
+
 app.configure('production|development', 'connector', function(){
+	app.use(authFilter);
 	app.genHandler('connector', __dirname + '/app/connector/handler');
 	app.genRemote('connector', __dirname + '/app/connector/remote');
 });

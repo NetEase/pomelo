@@ -1,13 +1,12 @@
-var comConst = require('../../common/Constant');
-var logger = require('../../util/log/log').getLogger(__filename);
-var SessionHandler = require('../handler/SessionHandler');
-var utils = require('../../util/Utils');
+var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
+var utils = require('../../util/utils');
 
 /**
  * FIXME：暂时把登录和选角色都归为一类状态吧。详细的状态应该分为：未登录，登录但未选角色，已选角色
  */
 var ignoreTypes = [
-	'connector.loginHanlder.login' 
+	'connector.loginHandler.login', 
+	'connector.loginHandler.register'
 ];
 
 /**
@@ -17,22 +16,21 @@ var ignoreTypes = [
  * @param session 会话上下文
  * @param next(err, msg, session) 触发下个filter的回调，将socket, msg, context参数传递下去.如果有错误，则通过err来传递
  */
-var doFilter = function(msg, session, next) {
-	if(!checkIgnore(msg.route) || !session.uid) {
+var handle = function(msg, session, next) {
+	if(!checkIgnore(msg.route) && !session.uid) {
 		utils.invokeCallback(next, new Error('unlogin session.'));
 		return;
 	}
-	
 	utils.invokeCallback(next, null, msg, session);
 };
 
 var checkIgnore = function(type) {
 	for(var i=0; i<ignoreTypes.length; i++) {
-		if(type.equal(ignoreTypes[i])) {
+		if(type === ignoreTypes[i]) {
 			return true;
 		}
 	}
 	return false;
 };
 
-module.exports.doFilter = doFilter;
+module.exports.handle = handle;

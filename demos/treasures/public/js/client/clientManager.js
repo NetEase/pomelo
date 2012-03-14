@@ -11,10 +11,6 @@ var heroSelectView = require('heroSelectView');//选角色管理
 
 var socketClient = require('client');
 
-
-
-
-
 var loginUsername = "";
 var loginName = "";
 var sid = 0;
@@ -27,6 +23,9 @@ exports.login = login;
 exports.register = register;
 exports.pickTreasure = pickTreasure;
 exports.move = move;
+exports.getTreasures = getTreasures;
+exports.getOnlineUsers = getOnlineUsers;
+exports.addUser = addUser;
 
 var self = this;
 
@@ -62,7 +61,7 @@ function login(){
   if(localStorage){
     localStorage.setItem('username', username);
   }
-  socketClient.pushMessage({route:"logic.loginHandler.checkPassport", params:{username: username, password: pwd}});
+  socketClient.pushMessage({route:"connector.loginHandler.login", params:{username: username, password: pwd}});
 }
 
 /**
@@ -88,16 +87,27 @@ function register(){
     alert('干嘛蛋疼取这么长的名字。。。');
   }
   else {
-    socketClient.pushMessage({route:"logic.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
+    socketClient.pushMessage({route:"connector.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
   }
 }
 
 /**
- * 初始化当前场景
+ * 获取所有宝物信息
  */
-//function getCurrentScene(){
-//  socketClient.pushMessage({route:"area.areaHandler.getCurrentScene", params:{uid: uid}});
-//}
+function getTreasures(){
+  socketClient.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: uid}});
+}
+
+/**
+ * 获取所有人物信息
+ */
+function addUser(){
+  socketClient.pushMessage({route:"area.userHandler.addUser"});
+}
+
+function getOnlineUsers(){
+  socketClient.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: uid}});
+}
 
 /**
  * 用户移动的处理逻辑

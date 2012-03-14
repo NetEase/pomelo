@@ -39,7 +39,7 @@ var msgHandlerMap = {
    *  code:        结果代码
    * }
    */
-  'logic.loginHandler.checkPassport': onLogin,     
+  'connector.loginHandler.login': onLogin,     
   
   /**
    * 接受注册消息返回结果
@@ -55,7 +55,7 @@ var msgHandlerMap = {
    *  code：     结果代码
    * }
    */     
-  'logic.loginHandler.register': onRegister,       
+  'connector.loginHandler.register': onRegister,       
   
   /**
    * 接受角色选择消息返回结果
@@ -114,6 +114,16 @@ var msgHandlerMap = {
   'onGetSceneInfo': onGetSceneInfo,
   
   /**
+   * 获取宝物信息
+   */
+  'area.treasureHandler.getTreasures': onGetTreasures,
+  
+  /**
+   * 获取所有在线用户信息
+   */
+  'area.userHandler.getOnlineUsers': onGetOnlineUsers,
+  
+  /**
    * 新用户加入
    * @param data{
    *  
@@ -161,7 +171,6 @@ function onPickTreasure(data){
 
 function onLogin(data){
    var userData = data.userData;
-   
    console.log('onLogin userData: '+JSON.stringify(userData));
    if (userData.uid <= 0) { 
 //    alert("登录调用成功！用户不存在\n sessionId:" + sid + " code:" + data.code);
@@ -172,11 +181,19 @@ function onLogin(data){
 //    loginUsername = "";
     clientManager.uid = userData.uid;
     sceneManager.enterScene({}, userData);
-    //clientManager.getCurrentScene();
+    clientManager.addUser();
+//    clientManager.getTreasures();
+    clientManager.getOnlineUsers();
   }
 }
 
-function onRegister(userData){
+function onRegister(data){
+  if(data.code == 500){
+    alert("注册失败，请更换用户名重试!");
+    return;
+  }
+    
+	var userData = data.userData;
    var username = userData.username;
    var uid = userData.uid;
    if (uid <= 0) { 
@@ -189,6 +206,9 @@ function onRegister(userData){
       
       clientManager.uid = userData.uid;
       sceneManager.enterScene({}, userData);
+//      clientManager.getTreasures();
+      clientManager.addUser();
+      clientManager.getOnlineUsers();
       //clientManager.getCurrentScene();
   }  
 }
@@ -218,6 +238,15 @@ function onGetSceneInfo(data){
   sceneManager.getTreasureManager().showTreasures(treasures);
 };
 
+function onGetTreasures(data){
+  var treasures = data.result;
+  sceneManager.getTreasureManager().showTreasures(treasures);
+}
+
+function onGetOnlineUsers(data){
+  var users = data.result;
+  sceneManager.getRolesManager().showRoles(users);
+}
 
 function onGenTimeRefresh(data){
 	tickViewManager.refresh(data.body.leftTime);

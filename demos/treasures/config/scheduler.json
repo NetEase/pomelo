@@ -1,4 +1,3 @@
 [
-  ["* 0/3 * * * *","area.treasureHandler.generateTreasures", {"name":"3分执行一次"}],
-  ["0,10,20,30.40,50 * * * * *","logic.testLog", {"name":"test 10S执行一次"}]
+  ["0 0/3 *  * * *","area.treasureService.generateTreasures", {"name":"3分执行一次"}]
 ]
