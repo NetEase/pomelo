@@ -323,7 +323,10 @@ __resources__["/roleView.js"] = {
              */
             this.getCurImg = function(){
                 if (this.curRoleNode) {
-                    return this.curRoleNode._model.model._image;
+                    return {
+                      width: this.curRoleNode.model().w,
+                      height: this.curRoleNode.model().h,
+                    }
                 }
                 else {
                     return null;

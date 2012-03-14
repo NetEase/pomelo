@@ -162,7 +162,8 @@ var msgHandlerMap = {
  * 捡宝物回调
  * @param {Object} data
  */
-function onPickTreasure(data){
+function onPickTreasure(result){
+  var data = result.result;
 	if(data.body && data.body.success){
 		//捡宝成功，删除宝物
 		sceneManager.getTreasureManager().removeTreasure(data.body.treasureId);

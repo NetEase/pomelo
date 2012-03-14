@@ -171,24 +171,26 @@ __resources__["/treasureView.js"] = {
                 if ((!!roleNode) && (!!imageNode)) {
                     // 获取两个节点数据
                     var imgPos = imageNode._component.matrix._matrix._position;
+                    imgPos.x = Number(imgPos.x);
+                    imgPos.y = Number(imgPos.y);
                     var img = imageNode._model._image;
                     var rolePos = roleNode.position();
-                    var roleImg = roleNode.getCurImg();
-                    if (img.loaded && roleImg.loaded) {
+                    var roleImgPos = roleNode.getCurImg();
+                    if (img.loaded) {
                         // 先计算图片的正确起点
                         imgPos = this.calRealPos(imgPos, imageNode._model, img);
-                        rolePos = this.calRealPos(rolePos, roleNode.curRoleNode._model, roleImg);
+                        rolePos = this.calRealPos(rolePos, roleNode.curRoleNode._model, roleImgPos);
                         // 判断矩形是否相交
                         var distLeftX = Math.abs(rolePos.x - imgPos.x);
                         var distLeftY = Math.abs(rolePos.y - imgPos.y);
-                        var distRightX = Math.abs(rolePos.x + roleImg.width -
+                        var distRightX = Math.abs(rolePos.x + roleImgPos.width -
                         (imgPos.x + img.width));
-                        var distRightY = Math.abs(rolePos.y + roleImg.height -
+                        var distRightY = Math.abs(rolePos.y + roleImgPos.height -
                         (imgPos.y + img.height));
                         // 相交则碰撞
-                        if ((distLeftX + distRightX <= roleImg.width + img.width) &&
+                        if ((distLeftX + distRightX <= roleImgPos.width + img.width) &&
                         (distLeftY + distRightY <=
-                        roleImg.height +
+                        roleImgPos.height +
                         img.height)) {
                             isHit = true;
                         }

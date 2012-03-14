@@ -12,8 +12,8 @@ __resources__["/voData.js"] = {
             this.id = data.sceneId;
             this.picId = 1001;
             this.name = "捡宝";
-            this.startX = data.x > 100 ? data.x - 100 : 0;
-            this.startY = data.y > 100 ? data.y - 100 : 0;
+            this.startX = data.x > 100 ? Number(data.x) - 100 : 0;
+            this.startY = data.y > 100 ? Number(data.y) - 100 : 0;
         }
         
         /**
@@ -24,8 +24,8 @@ __resources__["/voData.js"] = {
             this.id = data.uid;
             this.picId = data.roleId;
             this.name = data.name;
-            this.x = data.x;
-            this.y = data.y;
+            this.x = Number(data.x);
+            this.y = Number(data.y);
         }
         
         /**
@@ -37,8 +37,8 @@ __resources__["/voData.js"] = {
             this.picId = data.imgId;
             this.name = data.name;
             this.score = data.score;
-            this.x = data.posX;
-            this.y = data.posY;
+            this.x = Number(data.posX);
+            this.y = Number(data.posY);
         }
         
         /**
@@ -48,10 +48,10 @@ __resources__["/voData.js"] = {
         function MoveVO(data){
             this.id = data.uid;
             this.time = data.time;
-            this.startX = data.path[0].x;
-            this.startY = data.path[0].y;
-            this.endX = data.path[1].x;
-            this.endY = data.path[1].y;
+            this.startX = Number(data.path[0].x);
+            this.startY = Number(data.path[0].y);
+            this.endX = Number(data.path[1].x);
+            this.endY = Number(data.path[1].y);
         }
         
         exports.MapVO = MapVO;

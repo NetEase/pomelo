@@ -48,6 +48,8 @@ function setPosition(propName, pos)
     this._position = {x:0, y:0 ,z:0};
   }
   
+  debug.assert(typeof(pos.x) == "number" && typeof(pos.y) == "number", "position value is wron");
+  
   this._position.x = pos.x;
   this._position.y = pos.y;
   if (typeof(pos.z) == 'number')
