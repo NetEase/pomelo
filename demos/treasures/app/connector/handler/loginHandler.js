@@ -43,7 +43,10 @@ var onUserLeave = function(session) {
 	if(!session || !session.uid) {
 		return;
 	}
-	//TODO: logout logic
-	//TODO: remember to call session.closed() to finish logout flow finally
-	session.closed();
+	
+	pomelo.getApplication().get('proxyMap').user.area.userService.userLeave(session.uid, function(err) {
+		//TODO: logout logic
+		//TODO: remember to call session.closed() to finish logout flow finally
+		session.closed();
+	});
 };
