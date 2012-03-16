@@ -3,7 +3,7 @@ var logFilter = require('../../lib/filters/logFilter');
 var authFilter = require('./app/connector/filter/authFilter');
 var handlerManager = require('../../lib/handlerManager');
 
-var app = module.exports = pomelo.createApplication();
+var app = module.exports = pomelo.createApp();
 
 
 var args = process.argv;

@@ -2,7 +2,7 @@ var pomelo = require('../../../../../lib/pomelo');
 
 module.exports.getMe = function(msg, session) {
 	 try {
-	  	pomelo.getApplication().get('proxyMap').user.logic.userService.getUserInfo(msg.params.uid, function(err, uinfo) {
+	  	pomelo.getApp().get('proxyMap').user.logic.userService.getUserInfo(msg.params.uid, function(err, uinfo) {
 	  		if(!!err) {
 	  			session.response({route: msg.route, code: 500});
 	  		} else {

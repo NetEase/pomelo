@@ -2,7 +2,7 @@ var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
 var handlerManager = require('../../lib/handlerManager');
 
-var app = module.exports = pomelo.createApplication();
+var app = module.exports = pomelo.createApp();
 
 console.log(__dirname + '/config/servers-production.json');
 
