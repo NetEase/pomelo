@@ -129,7 +129,7 @@ var msgHandlerMap = {
    *  
    * }
    */
-  'onUsereJoin': onUserJoin,
+  'onUserJoin': onUserJoin,
   
   /**
    * 角色移动推送消息
@@ -165,10 +165,9 @@ var msgHandlerMap = {
  * @param {Object} data
  */
 function onPickTreasure(result){
-  var data = result.result;
-	if(data.body && data.body.success){
+	if(result.success){
 		//捡宝成功，删除宝物
-		sceneManager.getTreasureManager().removeTreasure(data.body.treasureId);
+		sceneManager.getTreasureManager().removeTreasure(result.treasureId);
 	}
 }
 
@@ -267,13 +266,13 @@ function onUserMove(data){
 }
 
 function onUserJoin(data){
-  console.log("新用户加入: " + JSON.stringify(data.body));
-  sceneManager.getRolesManager().addRole(data.body);
+  console.log("新用户加入: " + JSON.stringify(data.user));
+  sceneManager.getRolesManager().addRole(data.user);
 }
 
 function onUserLeave(data){
-  console.log("用户离开: " + JSON.stringify(data.body));
-  sceneManager.getRolesManager().deleteRole(data.body.uid);
+  console.log("用户离开: " + JSON.stringify(data.uid));
+  sceneManager.getRolesManager().deleteRole(data.uid);
 }
 
 //暴露的接口和对象

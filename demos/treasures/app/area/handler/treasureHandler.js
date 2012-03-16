@@ -3,6 +3,12 @@ var handler = module.exports;
 var treasureService = require('../../service/treasureService');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
+var app = require('../../../../../lib/pomelo').getApplication();
+var channelManager = app.get('channelManager');
+var channel = channelManager.getChannel('pomelo');
+if(!channel)
+  channel = channelManager.createChannel('pomelo');
+
 /**
  * 用户抢宝
  * @param userId
@@ -17,14 +23,14 @@ handler.pickItem = function (msg, session){
   var sceneId = 0;
   treasureService.pickItem(uid,treasureId,sceneId,function(err,result){
   logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + result);
-  var result ={'type':msg.route, 'code':200 ,'body':{success:result,treasureId:treasureId}};
-//  channelClient.publishState(result);
+  var result ={route:msg.route, code:200 ,success:result,treasureId:treasureId};
 //  handler.updateRankList();
       if (err){
         session.response({route: msg.route, code:500});
       }
       else{
-        session.response({route: msg.route, code: 200, result: result});
+        //session.response({route: msg.route, code: 200, result: result});
+        channel.pushMessage(result);
       }
   //utils.invokeCallback(cb, null, result);
   });

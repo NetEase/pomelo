@@ -6,8 +6,8 @@ var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 var eventUtils = require('../../../../../lib/util/event/eventUtils');
 var Event= require('../../../../../lib/util/event/event');
 var Move= require('../../meta/move');
-var app = require('../../../../../lib/pomelo').getApplication();
 
+var app = require('../../../../../lib/pomelo').getApplication();
 var channelManager = app.get('channelManager');
 var channel = channelManager.getChannel('pomelo');
 if(!channel)
@@ -47,6 +47,7 @@ handler.addUser = function(msg, session) {
 			if(!!err) {
 				session.response({route: msg.route, code: 500});
 			} else {
+			  channel.pushMessage({route:'onUserJoin', user: data});
 			  channel.add(uid);
 				session.response({route: msg.route, code: 200});
 			}
