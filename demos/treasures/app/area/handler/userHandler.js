@@ -84,7 +84,7 @@ handler.move = function (msg, session){
 		var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 		var event = Event.create({period: period, loop: false, method: handler.moveCalc, params: move, host: handler.host, hash: "areaId:0;moveCalc:"+move.uid});
 		eventUtils.startEvent(event);
-    console.log('[move]  msg: ' + JSON.stringify(msg));
+        console.log('[move]  msg: ' + JSON.stringify(msg));
 		session.response({route: msg.route, body: move, code: 200});
 	});
 };

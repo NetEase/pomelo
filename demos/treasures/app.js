@@ -15,7 +15,7 @@ app.configure('production|development', 'connector', function(){
     app.use(authFilter);
 });
 
-appTemplate.finish(app);
+appTemplate.done(app);
 
 startWebServer();
 
