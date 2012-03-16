@@ -6,7 +6,14 @@ var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 var eventUtils = require('../../../../../lib/util/event/eventUtils');
 var Event= require('../../../../../lib/util/event/event');
 var Move= require('../../meta/move');
- 
+
+var app = require('../../../../../lib/pomelo').getApp();
+var channelManager = app.get('channelManager');
+var channel = channelManager.getChannel('pomelo');
+if(!channel)
+  channel = channelManager.createChannel('pomelo');
+  
+var schedule = require('pomelo-schedule');
 
 var initX = 100;
 var initY = 100;
@@ -40,6 +47,8 @@ handler.addUser = function(msg, session) {
 			if(!!err) {
 				session.response({route: msg.route, code: 500});
 			} else {
+			  channel.pushMessage({route:'onUserJoin', user: data});
+			  channel.add(uid);
 				session.response({route: msg.route, code: 200});
 			}
 		});
@@ -82,21 +91,25 @@ handler.move = function (msg, session){
 		sceneDao.setUserPos(0, uid, {x: path[1].x, y: path[1].y});
 		var period = 100; //算出时间？TODO
 		var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
-		var event = Event.create({period: period, loop: false, method: handler.moveCalc, params: move, host: handler.host, hash: "areaId:0;moveCalc:"+move.uid});
-		eventUtils.startEvent(event);
-    console.log('[move]  msg: ' + JSON.stringify(msg));
+
+		
+		schedule.scheduleJob({period: period, count: 1}, handler.moveCalc, {move: move, channel: channel, route:'onMove'});
+        console.log('[move]  msg: ' + JSON.stringify(msg));
 		session.response({route: msg.route, body: move, code: 200});
 	});
 };
 
-handler.moveCalc = function(move){
+handler.moveCalc = function(data){
+  var move = data.move;
+  var channel = data.channel;
+  
   logger.debug('invoke move:');
   var startx = move.startx;
   var starty = move.starty;
   var target = move.path[1];
   var time = move.time;
   logger.debug(startx+","+starty+","+time+","+target.x+","+target.y);
-  channelClient.publishStateByExcept([move.uid],{uid: move.uid, path: [{x: startx, y: starty},{x: target.x, y: target.y}], time: time},clientConstant.USER_MOVE);
+  channel.pushMessage({route: data.route, uid: move.uid, path: [{x: startx, y: starty},{x: target.x, y: target.y}], time: time});
 };
 
 /**
