@@ -143,7 +143,9 @@ var msgHandlerMap = {
    *    code：     结果代码
    * }
    */
-  'area.userHandler.move': onUserMove,           //接受用户移动请求返回结果  
+  //'area.userHandler.move': onUserMove,           //接受用户移动请求返回结果  
+  
+  'onMove': onUserMove,           //接受用户移动请求返回结果
   
   /**
    * 用户退出
@@ -260,8 +262,8 @@ function onGenTimeRefresh(data){
  * 处理用户移动请求
  */
 function onUserMove(data){
-  console.log("User move :" + JSON.stringify(data.body));
-  sceneManager.getRolesManager().moveRole(data.body);
+  console.log("User move :" + JSON.stringify(data));
+  sceneManager.getRolesManager().moveRole(data);
 }
 
 function onUserJoin(data){
