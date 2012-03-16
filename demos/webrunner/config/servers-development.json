@@ -1,6 +1,6 @@
 {
   "connector": [
-  	{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050}
+  	{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050,"wsPort":3050}
   ], 
   "logic": [
   	{"id": "logic-server-1", "host": "127.0.0.1", "port": 6050}

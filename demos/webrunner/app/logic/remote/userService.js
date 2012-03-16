@@ -9,7 +9,7 @@ exp.getUserInfo = function(uid, fn) {
 }
 
 exp.joinChannel = function(cname, uid, cb) {
-	var cm = pomelo.getApplication().get('channelManager');
+	var cm = pomelo.getApp().get('channelManager');
 	var channel = cm.getChannel(cname);
 	if(!channel) {
 		channel = cm.createChannel(cname);

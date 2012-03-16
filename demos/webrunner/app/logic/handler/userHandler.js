@@ -6,7 +6,7 @@ handler.getUserInfo = function(msg, session){
   console.log('[userHandler.getUserInfo] route:' + msg.route + ' uid:' + msg.params.uid);
   
   try {
-  	pomelo.getApplication().get('proxyMap').user.logic.userService.getUserInfo(msg.params.uid, function(err, uinfo) {
+  	pomelo.getApp().get('proxyMap').user.logic.userService.getUserInfo(msg.params.uid, function(err, uinfo) {
   		session.response({route: msg.route, code: 200, user: uinfo});
   	});
   } catch(err) {
@@ -17,7 +17,7 @@ handler.getUserInfo = function(msg, session){
 
 handler.broadcast = function(msg, session) {
 	var name = 'test-channel';
-	var cm = pomelo.getApplication().get('channelManager');
+	var cm = pomelo.getApp().get('channelManager');
 	var channel = cm.getChannel(name);
 	if(!channel) {
 		logger.error('[broadcast] channel not exist. name:' + name);
