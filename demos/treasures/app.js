@@ -1,102 +1,24 @@
 var pomelo = require('../../lib/pomelo');
-var logFilter = require('../../lib/filters/logFilter');
+var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
-var handlerManager = require('../../lib/handlerManager');
 
-var app = module.exports = pomelo.createApp();
-
-
-var args = process.argv;
-// config
-var env = 'development';
-
-if (args.length > 2){
-    env = args[2];
-}
-
-var serverType = 'all';  // if dev, means all server
-var serverId = '';
-
-if ((args.length >= 4) && (env == 'production')){
-  serverType = args[3];  //  area, logic, login or other servers
-  serverId = args[4]==undefined?null:args[4];
-}
-
-
-app.set('name', '抢宝');
-app.set('env', env);
-app.set('serverType', serverType);
-app.set('serverId', serverId);
-
-console.log('before app.configure with ' + '[serverType]:' + serverType + ' [serverId]:'  + serverId);
+var app = appTemplate.init();
+app.set('name','抢宝');
+app.set('dirname', __dirname);
+appTemplate.defaultConfig(app);
 
 app.configure(function(){
-	  //app.use(app.router); //filter out requests
-	  app.use(logFilter); //filter out requests
-	  console.log("after config");
-	  app.set('scheduler', __dirname+'/config/scheduler.json');
-	  app.enable('scheduler');
-	  
-	  app.genProxy('connector', __dirname + '/app/connector/remote');
-	  app.genProxy('area', __dirname + '/app/area/remote');
-	  app.genProxy('logic', __dirname + '/app/logic/remote');
-	  app.genProxy('login', __dirname + '/app/login/remote');
-      
-});
-
-
-//generate handlers and remote services, but not listen now.
-app.configure('production|development', 'area', function(){
-	app.genHandler('area', __dirname + '/app/area/handler');
-	app.genRemote('area', __dirname + '/app/area/remote');
-});
-
-app.configure('production|development', 'logic', function(){
-	app.genHandler('logic', __dirname + '/app/logic/handler');
-	app.genRemote('logic', __dirname + '/app/logic/remote');
-});
-
-app.configure('production|development', 'login', function(){
-	app.genHandler('login', __dirname + '/app/login/handler');
-	app.genRemote('login', __dirname + '/app/login/remote');
+    app.use(pomelo.logFilter);
 });
 
 app.configure('production|development', 'connector', function(){
-	app.use(authFilter);
-	app.genHandler('connector', __dirname + '/app/connector/handler');
-	app.genRemote('connector', __dirname + '/app/connector/remote');
+    app.use(authFilter);
 });
 
-// use is filter
-app.configure('development',function(){
-  app.set('servers', __dirname+'/config/servers-development.json');
-  app.set('database',__dirname+'/config/database.json');
-  
-  app.listenAll(app.get('servers'));  // listenAll servers on certain port
-});
+appTemplate.finish(app);
 
-app.configure('production',function(){
-  app.set('servers', __dirname + '/config/servers-production.json');
-  app.set('database',__dirname + '/config/database.json');
-
-  app.listen(app.serverType, app.serverId);  
-});
-
-
-//master run other servers 
-app.configure('production', 'master', function(){
- app.runAll(app.get('servers'), 'master'); // run other servers except master
-});
-
-
-app.configure(function(){
-  app.use(handlerManager); //the last handler
-  startWebServer();
-});
-
-
+startWebServer();
 
 function startWebServer(){
     var app_express = require('./app_express');
-    console.log(' express web server started');
 }
