@@ -3,7 +3,7 @@ var utils = require('../../../../../lib/util/utils');
 var userService = require('../../service/userService');
 var sceneDao = require('../../dao/sceneDao');
 
-var app = require('../../../../../lib/pomelo').getApplication();
+var app = require('../../../../../lib/pomelo').getApp();
 var channelManager = app.get('channelManager');
 var channel = channelManager.getChannel('pomelo');
 if(!channel)

@@ -3,7 +3,7 @@ var handler = module.exports;
 var treasureService = require('../../service/treasureService');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
-var app = require('../../../../../lib/pomelo').getApplication();
+var app = require('../../../../../lib/pomelo').getApp();
 var channelManager = app.get('channelManager');
 var channel = channelManager.getChannel('pomelo');
 if(!channel)

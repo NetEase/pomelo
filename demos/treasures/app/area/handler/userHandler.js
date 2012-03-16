@@ -7,7 +7,7 @@ var eventUtils = require('../../../../../lib/util/event/eventUtils');
 var Event= require('../../../../../lib/util/event/event');
 var Move= require('../../meta/move');
 
-var app = require('../../../../../lib/pomelo').getApplication();
+var app = require('../../../../../lib/pomelo').getApp();
 var channelManager = app.get('channelManager');
 var channel = channelManager.getChannel('pomelo');
 if(!channel)
