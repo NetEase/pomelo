@@ -4,6 +4,9 @@ module.exports.login = function(msg, session) {
 	var name = 'test-channel';
 	var uid = msg.params.uid;
 	session.userLogined(uid);
+	session.on('closing', function(session) {
+		session.closed();
+	});
 	var proxy = pomelo.getApp().get('proxyMap');
 	proxy.user.logic.userService.joinChannel(name, uid, function(err) {
 		if(!!err) {
