@@ -33,8 +33,8 @@ console.log('before app.configure with ' + '[serverType]:' + serverType + ' [ser
 app.configure(function(){
 	  //app.use(app.router); //filter out requests
 	  app.use(logFilter); //filter out requests
-	  app.set('scheduler', __dirname + '/config/scheduler.json');
-	  app.enable('scheduler');
+	  app.set('schedulerService', __dirname + '/config/scheduler.json');
+	  app.enable('schedulerService');
 	  
 	  //user proxy
 	  app.genProxy('connector', __dirname + '/app/connector/remote');

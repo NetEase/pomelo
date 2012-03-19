@@ -1,3 +1,5 @@
-[
-  ["0 0/3 *  * * *","area.treasureService.generateTreasures", {"name":"3分执行一次"}]
-]
+{
+  "area-server-1":[
+    ["0 0/3 *  * * *","area.treasureService.generateTreasures", {"name":"3分执行一次"}]
+  ]
+}
