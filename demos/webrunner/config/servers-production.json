@@ -1,19 +1,20 @@
 {
-  "master" : [
-    {"id": "master-server-1", "host": "127.0.0.1", "port": 4050}
-  ],
+  "master": [
+  	{"id": "master-server-1", "host": "192.168.130.106", "port": 3005}
+  ], 
   "connector": [
-  	{"id": "connector-server-1", "host": "127.0.0.1", "port": 5050, "wsPort":3050}
-  ], 
-  "logic": [
-  	{"id": "logic-server-1", "host": "127.0.0.1", "port": 6050},
-  	{"id": "logic-server-2", "host": "127.0.0.1", "port": 6051}
-  ], 
-  "area": [
-  	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050},
-  	{"id": "area-server-2", "host": "127.0.0.1", "port": 8051}
+  	{"id": "connector-server-1", "host": "192.168.130.106", "port": 4050, "wsPort":3050}
   ], 
   "login": [
-  	{"id": "login-server-1", "host": "127.0.0.1", "port": 9050}
+  	{"id": "login-server-1", "host": "192.168.130.106", "port": 4060},
+  	{"id": "login-server-1", "host": "192.168.130.106", "port": 4061}
+  ], 
+  "logic": [
+  	{"id": "logic-server-1", "host": "192.168.130.107", "port": 6050},
+  	{"id": "logic-server-2", "host": "192.168.130.107", "port": 6051}
+  ], 
+  "area": [
+  	{"id": "area-server-1", "host": "192.168.130.107", "port": 8050},
+  	{"id": "area-server-2", "host": "192.168.130.107", "port": 8051}
   ]
 }
