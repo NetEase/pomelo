@@ -1,0 +1,115 @@
+/**
+ * CSS 文件
+ */
+body {
+    background: #333 scroll;
+    font-size: 12px;
+}
+
+/***登陆界面背景***/
+.m-login {
+    background: url(../images/login_bg.png);
+    border: solid #222;
+    text-align: center;
+    width: 1000px;
+    height: 600px;
+    margin: auto;
+}
+
+/**
+ * 切换管理显示模块
+ */
+.m-switch-model-hiden {
+    display: none;
+}
+
+/***登陆输入框***/
+.m-input {
+    margin-top: 340px;
+}
+
+.m-input label, .m-input input {
+    margin-top: 5px;
+}
+
+/***选英雄界面背景***/
+.m-heroSelect {
+    background: url(../images/hero_bg.png);
+    border: solid #222;
+    text-align: center;
+    width: 1000px;
+    height: 600px;
+    margin: auto;
+}
+
+.m-hero {
+    margin-top: 200px;
+}
+
+.m-hero-input {
+    margin-top: 120px;
+}
+
+.m-hero-input label, .m-hero-input input {
+    margin-top: 5px;
+}
+
+.m-hero-selected, img:hover {
+    background: url(../images/hero_selected.png);
+    border: inset #111;
+}
+
+/***游戏界面背景***/
+.m-gameview {
+    border: solid #222;
+    text-align: center;
+    width: 1000px;
+    height: 600px;
+    margin: auto;
+}
+
+#rank-view{
+    position: absolute;
+    top: 40px;
+    right: 30px;
+    width: 210px;
+    background-color: #EFC;
+}
+
+#tick-view{
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    width: 210px;
+    background-color: #EFC;
+}
+
+#tick-label{
+    color: red;
+}
+#rank-view ul{
+    padding: 2px 16px;
+}
+
+#rank-view li{
+    list-style-type: none;
+    height: 18px;
+}
+
+#rank-view li:after{
+    clear: both;
+}
+
+span.rank-player-name {
+    float: left;
+    color: #007020;
+    width: 72px;
+    height: 18px;
+    overflow: hidden;
+}
+
+span.rank-player-score {
+    float: right;
+    color: #4070A0;
+    width: 36px;
+}
