@@ -22,7 +22,7 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	function init(params){
 	  //使用参数值进行初始化
 	  //线上的配置
-	  socket = io.connect('http://localhost:3050');
+	  socket = io.connect('http://'+window.location.hostname+':3050');
 	  
 	  socket.on('connect', function(data){
 	    console.log("On connect, yes we connected");
