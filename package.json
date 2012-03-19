@@ -25,6 +25,7 @@
   , "local-proxy": ">=0.0.1"
   , "rpc-gateway": ">=0.0.1"
   , "async": ">=0.0.1"
+  , "seq-queue": ">=0.0.4"
   , "commander" : ">=0.5.2"
   }, 
   "devDependencies": {

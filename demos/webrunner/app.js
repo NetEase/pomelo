@@ -1,6 +1,7 @@
 var pomelo = require('../../lib/pomelo');
 var logFilter = require('../../lib/filters/logFilter');
 var handlerManager = require('../../lib/handlerManager');
+var serialFilter = require('../../lib/filters/serialFilter');
 
 var app = module.exports = pomelo.createApp();
 
@@ -54,6 +55,7 @@ app.configure('production|development', 'logic', function(){
 });
 
 app.configure('production|development', 'connector', function(){
+	app.use(serialFilter);
 	app.genHandler('connector', __dirname + '/app/connector/handler');
 	app.genRemote('connector', __dirname + '/app/connector/remote');
 });

@@ -33,6 +33,7 @@ exp.register = function(msg, session) {
 };
 
 var afterLogin = function(msg, session, uinfo) {
+	logger.error('uinfo: %j', uinfo);
 	session.userLogined(uinfo.uid);
 	session.on('closing', onUserLeave);
 	
