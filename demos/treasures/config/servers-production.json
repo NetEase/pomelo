@@ -7,7 +7,7 @@
   ], 
   "login": [
   	{"id": "login-server-1", "host": "172.17.2.235", "port": 4060},
-  	{"id": "login-server-1", "host": "172.17.2.235", "port": 4061}
+  	{"id": "login-server-2", "host": "172.17.2.235", "port": 4061}
   ], 
   "logic": [
   	{"id": "logic-server-1", "host": "172.17.2.236", "port": 6050},

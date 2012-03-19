@@ -77,7 +77,7 @@ app.configure('production',function(){
 
 //master run other servers 
 app.configure('production', 'master', function(){
- //app.runAll(app.get('servers'), 'master'); // run other servers except master
+ app.runAll(app.get('servers'), 'master'); // run other servers except master
 });
 
 app.configure(function(){
