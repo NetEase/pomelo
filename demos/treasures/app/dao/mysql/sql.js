@@ -18,6 +18,10 @@ NND.init = function(confFile){
 NND.query = function(sql, args, callback){
 
 	_pool.acquire(function(err, client) {
+        if (!!err) {
+            console.log('[sqlqueryErr] '+err.stack);
+        	return;
+        }
 	
 	    client.query(sql, args, function(err, res) {
 	    

@@ -2,7 +2,7 @@
 "development": 
     { 
       "host" : "192.168.130.107", 
-      "port" : "3306", 
+      "port" : "33061", 
       "database" : "pomelo", 
       "username" : "xcc", 
       "password" : "" 
