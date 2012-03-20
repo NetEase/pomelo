@@ -1,10 +1,10 @@
 {
-"development": 
+	"development": 
     { 
       "host" : "192.168.130.107", 
       "port" : "6379" 
     },
-"production": 
+	"production": 
     {
      "host" : "app47v2.photo.163.org", 
      "port" : "6379" 
