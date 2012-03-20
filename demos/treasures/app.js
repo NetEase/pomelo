@@ -1,7 +1,6 @@
 var pomelo = require('../../lib/pomelo');
 var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
-var serialFilter = require('../../lib/filters/serialFilter');
 
 var app = appTemplate.init();
 app.set('name','抢宝');
@@ -13,7 +12,7 @@ app.configure(function(){
 });
 
 app.configure('production|development', 'connector', function(){
-	app.use(serialFilter);
+  app.use(pomelo.serialFilter);
   app.use(authFilter);
 });
 
