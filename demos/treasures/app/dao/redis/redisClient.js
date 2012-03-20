@@ -1,8 +1,9 @@
 var redis = require('redis');
 
-var config = require('./config')
+var app = require('../../../../lib/application');
 
-var client = redis.createClient(config.redisport,config.host);//app-26.photo.163.org
+
+var client = redis.createClient(app.redis.host,app.redis.port);//app-26.photo.163.org
 
 var kvDb = module.exports;
 

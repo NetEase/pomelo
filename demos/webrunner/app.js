@@ -5,8 +5,6 @@ var serialFilter = require('../../lib/filters/serialFilter');
 
 var app = module.exports = pomelo.createApp();
 
-console.log(__dirname + '/config/servers-production.json');
-
 var args = process.argv;
 // config
 var env = 'development';
@@ -23,9 +21,9 @@ if ((args.length >= 4) && (env == 'production')){
   serverId = args[4]==undefined?null:args[4];
 }
 
-
 app.set('name', 'webrunner');
 app.set('env', env);
+app.set('main', args[1]);
 app.set('serverType', serverType);
 app.set('serverId', serverId);
 
@@ -36,7 +34,10 @@ app.configure(function(){
 	  app.use(logFilter); //filter out requests
 	  app.set('scheduler', __dirname + '/config/scheduler.json');
 	  app.enable('scheduler');
-	  
+	  app.set('servers', app.getServers(__dirname+'/config/servers.json'));
+	  app.set('redis', app.getServers(__dirname+'/config/redis.json'));
+	  app.set('mysql', app.getServers(__dirname+'/config/mysql.json'));
+
 	  //user proxy
 	  app.genProxy('connector', __dirname + '/app/connector/remote');
 	  app.genProxy('area', __dirname + '/app/area/remote');
@@ -62,15 +63,10 @@ app.configure('production|development', 'connector', function(){
 
 // use is filter
 app.configure('development',function(){
-  app.set('servers', __dirname+'/config/servers-development.json');
-  app.set('database',__dirname+'/config/database.json');
-  
   app.listenAll(app.get('servers'));  // listenAll servers on certain port
 });
 
 app.configure('production',function(){
-  app.set('servers', __dirname + '/config/servers-production.json');
-  app.set('database',__dirname + '/config/database.json');
   app.listen(app.serverType, app.serverId);  
   app.startMonitor();
 });
