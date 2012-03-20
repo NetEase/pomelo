@@ -23,3 +23,7 @@ startWebServer();
 function startWebServer(){
     var app_express = require('./app_express');
 }
+
+process.on('uncaughtException', function(err) {
+	logger.error('Caught exception: ' + err.stack);
+});

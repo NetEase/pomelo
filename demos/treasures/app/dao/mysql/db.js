@@ -1,11 +1,11 @@
-var config = require('./config')
+var app = require('../../../../lib/application');
 /**
  * db configs
  */ 
 module.exports = {
-    host : config.host,
-    port : config.dbport, 
-    database : config.db, 
-    username : config.dbusername, 
-    password : config.dbpassword
+    host : app.mysql.host,
+    port : app.mysql.dbport, 
+    database : app.mysql.db, 
+    username : app.mysql.dbusername, 
+    password : app.mysql.dbpassword
 };
