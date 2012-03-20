@@ -3,6 +3,7 @@ var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 
 var exp = module.exports;
 exp.login = function(msg, session) {
+	debugger;
 	var username = msg.params.username;
 	var pwd = msg.params.password;
 	//TODO: add parameters validating logic

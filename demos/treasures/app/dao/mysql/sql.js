@@ -10,9 +10,9 @@ var NND = module.exports = {};
 /*
  * 初始化数据库连接池
  */
-NND.init = function(confFile){
-
-	_pool = require('./dao-pool').createMysqlPool(confFile);
+NND.init = function(){
+	var app = require('../../../../../lib/pomelo').getApp();
+	_pool = require('./dao-pool').createMysqlPool(app);
 }
 
 NND.query = function(sql, args, callback){

@@ -1,5 +1,5 @@
 var utils = require('../../../../lib/util/utils');
-var dbclient = require('../dao/mysql/mysql');
+var dbclient = require('../dao/mysql/mysql').client;
 var WGError = require('../meta/WGError');
 var comConst = require('../config/constant');
 
