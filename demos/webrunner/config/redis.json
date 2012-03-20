@@ -6,7 +6,7 @@
     },
 "production": 
     {
-     "host" : "192.168.130.107", 
+     "host" : "app47v2.photo.163.org", 
      "port" : "6379" 
     }
 }

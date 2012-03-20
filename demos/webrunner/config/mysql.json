@@ -1,5 +1,5 @@
 {
-"development": 
+	"development": 
     { 
       "host" : "192.168.130.107", 
       "port" : "3306", 
@@ -7,12 +7,12 @@
       "username" : "xcc", 
       "password" : "" 
     },
-"production": 
+	"production": 
     {
-     "host" : "192.168.130.107", 
+     "host" : "app47v2.photo.163.org", 
      "port" : "3306", 
      "database" : "pomelo", 
-     "username" : "xcc", 
-     "password" : "" 
+     "username" : "root", 
+     "password" : "123456" 
     }
 }
