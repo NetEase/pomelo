@@ -2,7 +2,6 @@
 var pomelo = require('../../lib/pomelo');
 var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
-var serialFilter = require('../../lib/filters/serialFilter');
 
 var app = appTemplate.init();
 app.set('name','抢宝');
@@ -14,7 +13,7 @@ app.configure(function(){
 });
 
 app.configure('production|development', 'connector', function(){
-	app.use(serialFilter);
+  app.use(pomelo.serialFilter);
   app.use(authFilter);
 });
 
@@ -25,3 +24,7 @@ startWebServer();
 function startWebServer(){
     var app_express = require('./app_express');
 }
+
+process.on('uncaughtException', function(err) {
+	console.error(' Caught exception: ' + err.stack);
+});

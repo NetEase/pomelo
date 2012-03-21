@@ -8,6 +8,7 @@ var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 var userService = require('../../service/userService');
 
 exp.checkPassport = function (username, pwd, cb){
+	debugger;
   logger.info('[checkPassport] username:'+ username);
   
   if(!!username && !!pwd){
