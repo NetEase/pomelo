@@ -1,6 +1,8 @@
 var handler = module.exports;
 
 var treasureService = require('../../service/treasureService');
+var rankService=require('../../service/rankService');
+var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
 var app = require('../../../../../lib/pomelo').getApp();
@@ -22,17 +24,15 @@ handler.pickItem = function (msg, session){
   //var sceneId = session.sceneId;
   var sceneId = 0;
   treasureService.pickItem(uid,treasureId,sceneId,function(err,result){
-  logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + result);
-  var result ={route:msg.route, code:200 ,success:result,treasureId:treasureId};
-//  handler.updateRankList();
-      if (err){
+  	logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + result);
+  	var result ={route:msg.route, code:200 ,success:result,treasureId:treasureId};
+    if (err){
         session.response({route: msg.route, code:500});
       }
-      else{
-        //session.response({route: msg.route, code: 200, result: result});
-        channel.pushMessage(result);
+    else{
+         channel.pushMessage(result);
+         updateRankList();
       }
-  //utils.invokeCallback(cb, null, result);
   });
 };
 
@@ -53,17 +53,25 @@ handler.getTreasures = function(msg, session){
  * 
  * @param move
  */
-
-
-
 /**
  * 排名推送
  *
  */
+function updateRankList(){
+	rankService.getTopN(ServerConstant.top,function(err,data){
+	  if(err){
+	   logger.error('排名推送失败!');
+	  }
+	  var msg={'route':'area.onRankListChange','rankList':data};
+	  channel.pushMessage(msg);
+	  logger.info('排名推送成功!');
+	});
+}
 
-handler.updateRankList = function(){
-    rankService.getTopN(ServerConstant.top,function(err,data){
-    var msg={'type':clientConstant.RANK_LIST_REFRESH, 'code':200 ,'body':data};
-    channelClient.publishState(msg);
-  });
-};
+
+//handler.updateRankList = function(){
+//    rankService.getTopN(ServerConstant.top,function(err,data){
+//    var msg={'type':clientConstant.RANK_LIST_REFRESH, 'code':200 ,'body':data};
+//    channelClient.publishState(msg);
+//  });
+//};

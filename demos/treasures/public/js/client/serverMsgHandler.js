@@ -12,7 +12,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 	var sceneManager = require('sceneManager');
 	var heroSelectView = require('heroSelectView');//选角色管理
 
-	var rankViewManager = require('rankManager');
+	var rankManager = require('rankManager');//积分（排名）管理
 
 	var tickViewManager = require('tickViewManager');
 
@@ -152,7 +152,7 @@ var msgHandlerMap = {
    */
   'onUserLeave': onUserLeave,
   
-  'onRankListChange': onRankListChange,
+  'area.onRankListChange': onRankListChange,
   
   'onGenTimeRefresh': onGenTimeRefresh
   
@@ -208,6 +208,7 @@ function onRegister(data){
       clientManager.uid = userData.uid;
       sceneManager.enterScene({}, userData);
       
+      
       clientManager.getCurrentScene();
   }  
 }
@@ -219,8 +220,8 @@ function onGenerateTreasures(data){
   tickViewManager.refresh(data.body.leftTime);
 }
 
-function onRankListChange(data){
-  rankViewManager.refreshView(data.body);
+function onRankListChange(rankList){
+  rankManager.refreshView(rankList);
 }
   /**
    * 初始化场景

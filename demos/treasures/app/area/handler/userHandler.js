@@ -2,6 +2,8 @@ var handler = module.exports;
 
 var sceneDao = require('../../dao/sceneDao');
 var userService = require('../../service/userService');
+var rankService=require('../../service/rankService');
+var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 var eventUtils = require('../../../../../lib/util/event/eventUtils');
 var Event= require('../../../../../lib/util/event/event');
@@ -49,7 +51,9 @@ handler.addUser = function(msg, session) {
 			} else {
 			  channel.pushMessage({route:'onUserJoin', user: data});
 			  channel.add(uid);
-				session.response({route: msg.route, code: 200});
+			  logger.debug('[onaddUser] updateRankList');
+			  updateRankList();
+			  session.response({route: msg.route, code: 200});			  
 			}
 		});
 	});
@@ -125,4 +129,15 @@ handler.getOnlineUsers = function(msg, session){
       session.response({route: msg.route, code: 200, result: result});
     }
   })
+}
+
+function updateRankList(){
+	rankService.getTopN(ServerConstant.top,function(err,data){
+	  if(err){
+	   logger.error('排名推送失败!');
+	  }
+	  var msg={'route':'area.onRankListChange','rankList':data};
+	  channel.pushMessage(msg);
+	  logger.info('排名推送成功!');
+	});
 }

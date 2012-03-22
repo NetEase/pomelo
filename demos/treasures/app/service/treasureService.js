@@ -40,7 +40,7 @@ trservice.generateTreasures = function (sceneId,cb){
 			//logger.debug(data);
 		});
 		lastGenTime = new Date().getTime(); 
-		logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ' + JSON.stringify(tmpLTreasure));
+		//logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ' + JSON.stringify(tmpLTreasure));
 		utils.invokeCallback(cb, null, {treasures:tmpLTreasure,leftTime:leftTime});
 	});
 };
