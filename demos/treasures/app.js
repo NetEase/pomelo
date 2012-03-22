@@ -18,7 +18,9 @@ app.configure('production|development', 'connector', function(){
 
 appTemplate.done(app);
 
-startWebServer();
+if (app.env === 'development' || app.serverType==='master') {
+  	startWebServer();
+ };
 
 function startWebServer(){
     var app_express = require('./app_express');
@@ -26,4 +28,8 @@ function startWebServer(){
 
 process.on('uncaughtException', function(err) {
 	console.error(' Caught exception: ' + err.stack);
+});
+
+process.on('SIGINT', function() {
+	app.quit();
 });

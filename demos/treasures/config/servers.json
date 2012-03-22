@@ -15,10 +15,7 @@
 	  ]
     },
 	"production": 
-    {
-      "master": [
-  		{"id": "master-server-1", "host": "172.17.2.237", "port": 3005}
-	  ], 
+    { 
 	  "connector": [
 	  	{"id": "connector-server-1", "host": "172.17.2.237", "port": 4050, "wsPort":3050}
 	  ], 

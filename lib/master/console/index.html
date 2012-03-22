@@ -4,8 +4,7 @@
 <link rel="stylesheet" type="text/css" href="css/web_client.css" />
 <link rel="stylesheet" type="text/css" href="css/colors.css" />
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script	src="/js/lib/jquery.min.js"></script>
 <script src="/js/lib/socket.io.js"></script>
 <script src="/js/lib/underscore.min.js"></script>
 <script src="/js/node.js"></script>
@@ -29,7 +28,27 @@
 		</div>
 		<!-- #controls -->
 		<div id="right">
-			<div id="screens"></div>
+			<div id="screens">
+			<!-- #history_template -->
+			<!-- #stream_template -->
+			<div class="screen history" id="history_template2">
+				<div class="bar">
+					<span class="screen-label">日志信息</span>
+					<div class="bar-top-right">
+						<div class="screen-buttons">
+							<a class="button close" href="#"><img
+								src="/images/icons/cross.png" title="Close Screen" /></a>
+						</div>
+						<div class="screen-search">
+							<a href="#" class="result-count"></a>
+						</div>
+					</div>
+				</div>
+				<div class="console"></div>
+			</div>
+			<!-- #history_template -->
+			
+			</div>
 
 			<div id="bottom">
 				<div id="bottom2">
@@ -53,6 +72,7 @@
 					<div class="add-buttons">
 						<div class="add-button" id="add-stream-button" style="display:none">+ Stream</div>
 						<div class="add-button" id="add-history-button" style="display:none">+ History</div>
+						<div class="add-button" id="shut-down-button" style="">关闭所有服务器</div>
 					</div>
 				</div>
 			</div>
@@ -61,25 +81,21 @@
 		</div>
 
 		<div id="templates">
-
 			<div class="group" id="node_template">
 				<div class="group2">
 					<div class="node"></div>
 				</div>
 			</div>
 			<!-- #node_template -->
-
 			<div class="log_file" id="log_file_template">
 				<div class="status"></div>
 				<div class="label"></div>
 				<div class="screens"></div>
 			</div>
 			<!-- #log_file_template -->
-
 			<div class="screen stream" id="stream_template">
 				<div class="bar">
 					<span class="screen-label">系统信息</span>
-
 					<div class="bar-top-right">
 						<div class="screen-buttons">
 							<a class="button close" href="#"><img
@@ -99,10 +115,9 @@
 				<div class="console"></div>
 			</div>
 			<!-- #stream_template -->
-
 			<div class="screen history" id="history_template">
 				<div class="bar">
-					<span class="screen-label">日志信息</span>
+					<span class="screen-label">请求信息</span>
 					<div class="bar-top-right">
 						<div class="screen-buttons">
 							<a class="button close" href="#"><img
@@ -116,7 +131,23 @@
 				<div class="console"></div>
 			</div>
 			<!-- #history_template -->
-
+			<!-- #stream_template -->
+			<div class="screen history" id="history_template2">
+				<div class="bar">
+					<span class="screen-label">请求vv信息</span>
+					<div class="bar-top-right">
+						<div class="screen-buttons">
+							<a class="button close" href="#"><img
+								src="/images/icons/cross.png" title="Close Screen" /></a>
+						</div>
+						<div class="screen-search">
+							<a href="#" class="result-count"></a>
+						</div>
+					</div>
+				</div>
+				<div class="console"></div>
+			</div>
+			<!-- #history_template -->
 		</div>
 		<!-- #templates -->
 </body>

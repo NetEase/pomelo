@@ -37,7 +37,7 @@ app.configure(function(){
 	  app.set('servers', app.getServers(__dirname+'/config/servers.json'));
 	  app.set('redis', app.getServers(__dirname+'/config/redis.json'));
 	  app.set('mysql', app.getServers(__dirname+'/config/mysql.json'));
-
+	  app.set('master', app.getServers(app.get('dirname')+'/config/master.json'));
 	  //user proxy
 	  app.genProxy('connector', __dirname + '/app/connector/remote');
 	  app.genProxy('area', __dirname + '/app/area/remote');

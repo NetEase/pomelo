@@ -15,6 +15,7 @@
   ],
   
   "levels": {
-    "tests":  "DEBUG"
+    "tests":  "DEBUG",
+    "treasureDao": "INFO
   }
 }
