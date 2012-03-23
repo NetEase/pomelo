@@ -1,7 +1,7 @@
 {
   "name": "pomelo-core", 
-  "version": "0.0.1",
-  "private": true, 
+  "version": "0.10",
+  "private": false, 
   "dependencies": {
    	"dnode": ">=0.0.1" 
   , "express": "2.5.2"
