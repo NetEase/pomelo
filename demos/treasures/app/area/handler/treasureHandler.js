@@ -60,18 +60,11 @@ handler.getTreasures = function(msg, session){
 function updateRankList(){
 	rankService.getTopN(ServerConstant.top,function(err,data){
 	  if(err){
-	   logger.error('排名推送失败!');
+	   logger.error('updateRankList failed!');
 	  }
 	  var msg={'route':'area.onRankListChange','rankList':data};
 	  channel.pushMessage(msg);
-	  logger.info('捡宝后，排名推送成功!');
+	  logger.info('pickItem,updateRankList success!!');
 	});
 }
 
-
-//handler.updateRankList = function(){
-//    rankService.getTopN(ServerConstant.top,function(err,data){
-//    var msg={'type':clientConstant.RANK_LIST_REFRESH, 'code':200 ,'body':data};
-//    channelClient.publishState(msg);
-//  });
-//};
