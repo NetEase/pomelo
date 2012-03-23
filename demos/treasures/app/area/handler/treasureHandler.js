@@ -64,7 +64,7 @@ function updateRankList(){
 	  }
 	  var msg={'route':'area.onRankListChange','rankList':data};
 	  channel.pushMessage(msg);
-	  logger.info('排名推送成功!');
+	  logger.info('捡宝后，排名推送成功!');
 	});
 }
 

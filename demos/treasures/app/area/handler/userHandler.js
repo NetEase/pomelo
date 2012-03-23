@@ -52,7 +52,7 @@ handler.addUser = function(msg, session) {
 			  channel.pushMessage({route:'onUserJoin', user: data});
 			  channel.add(uid);
 			  logger.debug('[onaddUser] updateRankList');
-			  updateRankList();
+			  updateRankList(session, uid);
 			  session.response({route: msg.route, code: 200});			  
 			}
 		});
@@ -130,14 +130,22 @@ handler.getOnlineUsers = function(msg, session){
     }
   })
 }
-
-function updateRankList(){
+/**
+ * 排名推送
+ */
+function updateRankList(session, uid){
+//	var channelManager = app.get('channelManager');
+    var channel = channelManager.createChannel(uid);
+    channel.add(uid);
 	rankService.getTopN(ServerConstant.top,function(err,data){
 	  if(err){
 	   logger.error('排名推送失败!');
 	  }
-	  var msg={'route':'area.onRankListChange','rankList':data};
+	  var msg={'route':'area.onRankListChange','rankList':data,'flag':uid, 'code':200};
+//	  var groups={'uid':uid};
+	  //session.socket.emit('message',msg);
+//      logger.info("当前玩家的Uid是"+uid);
 	  channel.pushMessage(msg);
-	  logger.info('排名推送成功!');
+	  logger.info('登陆时，排名推送成功!');
 	});
 }
