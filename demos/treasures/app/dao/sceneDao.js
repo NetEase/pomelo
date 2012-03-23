@@ -31,16 +31,16 @@ function uidKeyPattern(scene){
  * @param uid
  * @param position {x:x,y:y}
  */
-sceneDao.addUser = function(scene, uid, roleId, name, position, cb){
+sceneDao.addUser = function(scene, uid, roleId, name, position,cb){
 	redis.get(uidKey(scene,uid),function(err, data){
 		//logger.debug(data);
 		logger.debug('===== begin add user:'+scene+","+uid);
 		if(!!data && !!data.uid && !!data.roleId && !!data.name){
-		  logger.debug('===== add user:'+scene+","+uid);
-		  redis.sadd(usersOnlineKey(scene), data, cb);
+		  //logger.debug('===== add user:'+scene+","+uid);
+		  redis.sadd(usersOnlineKey(scene), data);
 		}else{	
 		  //var multi = redis.multi();
-		  logger.debug('===== update add user:'+scene+","+uid);
+		  //logger.debug('===== update add user:'+scene+","+uid);
 		  //redis.set(usersOnlineKey(scene), uid);
 		  var user = {uid:uid,x:position.x,"y":position.y,"roleId":roleId, "name":name};
 		  redis.set(uidKey(scene,uid),user);
@@ -48,9 +48,8 @@ sceneDao.addUser = function(scene, uid, roleId, name, position, cb){
 		  redis.sadd(usersOnlineKey(scene), user);
 		  //redis.hmset(uidKey(scene, uid),"x",''+position.x,"y",''+position.y, "uid", ''+uid, "roleId", ''+roleId, "name", name);
 		  //multi.exec(cb);
-		  utils.invokeCallback(cb,null,uid);
-		  
 		}
+		utils.invokeCallback(cb,null,uid);
 	});
 };
 

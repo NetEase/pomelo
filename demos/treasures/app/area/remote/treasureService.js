@@ -3,6 +3,13 @@ var handler = module.exports;
 var treasureService = require('../../service/treasureService');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
+var app = require('../../../../../lib/pomelo').getApp();
+
+var channelManager = app.get('channelManager');
+var channel = channelManager.getChannel('pomelo');
+if(!channel)
+  channel = channelManager.createChannel('pomelo');
+
 /**
  * 生成新的宝物配置
  * 宝物位置可能重叠，未区分位置
@@ -12,7 +19,8 @@ handler.generateTreasures = function(msg, session){
     var sceneId = 0;
 	logger.debug('generateTreasures event info'+sceneId);
 	treasureService.generateTreasures(sceneId,function(err,data){
-        var msg={'type':'onGenerateTreasures', 'code':200 ,'body':data};
+        var msg={"route":"area.treasureHandler.getTreasures","code":200,"result":data.treasures};
+        channel.pushMessage(msg);
 //		channelClient.publishState(msg);
         if (err){
         	session.response(err);

@@ -45,14 +45,14 @@ handler.addUser = function(msg, session) {
   var uid = session.uid;
 	logger.debug('user login :'+uid+","+this.name);
 	userService.getUserById(uid,function(err, data){
-		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err) {
+		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
 			if(!!err) {
 				session.response({route: msg.route, code: 500});
 			} else {
 			  channel.pushMessage({route:'onUserJoin', user: data});
 			  channel.add(uid);
 			  logger.debug('[onaddUser] updateRankList');
-			  updateRankList(session, uid);
+			  updateRankList(uid);
 			  session.response({route: msg.route, code: 200});			  
 			}
 		});
@@ -133,10 +133,12 @@ handler.getOnlineUsers = function(msg, session){
 /**
  * 排名推送
  */
-function updateRankList(session, uid){
+function updateRankList(uid){
 //	var channelManager = app.get('channelManager');
-    var channel = channelManager.createChannel(uid);
-    channel.add(uid);
+    //var channel = channelManager.createChannel(uid);
+	//console.error('ssss' + uid + JSON.stringify(channel));
+
+    //channel.add(uid);
 	rankService.getTopN(ServerConstant.top,function(err,data){
 	  if(err){
 	   logger.error('排名推送失败!');
@@ -145,7 +147,7 @@ function updateRankList(session, uid){
 //	  var groups={'uid':uid};
 	  //session.socket.emit('message',msg);
 //      logger.info("当前玩家的Uid是"+uid);
-	  channel.pushMessage(msg);
+	  channel.pushMessageByUid(msg,uid,function(){});
 	  logger.info('登陆时，排名推送成功!');
 	});
 }
