@@ -134,20 +134,15 @@ handler.getOnlineUsers = function(msg, session){
  * 排名推送
  */
 function updateRankList(uid){
-//	var channelManager = app.get('channelManager');
-    //var channel = channelManager.createChannel(uid);
-	//console.error('ssss' + uid + JSON.stringify(channel));
-
-    //channel.add(uid);
 	rankService.getTopN(ServerConstant.top,function(err,data){
 	  if(err){
-	   logger.error('排名推送失败!');
+	   logger.error('updateRankList failed!');
 	  }
 	  var msg={'route':'area.onRankListChange','rankList':data,'flag':uid, 'code':200};
-//	  var groups={'uid':uid};
 	  //session.socket.emit('message',msg);
-//      logger.info("当前玩家的Uid是"+uid);
-	  channel.pushMessageByUid(msg,uid,function(){});
-	  logger.info('登陆时，排名推送成功!');
+	  var uids=[];
+	  uids.push(uid);
+	  channel.pushMessageByUids(msg,uids,function(){});
+	  logger.info('logining,updateRankList success!');
 	});
 }
