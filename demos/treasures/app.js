@@ -14,7 +14,7 @@ app.configure(function(){
     app.use(pomelo.logFilter);
 });
 
-app.configure('production|development', 'connector', function(){
+app.configure('production|localpro|development', 'connector', function(){
   app.use(pomelo.serialFilter);
   app.use(authFilter);
 });
