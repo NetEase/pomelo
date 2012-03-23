@@ -3,6 +3,8 @@ var pomelo = require('../../lib/pomelo');
 var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
 
+ var Mysqlrewriter = require('./app/dao/mysqlrewriter');
+
 var app = appTemplate.init();
 app.set('name','抢宝');
 app.set('dirname', __dirname);
