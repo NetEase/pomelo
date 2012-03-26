@@ -1,10 +1,11 @@
 /**
  * 场景服务的dao
  */
-var redis = require('./redis/redisClient').redis;
+//var redis = require('./redis/redisClient').redis;
+
 var logger = require('../../../../lib/util/log/log').getLogger(__filename);
 var utils = require('../../../../lib/util/utils'); 
-
+var redis = require('./sync').redis;
 
 var sceneDao = module.exports;
 
@@ -30,19 +31,25 @@ function uidKeyPattern(scene){
  * @param uid
  * @param position {x:x,y:y}
  */
-sceneDao.addUser = function(scene, uid, roleId, name, position, cb){
-	redis.hgetall(uidKey(scene,uid),function(err, data){
-		logger.debug('add user:'+scene+","+uid);
-		logger.debug(data);
+sceneDao.addUser = function(scene, uid, roleId, name, position,cb){
+	redis.get(uidKey(scene,uid),function(err, data){
+		//logger.debug(data);
+		logger.debug('===== begin add user:'+scene+","+uid);
 		if(!!data && !!data.uid && !!data.roleId && !!data.name){
-		  redis.sadd(usersOnlineKey(scene), uid, cb);
+		  //logger.debug('===== add user:'+scene+","+uid);
+		  redis.sadd(usersOnlineKey(scene), data);
 		}else{	
-		  var multi = redis.multi();
-		  multi.sadd(usersOnlineKey(scene), uid);
-		  multi.sadd(usersKey(scene), uid);
-		  multi.hmset(uidKey(scene, uid),"x",''+position.x,"y",''+position.y, "uid", ''+uid, "roleId", ''+roleId, "name", name);
-		  multi.exec(cb);
+		  //var multi = redis.multi();
+		  //logger.debug('===== update add user:'+scene+","+uid);
+		  //redis.set(usersOnlineKey(scene), uid);
+		  var user = {uid:uid,x:position.x,"y":position.y,"roleId":roleId, "name":name};
+		  redis.set(uidKey(scene,uid),user);
+		  redis.sadd(usersKey(scene), user);
+		  redis.sadd(usersOnlineKey(scene), user);
+		  //redis.hmset(uidKey(scene, uid),"x",''+position.x,"y",''+position.y, "uid", ''+uid, "roleId", ''+roleId, "name", name);
+		  //multi.exec(cb);
 		}
+		utils.invokeCallback(cb,null,uid);
 	});
 };
 
@@ -54,7 +61,7 @@ sceneDao.addUser = function(scene, uid, roleId, name, position, cb){
  * @param cb
  */
 sceneDao.removeOnline = function(scene, uid, cb){
-  redis.srem(usersOnlineKey(scene), uid, cb);
+  redis.del(usersOnlineKey(scene), uid, cb);
 };
 /**
  * 删除场景内的某个用户
@@ -63,11 +70,9 @@ sceneDao.removeOnline = function(scene, uid, cb){
  * @param uid
  */
 sceneDao.removeUser = function(scene, uid, cb){
-	var multi = redis.multi();
-	multi.srem(usersOnlineKey(scene),uid);
-	multi.srem(usersKey(scene),uid);
-	multi.del(uidKey(scene,uid));
-	multi.exec(cb);
+	redis.del(usersOnlineKey(scene),uid);
+	redis.del(usersKey(scene),uid);
+	redis.del(uidKey(scene,uid),cb);
 };
 /**
  * 获取用户列表
@@ -76,7 +81,7 @@ sceneDao.removeUser = function(scene, uid, cb){
  * @param cb 处理返回值的回调
  */
 sceneDao.getUsers = function(scene,cb){
-  redis.smembers(usersKey(scene),cb);
+  redis.get(usersKey(scene),cb);
 };
 
 /**
@@ -86,7 +91,7 @@ sceneDao.getUsers = function(scene,cb){
  * @param cb
  */
 sceneDao.getOnlineUsers = function(scene, cb){
-  redis.smembers(usersOnlineKey(scene),cb);
+  redis.get(usersOnlineKey(scene),cb);
 };
 
 /**
@@ -105,7 +110,7 @@ function getUserInfo(data){
 	for(var i in data){
 		var t = i % 5;
 		if (t == 0){
-			logger.debug(tmp);
+			//logger.debug(tmp);
 			tmp = {};
 			tmp.uid = data[i];
 		}else {if(t == 1){
@@ -121,16 +126,20 @@ function getUserInfo(data){
 		}
 		}}};
 	}
-	logger.debug(reslt);
+	//logger.debug(reslt);
 	return reslt;
 }
 
 function sortUserInfo(scene, key, cb){
-	var pattern = uidKeyPattern(scene);
-	redis.sort(key, "by", "nosort", "get", pattern+'->uid',"get", pattern+"->roleId","get",pattern+'->x','get',pattern+'->y',"get", pattern+"->name", function(err,data){
-		var reslt = getUserInfo(data);
-		utils.invokeCallback(cb,null,reslt);
+ 	redis.get(key, function(err,data){
+		console.error('  data' + key + ' ' + JSON.stringify(data));
+		//var reslt = getUserInfo(data);
+		utils.invokeCallback(cb,null,data);
 	});
+//	redis.sort(key, "by", "nosort", "get", pattern+'->uid',"get", pattern+"->roleId","get",pattern+'->x','get',pattern+'->y',"get", pattern+"->name", function(err,data){
+//		var reslt = getUserInfo(data);
+//		utils.invokeCallback(cb,null,reslt);
+//	});
 }
 /**
  * 获取场景内所有用户的信息
@@ -139,7 +148,13 @@ function sortUserInfo(scene, key, cb){
  * @param cb
  */
 sceneDao.getUserInfos = function(scene, cb){
-	sortUserInfo(scene, usersKey(scene), cb);
+	//sortUserInfo(scene, usersKey(scene), cb);
+	var key = usersKey(scene);
+	redis.get(key, function(err,data){
+		console.error(' getUserInfos data' + data);
+		//var reslt = getUserInfo(data);
+		utils.invokeCallback(cb,null,data);
+	});
 };
 /**
  * 获取用户场景内的详细信息
@@ -172,7 +187,13 @@ sceneDao.setUserInfo = function(scene, uid, field, value, cb){
  * @param cb
  */
 sceneDao.setUserPos = function(scene, uid, pos, cb){
-	redis.hmset(uidKey(scene,uid),"x",''+pos.x,"y",''+pos.y, cb);
+	redis.get(uidKey(scene,uid),function(error,user){
+		if (!!user) {
+			user.x = pos.x;
+			user.y = pos.y;
+			redis.set(uidKey(scene,uid),user, cb);
+		}
+	});
 };
 /**
  * 获取用户场景内的详细信息 TODO test

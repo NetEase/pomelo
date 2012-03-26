@@ -2,6 +2,8 @@ var handler = module.exports;
 
 var sceneDao = require('../../dao/sceneDao');
 var userService = require('../../service/userService');
+var rankService=require('../../service/rankService');
+var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 var eventUtils = require('../../../../../lib/util/event/eventUtils');
 var Event= require('../../../../../lib/util/event/event');
@@ -43,13 +45,15 @@ handler.addUser = function(msg, session) {
   var uid = session.uid;
 	logger.debug('user login :'+uid+","+this.name);
 	userService.getUserById(uid,function(err, data){
-		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err) {
+		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
 			if(!!err) {
 				session.response({route: msg.route, code: 500});
 			} else {
 			  channel.pushMessage({route:'onUserJoin', user: data});
 			  channel.add(uid);
-				session.response({route: msg.route, code: 200});
+			  logger.debug('[onaddUser] updateRankList');
+			  updateRankList(uid);
+			  session.response({route: msg.route, code: 200});			  
 			}
 		});
 	});
@@ -91,11 +95,10 @@ handler.move = function (msg, session){
 		sceneDao.setUserPos(0, uid, {x: path[1].x, y: path[1].y});
 		var period = 100; //算出时间？TODO
 		var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
-//		var event = Event.create({period: period, loop: false, method: handler.moveCalc, params: move, host: handler.host, hash: "areaId:0;moveCalc:"+move.uid});
-//		eventUtils.startEvent(event);
+
 		
 		schedule.scheduleJob({period: period, count: 1}, handler.moveCalc, {move: move, channel: channel, route:'onMove'});
-    console.log('[move]  msg: ' + JSON.stringify(msg));
+        console.log('[move]  msg: ' + JSON.stringify(msg));
 		session.response({route: msg.route, body: move, code: 200});
 	});
 };
@@ -126,4 +129,20 @@ handler.getOnlineUsers = function(msg, session){
       session.response({route: msg.route, code: 200, result: result});
     }
   })
+}
+/**
+ * 排名推送
+ */
+function updateRankList(uid){
+	rankService.getTopN(ServerConstant.top,function(err,data){
+	  if(err){
+	   logger.error('updateRankList failed!');
+	  }
+	  var msg={'route':'area.onRankListChange','rankList':data,'flag':uid, 'code':200};
+	  //session.socket.emit('message',msg);
+	  var uids=[];
+	  uids.push(uid);
+	  channel.pushMessageByUids(msg,uids,function(){});
+	  logger.info('logining,updateRankList success!');
+	});
 }

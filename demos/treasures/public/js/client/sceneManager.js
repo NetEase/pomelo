@@ -18,11 +18,16 @@ __resources__["/sceneManager.js"] = {
         var roleView = require("roleView");
         var treasureView = require("treasureView");
         
+        //lwj,积分排名
+        var rankView=require('rankManager');
+        
         // 地图,主角,人物管理器,宝物数据
         var gameMap;
         var role;// 主角
         var rolesManager;// 场景中其他人物的管理类
         var treasureManager;
+        var rankManager;//lwj 积分管理
+        
         
         /**
          * 进入场景
@@ -49,6 +54,11 @@ __resources__["/sceneManager.js"] = {
             rolesManager = new roleView.RoleManager(scene, gameMap.curMapNode);
             // 加载宝物管理类
             treasureManager = new treasureView.TreasureManager(scene, gameMap.curMapNode);
+            
+            //lwj加载积分排名
+//            rankManager=new rankView.refreshView(rankListData);
+            
+            
             // treasureManager.showTreasures({1001:{
             // id: 1001,
             // imgId: "001",
@@ -147,6 +157,12 @@ __resources__["/sceneManager.js"] = {
          */
         function getTreasureManager(){
             return treasureManager;
+        }
+        /**
+         * lwj 积分排名类
+         */
+        function getRankManager(){
+        	return rankManager;
         }
         
         exports.enterScene = enterScene;

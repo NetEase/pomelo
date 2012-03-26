@@ -1,5 +1,3 @@
 [
-  ["1-30 * *  * 1 *","logic.openActivity", {"name":"前30S执行"}],
-  ["0,10,20,30.40,50 * * 2 * *","scene.cleanDeadData", {"name":"10S一次"}],
-  [{"period":100000, "count":1}, "logic.test", {"name":"每秒执行，共执行100次的简单任务"}]
+ 
 ]

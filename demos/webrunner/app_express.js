@@ -27,9 +27,5 @@ app.get('/', function(req, res){
   res.render('index',{userName: 'xcc'});
 });
 
-app.get('/m', function(req, res){
-  res.render('index',{userName: 'monitor'});
-});
-
-app.listen(3000);
-console.log('express server listening on 3000');
+app.listen(3001);
+console.log('express server listening on 3002');

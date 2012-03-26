@@ -1,0 +1,26 @@
+doctype 5
+html(lang="cn")
+  head
+    title= 'welcome pomelo web runner'
+    script(src='/js/lib/socket.io.js')
+    script(src='/js/client/sea-debug.js')
+ 
+    script
+        seajs.config({
+          base: 'http://localhost:3000'
+        });
+    
+        seajs.use('/js/client/main.js', function(main) {
+            main.main();
+        });
+  body
+    h1 Pomelo - test web runner, welcome #{userName}
+    #container
+      p request route:
+      input(type='text', id='route', value='area.fightHandler.kick', style='width:600px')
+      p request params:
+      input(type='text', id='params', value='{"sourceUserId":10, "targetUserId": 20}', style='width:600px')
+      input(type='button', id='submit', value='send')
+      
+      br
+      textarea(id='result', style='width:600px;height:300px')

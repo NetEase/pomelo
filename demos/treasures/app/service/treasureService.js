@@ -37,16 +37,17 @@ trservice.generateTreasures = function (sceneId,cb){
 			});
 		}
 		treasureDao.createTreasureList(sceneId,tmpLTreasure,function(err,data){
-			//logger.debug(data);
+			logger.debug('createTreasureList ok' + data);
 		});
 		lastGenTime = new Date().getTime(); 
-		logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ' + JSON.stringify(tmpLTreasure));
+		logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ');
 		utils.invokeCallback(cb, null, {treasures:tmpLTreasure,leftTime:leftTime});
 	});
 };
 
 trservice.pickItem = function (userId, treasureId, sceneId, cb){
 	treasureDao.getTreasure(sceneId,treasureId,function(err,data){
+		console.log(' pickItem === ' + JSON.stringify(data));
 		if(data == undefined){
 			var tipInfo = 'Treasure ' + treasureId + ' has been picked up by another player';
 			utils.invokeCallback(cb, new WGError({code: -1, msg: tipInfo}),false);

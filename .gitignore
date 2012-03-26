@@ -1,6 +1,8 @@
 .project
-logs/*
+*/node-log.log
 node_modules/*
 .project
 .settings/
+**/*.svn
+*.svn
 

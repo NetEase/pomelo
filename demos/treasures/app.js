@@ -1,3 +1,4 @@
+
 var pomelo = require('../../lib/pomelo');
 var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
@@ -11,14 +12,19 @@ app.configure(function(){
     app.use(pomelo.logFilter);
 });
 
-app.configure('production|development', 'connector', function(){
-    app.use(authFilter);
+app.configure('production|localpro|development', 'connector', function(){
+  app.use(pomelo.serialFilter);
+  app.use(authFilter);
 });
 
-appTemplate.finish(app);
+appTemplate.done(app);
 
 startWebServer();
 
 function startWebServer(){
     var app_express = require('./app_express');
 }
+
+process.on('uncaughtException', function(err) {
+	console.error(' Caught exception: ' + err.stack);
+});

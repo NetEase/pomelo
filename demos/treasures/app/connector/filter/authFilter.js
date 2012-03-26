@@ -18,7 +18,7 @@ var ignoreTypes = [
  */
 var handle = function(msg, session, next) {
 	if(!checkIgnore(msg.route) && !session.uid) {
-		utils.invokeCallback(next, new Error('unlogin session.'));
+		utils.invokeCallback(next, new Error('unlogin session, msg:' + JSON.stringify(msg)));
 		return;
 	}
 	utils.invokeCallback(next, null, msg, session);
