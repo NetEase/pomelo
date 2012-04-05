@@ -1,0 +1,36 @@
+*3
+sadd
+"0_users"
+"0_users"
+{uid:10274,x:100,y:100,roleId:"0011",name:"33333"}
+{"uid":10274,"x":100,"y":100,"roleId":"0011","name":"33333"}
+*3
+sadd
+"0_online_users"
+"0_online_users"
+{uid:10274,x:100,y:100,roleId:"0011",name:"33333"}
+{"uid":10274,"x":100,"y":100,"roleId":"0011","name":"33333"}
+*2
+del
+[]
+[]
+*2
+del
+"0_treasures"
+"0_treasures"
+*2
+del
+["0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]"]
+["0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]"]
+*2
+del
+"0_treasures"
+"0_treasures"
+*2
+del
+["0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]"]
+["0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]","0_t_[object Object]"]
+*2
+del
+"0_treasures"
+"0_treasures"
