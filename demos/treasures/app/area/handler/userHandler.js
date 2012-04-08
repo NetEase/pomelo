@@ -72,7 +72,7 @@ handler.addUser = function(msg, session) {
         
 /**
  * 用户移动
- * 日前可以算出时间推给事件服务器
+ * 目前可以算出时间推给事件服务器
  * 是否需要通过逻辑服务器验证
  * 
  * @param msg

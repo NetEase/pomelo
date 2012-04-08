@@ -23,6 +23,7 @@ startWebServer();
 
 function startWebServer(){
     var app_express = require('./app_express');
+    var app_console = require('../../lib/adminConsole/app');
 }
 
 process.on('uncaughtException', function(err) {
