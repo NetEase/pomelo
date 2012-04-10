@@ -42,11 +42,9 @@ var mailBoxCreator = (function(){
         process.nextTick( function(){
             if (!serverIds[curServerId]) serverIds[curServerId]=0;
             serverIds[curServerId]+=1;
-            //console.log('[mailboxCreator] curServerId is : '+ curServerId);
             count++;	
             params = curParams;
             serverId = curServerId;
-            //console.log('[mailboxDispatch] serverId: '+ serverId + ' params: '+ JSON.stringify(params));
             utils.invokeCallback(cb, null);
         });
     };
