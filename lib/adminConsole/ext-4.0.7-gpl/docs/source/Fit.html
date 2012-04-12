@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-layout-container-Fit'>/**
+</span> * This is a base class for layouts that contain **a single item** that automatically expands to fill the layout's
+ * container. This class is intended to be extended or created via the `layout: 'fit'`
+ * {@link Ext.container.Container#layout} config, and should generally not need to be created directly via the new keyword.
+ *
+ * Fit layout does not have any direct config options (other than inherited ones). To fit a panel to a container using
+ * Fit layout, simply set `layout: 'fit'` on the container and add a single panel to it. If the container has multiple
+ * panels, only the first one will be displayed.
+ *
+ *     @example
+ *     Ext.create('Ext.panel.Panel', {
+ *         title: 'Fit Layout',
+ *         width: 300,
+ *         height: 150,
+ *         layout:'fit',
+ *         items: {
+ *             title: 'Inner Panel',
+ *             html: 'This is the inner panel content',
+ *             bodyPadding: 20,
+ *             border: false
+ *         },
+ *         renderTo: Ext.getBody()
+ *     });
+ */
+Ext.define('Ext.layout.container.Fit', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.layout.container.AbstractFit',
+    alias: 'layout.fit',
+    alternateClassName: 'Ext.layout.FitLayout',
+    requires: ['Ext.layout.container.Box'],
+
+    /* End Definitions */
+
+<span id='Ext-layout-container-Fit-cfg-defaultMargins'>    /**
+</span>     * @cfg {Object} defaultMargins
+     * &lt;p&gt;If the individual contained items do not have a &lt;tt&gt;margins&lt;/tt&gt;
+     * property specified or margin specified via CSS, the default margins from this property will be
+     * applied to each item.&lt;/p&gt;
+     * &lt;br&gt;&lt;p&gt;This property may be specified as an object containing margins
+     * to apply in the format:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;
+{
+    top: (top margin),
+    right: (right margin),
+    bottom: (bottom margin),
+    left: (left margin)
+}&lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;This property may also be specified as a string containing
+     * space-separated, numeric margin values. The order of the sides associated
+     * with each value matches the way CSS processes margin values:&lt;/p&gt;
+     * &lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+     * &lt;li&gt;If there is only one value, it applies to all sides.&lt;/li&gt;
+     * &lt;li&gt;If there are two values, the top and bottom borders are set to the
+     * first value and the right and left are set to the second.&lt;/li&gt;
+     * &lt;li&gt;If there are three values, the top is set to the first value, the left
+     * and right are set to the second, and the bottom is set to the third.&lt;/li&gt;
+     * &lt;li&gt;If there are four values, they apply to the top, right, bottom, and
+     * left, respectively.&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/div&gt;
+     * &lt;p&gt;Defaults to:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;
+     * {top:0, right:0, bottom:0, left:0}
+     * &lt;/code&gt;&lt;/pre&gt;
+     */
+    defaultMargins: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    },
+
+    // @private
+    onLayout : function() {
+        var me = this,
+            size,
+            item,
+            margins;
+        me.callParent();
+
+        if (me.owner.items.length) {
+            item = me.owner.items.get(0);
+            margins = item.margins || me.defaultMargins;
+            size = me.getLayoutTargetSize();
+            size.width  -= margins.width;
+            size.height -= margins.height;
+            me.setItemBox(item, size);
+
+            // If any margins were configure either through the margins config, or in the CSS style,
+            // Then positioning will be used.
+            if (margins.left || margins.top) {
+                item.setPosition(margins.left, margins.top);
+            }
+        }
+    },
+
+    getTargetBox : function() {
+        return this.getLayoutTargetSize();
+    },
+
+    setItemBox : function(item, box) {
+        var me = this;
+        if (item &amp;&amp; box.height &gt; 0) {
+            if (!me.owner.isFixedWidth()) {
+               box.width = undefined;
+            }
+            if (!me.owner.isFixedHeight()) {
+               box.height = undefined;
+            }
+            me.setItemSize(item, box.width, box.height);
+        }
+    },
+
+    configureItem: function(item) {
+
+        // Card layout only controls dimensions which IT has controlled.
+        // That calculation has to be determined at run time by examining the ownerCt's isFixedWidth()/isFixedHeight() methods
+        item.layoutManagedHeight = 0;
+        item.layoutManagedWidth = 0;
+
+        this.callParent(arguments);
+    }
+}, function() {
+    // Use Box layout's renderItem which reads CSS margins, and adds them to any configured item margins
+    // (Defaulting to &quot;0 0 0 0&quot;)
+    this.prototype.renderItem = Ext.layout.container.Box.prototype.renderItem;
+});</pre>
+</body>
+</html>

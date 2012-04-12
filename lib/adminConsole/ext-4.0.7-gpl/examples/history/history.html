@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>History Example</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css" href="../shared/example.css"/>
+    
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script type="text/javascript" src="history.js"></script>
+</head>
+<body>
+    <h1>History Example</h1>
+
+    <p>This is a simple implementation of the <tt>Ext.History</tt> component for managing browser back/forward navigation within a single page.</p>
+
+    <p>It demonstrates managing history for multiple components within the page. Simply change tabs and use the browser Back
+    and Forward buttons to navigate them.</p>
+
+    <p>The js is not minified so it is readable. See <a href="history.js">history.js</a>.</p>
+
+    <!-- Fields required for history management -->
+    <form id="history-form" class="x-hide-display">
+        <input type="hidden" id="x-history-field" />
+        <iframe id="x-history-frame"></iframe>
+    </form>
+</body>
+</html>

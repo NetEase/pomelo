@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-theme-Base'>/**
+</span> * @class Ext.chart.theme.Base
+ * Provides default colors for non-specified things. Should be sub-classed when creating new themes.
+ * @ignore
+ */
+Ext.define('Ext.chart.theme.Base', {
+
+    /* Begin Definitions */
+
+    requires: ['Ext.chart.theme.Theme'],
+
+    /* End Definitions */
+
+    constructor: function(config) {
+        Ext.chart.theme.call(this, config, {
+            background: false,
+            axis: {
+                stroke: '#444',
+                'stroke-width': 1
+            },
+            axisLabelTop: {
+                fill: '#444',
+                font: '12px Arial, Helvetica, sans-serif',
+                spacing: 2,
+                padding: 5,
+                renderer: function(v) { return v; }
+            },
+            axisLabelRight: {
+                fill: '#444',
+                font: '12px Arial, Helvetica, sans-serif',
+                spacing: 2,
+                padding: 5,
+                renderer: function(v) { return v; }
+            },
+            axisLabelBottom: {
+                fill: '#444',
+                font: '12px Arial, Helvetica, sans-serif',
+                spacing: 2,
+                padding: 5,
+                renderer: function(v) { return v; }
+            },
+            axisLabelLeft: {
+                fill: '#444',
+                font: '12px Arial, Helvetica, sans-serif',
+                spacing: 2,
+                padding: 5,
+                renderer: function(v) { return v; }
+            },
+            axisTitleTop: {
+                font: 'bold 18px Arial',
+                fill: '#444'
+            },
+            axisTitleRight: {
+                font: 'bold 18px Arial',
+                fill: '#444',
+                rotate: {
+                    x:0, y:0,
+                    degrees: 270
+                }
+            },
+            axisTitleBottom: {
+                font: 'bold 18px Arial',
+                fill: '#444'
+            },
+            axisTitleLeft: {
+                font: 'bold 18px Arial',
+                fill: '#444',
+                rotate: {
+                    x:0, y:0,
+                    degrees: 270
+                }
+            },
+            series: {
+                'stroke-width': 0
+            },
+            seriesLabel: {
+                font: '12px Arial',
+                fill: '#333'
+            },
+            marker: {
+                stroke: '#555',
+                fill: '#000',
+                radius: 3,
+                size: 3
+            },
+            colors: [ &quot;#94ae0a&quot;, &quot;#115fa6&quot;,&quot;#a61120&quot;, &quot;#ff8809&quot;, &quot;#ffd13e&quot;, &quot;#a61187&quot;, &quot;#24ad9a&quot;, &quot;#7c7474&quot;, &quot;#a66111&quot;],
+            seriesThemes: [{
+                fill: &quot;#115fa6&quot;
+            }, {
+                fill: &quot;#94ae0a&quot;
+            }, {
+                fill: &quot;#a61120&quot;
+            }, {
+                fill: &quot;#ff8809&quot;
+            }, {
+                fill: &quot;#ffd13e&quot;
+            }, {
+                fill: &quot;#a61187&quot;
+            }, {
+                fill: &quot;#24ad9a&quot;
+            }, {
+                fill: &quot;#7c7474&quot;
+            }, {
+                fill: &quot;#a66111&quot;
+            }],
+            markerThemes: [{
+                fill: &quot;#115fa6&quot;,
+                type: 'circle' 
+            }, {
+                fill: &quot;#94ae0a&quot;,
+                type: 'cross'
+            }, {
+                fill: &quot;#a61120&quot;,
+                type: 'plus'
+            }]
+        });
+    }
+}, function() {
+    var palette = ['#b1da5a', '#4ce0e7', '#e84b67', '#da5abd', '#4d7fe6', '#fec935'],
+        names = ['Green', 'Sky', 'Red', 'Purple', 'Blue', 'Yellow'],
+        i = 0, j = 0, l = palette.length, themes = Ext.chart.theme,
+        categories = [['#f0a50a', '#c20024', '#2044ba', '#810065', '#7eae29'],
+                      ['#6d9824', '#87146e', '#2a9196', '#d39006', '#1e40ac'],
+                      ['#fbbc29', '#ce2e4e', '#7e0062', '#158b90', '#57880e'],
+                      ['#ef5773', '#fcbd2a', '#4f770d', '#1d3eaa', '#9b001f'],
+                      ['#7eae29', '#fdbe2a', '#910019', '#27b4bc', '#d74dbc'],
+                      ['#44dce1', '#0b2592', '#996e05', '#7fb325', '#b821a1']],
+        cats = categories.length;
+    
+    //Create themes from base colors
+    for (; i &lt; l; i++) {
+        themes[names[i]] = (function(color) {
+            return Ext.extend(themes.Base, {
+                constructor: function(config) {
+                    themes.Base.prototype.constructor.call(this, Ext.apply({
+                        baseColor: color
+                    }, config));
+                }
+            });
+        })(palette[i]);
+    }
+    
+    //Create theme from color array
+    for (i = 0; i &lt; cats; i++) {
+        themes['Category' + (i + 1)] = (function(category) {
+            return Ext.extend(themes.Base, {
+                constructor: function(config) {
+                    themes.Base.prototype.constructor.call(this, Ext.apply({
+                        colors: category
+                    }, config));
+                }
+            });
+        })(categories[i]);
+    }
+});
+</pre>
+</body>
+</html>

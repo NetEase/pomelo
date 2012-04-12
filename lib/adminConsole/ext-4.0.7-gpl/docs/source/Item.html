@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-menu-Item'>/**
+</span> * A base class for all menu items that require menu-related functionality such as click handling,
+ * sub-menus, icons, etc.
+ *
+ *     @example
+ *     Ext.create('Ext.menu.Menu', {
+ *         width: 100,
+ *         height: 100,
+ *         floating: false,  // usually you want this set to True (default)
+ *         renderTo: Ext.getBody(),  // usually rendered by it's containing component
+ *         items: [{
+ *             text: 'icon item',
+ *             iconCls: 'add16'
+ *         },{
+ *             text: 'text item'
+ *         },{
+ *             text: 'plain item',
+ *             plain: true
+ *         }]
+ *     });
+ */
+Ext.define('Ext.menu.Item', {
+    extend: 'Ext.Component',
+    alias: 'widget.menuitem',
+    alternateClassName: 'Ext.menu.TextItem',
+
+<span id='Ext-menu-Item-property-activated'>    /**
+</span>     * @property {Boolean} activated
+     * Whether or not this item is currently activated
+     */
+
+<span id='Ext-menu-Item-property-parentMenu'>    /**
+</span>     * @property {Ext.menu.Menu} parentMenu
+     * The parent Menu of this item.
+     */
+
+<span id='Ext-menu-Item-cfg-activeCls'>    /**
+</span>     * @cfg {String} activeCls
+     * The CSS class added to the menu item when the item is activated (focused/mouseover).
+     * Defaults to `Ext.baseCSSPrefix + 'menu-item-active'`.
+     */
+    activeCls: Ext.baseCSSPrefix + 'menu-item-active',
+
+<span id='Ext-menu-Item-cfg-ariaRole'>    /**
+</span>     * @cfg {String} ariaRole @hide
+     */
+    ariaRole: 'menuitem',
+
+<span id='Ext-menu-Item-cfg-canActivate'>    /**
+</span>     * @cfg {Boolean} canActivate
+     * Whether or not this menu item can be activated when focused/mouseovered. Defaults to `true`.
+     */
+    canActivate: true,
+
+<span id='Ext-menu-Item-cfg-clickHideDelay'>    /**
+</span>     * @cfg {Number} clickHideDelay
+     * The delay in milliseconds to wait before hiding the menu after clicking the menu item.
+     * This only has an effect when `hideOnClick: true`. Defaults to `1`.
+     */
+    clickHideDelay: 1,
+
+<span id='Ext-menu-Item-cfg-destroyMenu'>    /**
+</span>     * @cfg {Boolean} destroyMenu
+     * Whether or not to destroy any associated sub-menu when this item is destroyed. Defaults to `true`.
+     */
+    destroyMenu: true,
+
+<span id='Ext-menu-Item-cfg-disabledCls'>    /**
+</span>     * @cfg {String} disabledCls
+     * The CSS class added to the menu item when the item is disabled.
+     * Defaults to `Ext.baseCSSPrefix + 'menu-item-disabled'`.
+     */
+    disabledCls: Ext.baseCSSPrefix + 'menu-item-disabled',
+
+<span id='Ext-menu-Item-cfg-href'>    /**
+</span>     * @cfg {String} href
+     * The href attribute to use for the underlying anchor link. Defaults to `#`.
+     * @markdown
+     */
+
+<span id='Ext-menu-Item-cfg-hrefTarget'>     /**
+</span>      * @cfg {String} hrefTarget
+      * The target attribute to use for the underlying anchor link. Defaults to `undefined`.
+      * @markdown
+      */
+
+<span id='Ext-menu-Item-cfg-hideOnClick'>    /**
+</span>     * @cfg {Boolean} hideOnClick
+     * Whether to not to hide the owning menu when this item is clicked. Defaults to `true`.
+     * @markdown
+     */
+    hideOnClick: true,
+
+<span id='Ext-menu-Item-cfg-icon'>    /**
+</span>     * @cfg {String} icon
+     * The path to an icon to display in this item. Defaults to `Ext.BLANK_IMAGE_URL`.
+     * @markdown
+     */
+
+<span id='Ext-menu-Item-cfg-iconCls'>    /**
+</span>     * @cfg {String} iconCls
+     * A CSS class that specifies a `background-image` to use as the icon for this item. Defaults to `undefined`.
+     * @markdown
+     */
+
+    isMenuItem: true,
+
+<span id='Ext-menu-Item-property-menu'>    /**
+</span>     * @cfg {Mixed} menu
+     * Either an instance of {@link Ext.menu.Menu} or a config object for an {@link Ext.menu.Menu}
+     * which will act as a sub-menu to this item.
+     * @markdown
+     * @property {Ext.menu.Menu} menu The sub-menu associated with this item, if one was configured.
+     */
+
+<span id='Ext-menu-Item-cfg-menuAlign'>    /**
+</span>     * @cfg {String} menuAlign
+     * The default {@link Ext.Element#getAlignToXY Ext.Element.getAlignToXY} anchor position value for this
+     * item's sub-menu relative to this item's position. Defaults to `'tl-tr?'`.
+     * @markdown
+     */
+    menuAlign: 'tl-tr?',
+
+<span id='Ext-menu-Item-cfg-menuExpandDelay'>    /**
+</span>     * @cfg {Number} menuExpandDelay
+     * The delay in milliseconds before this item's sub-menu expands after this item is moused over. Defaults to `200`.
+     * @markdown
+     */
+    menuExpandDelay: 200,
+
+<span id='Ext-menu-Item-cfg-menuHideDelay'>    /**
+</span>     * @cfg {Number} menuHideDelay
+     * The delay in milliseconds before this item's sub-menu hides after this item is moused out. Defaults to `200`.
+     * @markdown
+     */
+    menuHideDelay: 200,
+
+<span id='Ext-menu-Item-cfg-plain'>    /**
+</span>     * @cfg {Boolean} plain
+     * Whether or not this item is plain text/html with no icon or visual activation. Defaults to `false`.
+     * @markdown
+     */
+
+    renderTpl: [
+        '&lt;tpl if=&quot;plain&quot;&gt;',
+            '{text}',
+        '&lt;/tpl&gt;',
+        '&lt;tpl if=&quot;!plain&quot;&gt;',
+            '&lt;a id=&quot;{id}-itemEl&quot; class=&quot;' + Ext.baseCSSPrefix + 'menu-item-link&quot; href=&quot;{href}&quot; &lt;tpl if=&quot;hrefTarget&quot;&gt;target=&quot;{hrefTarget}&quot;&lt;/tpl&gt; hidefocus=&quot;true&quot; unselectable=&quot;on&quot;&gt;',
+                '&lt;img id=&quot;{id}-iconEl&quot; src=&quot;{icon}&quot; class=&quot;' + Ext.baseCSSPrefix + 'menu-item-icon {iconCls}&quot; /&gt;',
+                '&lt;span id=&quot;{id}-textEl&quot; class=&quot;' + Ext.baseCSSPrefix + 'menu-item-text&quot; &lt;tpl if=&quot;menu&quot;&gt;style=&quot;margin-right: 17px;&quot;&lt;/tpl&gt; &gt;{text}&lt;/span&gt;',
+                '&lt;tpl if=&quot;menu&quot;&gt;',
+                    '&lt;img id=&quot;{id}-arrowEl&quot; src=&quot;{blank}&quot; class=&quot;' + Ext.baseCSSPrefix + 'menu-item-arrow&quot; /&gt;',
+                '&lt;/tpl&gt;',
+            '&lt;/a&gt;',
+        '&lt;/tpl&gt;'
+    ],
+
+    maskOnDisable: false,
+
+<span id='Ext-menu-Item-cfg-text'>    /**
+</span>     * @cfg {String} text
+     * The text/html to display in this item. Defaults to `undefined`.
+     * @markdown
+     */
+
+    activate: function() {
+        var me = this;
+
+        if (!me.activated &amp;&amp; me.canActivate &amp;&amp; me.rendered &amp;&amp; !me.isDisabled() &amp;&amp; me.isVisible()) {
+            me.el.addCls(me.activeCls);
+            me.focus();
+            me.activated = true;
+            me.fireEvent('activate', me);
+        }
+    },
+
+    blur: function() {
+        this.$focused = false;
+        this.callParent(arguments);
+    },
+
+    deactivate: function() {
+        var me = this;
+
+        if (me.activated) {
+            me.el.removeCls(me.activeCls);
+            me.blur();
+            me.hideMenu();
+            me.activated = false;
+            me.fireEvent('deactivate', me);
+        }
+    },
+
+    deferExpandMenu: function() {
+        var me = this;
+
+        if (!me.menu.rendered || !me.menu.isVisible()) {
+            me.parentMenu.activeChild = me.menu;
+            me.menu.parentItem = me;
+            me.menu.parentMenu = me.menu.ownerCt = me.parentMenu;
+            me.menu.showBy(me, me.menuAlign);
+        }
+    },
+
+    deferHideMenu: function() {
+        if (this.menu.isVisible()) {
+            this.menu.hide();
+        }
+    },
+
+    deferHideParentMenus: function() {
+        Ext.menu.Manager.hideAll();
+    },
+
+    expandMenu: function(delay) {
+        var me = this;
+
+        if (me.menu) {
+            clearTimeout(me.hideMenuTimer);
+            if (delay === 0) {
+                me.deferExpandMenu();
+            } else {
+                me.expandMenuTimer = Ext.defer(me.deferExpandMenu, Ext.isNumber(delay) ? delay : me.menuExpandDelay, me);
+            }
+        }
+    },
+
+    focus: function() {
+        this.$focused = true;
+        this.callParent(arguments);
+    },
+
+    getRefItems: function(deep){
+        var menu = this.menu,
+            items;
+
+        if (menu) {
+            items = menu.getRefItems(deep);
+            items.unshift(menu);
+        }
+        return items || [];
+    },
+
+    hideMenu: function(delay) {
+        var me = this;
+
+        if (me.menu) {
+            clearTimeout(me.expandMenuTimer);
+            me.hideMenuTimer = Ext.defer(me.deferHideMenu, Ext.isNumber(delay) ? delay : me.menuHideDelay, me);
+        }
+    },
+
+    initComponent: function() {
+        var me = this,
+            prefix = Ext.baseCSSPrefix,
+            cls = [prefix + 'menu-item'];
+
+        me.addEvents(
+<span id='Ext-menu-Item-event-activate'>            /**
+</span>             * @event activate
+             * Fires when this item is activated
+             * @param {Ext.menu.Item} item The activated item
+             */
+            'activate',
+
+<span id='Ext-menu-Item-event-click'>            /**
+</span>             * @event click
+             * Fires when this item is clicked
+             * @param {Ext.menu.Item} item The item that was clicked
+             * @param {Ext.EventObject} e The underyling {@link Ext.EventObject}.
+             */
+            'click',
+
+<span id='Ext-menu-Item-event-deactivate'>            /**
+</span>             * @event deactivate
+             * Fires when this tiem is deactivated
+             * @param {Ext.menu.Item} item The deactivated item
+             */
+            'deactivate'
+        );
+
+        if (me.plain) {
+            cls.push(prefix + 'menu-item-plain');
+        }
+
+        if (me.cls) {
+            cls.push(me.cls);
+        }
+
+        me.cls = cls.join(' ');
+
+        if (me.menu) {
+            me.menu = Ext.menu.Manager.get(me.menu);
+        }
+
+        me.callParent(arguments);
+    },
+
+    onClick: function(e) {
+        var me = this;
+
+        if (!me.href) {
+            e.stopEvent();
+        }
+
+        if (me.disabled) {
+            return;
+        }
+
+        if (me.hideOnClick) {
+            me.deferHideParentMenusTimer = Ext.defer(me.deferHideParentMenus, me.clickHideDelay, me);
+        }
+
+        Ext.callback(me.handler, me.scope || me, [me, e]);
+        me.fireEvent('click', me, e);
+
+        if (!me.hideOnClick) {
+            me.focus();
+        }
+    },
+
+    onDestroy: function() {
+        var me = this;
+
+        clearTimeout(me.expandMenuTimer);
+        clearTimeout(me.hideMenuTimer);
+        clearTimeout(me.deferHideParentMenusTimer);
+
+        if (me.menu) {
+            delete me.menu.parentItem;
+            delete me.menu.parentMenu;
+            delete me.menu.ownerCt;
+            if (me.destroyMenu !== false) {
+                me.menu.destroy();
+            }
+        }
+        me.callParent(arguments);
+    },
+
+    onRender: function(ct, pos) {
+        var me = this,
+            blank = Ext.BLANK_IMAGE_URL;
+
+        Ext.applyIf(me.renderData, {
+            href: me.href || '#',
+            hrefTarget: me.hrefTarget,
+            icon: me.icon || blank,
+            iconCls: me.iconCls + (me.checkChangeDisabled ? ' ' + me.disabledCls : ''),
+            menu: Ext.isDefined(me.menu),
+            plain: me.plain,
+            text: me.text,
+            blank: blank
+        });
+
+        me.addChildEls('itemEl', 'iconEl', 'textEl', 'arrowEl');
+
+        me.callParent(arguments);
+    },
+
+<span id='Ext-menu-Item-method-setHandler'>    /**
+</span>     * Sets the {@link #click} handler of this item
+     * @param {Function} fn The handler function
+     * @param {Object} scope (optional) The scope of the handler function
+     */
+    setHandler: function(fn, scope) {
+        this.handler = fn || null;
+        this.scope = scope;
+    },
+
+<span id='Ext-menu-Item-method-setIconCls'>    /**
+</span>     * Sets the {@link #iconCls} of this item
+     * @param {String} iconCls The CSS class to set to {@link #iconCls}
+     */
+    setIconCls: function(iconCls) {
+        var me = this;
+
+        if (me.iconEl) {
+            if (me.iconCls) {
+                me.iconEl.removeCls(me.iconCls);
+            }
+
+            if (iconCls) {
+                me.iconEl.addCls(iconCls);
+            }
+        }
+
+        me.iconCls = iconCls;
+    },
+
+<span id='Ext-menu-Item-method-setText'>    /**
+</span>     * Sets the {@link #text} of this item
+     * @param {String} text The {@link #text}
+     */
+    setText: function(text) {
+        var me = this,
+            el = me.textEl || me.el;
+
+        me.text = text;
+
+        if (me.rendered) {
+            el.update(text || '');
+            // cannot just call doComponentLayout due to stretchmax
+            me.ownerCt.redoComponentLayout();
+        }
+    }
+});
+</pre>
+</body>
+</html>

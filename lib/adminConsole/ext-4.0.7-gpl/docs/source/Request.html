@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-Request'>/**
+</span> * @author Ed Spencer
+ * 
+ * Simple class that represents a Request that will be made by any {@link Ext.data.proxy.Server} subclass.
+ * All this class does is standardize the representation of a Request as used by any ServerProxy subclass,
+ * it does not contain any actual logic or perform the request itself.
+ */
+Ext.define('Ext.data.Request', {
+<span id='Ext-data-Request-cfg-action'>    /**
+</span>     * @cfg {String} action
+     * The name of the action this Request represents. Usually one of 'create', 'read', 'update' or 'destroy'.
+     */
+    action: undefined,
+    
+<span id='Ext-data-Request-cfg-params'>    /**
+</span>     * @cfg {Object} params
+     * HTTP request params. The Proxy and its Writer have access to and can modify this object.
+     */
+    params: undefined,
+    
+<span id='Ext-data-Request-cfg-method'>    /**
+</span>     * @cfg {String} method
+     * The HTTP method to use on this Request. Should be one of 'GET', 'POST', 'PUT' or 'DELETE'.
+     */
+    method: 'GET',
+    
+<span id='Ext-data-Request-cfg-url'>    /**
+</span>     * @cfg {String} url
+     * The url to access on this Request
+     */
+    url: undefined,
+
+<span id='Ext-data-Request-method-constructor'>    /**
+</span>     * Creates the Request object.
+     * @param {Object} [config] Config object.
+     */
+    constructor: function(config) {
+        Ext.apply(this, config);
+    }
+});</pre>
+</body>
+</html>

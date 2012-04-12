@@ -1,0 +1,61 @@
+#basic, #animated {
+    border:1px solid #c3daf9;
+    color:#1e4e8f;
+    font:bold 14px tahoma,verdana,helvetica;
+    text-align:center;
+    padding-top:20px;
+}
+#snap {
+    border:1px solid #c3daf9;
+    overflow:hidden;
+}
+#custom {
+    cursor:move;
+}
+#custom-rzwrap{
+    z-index: 100;
+}
+#custom-rzwrap .x-resizable-handle{
+    width:11px;
+    height:11px;
+    background:transparent url(../../resources/themes/images/default/sizer/square.gif) no-repeat;
+    margin:0px;
+}
+
+#custom-rzwrap .x-resizable-handle-west, #custom-rzwrap .x-resizable-handle-east{
+    top: 50%;
+    margin-top: -5px;
+}
+#custom-rzwrap .x-resizable-handle-north, #custom-rzwrap .x-resizable-handle-south{
+    left: 50%;
+    margin-left: -5px;
+}
+
+#custom-rzwrap .x-resizable-handle-east, #custom-rzwrap .x-resizable-handle-northeast, #custom-rzwrap .x-resizable-handle-southeast{
+	right: -11px;
+}
+#custom-rzwrap .x-resizable-handle-west, #custom-rzwrap .x-resizable-handle-northwest, #custom-rzwrap .x-resizable-handle-southwest{
+    left: -11px;
+}
+
+#custom-rzwrap .x-resizable-handle-north, #custom-rzwrap .x-resizable-handle-northeast, #custom-rzwrap .x-resizable-handle-northwest{
+    top: -11px;
+}
+#custom-rzwrap .x-resizable-handle-south, #custom-rzwrap .x-resizable-handle-southeast, #custom-rzwrap .x-resizable-handle-southwest{
+    bottom: -11px;
+}
+
+#dwrapped {
+    padding: 5px;
+}
+
+#dwrapped-rzwrap .x-resizable-handle-east {
+    right: -5px;
+}
+#dwrapped-rzwrap .x-resizable-handle-south {
+    bottom: -5px;
+}
+#dwrapped-rzwrap .x-resizable-handle-southeast {
+    right: -5px;
+    bottom: -5px;
+}

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-env-FeatureDetector'>/**
+</span> * Provides useful information about the current browser features.
+ * Don't instantiate directly, but use the {@link Ext#features} property instead.
+ */
+Ext.define('Ext.env.FeatureDetector', {
+
+    statics: {
+        defaultTests: {
+<span id='Ext-env-FeatureDetector-property-Canvas'>            /**
+</span>             * @property {Boolean}
+             * True if canvas element supported.
+             */
+            Canvas: function() {
+                var element = this.getTestElement('canvas');
+                return !!(element &amp;&amp; element.getContext &amp;&amp; element.getContext('2d'));
+            },
+<span id='Ext-env-FeatureDetector-property-SVG'>            /**
+</span>             * @property {Boolean}
+             * True if SVG supported.
+             */
+            SVG: function() {
+                var doc = Ext.global.document;
+
+                return !!(doc.createElementNS &amp;&amp; !!doc.createElementNS(&quot;http:/&quot; + &quot;/www.w3.org/2000/svg&quot;, &quot;svg&quot;).createSVGRect);
+            },
+<span id='Ext-env-FeatureDetector-property-VML'>            /**
+</span>             * @property {Boolean}
+             * True if VML supported.
+             */
+            VML: function() {
+                var element = this.getTestElement(),
+                    ret = false;
+
+                element.innerHTML = &quot;&lt;!--[if vml]&gt;&lt;br&gt;&lt;br&gt;&lt;![endif]--&gt;&quot;;
+                ret = (element.childNodes.length === 2);
+                element.innerHTML = &quot;&quot;;
+
+                return ret;
+            },
+<span id='Ext-env-FeatureDetector-property-Touch'>            /**
+</span>             * @property {Boolean}
+             * True if we're in Sencha Touch environment.
+             */
+            Touch: function() {
+                return ('ontouchstart' in Ext.global) &amp;&amp; !(Ext.platform &amp;&amp; Ext.platform.name.match(/Windows|MacOSX|Linux/));
+            },
+<span id='Ext-env-FeatureDetector-property-Orientation'>            /**
+</span>             * @property {Boolean}
+             * True if orientation API supported.
+             */
+            Orientation: function() {
+                return ('orientation' in Ext.global);
+            },
+<span id='Ext-env-FeatureDetector-property-Geolocation'>            /**
+</span>             * @property {Boolean}
+             * True if geolocation API supported.
+             */
+            Geolocation: function() {
+                return !!Ext.global.navigator.geolocation;
+            },
+<span id='Ext-env-FeatureDetector-property-SqlDatabase'>            /**
+</span>             * @property {Boolean}
+             * True if openDatabase API supported.
+             */
+            SqlDatabase: function() {
+                return !!Ext.global.openDatabase;
+            },
+<span id='Ext-env-FeatureDetector-property-Websockets'>            /**
+</span>             * @property {Boolean}
+             * True if WebSocket API supported.
+             */
+            Websockets: function() {
+                return 'WebSocket' in Ext.global;
+            },
+<span id='Ext-env-FeatureDetector-property-History'>            /**
+</span>             * @property {Boolean}
+             * True if history.pushState supported.
+             */
+            History: function() {
+                return !!(Ext.global.history &amp;&amp; Ext.global.history.pushState);
+            },
+<span id='Ext-env-FeatureDetector-property-CSSTransforms'>            /**
+</span>             * @property {Boolean}
+             * True if CSS transforms supported.
+             */
+            CSSTransforms: function() {
+                return this.isStyleSupported('transform');
+            },
+<span id='Ext-env-FeatureDetector-property-CSS3DTransforms'>            /**
+</span>             * @property {Boolean}
+             * True if CSS 3D transforms supported.
+             */
+            CSS3DTransforms: function() {
+                return this.has('csstransforms') &amp;&amp; this.isStyleSupported('perspective');
+            },
+<span id='Ext-env-FeatureDetector-property-CSSAnimations'>            /**
+</span>             * @property {Boolean}
+             * True if CSS animations supported.
+             */
+            CSSAnimations: function() {
+                return this.isStyleSupported('animationName');
+            },
+<span id='Ext-env-FeatureDetector-property-CSSTransitions'>            /**
+</span>             * @property {Boolean}
+             * True if CSS transitions supported.
+             */
+            CSSTransitions: function() {
+                return this.isStyleSupported('transitionProperty');
+            },
+<span id='Ext-env-FeatureDetector-property-Audio'>            /**
+</span>             * @property {Boolean}
+             * True if audio element supported.
+             */
+            Audio: function() {
+                return !!this.getTestElement('audio').canPlayType;
+            },
+<span id='Ext-env-FeatureDetector-property-Video'>            /**
+</span>             * @property {Boolean}
+             * True if video element supported.
+             */
+            Video: function() {
+                return !!this.getTestElement('video').canPlayType;
+            }
+        },
+
+        stylePrefixes: ['Webkit', 'Moz', 'O', 'ms']
+    },
+
+    constructor: function() {
+        this.tests = {};
+
+        this.testElements = {};
+
+        this.registerTests(this.self.defaultTests, true);
+
+        return this;
+    },
+
+    has: function(name) {
+        if (!this.hasTest(name)) {
+            return false;
+        }
+        else if (this.has.hasOwnProperty(name)) {
+            return this.has[name];
+        }
+        else {
+            return this.getTestResult(name);
+        }
+    },
+
+    getTestResult: function(name) {
+        return !!this.getTest(name).call(this);
+    },
+
+    getTestElement: function(tag) {
+        if (!tag) {
+            tag = 'div';
+        }
+
+        if (!this.testElements[tag]) {
+            this.testElements[tag] = Ext.global.document.createElement(tag);
+        }
+
+        return this.testElements[tag];
+    },
+
+    registerTest: function(name, fn, isDefault) {
+        //&lt;debug&gt;
+        if (this.hasTest(name)) {
+            Ext.Error.raise({
+                sourceClass: &quot;Ext.env.FeatureDetector&quot;,
+                sourceMethod: &quot;registerTest&quot;,
+                msg: &quot;Test name &quot; + name + &quot; has already been registered&quot;
+            });
+        }
+        //&lt;debug&gt;
+
+        this.tests[name] = fn;
+
+        if (isDefault) {
+            this.has[name] = this.getTestResult(name);
+        }
+
+        return this;
+    },
+
+    registerTests: function(tests, isDefault) {
+        Ext.Object.each(tests, function(name, fn) {
+            this.registerTest(name, fn, isDefault);
+        }, this);
+
+        return this;
+    },
+
+    hasTest: function(name) {
+        return this.tests.hasOwnProperty(name);
+    },
+
+    getTest: function(name) {
+        //&lt;debug&gt;
+        if (!this.hasTest(name)) {
+            Ext.Error.raise({
+                sourceClass: &quot;Ext.env.FeatureDetector&quot;,
+                sourceMethod: &quot;getTest&quot;,
+                msg: &quot;Test name &quot; + name + &quot; does not exist&quot;
+            });
+        }
+        //&lt;debug&gt;
+
+        return this.tests[name];
+    },
+
+    getTests: function() {
+        return this.tests;
+    },
+
+    isStyleSupported: function(name, tag) {
+        var elementStyle = this.getTestElement(tag).style,
+            cName = Ext.String.capitalize(name),
+            i = this.self.stylePrefixes.length;
+
+        if (elementStyle[name] !== undefined) {
+            return true;
+        }
+
+        while (i--) {
+            if (elementStyle[this.self.stylePrefixes[i] + cName] !== undefined) {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    isEventSupported: function(name, tag) {
+        var element = this.getTestElement(tag),
+            eventName = 'on' + name,
+            isSupported = false;
+
+        // When using `setAttribute`, IE skips &quot;unload&quot;, WebKit skips
+        // &quot;unload&quot; and &quot;resize&quot;, whereas `in` &quot;catches&quot; those
+        isSupported = (eventName in element);
+
+        if (!isSupported) {
+            if (element.setAttribute &amp;&amp; element.removeAttribute) {
+                element.setAttribute(eventName, '');
+                isSupported = typeof element[eventName] === 'function';
+
+                // If property was created, &quot;remove it&quot; (by setting value to `undefined`)
+                if (typeof element[eventName] !== 'undefined') {
+                    element[eventName] = undefined;
+                }
+
+                element.removeAttribute(eventName);
+            }
+        }
+
+        return isSupported;
+    }
+
+}, function() {
+
+<span id='Ext-property-features'>    /**
+</span>     * @property {Ext.env.FeatureDetector} features
+     * @member Ext
+     * Global convenient instance of {@link Ext.env.FeatureDetector}.
+     */
+    Ext.features = new Ext.env.FeatureDetector();
+
+});
+</pre>
+</body>
+</html>

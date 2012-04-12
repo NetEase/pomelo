@@ -1,0 +1,109 @@
+@mixin extjs-form-fieldset {
+    .#{$prefix}fieldset {
+        border: $fieldset-border;
+        
+        padding: 0 $fieldset-padding;
+        margin-bottom: $fieldset-padding;
+        
+        display: block; /* preserve margins in IE */
+    }
+    
+    .#{$prefix}ie .#{$prefix}fieldset {
+        padding-top: 0;
+        padding-bottom: $fieldset-padding;
+    }
+    
+    .#{$prefix}fieldset-header {
+        font: $fieldset-header-font;
+        color: $fieldset-header-color;
+        padding: $fieldset-header-padding;
+        line-height: 16px;
+
+        .#{$prefix}fieldset-header-text {
+            float: left;
+        }
+        
+        .#{$prefix}form-item,
+        .#{$prefix}tool {
+            float: left;
+            margin: 0 3px 0 0;
+        }
+
+        .#{$prefix}form-cb-wrap {
+            padding: 0;
+        }
+    }
+
+    .#{$prefix}webkit .#{$prefix}fieldset-header {
+        padding-top: 1px;
+    }
+
+    @if $include-ie {
+        .#{$prefix}quirks .#{$prefix}ie .#{$prefix}fieldset-header,
+        .#{$prefix}ie6 .#{$prefix}fieldset-header,
+        .#{$prefix}ie7 .#{$prefix}fieldset-header,
+        .#{$prefix}ie8 .#{$prefix}fieldset-header {
+            padding: 0;
+        }
+
+        .#{$prefix}ie9 .#{$prefix}fieldset-header {
+            padding-top: 1px;
+        }
+    }
+    
+    .#{$prefix}fieldset-collapsed {
+        .#{$prefix}fieldset-body {
+            display: none;
+        }
+    }
+
+    .#{$prefix}fieldset-collapsed {
+        padding-bottom: 0 !important;
+        
+        border-width: 1px 1px 0 1px !important;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+    }
+
+    @if $include-ie {
+        .#{$prefix}ie6 .#{$prefix}fieldset-collapsed {
+            border-width: 1px 0 0 0 !important;
+
+            padding-bottom: 0 !important;
+            margin-left: 1px;
+            margin-right: 1px;
+        }
+
+        .#{$prefix}ie .#{$prefix}fieldset-bwrap {
+            zoom: 1;
+        }
+    }
+
+    @if $include-ie {
+        /* IE legend positioning bug */
+        .#{$prefix}ie .#{$prefix}fieldset-noborder legend {
+            position: relative;
+
+            margin-bottom: 23px;
+        }
+
+        .#{$prefix}ie .#{$prefix}fieldset-noborder legend span {
+            position: absolute;
+            left: 16px;
+        }
+    }
+    
+    .#{$prefix}fieldset {
+        overflow: hidden;
+    }
+
+    .#{$prefix}fieldset-bwrap {
+        overflow: hidden;
+        
+        zoom: 1;
+    }
+
+    .#{$prefix}fieldset-body {
+        overflow: hidden;
+    }
+}

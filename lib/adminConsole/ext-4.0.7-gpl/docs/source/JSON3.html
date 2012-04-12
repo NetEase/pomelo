@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-JSON'>/**
+</span> * @class Ext.JSON
+ * Modified version of Douglas Crockford's JSON.js that doesn't
+ * mess with the Object prototype
+ * http://www.json.org/js.html
+ * @singleton
+ */
+Ext.JSON = new(function() {
+    var useHasOwn = !! {}.hasOwnProperty,
+    isNative = function() {
+        var useNative = null;
+
+        return function() {
+            if (useNative === null) {
+                useNative = Ext.USE_NATIVE_JSON &amp;&amp; window.JSON &amp;&amp; JSON.toString() == '[object JSON]';
+            }
+
+            return useNative;
+        };
+    }(),
+    pad = function(n) {
+        return n &lt; 10 ? &quot;0&quot; + n : n;
+    },
+    doDecode = function(json) {
+        return eval(&quot;(&quot; + json + ')');
+    },
+    doEncode = function(o) {
+        if (!Ext.isDefined(o) || o === null) {
+            return &quot;null&quot;;
+        } else if (Ext.isArray(o)) {
+            return encodeArray(o);
+        } else if (Ext.isDate(o)) {
+            return Ext.JSON.encodeDate(o);
+        } else if (Ext.isString(o)) {
+            return encodeString(o);
+        } else if (typeof o == &quot;number&quot;) {
+            //don't use isNumber here, since finite checks happen inside isNumber
+            return isFinite(o) ? String(o) : &quot;null&quot;;
+        } else if (Ext.isBoolean(o)) {
+            return String(o);
+        } else if (Ext.isObject(o)) {
+            return encodeObject(o);
+        } else if (typeof o === &quot;function&quot;) {
+            return &quot;null&quot;;
+        }
+        return 'undefined';
+    },
+    m = {
+        &quot;\b&quot;: '\\b',
+        &quot;\t&quot;: '\\t',
+        &quot;\n&quot;: '\\n',
+        &quot;\f&quot;: '\\f',
+        &quot;\r&quot;: '\\r',
+        '&quot;': '\\&quot;',
+        &quot;\\&quot;: '\\\\',
+        '\x0b': '\\u000b' //ie doesn't handle \v
+    },
+    charToReplace = /[\\\&quot;\x00-\x1f\x7f-\uffff]/g,
+    encodeString = function(s) {
+        return '&quot;' + s.replace(charToReplace, function(a) {
+            var c = m[a];
+            return typeof c === 'string' ? c : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+        }) + '&quot;';
+    },
+    encodeArray = function(o) {
+        var a = [&quot;[&quot;, &quot;&quot;],
+        // Note empty string in case there are no serializable members.
+        len = o.length,
+        i;
+        for (i = 0; i &lt; len; i += 1) {
+            a.push(doEncode(o[i]), ',');
+        }
+        // Overwrite trailing comma (or empty string)
+        a[a.length - 1] = ']';
+        return a.join(&quot;&quot;);
+    },
+    encodeObject = function(o) {
+        var a = [&quot;{&quot;, &quot;&quot;],
+        // Note empty string in case there are no serializable members.
+        i;
+        for (i in o) {
+            if (!useHasOwn || o.hasOwnProperty(i)) {
+                a.push(doEncode(i), &quot;:&quot;, doEncode(o[i]), ',');
+            }
+        }
+        // Overwrite trailing comma (or empty string)
+        a[a.length - 1] = '}';
+        return a.join(&quot;&quot;);
+    };
+
+<span id='Ext-JSON-method-encodeDate'>    /**
+</span>     * &lt;p&gt;Encodes a Date. This returns the actual string which is inserted into the JSON string as the literal expression.
+     * &lt;b&gt;The returned value includes enclosing double quotation marks.&lt;/b&gt;&lt;/p&gt;
+     * &lt;p&gt;The default return format is &quot;yyyy-mm-ddThh:mm:ss&quot;.&lt;/p&gt;
+     * &lt;p&gt;To override this:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;
+Ext.JSON.encodeDate = function(d) {
+    return Ext.Date.format(d, '&quot;Y-m-d&quot;');
+};
+     &lt;/code&gt;&lt;/pre&gt;
+     * @param {Date} d The Date to encode
+     * @return {String} The string literal to use in a JSON string.
+     */
+    this.encodeDate = function(o) {
+        return '&quot;' + o.getFullYear() + &quot;-&quot;
+        + pad(o.getMonth() + 1) + &quot;-&quot;
+        + pad(o.getDate()) + &quot;T&quot;
+        + pad(o.getHours()) + &quot;:&quot;
+        + pad(o.getMinutes()) + &quot;:&quot;
+        + pad(o.getSeconds()) + '&quot;';
+    };
+
+<span id='Ext-JSON-method-encode'>    /**
+</span>     * Encodes an Object, Array or other value
+     * @param {Object} o The variable to encode
+     * @return {String} The JSON string
+     */
+    this.encode = function() {
+        var ec;
+        return function(o) {
+            if (!ec) {
+                // setup encoding function on first access
+                ec = isNative() ? JSON.stringify : doEncode;
+            }
+            return ec(o);
+        };
+    }();
+
+
+<span id='Ext-JSON-method-decode'>    /**
+</span>     * Decodes (parses) a JSON string to an object. If the JSON is invalid, this function throws a SyntaxError unless the safe option is set.
+     * @param {String} json The JSON string
+     * @param {Boolean} safe (optional) Whether to return null or throw an exception if the JSON is invalid.
+     * @return {Object} The resulting object
+     */
+    this.decode = function() {
+        var dc;
+        return function(json, safe) {
+            if (!dc) {
+                // setup decoding function on first access
+                dc = isNative() ? JSON.parse : doDecode;
+            }
+            try {
+                return dc(json);
+            } catch (e) {
+                if (safe === true) {
+                    return null;
+                }
+                Ext.Error.raise({
+                    sourceClass: &quot;Ext.JSON&quot;,
+                    sourceMethod: &quot;decode&quot;,
+                    msg: &quot;You're trying to decode an invalid JSON String: &quot; + json
+                });
+            }
+        };
+    }();
+
+})();
+<span id='Ext-method-encode'>/**
+</span> * Shorthand for {@link Ext.JSON#encode}
+ * @member Ext
+ * @method encode
+ * @alias Ext.JSON#encode
+ */
+Ext.encode = Ext.JSON.encode;
+<span id='Ext-method-decode'>/**
+</span> * Shorthand for {@link Ext.JSON#decode}
+ * @member Ext
+ * @method decode
+ * @alias Ext.JSON#decode
+ */
+Ext.decode = Ext.JSON.decode;
+
+</pre>
+</body>
+</html>

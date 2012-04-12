@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-Navigation'>/**
+</span> * @class Ext.chart.Navigation
+ *
+ * Handles panning and zooming capabilities.
+ *
+ * Used as mixin by Ext.chart.Chart.
+ */
+Ext.define('Ext.chart.Navigation', {
+
+    constructor: function() {
+        this.originalStore = this.store;
+    },
+
+<span id='Ext-chart-Navigation-method-setZoom'>    /**
+</span>     * Zooms the chart to the specified selection range.
+     * Can be used with a selection mask. For example:
+     *
+     *     items: {
+     *         xtype: 'chart',
+     *         animate: true,
+     *         store: store1,
+     *         mask: 'horizontal',
+     *         listeners: {
+     *             select: {
+     *                 fn: function(me, selection) {
+     *                     me.setZoom(selection);
+     *                     me.mask.hide();
+     *                 }
+     *             }
+     *         }
+     *     }
+     */
+    setZoom: function(zoomConfig) {
+        var me = this,
+            axes = me.axes,
+            bbox = me.chartBBox,
+            xScale = 1 / bbox.width,
+            yScale = 1 / bbox.height,
+            zoomer = {
+                x : zoomConfig.x * xScale,
+                y : zoomConfig.y * yScale,
+                width : zoomConfig.width * xScale,
+                height : zoomConfig.height * yScale
+            };
+        axes.each(function(axis) {
+            var ends = axis.calcEnds();
+            if (axis.position == 'bottom' || axis.position == 'top') {
+                var from = (ends.to - ends.from) * zoomer.x + ends.from,
+                    to = (ends.to - ends.from) * zoomer.width + from;
+                axis.minimum = from;
+                axis.maximum = to;
+            } else {
+                var to = (ends.to - ends.from) * (1 - zoomer.y) + ends.from,
+                    from = to - (ends.to - ends.from) * zoomer.height;
+                axis.minimum = from;
+                axis.maximum = to;
+            }
+        });
+        me.redraw(false);
+    },
+
+<span id='Ext-chart-Navigation-method-restoreZoom'>    /**
+</span>     * Restores the zoom to the original value. This can be used to reset
+     * the previous zoom state set by `setZoom`. For example:
+     *
+     *     myChart.restoreZoom();
+     */
+    restoreZoom: function() {
+        this.store = this.substore = this.originalStore;
+        this.redraw(true);
+    }
+
+});
+</pre>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Form With VBox Layout</title>
+
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <script type="text/javascript" src="../shared/states.js"></script>
+
+    <!-- Example -->
+    <script type="text/javascript" src="vbox-form.js"></script>
+</head>
+<body>
+
+    <h1>VBox Layout with Forms</h1>
+    <p>The <code><b>align:'stretch'</b></code> config of the vbox layout manager ensures
+    all child items are 100% of the container width.</p>
+    <p>The <code><b>flex</b></code> config of child items of a vbox layout specifies what share of the vertical
+    space left when unflexed items are accounted for to allocate for that child item.</p>
+    <p>Compare this to <a href="anchoring.html">The anchoring example</a>. That anchors the fields
+    to a hardcoded offset from the edge of the Container. The box layout managers allow much more
+    flexibility in use of available space.</p>
+    <p>The js is not minified so it is readable. See <a href="vbox-form.js">vbox-form.js</a>.</p>
+    <p>This also illustrates the use of plugins to alter the default behaviour of Components. The <b>Send To</b>
+    field clones itself until the final one is left blank to allow multiple mail recipients. The layout
+    manager keeps the vertical space allocated correctly.</p>
+
+</body>
+</html>

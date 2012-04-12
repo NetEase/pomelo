@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-util-Grouper'>/**
+</span> * @class Ext.util.Grouper
+ * @extends Ext.util.Sorter
+
+Represents a single grouper that can be applied to a Store. The grouper works
+in the same fashion as the {@link Ext.util.Sorter}.
+
+ * @markdown
+ */
+ 
+Ext.define('Ext.util.Grouper', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.util.Sorter',
+
+    /* End Definitions */
+
+<span id='Ext-util-Grouper-method-getGroupString'>    /**
+</span>     * Returns the value for grouping to be used.
+     * @param {Ext.data.Model} instance The Model instance
+     * @return {String} The group string for this model
+     */
+    getGroupString: function(instance) {
+        return instance.get(this.property);
+    }
+});</pre>
+</body>
+</html>

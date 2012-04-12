@@ -1,0 +1,277 @@
+@mixin extjs-tree {
+    .#{$prefix}tree-no-lines .#{$prefix}tree-elbow {
+        background-color: transparent;
+    }
+
+    .#{$prefix}tree-no-lines .#{$prefix}tree-elbow-end {
+        background-color: transparent;
+    }
+
+    .#{$prefix}tree-no-lines .#{$prefix}tree-elbow-line {
+        background-color: transparent;
+    }
+    
+    //arrows
+    .#{$prefix}tree-arrows .#{$prefix}tree-elbow-plus {
+        background: transparent no-repeat 0 0;
+    }
+    
+    .#{$prefix}tree-arrows .#{$prefix}tree-elbow-end-plus {
+        background: transparent no-repeat 0 0;
+    }
+
+    .#{$prefix}tree-arrows .#{$prefix}tree-elbow-end-minus {
+        background: transparent no-repeat -16px 0;
+    }
+
+    .#{$prefix}tree-arrows .#{$prefix}tree-elbow-minus {
+        background: transparent no-repeat -16px 0;
+    }
+    
+    .#{$prefix}tree-arrows .#{$prefix}tree-elbow {
+        background-color: transparent !important;
+    }
+    
+    .#{$prefix}tree-arrows .#{$prefix}tree-elbow-end {
+        background-color: transparent !important;
+    }
+    
+    .#{$prefix}tree-arrows .#{$prefix}tree-elbow-line {
+        background-color: transparent !important;
+    }
+    
+    //elbows
+    .#{$prefix}tree-arrows .#{$prefix}tree-expander-over .#{$prefix}tree-elbow-plus,
+    .#{$prefix}tree-arrows .#{$prefix}tree-expander-over .#{$prefix}tree-elbow-end-plus {
+        background-position: -32px 0;
+    }
+
+    .#{$prefix}tree-arrows .#{$prefix}tree-expander-over .#{$prefix}tree-elbow-minus,
+    .#{$prefix}tree-arrows .#{$prefix}tree-expander-over .#{$prefix}tree-elbow-end-minus {
+        background-position: -48px 0;
+    }
+    
+    .#{$prefix}tree-arrows .x-grid-tree-node-expanded .#{$prefix}tree-elbow-plus,
+    .#{$prefix}tree-arrows .x-grid-tree-node-expanded .#{$prefix}tree-elbow-end-plus {
+        background-position: -16px 0;
+    }
+    
+    .#{$prefix}tree-arrows .x-grid-tree-node-expanded .#{$prefix}tree-expander-over .#{$prefix}tree-elbow-plus,
+    .#{$prefix}tree-arrows .x-grid-tree-node-expanded .#{$prefix}tree-expander-over .#{$prefix}tree-elbow-end-plus {
+        background-position: -48px 0;
+    }
+
+    .#{$prefix}tree-elbow-plus,
+    .#{$prefix}tree-elbow-minus,
+    .#{$prefix}tree-elbow-end-plus,
+    .#{$prefix}tree-elbow-end-minus{
+        cursor: pointer;
+    }
+    
+    //elbows
+    .#{$prefix}tree-lines {
+        .#{$prefix}tree-elbow {
+            background-image: theme-background-image($theme-name, 'tree/elbow.gif');
+        }
+        
+        .#{$prefix}tree-elbow-end {
+            background-image: theme-background-image($theme-name, 'tree/elbow-end.gif');
+        }
+
+        .#{$prefix}tree-elbow-plus {
+            background-image: theme-background-image($theme-name, 'tree/elbow-plus.gif');
+        }
+
+        .#{$prefix}tree-elbow-end-plus {
+            background-image: theme-background-image($theme-name, 'tree/elbow-end-plus.gif');
+        }
+
+        .#{$prefix}grid-tree-node-expanded .#{$prefix}tree-elbow-plus {
+            background-image: theme-background-image($theme-name, 'tree/elbow-minus.gif');
+        }
+
+        .#{$prefix}grid-tree-node-expanded .#{$prefix}tree-elbow-end-plus {
+            background-image: theme-background-image($theme-name, 'tree/elbow-end-minus.gif');
+        }
+        
+        .#{$prefix}tree-elbow-line {
+            background-image: theme-background-image($theme-name, 'tree/elbow-line.gif');
+        }
+    }
+    
+    .#{$prefix}tree-no-lines {
+        .#{$prefix}tree-elbow-plus,
+        .#{$prefix}tree-elbow-end-plus {
+        	background-image: theme-background-image($theme-name, 'tree/elbow-plus-nl.gif');
+        }
+
+        .#{$prefix}grid-tree-node-expanded .#{$prefix}tree-elbow-plus,
+        .#{$prefix}grid-tree-node-expanded .#{$prefix}tree-elbow-end-plus {
+            background-image: theme-background-image($theme-name, 'tree/elbow-end-minus-nl.gif');
+        }
+    }
+    
+    .#{$prefix}tree-arrows {
+        .#{$prefix}tree-elbow-plus,
+        .#{$prefix}tree-elbow-minus,
+        .#{$prefix}tree-elbow-end-plus,
+        .#{$prefix}tree-elbow-end-minus {
+            background-image: theme-background-image($theme-name, 'tree/arrows.gif');
+        }
+    }
+    
+    .#{$prefix}tree-icon {
+        margin-right: 3px;
+    }
+
+    .#{$prefix}tree-elbow,
+    .#{$prefix}tree-elbow-end,
+    .#{$prefix}tree-elbow-plus,
+    .#{$prefix}tree-elbow-end-plus,
+    .#{$prefix}tree-elbow-empty,
+    .#{$prefix}tree-elbow-line {
+        height: $tree-elbow-height;
+        width: $tree-elbow-width;
+    }
+    
+    .#{$prefix}tree-icon-leaf {
+        width: $tree-elbow-width;
+        background-image: theme-background-image($theme-name, 'tree/leaf.gif');
+    }
+
+    .#{$prefix}tree-icon-parent {
+        width: $tree-elbow-width;
+        background-image: theme-background-image($theme-name, 'tree/folder.gif');
+    }
+    
+    .#{$prefix}grid-tree-node-expanded .#{$prefix}tree-icon-parent {
+        background-image: theme-background-image($theme-name, 'tree/folder-open.gif');
+    }
+    
+    .#{$prefix}grid-rowbody {
+        padding: 0;
+    }
+    
+    .#{$prefix}tree-panel .#{$prefix}grid-cell-inner {
+        padding: 0px;
+    }
+
+    .#{$prefix}tree-panel .#{$prefix}grid-row .#{$prefix}grid-cell {
+        border: none;
+    }
+    
+    .#{$prefix}tree-panel .#{$prefix}grid-row .#{$prefix}grid-cell-inner {
+        height: $tree-elbow-height;
+        
+        line-height: $tree-elbow-height;
+        cursor: pointer;
+        white-space: nowrap;
+        vertical-align: middle;
+        
+        img {
+            margin-top: 0;
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+    
+    .#{$prefix}tree-checkbox {
+        margin: 2px 3px 0 0;
+        display: inline-block;
+        vertical-align: top;
+
+        width: $form-checkbox-size;
+        height: $form-checkbox-size;
+        background: no-repeat;
+        background-image: theme-background-image($theme-name, $form-checkbox-image);
+
+        overflow: hidden;
+        padding: 0;
+        border: 0;
+        &::-moz-focus-inner {
+            padding: 0;
+            border: 0;
+        }
+    }
+
+    @if $include-ie {
+        /* Hack for IE; causes alignment problem in IE9 standards mode so exclude that */
+        .#{$prefix}nbr.#{$prefix}ie {
+            .#{$prefix}tree-checkbox {
+                font-size: 0;
+            }
+        }
+    }
+    .#{$prefix}tree-checkbox-checked {
+        background-position: 0 (0 - $form-checkbox-size);
+    }
+
+    @if $include-ie {
+        .#{$prefix}tree-panel .#{$prefix}grid-cell-inner {
+            border-width: 0 !important;
+        }
+
+        .#{$prefix}ie6 .#{$prefix}tree-panel .#{$prefix}grid-row .#{$prefix}grid-cell-inner img,
+        .#{$prefix}quirks .#{$prefix}ie .#{$prefix}tree-panel .#{$prefix}grid-row .#{$prefix}grid-cell-inner img {
+            margin-top: -1px;
+            vertical-align: middle;
+        }
+        .#{$prefix}strict .#{$prefix}ie7 .#{$prefix}tree-panel .#{$prefix}grid-row .#{$prefix}grid-cell-inner img {
+            margin-top: -3px;
+            vertical-align: middle;
+        }
+        .#{$prefix}ie6 .#{$prefix}tree-checkbox,
+        .#{$prefix}quirks .#{$prefix}ie7 .#{$prefix}tree-checkbox {
+            margin-top: 0;
+            vertical-align: middle;
+        }
+        .#{$prefix}strict .#{$prefix}ie7 .#{$prefix}tree-checkbox {
+            margin-top: -2px;
+            vertical-align: middle;
+        }
+    }
+    
+    @if $include-ff {
+        .#{$prefix}gecko {
+            .#{$prefix}tree-panel .#{$prefix}grid-row .#{$prefix}grid-cell-inner {
+                line-height: $tree-elbow-height - 2;
+            }
+        }
+    }
+    
+    .#{$prefix}tree-drop-ok-append .#{$prefix}dd-drop-icon {
+        background-image: theme-background-image($theme-name, 'tree/drop-append.gif');
+    }
+
+    .#{$prefix}tree-drop-ok-above .#{$prefix}dd-drop-icon {
+        background-image: theme-background-image($theme-name, 'tree/drop-above.gif');
+    }
+
+    .#{$prefix}tree-drop-ok-below .#{$prefix}dd-drop-icon {
+        background-image: theme-background-image($theme-name, 'tree/drop-below.gif');
+    }
+
+    .#{$prefix}tree-drop-ok-between .#{$prefix}dd-drop-icon {
+        background-image: theme-background-image($theme-name, 'tree/drop-between.gif');
+    }
+    
+    .#{$prefix}grid-tree-loading .#{$prefix}tree-icon {
+        background-image: theme-background-image($theme-name, 'tree/loading.gif');
+    }
+
+    .#{$prefix}tree-ddindicator {
+        height: 1px;
+        border-width: 1px 0px 0px;
+        border-style: dotted;
+        border-color: green;
+    }
+        
+    .#{$prefix}grid-tree-loading span {
+    	 font-style: italic;
+    	 color: #444444;
+    }
+    
+    .#{$prefix}tree-animator-wrap {
+        overflow: hidden;
+    }
+}

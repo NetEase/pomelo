@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Form with embedded Grid</title>
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+ 
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Example -->
+    <script type="text/javascript" src="form-grid.js"></script>
+</head>
+<body>
+    <h1>Dynamic Form interacting with an embedded Grid</h1>
+
+    <p>
+        This Form demonstrates the fact that by virtue of inheriting from the Ext <b><tt>Container</tt></b>
+        class, an Ext.form.Panel can contain any Ext <b><tt>Component</tt></b>. This includes all the
+        subclasses of Ext.Panel, including the GridPanel.
+    </p>
+    <p>
+        The Grid demonstrates the use of creation of derived fields in a Record created using a custom
+        <b><tt>convert</tt></b> function, and the use of column renderers.
+    </p>
+    <p>
+        The Form demonstrates the use of radio buttons grouped by name being set by the value of the derived
+        'rating' field.
+    </p>
+</body>
+</html>

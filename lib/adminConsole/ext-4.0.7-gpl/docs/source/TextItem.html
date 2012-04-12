@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-toolbar-TextItem-method-constructor'><span id='Ext-toolbar-TextItem'>/**
+</span></span> * A simple class that renders text directly into a toolbar.
+ *
+ *     @example
+ *     Ext.create('Ext.panel.Panel', {
+ *         title: 'Panel with TextItem',
+ *         width: 300,
+ *         height: 200,
+ *         tbar: [
+ *             { xtype: 'tbtext', text: 'Sample Text Item' }
+ *         ],
+ *         renderTo: Ext.getBody()
+ *     });
+ *
+ * @constructor
+ * Creates a new TextItem
+ * @param {Object} text A text string, or a config object containing a &lt;tt&gt;text&lt;/tt&gt; property
+ */
+Ext.define('Ext.toolbar.TextItem', {
+    extend: 'Ext.toolbar.Item',
+    requires: ['Ext.XTemplate'],
+    alias: 'widget.tbtext',
+    alternateClassName: 'Ext.Toolbar.TextItem',
+
+<span id='Ext-toolbar-TextItem-cfg-text'>    /**
+</span>     * @cfg {String} text The text to be used as innerHTML (html tags are accepted)
+     */
+    text: '',
+
+    renderTpl: '{text}',
+    //
+    baseCls: Ext.baseCSSPrefix + 'toolbar-text',
+
+    onRender : function() {
+        Ext.apply(this.renderData, {
+            text: this.text
+        });
+        this.callParent(arguments);
+    },
+
+<span id='Ext-toolbar-TextItem-method-setText'>    /**
+</span>     * Updates this item's text, setting the text to be used as innerHTML.
+     * @param {String} t The text to display (html accepted).
+     */
+    setText : function(t) {
+        if (this.rendered) {
+            this.el.update(t);
+            this.ownerCt.doLayout(); // In case an empty text item (centered at zero height) receives new text.
+        } else {
+            this.text = t;
+        }
+    }
+});</pre>
+</body>
+</html>

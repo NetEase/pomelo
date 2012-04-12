@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">Ext.define('Ext.grid.ViewDropZone', {
+    extend: 'Ext.view.DropZone',
+
+    indicatorHtml: '&lt;div class=&quot;x-grid-drop-indicator-left&quot;&gt;&lt;/div&gt;&lt;div class=&quot;x-grid-drop-indicator-right&quot;&gt;&lt;/div&gt;',
+    indicatorCls: 'x-grid-drop-indicator',
+
+    handleNodeDrop : function(data, record, position) {
+        var view = this.view,
+            store = view.getStore(),
+            index, records, i, len;
+
+        // If the copy flag is set, create a copy of the Models with the same IDs
+        if (data.copy) {
+            records = data.records;
+            data.records = [];
+            for (i = 0, len = records.length; i &lt; len; i++) {
+                data.records.push(records[i].copy(records[i].getId()));
+            }
+        } else {
+            /*
+             * Remove from the source store. We do this regardless of whether the store
+             * is the same bacsue the store currently doesn't handle moving records
+             * within the store. In the future it should be possible to do this.
+             * Here was pass the isMove parameter if we're moving to the same view.
+             */
+            data.view.store.remove(data.records, data.view === view);
+        }
+
+        index = store.indexOf(record);
+
+        // 'after', or undefined (meaning a drop at index -1 on an empty View)...
+        if (position !== 'before') {
+            index++;
+        }
+        store.insert(index, data.records);
+        view.getSelectionModel().select(data.records);
+    }
+});</pre>
+</body>
+</html>

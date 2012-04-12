@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-layout-Layout'>/**
+</span> * Base Layout class - extended by ComponentLayout and ContainerLayout
+ */
+Ext.define('Ext.layout.Layout', {
+
+    /* Begin Definitions */
+
+    /* End Definitions */
+
+    isLayout: true,
+    initialized: false,
+
+    statics: {
+        create: function(layout, defaultType) {
+            var type;
+            if (layout instanceof Ext.layout.Layout) {
+                return Ext.createByAlias('layout.' + layout);
+            } else {
+                if (!layout || typeof layout === 'string') {
+                    type = layout || defaultType;
+                    layout = {};                    
+                }
+                else {
+                    type = layout.type || defaultType;
+                }
+                return Ext.createByAlias('layout.' + type, layout || {});
+            }
+        }
+    },
+
+    constructor : function(config) {
+        this.id = Ext.id(null, this.type + '-');
+        Ext.apply(this, config);
+    },
+
+<span id='Ext-layout-Layout-method-layout'>    /**
+</span>     * @private
+     */
+    layout : function() {
+        var me = this;
+        me.layoutBusy = true;
+        me.initLayout();
+
+        if (me.beforeLayout.apply(me, arguments) !== false) {
+            me.layoutCancelled = false;
+            me.onLayout.apply(me, arguments);
+            me.childrenChanged = false;
+            me.owner.needsLayout = false;
+            me.layoutBusy = false;
+            me.afterLayout.apply(me, arguments);
+        }
+        else {
+            me.layoutCancelled = true;
+        }
+        me.layoutBusy = false;
+        me.doOwnerCtLayouts();
+    },
+
+    beforeLayout : function() {
+        this.renderChildren();
+        return true;
+    },
+
+    renderChildren: function () {
+        this.renderItems(this.getLayoutItems(), this.getRenderTarget());
+    },
+
+<span id='Ext-layout-Layout-method-renderItems'>    /**
+</span>     * @private
+     * Iterates over all passed items, ensuring they are rendered.  If the items are already rendered,
+     * also determines if the items are in the proper place dom.
+     */
+    renderItems : function(items, target) {
+        var me = this,
+            ln = items.length,
+            i = 0,
+            item;
+
+        for (; i &lt; ln; i++) {
+            item = items[i];
+            if (item &amp;&amp; !item.rendered) {
+                me.renderItem(item, target, i);
+            } else if (!me.isValidParent(item, target, i)) {
+                me.moveItem(item, target, i);
+            } else {
+                // still need to configure the item, it may have moved in the container.
+                me.configureItem(item);
+            }
+        }
+    },
+
+    // @private - Validates item is in the proper place in the dom.
+    isValidParent : function(item, target, position) {
+        var dom = item.el ? item.el.dom : Ext.getDom(item);
+        if (dom &amp;&amp; target &amp;&amp; target.dom) {
+            if (Ext.isNumber(position) &amp;&amp; dom !== target.dom.childNodes[position]) {
+                return false;
+            }
+            return (dom.parentNode == (target.dom || target));
+        }
+        return false;
+    },
+
+<span id='Ext-layout-Layout-method-renderItem'>    /**
+</span>     * @private
+     * Renders the given Component into the target Element.
+     * @param {Ext.Component} item The Component to render
+     * @param {Ext.Element} target The target Element
+     * @param {Number} position The position within the target to render the item to
+     */
+    renderItem : function(item, target, position) {
+        var me = this;
+        if (!item.rendered) {
+            if (me.itemCls) {
+                item.addCls(me.itemCls);
+            }
+            if (me.owner.itemCls) {
+                item.addCls(me.owner.itemCls);
+            }
+            item.render(target, position);
+            me.configureItem(item);
+            me.childrenChanged = true;
+        }
+    },
+
+<span id='Ext-layout-Layout-method-moveItem'>    /**
+</span>     * @private
+     * Moved Component to the provided target instead.
+     */
+    moveItem : function(item, target, position) {
+        // Make sure target is a dom element
+        target = target.dom || target;
+        if (typeof position == 'number') {
+            position = target.childNodes[position];
+        }
+        target.insertBefore(item.el.dom, position || null);
+        item.container = Ext.get(target);
+        this.configureItem(item);
+        this.childrenChanged = true;
+    },
+
+<span id='Ext-layout-Layout-method-initLayout'>    /**
+</span>     * @private
+     * Adds the layout's targetCls if necessary and sets
+     * initialized flag when complete.
+     */
+    initLayout : function() {
+        var me = this,
+            targetCls = me.targetCls;
+            
+        if (!me.initialized &amp;&amp; !Ext.isEmpty(targetCls)) {
+            me.getTarget().addCls(targetCls);
+        }
+        me.initialized = true;
+    },
+
+    // @private Sets the layout owner
+    setOwner : function(owner) {
+        this.owner = owner;
+    },
+
+    // @private - Returns empty array
+    getLayoutItems : function() {
+        return [];
+    },
+
+<span id='Ext-layout-Layout-property-configureItem'>    /**
+</span>     * @private
+     * Applies itemCls
+     * Empty template method
+     */
+    configureItem: Ext.emptyFn,
+    
+    // Placeholder empty functions for subclasses to extend
+    onLayout : Ext.emptyFn,
+    afterLayout : Ext.emptyFn,
+    onRemove : Ext.emptyFn,
+    onDestroy : Ext.emptyFn,
+    doOwnerCtLayouts : Ext.emptyFn,
+
+<span id='Ext-layout-Layout-method-afterRemove'>    /**
+</span>     * @private
+     * Removes itemCls
+     */
+    afterRemove : function(item) {
+        var el = item.el,
+            owner = this.owner,
+            itemCls = this.itemCls,
+            ownerCls = owner.itemCls;
+            
+        // Clear managed dimensions flag when removed from the layout.
+        if (item.rendered &amp;&amp; !item.isDestroyed) {
+            if (itemCls) {
+                el.removeCls(itemCls);
+            }
+            if (ownerCls) {
+                el.removeCls(ownerCls);
+            }
+        }
+
+        // These flags are set at the time a child item is added to a layout.
+        // The layout must decide if it is managing the item's width, or its height, or both.
+        // See AbstractComponent for docs on these properties.
+        delete item.layoutManagedWidth;
+        delete item.layoutManagedHeight;
+    },
+
+<span id='Ext-layout-Layout-method-destroy'>    /**
+</span>     * Destroys this layout. This is a template method that is empty by default, but should be implemented
+     * by subclasses that require explicit destruction to purge event handlers or remove DOM nodes.
+     * @template
+     */
+    destroy : function() {
+        var targetCls = this.targetCls,
+            target;
+        
+        if (!Ext.isEmpty(targetCls)) {
+            target = this.getTarget();
+            if (target) {
+                target.removeCls(targetCls);
+            }
+        }
+        this.onDestroy();
+    }
+});</pre>
+</body>
+</html>

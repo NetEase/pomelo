@@ -1,0 +1,7 @@
+This desktop example is a work in progress.
+
+Several great contributions were made by Todd Murdock (mxracer), including the
+TaskBar and StartMenu UX components. More information can be found in
+this thread on the ext js forums:
+
+http://sencha.com/forum/showthread.php?t=10950

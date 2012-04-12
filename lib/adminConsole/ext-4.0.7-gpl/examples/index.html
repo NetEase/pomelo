@@ -1,0 +1,181 @@
+<html>
+<head>
+    <title>Ext JS 4.0 Examples</title>
+
+    <style type="text/css">
+
+    #all-demos {
+
+    }
+    #all-demos dd {
+        cursor:pointer;
+        float:left;
+        height:100px;
+        margin:5px 5px 5px 10px;
+        width:300px;
+        zoom:1;
+    }
+    #all-demos dd img {
+        border: 1px solid #ddd;
+        float:left;
+        height:90px;
+        margin:5px 0 0 5px;
+        width:120px;
+    }
+
+    #all-demos dd div {
+        float:left;
+        margin-left:10px;
+        width:160px;
+    }
+
+    #all-demos dd h4 {
+        color:#555;
+        font-size:11px;
+        font-weight:bold;
+    }
+    #all-demos dd p {
+        color:#777;
+    }
+    #all-demos dd.over {
+        background: #F5FDE3 url(shared/extjs/images/sample-over.gif) no-repeat;
+    }
+    #loading-mask{
+        background-color:white;
+        height:100%;
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        z-index:20000;
+    }
+    #loading{
+        height:auto;
+        position:absolute;
+        left:45%;
+        top:40%;
+        padding:2px;
+        z-index:20001;
+    }
+    #loading a {
+        color:#225588;
+    }
+    #loading .loading-indicator{
+        background:white;
+        color:#444;
+        font:bold 13px Helvetica, Arial, sans-serif;
+        height:auto;
+        margin:0;
+        padding:10px;
+    }
+    #loading-msg {
+        font-size: 10px;
+        font-weight: normal;
+    }
+
+    #all-demos .x-panel-body {
+        background-color:#fff;
+        border:1px solid;
+        border-color:#fafafa #fafafa #fafafa #fafafa;
+    }
+    #sample-ct {
+        border:1px solid;
+        border-color:#dadada #ebebeb #ebebeb #dadada;
+        padding:2px;
+        font: 11px tahoma,arial,helvetica,sans-serif
+    }
+
+    #all-demos h2 {
+        border-bottom: 2px solid #99bbe8;
+        cursor:pointer;
+        padding-top:6px;
+    }
+    #all-demos h2 div {
+        background:transparent url(../resources/themes/images/default/grid/group-expand-sprite.gif) no-repeat 3px -47px;
+        color:#3764a0;
+        font:bold 11px Helvetica, Arial, sans-serif;
+        padding:4px 4px 4px 17px;
+    }
+    #all-demos .collapsed h2 div {
+        background-position: 3px 3px;
+    }
+    #all-demos .collapsed dl {
+        display:none;
+    }
+    .x-window {
+        text-align:left;
+    }
+    #all-demos dd h4 span.new-sample{
+        color: red;
+    }
+
+    #all-demos dd h4 span.updated-sample{
+        color: blue;
+    }
+    li {
+		list-style: inherit !important;
+    }
+
+    </style>
+</head>
+<body>
+    <div id="loading-mask" style=""></div>
+    <div id="loading">
+        <div class="loading-indicator">
+            <img src="shared/extjs/images/extanim32.gif" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>Ext JS 4.0 - <a href="http://www.sencha.com">sencha.com</a>
+            <br /><span id="loading-msg">Loading styles and images...</span>
+        </div>
+    </div>
+
+    <div id="viewport">
+
+        <div id="hd">
+            <a href="http://www.sencha.com" id="logo"><img src="../welcome/img/logo-sencha-sm.png" alt="Sencha" width="120" height="50" /></a>
+        </div>
+
+    <div id="bd">
+        <h1 id="pagetitle">
+            Ext JS 4.0 Samples
+            <div>
+                <a href="../docs/index.html">View Documentation</a>
+                <a href="../release-notes.html">Release Notes</a>
+            </div>
+        </h1>
+        <div class="left-column">
+            <div id="sample-spacer" style="height:800px;"></div>
+
+            <link rel="stylesheet" type="text/css" href="../resources/css/ext-all.css" />
+            <link rel="stylesheet" type="text/css" href="shared/extjs/css/extjs.css" />
+
+            <script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading Core API...';</script>
+            <script type="text/javascript" src="../ext-all-debug.js"></script>
+            <script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading UI Components...';</script>
+            <script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Initializing...';</script>
+
+            <!-- App.js contains Ext.App, a simple, re-usable Application component -->
+            <script type="text/javascript" src="shared/extjs/App.js"></script>
+            <script type="text/javascript" src="shared/extjs/site.js"></script>
+            <script type="text/javascript" src="examples.js"></script>
+            <script type="text/javascript" src="init.js"></script>
+
+            <div id="all-demos">
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="side-box"><div class="side-box-inner">
+                <ul id="sample-menu" class="features"></ul>
+            </div></div>
+        </div>
+
+        <div style="clear:both"></div>
+    </div><!-- end bd -->
+
+    <div id="ft">
+        <div class="copy">&copy; 2006-2011 Sencha Inc.</div>
+    </div>
+
+    </div><!-- end viewport -->
+
+</body>
+</html>

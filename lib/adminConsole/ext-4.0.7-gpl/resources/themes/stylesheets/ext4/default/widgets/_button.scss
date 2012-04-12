@@ -1,0 +1,996 @@
+/**
+  * @class Ext.Button
+  * Used to create the base structure of an Ext.Button
+  */
+@mixin extjs-button {
+    .#{$prefix}btn {
+        display: inline-block;
+        zoom: 1;
+        *display: inline;
+        position: relative;
+        
+        cursor: pointer;
+        cursor: hand;
+        
+        white-space: nowrap;
+        
+        vertical-align: middle;
+        
+        * {
+            cursor: pointer;
+            cursor: hand;
+        }
+        
+        background-repeat: no-repeat;
+        
+        em {
+            background-repeat: no-repeat;
+
+            // Styles for an anchor button.
+            a {
+                text-decoration: none;
+                display: inline-block;
+                color: inherit;
+            }
+        }
+        
+        button {
+            margin: 0;
+            padding: 0;      
+            border: 0;  
+            width: auto;    
+            background: none;
+            outline: 0 none;
+            overflow: hidden;
+            vertical-align: bottom;
+            -webkit-appearance: none;
+
+            &::-moz-focus-inner {
+                border: 0;
+                padding: 0;
+            }
+        }
+
+        .#{$prefix}btn-inner {
+            display: block;
+            white-space: nowrap;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: left center;
+        }
+
+        .#{$prefix}btn-left .#{$prefix}btn-inner {
+            text-align: left;
+        }
+
+        .#{$prefix}btn-center .#{$prefix}btn-inner {
+            text-align: center;
+        }
+
+        .#{$prefix}btn-right .#{$prefix}btn-inner {
+            text-align: right;
+        }
+    }
+    
+    .#{$prefix}btn-disabled {
+        @include opacity(1);
+    }
+    
+    .#{$prefix}btn-disabled span {
+        @include opacity(.5);
+
+        .#{$prefix}ie6 &,
+        .#{$prefix}ie7 & {
+            filter:none;
+        }
+    }
+    
+    //remove the opacity rule of IE8
+    .#{$prefix}ie7 .#{$prefix}btn-disabled,
+    .#{$prefix}ie8 .#{$prefix}btn-disabled {
+        filter:none;
+    }
+
+    .#{$prefix}ie6 .#{$prefix}btn-disabled,
+    .#{$prefix}ie7 .#{$prefix}btn-disabled,
+    .#{$prefix}ie8 .#{$prefix}btn-disabled {
+        .#{$prefix}btn-icon {
+            @include opacity(.6);
+        }
+    }
+    
+    @if $include-ie {
+        * html .#{$prefix}ie {
+            .#{$prefix}btn button {
+                width: 1px;
+            }
+        }
+
+        .#{$prefix}ie .#{$prefix}btn button {
+            overflow-x: visible; /*prevents extra horiz space in IE*/
+            vertical-align: baseline; /*IE doesn't like bottom*/
+        }
+
+        .#{$prefix}strict .#{$prefix}ie6,
+        .#{$prefix}strict .#{$prefix}ie7 {
+            .#{$prefix}btn .#{$prefix}frame-mc {
+                height: 100%;
+            }
+        }  
+    }
+  
+    @if not $supports-border-radius or $compile-all {
+        .#{$prefix}nbr {
+            .#{$prefix}btn {
+                .#{$prefix}frame-mc {
+                    vertical-align: middle;
+                    white-space: nowrap;
+                    text-align: center;
+                    cursor: pointer;
+                }
+            }
+        }    
+    }
+
+    .#{$prefix}btn-icon-text-left .#{$prefix}btn-icon {
+        background-position: left center;
+    }
+
+    .#{$prefix}btn-icon-text-right .#{$prefix}btn-icon {
+        background-position: right center;
+    }
+
+    .#{$prefix}btn-icon-text-top .#{$prefix}btn-icon {
+        background-position: center top;
+    }
+
+    .#{$prefix}btn-icon-text-bottom .#{$prefix}btn-icon {
+        background-position: center bottom;
+    }
+
+    .#{$prefix}btn {
+        button, a {
+            position: relative;
+
+            .#{$prefix}btn-icon {
+                position: absolute;
+                background-repeat: no-repeat;
+            }
+        }
+    }
+  
+    .#{$prefix}btn-arrow-right {
+        background: transparent no-repeat right center;
+        padding-right: $button-arrow-size;
+        
+        .#{$prefix}btn-inner {
+            padding-right: 0 !important;
+        }
+    }
+
+    .#{$prefix}toolbar .#{$prefix}btn-arrow-right {
+        padding-right: $button-toolbar-arrow-size;
+    }
+
+    .#{$prefix}btn-arrow-bottom {
+        background: transparent no-repeat center bottom;
+        padding-bottom: $button-arrow-size;
+    }
+
+    .#{$prefix}btn-arrow {
+        background-image: theme-background-image($theme-name, 'button/arrow.gif');    
+        display: block;
+    }
+
+
+    //split buttons
+    .#{$prefix}btn-split-right,
+    .#{$prefix}btn-over .#{$prefix}btn-split-right {
+        background: transparent no-repeat right center;
+        background-image: theme-background-image($theme-name, 'button/s-arrow.gif');
+        padding-right: $button-split-size !important;
+    }
+  
+    .#{$prefix}btn-split-bottom,
+    .#{$prefix}btn-over .#{$prefix}btn-split-bottom {
+        background: transparent no-repeat center bottom;
+        background-image: theme-background-image($theme-name, 'button/s-arrow-b.gif');
+        padding-bottom: $button-split-size;
+    }
+    
+    .#{$prefix}toolbar .#{$prefix}btn-split-right {
+        background-image: theme-background-image($theme-name, 'button/s-arrow-noline.gif');
+        padding-right: $button-toolbar-split-size !important;
+    }
+    
+    .#{$prefix}toolbar .#{$prefix}btn-split-bottom {
+        background-image: theme-background-image($theme-name, 'button/s-arrow-b-noline.gif');
+    }
+  
+    .#{$prefix}btn-split {
+        display: block;
+    }
+           
+    .#{$prefix}item-disabled,
+    .#{$prefix}item-disabled * {
+        cursor: default;
+    }
+
+    .#{$prefix}cycle-fixed-width .#{$prefix}btn-inner {
+        text-align: inherit;
+    }
+
+    .#{$prefix}btn-over .#{$prefix}btn-split-right { background-image: theme-background-image($theme-name, 'button/s-arrow-o.gif'); }
+    .#{$prefix}btn-over .#{$prefix}btn-split-bottom { background-image: theme-background-image($theme-name, 'button/s-arrow-bo.gif'); }
+    
+    @include extjs-button-ui(
+        /* UI + Scale */
+        'default-small',
+        
+        $button-small-border-radius,
+        $button-small-border-width,    
+        
+        $button-default-border-color,
+        $button-default-border-color-over,
+        $button-default-border-color-focus,
+        $button-default-border-color-pressed,
+        $button-default-border-color-disabled,
+        
+        $button-small-padding,
+        $button-small-text-padding,
+
+        $button-default-background-color,
+        $button-default-background-color-over,
+        $button-default-background-color-focus,
+        $button-default-background-color-pressed,
+        $button-default-background-color-disabled,
+        
+        $button-default-background-gradient,
+        $button-default-background-gradient-over,
+        $button-default-background-gradient-focus,
+        $button-default-background-gradient-pressed,
+        $button-default-background-gradient-disabled,
+
+        $button-default-color,
+        $button-default-color-over,
+        $button-default-color-focus,
+        $button-default-color-pressed,
+        $button-default-color-disabled,
+                
+        $button-small-font-size,
+        $button-small-font-size-over,
+        $button-small-font-size-focus,
+        $button-small-font-size-pressed,
+        $button-small-font-size-disabled,
+        
+        $button-small-font-weight,
+        $button-small-font-weight-over,
+        $button-small-font-weight-focus,
+        $button-small-font-weight-pressed,
+        $button-small-font-weight-disabled,
+        
+        $button-small-font-family,
+        $button-small-font-family-over,
+        $button-small-font-family-focus,
+        $button-small-font-family-pressed,
+        $button-small-font-family-disabled,
+        
+        $button-small-icon-size
+    );
+        
+    @include extjs-button-ui(
+        'default-medium',
+        
+        $button-medium-border-radius,
+        $button-medium-border-width,    
+        
+        $button-default-border-color,
+        $button-default-border-color-over,
+        $button-default-border-color-focus,
+        $button-default-border-color-pressed,
+        $button-default-border-color-disabled,
+        
+        $button-medium-padding,
+        $button-medium-text-padding,
+
+        $button-default-background-color,
+        $button-default-background-color-over,
+        $button-default-background-color-focus,
+        $button-default-background-color-pressed,
+        $button-default-background-color-disabled,
+        
+        $button-default-background-gradient,
+        $button-default-background-gradient-over,
+        $button-default-background-gradient-focus,
+        $button-default-background-gradient-pressed,
+        $button-default-background-gradient-disabled,
+
+        $button-default-color,
+        $button-default-color-over,
+        $button-default-color-focus,
+        $button-default-color-pressed,
+        $button-default-color-disabled,
+                
+        $button-medium-font-size,
+        $button-medium-font-size-over,
+        $button-medium-font-size-focus,
+        $button-medium-font-size-pressed,
+        $button-medium-font-size-disabled,
+        
+        $button-medium-font-weight,
+        $button-medium-font-weight-over,
+        $button-medium-font-weight-focus,
+        $button-medium-font-weight-pressed,
+        $button-medium-font-weight-disabled,
+        
+        $button-medium-font-family,
+        $button-medium-font-family-over,
+        $button-medium-font-family-focus,
+        $button-medium-font-family-pressed,
+        $button-medium-font-family-disabled,
+        
+        $button-medium-icon-size
+    );
+    
+    @include extjs-button-ui(
+        'default-large',
+        
+        $button-large-border-radius,
+        $button-large-border-width,    
+        
+        $button-default-border-color,
+        $button-default-border-color-over,
+        $button-default-border-color-focus,
+        $button-default-border-color-pressed,
+        $button-default-border-color-disabled,
+        
+        $button-large-padding,
+        $button-large-text-padding,
+
+        $button-default-background-color,
+        $button-default-background-color-over,
+        $button-default-background-color-focus,
+        $button-default-background-color-pressed,
+        $button-default-background-color-disabled,
+        
+        $button-default-background-gradient,
+        $button-default-background-gradient-over,
+        $button-default-background-gradient-focus,
+        $button-default-background-gradient-pressed,
+        $button-default-background-gradient-disabled,
+
+        $button-default-color,
+        $button-default-color-over,
+        $button-default-color-focus,
+        $button-default-color-pressed,
+        $button-default-color-disabled,
+                
+        $button-large-font-size,
+        $button-large-font-size-over,
+        $button-large-font-size-focus,
+        $button-large-font-size-pressed,
+        $button-large-font-size-disabled,
+        
+        $button-large-font-weight,
+        $button-large-font-weight-over,
+        $button-large-font-weight-focus,
+        $button-large-font-weight-pressed,
+        $button-large-font-weight-disabled,
+        
+        $button-large-font-family,
+        $button-large-font-family-over,
+        $button-large-font-family-focus,
+        $button-large-font-family-pressed,
+        $button-large-font-family-disabled,
+        
+        $button-large-icon-size
+    );
+    
+    @include extjs-button-ui(
+        'default-toolbar-small',
+        
+        $button-small-border-radius,
+        $button-small-border-width,    
+        
+        $button-toolbar-border-color,
+        $button-toolbar-border-color-over,
+        $button-toolbar-border-color-focus,
+        $button-toolbar-border-color-pressed,
+        $button-toolbar-border-color-disabled,
+        
+        $button-small-padding,
+        $button-small-text-padding,
+
+        $button-toolbar-background-color,
+        $button-toolbar-background-color-over,
+        $button-toolbar-background-color-focus,
+        $button-toolbar-background-color-pressed,
+        $button-toolbar-background-color-disabled,
+        
+        $button-toolbar-background-gradient,
+        $button-toolbar-background-gradient-over,
+        $button-toolbar-background-gradient-focus,
+        $button-toolbar-background-gradient-pressed,
+        $button-toolbar-background-gradient-disabled,
+
+        $button-toolbar-color,
+        $button-toolbar-color-over,
+        $button-toolbar-color-focus,
+        $button-toolbar-color-pressed,
+        $button-toolbar-color-disabled,
+                
+        $button-small-font-size,
+        $button-small-font-size-over,
+        $button-small-font-size-focus,
+        $button-small-font-size-pressed,
+        $button-small-font-size-disabled,
+        
+        $button-small-font-weight,
+        $button-small-font-weight-over,
+        $button-small-font-weight-focus,
+        $button-small-font-weight-pressed,
+        $button-small-font-weight-disabled,
+        
+        $button-small-font-family,
+        $button-small-font-family-over,
+        $button-small-font-family-focus,
+        $button-small-font-family-pressed,
+        $button-small-font-family-disabled,
+        
+        $button-small-icon-size
+    );
+    
+    @include extjs-button-ui(
+        'default-toolbar-medium',
+        
+        $button-medium-border-radius,
+        $button-medium-border-width,    
+        
+        $button-toolbar-border-color,
+        $button-toolbar-border-color-over,
+        $button-toolbar-border-color-focus,
+        $button-toolbar-border-color-pressed,
+        $button-toolbar-border-color-disabled,
+        
+        $button-medium-padding,
+        $button-medium-text-padding,
+
+        $button-toolbar-background-color,
+        $button-toolbar-background-color-over,
+        $button-toolbar-background-color-focus,
+        $button-toolbar-background-color-pressed,
+        $button-toolbar-background-color-disabled,
+        
+        $button-toolbar-background-gradient,
+        $button-toolbar-background-gradient-over,
+        $button-toolbar-background-gradient-focus,
+        $button-toolbar-background-gradient-pressed,
+        $button-toolbar-background-gradient-disabled,
+
+        $button-toolbar-color,
+        $button-toolbar-color-over,
+        $button-toolbar-color-focus,
+        $button-toolbar-color-pressed,
+        $button-toolbar-color-disabled,
+                
+        $button-medium-font-size,
+        $button-medium-font-size-over,
+        $button-medium-font-size-focus,
+        $button-medium-font-size-pressed,
+        $button-medium-font-size-disabled,
+        
+        $button-medium-font-weight,
+        $button-medium-font-weight-over,
+        $button-medium-font-weight-focus,
+        $button-medium-font-weight-pressed,
+        $button-medium-font-weight-disabled,
+        
+        $button-medium-font-family,
+        $button-medium-font-family-over,
+        $button-medium-font-family-focus,
+        $button-medium-font-family-pressed,
+        $button-medium-font-family-disabled,
+        
+        $button-medium-icon-size
+    );
+    
+    @include extjs-button-ui(
+        'default-toolbar-large',
+        
+        $button-large-border-radius,
+        $button-large-border-width,    
+        
+        $button-toolbar-border-color,
+        $button-toolbar-border-color-over,
+        $button-toolbar-border-color-focus,
+        $button-toolbar-border-color-pressed,
+        $button-toolbar-border-color-disabled,
+        
+        $button-large-padding,
+        $button-large-text-padding,
+
+        $button-toolbar-background-color,
+        $button-toolbar-background-color-over,
+        $button-toolbar-background-color-focus,
+        $button-toolbar-background-color-pressed,
+        $button-toolbar-background-color-disabled,
+        
+        $button-toolbar-background-gradient,
+        $button-toolbar-background-gradient-over,
+        $button-toolbar-background-gradient-focus,
+        $button-toolbar-background-gradient-pressed,
+        $button-toolbar-background-gradient-disabled,
+
+        $button-toolbar-color,
+        $button-toolbar-color-over,
+        $button-toolbar-color-focus,
+        $button-toolbar-color-pressed,
+        $button-toolbar-color-disabled,
+                
+        $button-large-font-size,
+        $button-large-font-size-over,
+        $button-large-font-size-focus,
+        $button-large-font-size-pressed,
+        $button-large-font-size-disabled,
+        
+        $button-large-font-weight,
+        $button-large-font-weight-over,
+        $button-large-font-weight-focus,
+        $button-large-font-weight-pressed,
+        $button-large-font-weight-disabled,
+        
+        $button-large-font-family,
+        $button-large-font-family-over,
+        $button-large-font-family-focus,
+        $button-large-font-family-pressed,
+        $button-large-font-family-disabled,
+        
+        $button-large-icon-size
+    );
+    
+    .#{$prefix}btn-default-toolbar-small-disabled,
+    .#{$prefix}btn-default-toolbar-medium-disabled,
+    .#{$prefix}btn-default-toolbar-large-disabled {
+        border-color: transparent;
+        
+        background-image: none;
+        background: transparent;
+    }
+}
+
+@mixin extjs-button-ui(
+    $ui,  
+    
+    $border-radius: 0px,
+    
+    $border-width: 0px,
+            
+    $border-color: null,
+    $border-color-over: null,
+    $border-color-focus: null,
+    $border-color-pressed: null,
+    $border-color-disabled: null,
+    
+    $padding: null,
+    $text-padding: null,
+    
+    $background-color: null,
+    $background-color-over: null,
+    $background-color-focus: null,
+    $background-color-pressed: null,
+    $background-color-disabled: null,
+    
+    $background-gradient: null,
+    $background-gradient-over: null,
+    $background-gradient-focus: null,
+    $background-gradient-pressed: null,
+    $background-gradient-disabled: null,
+    
+    $color: null,
+    $color-over: null,
+    $color-focus: null,
+    $color-pressed: null,
+    $color-disabled: null,
+    
+    $font-size: null,
+    $font-size-over: null,
+    $font-size-focus: null,
+    $font-size-pressed: null,
+    $font-size-disabled: null,
+    
+    $font-weight: null,
+    $font-weight-over: null,
+    $font-weight-focus: null,
+    $font-weight-pressed: null,
+    $font-weight-disabled: null,
+    
+    $font-family: null,
+    $font-family-over: null,
+    $font-family-focus: null,
+    $font-family-pressed: null,
+    $font-family-disabled: null,
+    
+    $icon-size: null
+) {
+    .#{$prefix}btn-#{$ui} {
+        border-color: $border-color;
+    }
+    
+    @include x-frame('btn', $ui, $border-radius, $border-width, $padding, $background-color, $background-gradient, true);
+    
+    .#{$prefix}btn-#{$ui} .#{$prefix}btn-inner {
+        font-size: $font-size;
+        font-weight: $font-weight;
+        font-family: $font-family;
+        color: $color;
+        background-repeat: no-repeat;
+        padding: 0 $text-padding;
+    }
+    
+    .#{$prefix}btn-#{$ui}-icon,
+    .#{$prefix}btn-#{$ui}-noicon {
+        button,
+        .#{$prefix}btn-inner {
+            height: $icon-size;
+            line-height: $icon-size;
+        }
+    }
+
+    //icons
+    .#{$prefix}btn-#{$ui}-icon {
+        button {
+            padding: 0;
+            width: $icon-size !important;
+            height: $icon-size;
+        }
+
+        .#{$prefix}btn-icon {
+            width: $icon-size;
+            height: $icon-size;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+    }
+    
+    .#{$prefix}btn-#{$ui}-icon-text-left {
+        button {
+            height: $icon-size;
+        }
+        .#{$prefix}btn-inner {
+            height: $icon-size;
+            line-height: $icon-size;
+            padding-left: $icon-size + 4px;
+        }
+
+        .#{$prefix}btn-icon {
+            width: $icon-size;
+            height: auto;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: auto;
+
+            .#{$prefix}ie6 &,
+            .#{$prefix}quirks & {
+                height: $icon-size;
+            }
+        }
+    }
+
+    .#{$prefix}btn-#{$ui}-icon-text-right {
+        button {
+            height: $icon-size;
+        }
+        .#{$prefix}btn-inner {
+            height: $icon-size;
+            line-height: $icon-size;
+            padding-right: $icon-size + 4px !important;
+        }
+
+        .#{$prefix}btn-icon {
+            width: $icon-size;
+            height: auto;
+            top: 0;
+            left: auto;
+            bottom: 0;
+            right: 0;
+
+            .#{$prefix}ie6 &,
+            .#{$prefix}quirks & {
+                height: $icon-size;
+            }
+        }
+    }
+    
+    .#{$prefix}btn-#{$ui}-icon-text-top {
+        .#{$prefix}btn-inner {
+            padding-top: $icon-size + 4px;
+        }
+
+        .#{$prefix}btn-icon {
+            width: auto;
+            height: $icon-size;
+            top: 0;
+            left: 0;
+            bottom: auto;
+            right: 0;
+
+            .#{$prefix}ie6 &,
+            .#{$prefix}quirks .#{$prefix}ie & {
+                width: $icon-size;
+            }
+        }
+    }
+    
+    .#{$prefix}btn-#{$ui}-icon-text-bottom {
+        .#{$prefix}btn-inner {
+            padding-bottom: $icon-size + 4px;
+        }
+
+        .#{$prefix}btn-icon {
+            width: auto;
+            height: $icon-size;
+            top: auto;
+            left: 0;
+            bottom: 0;
+            right: 0;
+
+            .#{$prefix}ie6 &,
+            .#{$prefix}quirks .#{$prefix}ie & {
+                width: $icon-size;
+            }
+        }
+    }
+    
+    .#{$prefix}btn-#{$ui}-over {
+        @if $border-color-over != $border-color {
+            border-color: $border-color-over;
+        }
+        @if $background-color-over != null {
+            @include background-gradient($background-color-over, $background-gradient-over);
+        }
+
+        .#{$prefix}btn-inner {
+            @if $color-over != $color {
+                color: $color-over;
+            }
+            @if $font-weight-over != $font-weight {
+                font-weight: $font-weight-over;
+            }
+            @if $font-size-over != $font-size {
+                font-size: $font-size-over;
+            }
+            @if $font-family-over != $font-family {
+                font-family: $font-family-over;
+            } 
+        }
+    }
+    
+    .#{$prefix}btn-#{$ui}-focus {
+        @if $border-color-focus != $border-color {
+            border-color: $border-color-focus;
+        }
+        @if $background-color-focus != null {
+            @include background-gradient($background-color-focus, $background-gradient-focus);
+        }
+
+        .#{$prefix}btn-inner {
+            @if $color-focus != $color {
+                color: $color-focus;
+            }
+            @if $font-weight-focus != $font-weight {
+                font-weight: $font-weight-focus;
+            }
+            @if $font-size-focus != $font-size {
+                font-size: $font-size-focus;
+            }
+            @if $font-family-focus != $font-family {
+                font-family: $font-family-focus;
+            } 
+        }
+    }
+
+    .#{$prefix}btn-#{$ui}-menu-active,
+    .#{$prefix}btn-#{$ui}-pressed {
+        @if $border-color-pressed != $border-color {
+            border-color: $border-color-pressed;
+        }
+        @if $background-color-pressed != null {
+            @include background-gradient($background-color-pressed, $background-gradient-pressed);
+        }
+
+        .#{$prefix}btn-inner {
+            @if $color-pressed != $color {
+                color: $color-pressed;
+            }
+            @if $font-weight-pressed != $font-weight {
+                font-weight: $font-weight-pressed;
+            }
+            @if $font-size-pressed != $font-size {
+                font-size: $font-size-pressed;
+            }
+            @if $font-family-pressed != $font-family {
+                font-family: $font-family-pressed;
+            } 
+        }
+    }
+    
+    .#{$prefix}btn-#{$ui}-disabled {
+        @if $border-color-disabled != $border-color {
+            border-color: $border-color-disabled;
+        }
+        @if $background-color-disabled != null {
+            @include background-gradient($background-color-disabled, $background-gradient-disabled);
+        }
+
+        .#{$prefix}btn-inner {
+            @if $color-disabled != $color {
+                color: $color !important;
+            }
+            @if $font-weight-disabled != $font-weight {
+                font-weight: $font-weight-disabled;
+            }
+            @if $font-size-disabled != $font-size {
+                font-size: $font-size-disabled;
+            }
+            @if $font-family-disabled != $font-family {
+                font-family: $font-family-disabled;
+            } 
+        }
+    }
+    
+    .#{$prefix}ie .#{$prefix}btn-#{$ui}-disabled {
+        .#{$prefix}btn-inner {
+            @if $color-disabled != $color {
+                color: darken($color-disabled, 20) !important;
+            }
+        }
+    }
+    
+    .#{$prefix}ie6 .#{$prefix}btn-#{$ui}-disabled {
+        .#{$prefix}btn-inner {
+            @if $color-disabled != $color {
+                color: $color-disabled !important;
+            }
+        }
+    }
+    
+    @if not $supports-border-radius or $compile-all {    
+        .#{$prefix}nbr { 
+            .#{$prefix}btn-#{$ui}-over {
+                .#{$prefix}frame-tl,
+                .#{$prefix}frame-bl,
+                .#{$prefix}frame-tr,
+                .#{$prefix}frame-br,
+                .#{$prefix}frame-tc,
+                .#{$prefix}frame-bc {
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-over-corners.gif');
+                }
+                .#{$prefix}frame-ml,
+                .#{$prefix}frame-mr {
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-over-sides.gif');
+                }
+                .#{$prefix}frame-mc {
+                    background-color: $background-color-over;
+                    @if $background-gradient-over != null {
+                        background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
+                    }
+                }
+            }
+            
+            .#{$prefix}btn-#{$ui}-focus {
+                .#{$prefix}frame-tl,
+                .#{$prefix}frame-bl,
+                .#{$prefix}frame-tr,
+                .#{$prefix}frame-br,
+                .#{$prefix}frame-tc,
+                .#{$prefix}frame-bc {
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-corners.gif');
+                }
+                .#{$prefix}frame-ml,
+                .#{$prefix}frame-mr {
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-sides.gif');
+                }
+                .#{$prefix}frame-mc {
+                    background-color: $background-color-focus;
+                    @if $background-gradient-focus != null {
+                        background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
+                    }
+                }
+            }
+            
+            .#{$prefix}btn-#{$ui}-menu-active,
+            .#{$prefix}btn-#{$ui}-pressed {
+                .#{$prefix}frame-tl,
+                .#{$prefix}frame-bl,
+                .#{$prefix}frame-tr,
+                .#{$prefix}frame-br,
+                .#{$prefix}frame-tc,
+                .#{$prefix}frame-bc {
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-corners.gif');
+                }
+                .#{$prefix}frame-ml,
+                .#{$prefix}frame-mr {
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-sides.gif');
+                }
+                .#{$prefix}frame-mc {
+                    background-color: $background-color-pressed;
+                    @if $background-gradient-pressed != null {
+                        background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
+                    }
+                }
+            }
+            
+            .#{$prefix}btn-#{$ui}-disabled {
+                .#{$prefix}frame-tl,
+                .#{$prefix}frame-bl,
+                .#{$prefix}frame-tr,
+                .#{$prefix}frame-br,
+                .#{$prefix}frame-tc,
+                .#{$prefix}frame-bc {
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-corners.gif');
+                }
+                .#{$prefix}frame-ml,
+                .#{$prefix}frame-mr {
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-sides.gif');
+                }
+                .#{$prefix}frame-mc {
+                    background-color: $background-color-disabled;
+                    @if $background-gradient-disabled != null {
+                        background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
+                    }
+                }  
+            }
+        }
+    }
+    
+    @if not $supports-gradients or $compile-all {
+        @if $background-gradient != null {
+            .#{$prefix}nlg { 
+                .#{$prefix}btn-#{$ui} {
+                    background-repeat: repeat-x;
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-bg.gif');
+                }
+            }
+        }
+        
+        @if $background-gradient-over != null {
+            .#{$prefix}nlg { 
+                .#{$prefix}btn-#{$ui}-over {
+                    background-repeat: repeat-x;
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
+                }
+            }
+        }
+        
+        @if $background-gradient-focus != null {
+            .#{$prefix}nlg { 
+                .#{$prefix}btn-#{$ui}-focus {
+                    background-repeat: repeat-x;
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
+                }
+            }
+        }
+
+        @if $background-gradient-pressed != null {
+            .#{$prefix}nlg { 
+                .#{$prefix}btn-#{$ui}-menu-active,
+                .#{$prefix}btn-#{$ui}-pressed {
+                    background-repeat: repeat-x;
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
+                }
+            }
+        }
+        
+        @if $background-gradient-disabled != null {
+            .#{$prefix}nlg {
+                .#{$prefix}btn-#{$ui}-disabled {
+                    background-repeat: repeat-x;
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
+                }
+            }
+        }
+    }
+};

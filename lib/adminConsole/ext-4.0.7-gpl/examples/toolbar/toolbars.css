@@ -1,0 +1,74 @@
+#container {
+    width:600px;
+    height:400px;
+    border:3px solid #c3daf9;
+}
+
+.add {
+    background-image: url( images/add.gif ) !important;
+}
+.add16 {
+    background-image: url( images/add16.gif ) !important;
+}
+.add24 {
+    background-image: url( images/add24.gif ) !important;
+}
+.remove {
+    background-image: url( ../menu/images/delete.gif ) !important;
+}
+.edit {
+    background-image: url( ../menu/images/edit.gif ) !important;
+}
+.find {
+    background-image: url( ../menu/images/find.gif ) !important;
+}
+.view {
+    background-image: url( ../menu/images/view.gif ) !important;
+}
+.money-up {
+    background-image: url( images/money_add.png ) !important;
+}
+.money-down {
+    background-image: url( images/money_delete.png ) !important;
+}
+
+.btn-panel td {
+    padding-left:5px;
+}
+
+h2 {
+    color:#083772 !important;
+    margin: 20px 0 0 !important;
+    padding: 5px;
+    background:#eee;
+    width:400px;
+}
+
+h3 {
+    font-weight:normal !important;
+}
+
+.company {
+  float: left;
+  width: 179px;
+  height: 30px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.company h3 {
+  font-weight: bold !important;
+}
+
+.company .up {
+    color: green;
+}
+
+.company .down {
+    color: red;
+}
+
+.company.x-view-selected {
+    background-color: #efefef;
+}

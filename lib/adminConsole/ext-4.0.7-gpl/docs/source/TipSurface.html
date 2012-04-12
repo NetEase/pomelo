@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-TipSurface'>/**
+</span> * @class Ext.chart.TipSurface
+ * @ignore
+ */
+Ext.define('Ext.chart.TipSurface', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.draw.Component',
+
+    /* End Definitions */
+
+    spriteArray: false,
+    renderFirst: true,
+
+    constructor: function(config) {
+        this.callParent([config]);
+        if (config.sprites) {
+            this.spriteArray = [].concat(config.sprites);
+            delete config.sprites;
+        }
+    },
+
+    onRender: function() {
+        var me = this,
+            i = 0,
+            l = 0,
+            sp,
+            sprites;
+            this.callParent(arguments);
+        sprites = me.spriteArray;
+        if (me.renderFirst &amp;&amp; sprites) {
+            me.renderFirst = false;
+            for (l = sprites.length; i &lt; l; i++) {
+                sp = me.surface.add(sprites[i]);
+                sp.setAttributes({
+                    hidden: false
+                },
+                true);
+            }
+        }
+    }
+});
+</pre>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>File Uploads</title>
+
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+
+    <!-- Example -->
+    <script type="text/javascript" src="file-upload.js"></script>
+    <style type="text/css">
+        .upload-icon {
+            background: url('../shared/icons/fam/image_add.png') no-repeat 0 0 !important;
+        }
+        #fi-button-msg {
+            border: 2px solid #ccc;
+            padding: 5px 10px;
+            background: #eee;
+            margin: 5px;
+            float: left;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>File Upload Field</h1>
+
+    <p>This example demonstrates use of Ext.form.field.File, a file upload field with custom rendering.</p>
+    <p>The js is not minified so it is readable. See <a href="file-upload.js">file-upload.js</a>.</p>
+
+    <h2>Basic File Field</h2>
+    <p>
+        A typical file upload field with Ext style. Direct editing of the text field cannot be done in a
+        consistent, cross-browser way, so it is always read-only. The file path reported by the <code>getValue</code>
+        method will 
+    </p>
+    <div id="fi-basic"></div>
+    <div id="fi-basic-btn"></div>
+
+    <h2>Button Only</h2>
+    <p>
+        You can also render the file input as a button without the text field, with access to the field's value via the
+        standard <tt>Ext.form.field.Field</tt> interface or by handling the <tt>fileselected</tt> event (as in this example).
+    </p>
+    <div id="fi-button"></div>
+    <div id="fi-button-msg" style="display:none;"></div>
+    <div class="x-clear"></div>
+
+    <h2>Form Example</h2>
+    <p>
+        The File field can also be used in form layouts just like any other field, with support for labeling,
+        validation (the field is required in this example), empty text, etc.  This example also demonstrates
+        using the <tt>buttonConfig</tt> option to provide a customized icon upload button.
+    </p>
+    <div id="fi-form"></div>
+</body>
+</html>

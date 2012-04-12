@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-JsonPStore'>/**
+</span> * @class Ext.data.JsonPStore
+ * @extends Ext.data.Store
+ * @private
+ * &lt;p&gt;Small helper class to make creating {@link Ext.data.Store}s from different domain JSON data easier.
+ * A JsonPStore will be automatically configured with a {@link Ext.data.reader.Json} and a {@link Ext.data.proxy.JsonP JsonPProxy}.&lt;/p&gt;
+ * &lt;p&gt;A store configuration would be something like:&lt;pre&gt;&lt;code&gt;
+var store = new Ext.data.JsonPStore({
+    // store configs
+    autoDestroy: true,
+    storeId: 'myStore',
+
+    // proxy configs
+    url: 'get-images.php',
+
+    // reader configs
+    root: 'images',
+    idProperty: 'name',
+    fields: ['name', 'url', {name:'size', type: 'float'}, {name:'lastmod', type:'date'}]
+});
+ * &lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
+ * &lt;p&gt;This store is configured to consume a returned object of the form:&lt;pre&gt;&lt;code&gt;
+stcCallback({
+    images: [
+        {name: 'Image one', url:'/GetImage.php?id=1', size:46.5, lastmod: new Date(2007, 10, 29)},
+        {name: 'Image Two', url:'/GetImage.php?id=2', size:43.2, lastmod: new Date(2007, 10, 30)}
+    ]
+})
+ * &lt;/code&gt;&lt;/pre&gt;
+ * &lt;p&gt;Where stcCallback is the callback name passed in the request to the remote domain. See {@link Ext.data.proxy.JsonP JsonPProxy}
+ * for details of how this works.&lt;/p&gt;
+ * An object literal of this form could also be used as the {@link #data} config option.&lt;/p&gt;
+ * &lt;p&gt;&lt;b&gt;*Note:&lt;/b&gt; Although not listed here, this class accepts all of the configuration options of
+ * &lt;b&gt;{@link Ext.data.reader.Json JsonReader}&lt;/b&gt; and &lt;b&gt;{@link Ext.data.proxy.JsonP JsonPProxy}&lt;/b&gt;.&lt;/p&gt;
+ * @xtype jsonpstore
+ */
+Ext.define('Ext.data.JsonPStore', {
+    extend: 'Ext.data.Store',
+    alias : 'store.jsonp',
+
+<span id='Ext-data-JsonPStore-cfg-reader'>    /**
+</span>     * @cfg {Ext.data.DataReader} reader @hide
+     */
+    constructor: function(config) {
+        this.callParent(Ext.apply(config, {
+            reader: Ext.create('Ext.data.reader.Json', config),
+            proxy : Ext.create('Ext.data.proxy.JsonP', config)
+        }));
+    }
+});
+</pre>
+</body>
+</html>

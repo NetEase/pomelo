@@ -1,0 +1,16 @@
+$prefix: 'x-';
+
+$scope-reset-css: true;
+
+$include-ie: true;
+$include-ff: false;
+$include-chrome: false;
+$include-safari: false;
+$include-opera: false;
+
+$compile-all: false;
+$supports-border-radius: false;
+$supports-gradients: false;
+
+@import 'compass';
+@import 'ext4/default/all';

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Custom Form Fields</title>
+
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <style type="text/css">
+        #search-results a {
+            color: #385F95;
+            font:bold 11px tahoma, arial, helvetica, sans-serif;
+            text-decoration:none;
+        }
+        
+        #search-results a:hover {
+            text-decoration:underline;
+        }
+        
+        #search-results p {
+            margin:3px !important;
+        }
+        
+        .search-item {
+            font:normal 11px tahoma, arial, helvetica, sans-serif;
+            padding:3px 10px 3px 10px;
+            border:1px solid #fff;
+            border-bottom:1px solid #eeeeee;
+            white-space:normal;
+            color:#555;
+        }
+        .search-item h3 {
+            display:block;
+            font:inherit;
+            font-weight:bold;
+            color:#222;
+        }
+
+        .search-item h3 span {
+            float: right;
+            font-weight:normal;
+            margin:0 0 5px 5px;
+            width:100px;
+            display:block;
+            clear:none;
+        }
+        
+        .x-form-clear-trigger {
+            background-image: url(../../resources/themes/images/default/form/clear-trigger.gif);
+        }
+        
+        .x-form-search-trigger {
+            background-image: url(../../resources/themes/images/default/form/search-trigger.gif);
+        }
+    </style>
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+
+    <!-- Example -->
+    <script type="text/javascript" src="custom-form.js"></script>
+</head>
+<body>
+<p>
+    <b>Custom Form Fields</b><br />
+    Ext provides many types of form fields to build interactive and rich forms. However, it also
+    provides a complete framework for building new types of fields quickly. The search field below
+    is an example.
+</p>
+<p>The js is not minified so it is readable. See <a href="custom-form.js">custom-form.js</a>.</p>
+
+<div id="search-panel">
+</div>
+
+</body>
+</html>

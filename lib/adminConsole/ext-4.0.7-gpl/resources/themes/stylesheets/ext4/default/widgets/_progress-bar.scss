@@ -1,0 +1,118 @@
+@mixin extjs-progress {
+    .#{$prefix}progress {
+        border-width: $progress-border-width;
+        border-style: solid;
+        @include border-radius($progress-border-radius);
+        
+        overflow: hidden;
+        
+        height: $progress-height;
+    }
+    
+    .#{$prefix}progress-bar {
+        height: $progress-height - ($progress-border-width * 2);
+        
+        overflow: hidden;
+        position: absolute;
+        
+        width: 0;
+        
+        @include border-radius($progress-border-radius);
+        border-right: 1px solid;
+        border-top: 1px solid;
+    }
+
+    .#{$prefix}progress-text {
+        overflow: hidden;
+        
+        position: absolute;
+        
+        padding: 0 5px;
+        
+        height: $progress-height - ($progress-border-width * 2);
+        
+        font-weight: $progress-text-font-weight;
+        font-size: $progress-text-font-size;
+        line-height: 16px;
+        text-align: $progress-text-text-align;
+    }
+    
+    .#{$prefix}progress-text-back {
+        padding-top: 1px;
+    }
+    
+    @if $include-ie or $compile-all {
+        .#{$prefix}strict .#{$prefix}progress  {
+            height: $progress-height - ($progress-border-width * 2);
+        }
+    }
+    
+    @include extjs-progress-ui(
+        'default',
+        
+        $ui-background-color: $progress-background-color,
+        $ui-border-color: $progress-border-color,
+        
+        $ui-bar-background-color: $progress-bar-background-color,
+
+        $ui-color-front: $progress-text-color-front,
+        $ui-color-back: $progress-text-color-back
+    )
+}
+
+/**
+ * @mixin extjs-progress-ui
+ */
+@mixin extjs-progress-ui(
+    $ui-label,
+    
+    $ui-base-color: null,
+    
+    $ui-border-color: null,
+    $ui-background-color: null,
+    
+    $ui-bar-background-color: null,
+    $ui-bar-background-gradient: glossy,
+    
+    $ui-color-front: null,
+    $ui-color-back: null
+){
+    @if $ui-base-color != null {
+        @if $ui-border-color == null {         $ui-border-color: $ui-base-color; }
+        @if $ui-bar-background-color == null { $ui-bar-background-color: $ui-base-color; }
+        @if $ui-color-front == null {          $ui-color-front: lighten($ui-base-color, 60); }
+        @if $ui-color-back == null {           $ui-color-back: darken($ui-base-color, 60); }
+    }
+    
+    .#{$prefix}progress-#{$ui-label} {
+        @if $ui-border-color != null { border-color: $ui-border-color; }
+        
+        .#{$prefix}progress-bar {
+            @if $ui-border-color != null { border-right-color: $ui-border-color; }
+            @if $ui-border-color != null { border-top-color: lighten($ui-border-color, 25); }
+
+            @if $ui-bar-background-color != null { @include background-gradient($ui-bar-background-color, $ui-bar-background-gradient); }
+        }
+        
+        .#{$prefix}progress-text {
+            @if $ui-color-front != null { color: $ui-color-front; }
+        }
+        
+        .#{$prefix}progress-text-back {
+            @if $ui-color-back != null { color: $ui-color-back; }
+        }
+    }
+    
+    @if $ui-background-color != null {
+        @if not $supports-gradients or $compile-all {
+            .#{$prefix}nlg {
+                .#{$prefix}progress-#{$ui-label} {
+                    .#{$prefix}progress-bar {
+                        background: repeat-x;
+                        background-image: theme-background-image($theme-name, 'progress/progress-#{$ui-label}-bg.gif');
+                    }
+                }
+            }
+        }
+    }
+}

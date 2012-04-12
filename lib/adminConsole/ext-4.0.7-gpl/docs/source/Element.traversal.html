@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-Element'>/**
+</span> * @class Ext.Element
+ */
+Ext.Element.addMethods({
+<span id='Ext-Element-method-findParent'>    /**
+</span>     * Looks at this node and then at parent nodes for a match of the passed simple selector (e.g. div.some-class or span:first-child)
+     * @param {String} selector The simple selector to test
+     * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
+     * The max depth to search as a number or element (defaults to 50 || document.body)
+     * @param {Boolean} returnEl (optional) True to return a Ext.Element object instead of DOM node
+     * @return {HTMLElement} The matching DOM node (or null if no match was found)
+     */
+    findParent : function(simpleSelector, maxDepth, returnEl) {
+        var p = this.dom,
+            b = document.body,
+            depth = 0,
+            stopEl;
+
+        maxDepth = maxDepth || 50;
+        if (isNaN(maxDepth)) {
+            stopEl = Ext.getDom(maxDepth);
+            maxDepth = Number.MAX_VALUE;
+        }
+        while (p &amp;&amp; p.nodeType == 1 &amp;&amp; depth &lt; maxDepth &amp;&amp; p != b &amp;&amp; p != stopEl) {
+            if (Ext.DomQuery.is(p, simpleSelector)) {
+                return returnEl ? Ext.get(p) : p;
+            }
+            depth++;
+            p = p.parentNode;
+        }
+        return null;
+    },
+
+<span id='Ext-Element-method-findParentNode'>    /**
+</span>     * Looks at parent nodes for a match of the passed simple selector (e.g. div.some-class or span:first-child)
+     * @param {String} selector The simple selector to test
+     * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
+     * The max depth to search as a number or element (defaults to 10 || document.body)
+     * @param {Boolean} returnEl (optional) True to return a Ext.Element object instead of DOM node
+     * @return {HTMLElement} The matching DOM node (or null if no match was found)
+     */
+    findParentNode : function(simpleSelector, maxDepth, returnEl) {
+        var p = Ext.fly(this.dom.parentNode, '_internal');
+        return p ? p.findParent(simpleSelector, maxDepth, returnEl) : null;
+    },
+
+<span id='Ext-Element-method-up'>    /**
+</span>     * Walks up the dom looking for a parent node that matches the passed simple selector (e.g. div.some-class or span:first-child).
+     * This is a shortcut for findParentNode() that always returns an Ext.Element.
+     * @param {String} selector The simple selector to test
+     * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
+     * The max depth to search as a number or element (defaults to 10 || document.body)
+     * @return {Ext.Element} The matching DOM node (or null if no match was found)
+     */
+    up : function(simpleSelector, maxDepth) {
+        return this.findParentNode(simpleSelector, maxDepth, true);
+    },
+
+<span id='Ext-Element-method-select'>    /**
+</span>     * Creates a {@link Ext.CompositeElement} for child nodes based on the passed CSS selector (the selector should not contain an id).
+     * @param {String} selector The CSS selector
+     * @return {Ext.CompositeElement/Ext.CompositeElement} The composite element
+     */
+    select : function(selector) {
+        return Ext.Element.select(selector, false,  this.dom);
+    },
+
+<span id='Ext-Element-method-query'>    /**
+</span>     * Selects child nodes based on the passed CSS selector (the selector should not contain an id).
+     * @param {String} selector The CSS selector
+     * @return {HTMLElement[]} An array of the matched nodes
+     */
+    query : function(selector) {
+        return Ext.DomQuery.select(selector, this.dom);
+    },
+
+<span id='Ext-Element-method-down'>    /**
+</span>     * Selects a single child at any depth below this element based on the passed CSS selector (the selector should not contain an id).
+     * @param {String} selector The CSS selector
+     * @param {Boolean} returnDom (optional) True to return the DOM node instead of Ext.Element (defaults to false)
+     * @return {HTMLElement/Ext.Element} The child Ext.Element (or DOM node if returnDom = true)
+     */
+    down : function(selector, returnDom) {
+        var n = Ext.DomQuery.selectNode(selector, this.dom);
+        return returnDom ? n : Ext.get(n);
+    },
+
+<span id='Ext-Element-method-child'>    /**
+</span>     * Selects a single *direct* child based on the passed CSS selector (the selector should not contain an id).
+     * @param {String} selector The CSS selector
+     * @param {Boolean} returnDom (optional) True to return the DOM node instead of Ext.Element (defaults to false)
+     * @return {HTMLElement/Ext.Element} The child Ext.Element (or DOM node if returnDom = true)
+     */
+    child : function(selector, returnDom) {
+        var node,
+            me = this,
+            id;
+        id = Ext.get(me).id;
+        // Escape . or :
+        id = id.replace(/[\.:]/g, &quot;\\$0&quot;);
+        node = Ext.DomQuery.selectNode('#' + id + &quot; &gt; &quot; + selector, me.dom);
+        return returnDom ? node : Ext.get(node);
+    },
+
+<span id='Ext-Element-method-parent'>     /**
+</span>     * Gets the parent node for this element, optionally chaining up trying to match a selector
+     * @param {String} selector (optional) Find a parent node that matches the passed simple selector
+     * @param {Boolean} returnDom (optional) True to return a raw dom node instead of an Ext.Element
+     * @return {Ext.Element/HTMLElement} The parent node or null
+     */
+    parent : function(selector, returnDom) {
+        return this.matchNode('parentNode', 'parentNode', selector, returnDom);
+    },
+
+<span id='Ext-Element-method-next'>     /**
+</span>     * Gets the next sibling, skipping text nodes
+     * @param {String} selector (optional) Find the next sibling that matches the passed simple selector
+     * @param {Boolean} returnDom (optional) True to return a raw dom node instead of an Ext.Element
+     * @return {Ext.Element/HTMLElement} The next sibling or null
+     */
+    next : function(selector, returnDom) {
+        return this.matchNode('nextSibling', 'nextSibling', selector, returnDom);
+    },
+
+<span id='Ext-Element-method-prev'>    /**
+</span>     * Gets the previous sibling, skipping text nodes
+     * @param {String} selector (optional) Find the previous sibling that matches the passed simple selector
+     * @param {Boolean} returnDom (optional) True to return a raw dom node instead of an Ext.Element
+     * @return {Ext.Element/HTMLElement} The previous sibling or null
+     */
+    prev : function(selector, returnDom) {
+        return this.matchNode('previousSibling', 'previousSibling', selector, returnDom);
+    },
+
+
+<span id='Ext-Element-method-first'>    /**
+</span>     * Gets the first child, skipping text nodes
+     * @param {String} selector (optional) Find the next sibling that matches the passed simple selector
+     * @param {Boolean} returnDom (optional) True to return a raw dom node instead of an Ext.Element
+     * @return {Ext.Element/HTMLElement} The first child or null
+     */
+    first : function(selector, returnDom) {
+        return this.matchNode('nextSibling', 'firstChild', selector, returnDom);
+    },
+
+<span id='Ext-Element-method-last'>    /**
+</span>     * Gets the last child, skipping text nodes
+     * @param {String} selector (optional) Find the previous sibling that matches the passed simple selector
+     * @param {Boolean} returnDom (optional) True to return a raw dom node instead of an Ext.Element
+     * @return {Ext.Element/HTMLElement} The last child or null
+     */
+    last : function(selector, returnDom) {
+        return this.matchNode('previousSibling', 'lastChild', selector, returnDom);
+    },
+
+    matchNode : function(dir, start, selector, returnDom) {
+        if (!this.dom) {
+            return null;
+        }
+
+        var n = this.dom[start];
+        while (n) {
+            if (n.nodeType == 1 &amp;&amp; (!selector || Ext.DomQuery.is(n, selector))) {
+                return !returnDom ? Ext.get(n) : n;
+            }
+            n = n[dir];
+        }
+        return null;
+    }
+});
+</pre>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-util-Point'>/**
+</span> * Represents a 2D point with x and y properties, useful for comparison and instantiation
+ * from an event:
+ *
+ *     var point = Ext.util.Point.fromEvent(e);
+ *
+ */
+Ext.define('Ext.util.Point', {
+
+    /* Begin Definitions */
+    extend: 'Ext.util.Region',
+
+    statics: {
+
+<span id='Ext-util-Point-static-method-fromEvent'>        /**
+</span>         * Returns a new instance of Ext.util.Point base on the pageX / pageY values of the given event
+         * @static
+         * @param {Event} e The event
+         * @return {Ext.util.Point}
+         */
+        fromEvent: function(e) {
+            e = (e.changedTouches &amp;&amp; e.changedTouches.length &gt; 0) ? e.changedTouches[0] : e;
+            return new this(e.pageX, e.pageY);
+        }
+    },
+
+    /* End Definitions */
+
+<span id='Ext-util-Point-method-constructor'>    /**
+</span>     * Creates a point from two coordinates.
+     * @param {Number} x X coordinate.
+     * @param {Number} y Y coordinate.
+     */
+    constructor: function(x, y) {
+        this.callParent([y, x, y, x]);
+    },
+
+<span id='Ext-util-Point-method-toString'>    /**
+</span>     * Returns a human-eye-friendly string that represents this point,
+     * useful for debugging
+     * @return {String}
+     */
+    toString: function() {
+        return &quot;Point[&quot; + this.x + &quot;,&quot; + this.y + &quot;]&quot;;
+    },
+
+<span id='Ext-util-Point-method-equals'>    /**
+</span>     * Compare this point and another point
+     * @param {Ext.util.Point/Object} The point to compare with, either an instance
+     * of Ext.util.Point or an object with left and top properties
+     * @return {Boolean} Returns whether they are equivalent
+     */
+    equals: function(p) {
+        return (this.x == p.x &amp;&amp; this.y == p.y);
+    },
+
+<span id='Ext-util-Point-method-isWithin'>    /**
+</span>     * Whether the given point is not away from this point within the given threshold amount.
+     * @param {Ext.util.Point/Object} p The point to check with, either an instance
+     * of Ext.util.Point or an object with left and top properties
+     * @param {Object/Number} threshold Can be either an object with x and y properties or a number
+     * @return {Boolean}
+     */
+    isWithin: function(p, threshold) {
+        if (!Ext.isObject(threshold)) {
+            threshold = {
+                x: threshold,
+                y: threshold
+            };
+        }
+
+        return (this.x &lt;= p.x + threshold.x &amp;&amp; this.x &gt;= p.x - threshold.x &amp;&amp;
+                this.y &lt;= p.y + threshold.y &amp;&amp; this.y &gt;= p.y - threshold.y);
+    },
+
+<span id='Ext-util-Point-method-roundedEquals'>    /**
+</span>     * Compare this point with another point when the x and y values of both points are rounded. E.g:
+     * [100.3,199.8] will equals to [100, 200]
+     * @param {Ext.util.Point/Object} p The point to compare with, either an instance
+     * of Ext.util.Point or an object with x and y properties
+     * @return {Boolean}
+     */
+    roundedEquals: function(p) {
+        return (Math.round(this.x) == Math.round(p.x) &amp;&amp; Math.round(this.y) == Math.round(p.y));
+    }
+}, function() {
+<span id='Ext-util-Point-method-translate'>    /**
+</span>     * @method
+     * Alias for {@link #translateBy}
+     * @alias Ext.util.Region#translateBy
+     */
+    this.prototype.translate = Ext.util.Region.prototype.translateBy;
+});
+</pre>
+</body>
+</html>

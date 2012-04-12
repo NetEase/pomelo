@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-util-KeyNav'>/**
+</span> * @class Ext.util.KeyNav
+ * &lt;p&gt;Provides a convenient wrapper for normalized keyboard navigation.  KeyNav allows you to bind
+ * navigation keys to function calls that will get called when the keys are pressed, providing an easy
+ * way to implement custom navigation schemes for any UI component.&lt;/p&gt;
+ * &lt;p&gt;The following are all of the possible keys that can be implemented: enter, space, left, right, up, down, tab, esc,
+ * pageUp, pageDown, del, backspace, home, end.  Usage:&lt;/p&gt;
+ &lt;pre&gt;&lt;code&gt;
+var nav = new Ext.util.KeyNav(&quot;my-element&quot;, {
+    &quot;left&quot; : function(e){
+        this.moveLeft(e.ctrlKey);
+    },
+    &quot;right&quot; : function(e){
+        this.moveRight(e.ctrlKey);
+    },
+    &quot;enter&quot; : function(e){
+        this.save();
+    },
+    scope : this
+});
+&lt;/code&gt;&lt;/pre&gt;
+ */
+Ext.define('Ext.util.KeyNav', {
+    
+    alternateClassName: 'Ext.KeyNav',
+    
+    requires: ['Ext.util.KeyMap'],
+    
+    statics: {
+        keyOptions: {
+            left: 37,
+            right: 39,
+            up: 38,
+            down: 40,
+            space: 32,
+            pageUp: 33,
+            pageDown: 34,
+            del: 46,
+            backspace: 8,
+            home: 36,
+            end: 35,
+            enter: 13,
+            esc: 27,
+            tab: 9
+        }
+    },
+
+<span id='Ext-util-KeyNav-method-constructor'>    /**
+</span>     * Creates new KeyNav.
+     * @param {String/HTMLElement/Ext.Element} el The element or its ID to bind to
+     * @param {Object} config The config
+     */
+    constructor: function(el, config){
+        this.setConfig(el, config || {});
+    },
+    
+<span id='Ext-util-KeyNav-method-setConfig'>    /**
+</span>     * Sets up a configuration for the KeyNav.
+     * @private
+     * @param {String/HTMLElement/Ext.Element} el The element or its ID to bind to
+     * @param {Object} config A configuration object as specified in the constructor.
+     */
+    setConfig: function(el, config) {
+        if (this.map) {
+            this.map.destroy();
+        }
+        
+        var map = Ext.create('Ext.util.KeyMap', el, null, this.getKeyEvent('forceKeyDown' in config ? config.forceKeyDown : this.forceKeyDown)),
+            keys = Ext.util.KeyNav.keyOptions,
+            scope = config.scope || this,
+            key;
+        
+        this.map = map;
+        for (key in keys) {
+            if (keys.hasOwnProperty(key)) {
+                if (config[key]) {
+                    map.addBinding({
+                        scope: scope,
+                        key: keys[key],
+                        handler: Ext.Function.bind(this.handleEvent, scope, [config[key]], true),
+                        defaultEventAction: config.defaultEventAction || this.defaultEventAction
+                    });
+                }
+            }
+        }
+        
+        map.disable();
+        if (!config.disabled) {
+            map.enable();
+        }
+    },
+    
+<span id='Ext-util-KeyNav-method-handleEvent'>    /**
+</span>     * Method for filtering out the map argument
+     * @private
+     * @param {Ext.util.KeyMap} map
+     * @param {Ext.EventObject} event
+     * @param {Object} options Contains the handler to call
+     */
+    handleEvent: function(map, event, handler){
+        return handler.call(this, event);
+    },
+    
+<span id='Ext-util-KeyNav-cfg-disabled'>    /**
+</span>     * @cfg {Boolean} disabled
+     * True to disable this KeyNav instance.
+     */
+    disabled: false,
+    
+<span id='Ext-util-KeyNav-cfg-defaultEventAction'>    /**
+</span>     * @cfg {String} defaultEventAction
+     * The method to call on the {@link Ext.EventObject} after this KeyNav intercepts a key.  Valid values are
+     * {@link Ext.EventObject#stopEvent}, {@link Ext.EventObject#preventDefault} and
+     * {@link Ext.EventObject#stopPropagation}.
+     */
+    defaultEventAction: &quot;stopEvent&quot;,
+    
+<span id='Ext-util-KeyNav-cfg-forceKeyDown'>    /**
+</span>     * @cfg {Boolean} forceKeyDown
+     * Handle the keydown event instead of keypress.  KeyNav automatically does this for IE since
+     * IE does not propagate special keys on keypress, but setting this to true will force other browsers to also
+     * handle keydown instead of keypress.
+     */
+    forceKeyDown: false,
+    
+<span id='Ext-util-KeyNav-method-destroy'>    /**
+</span>     * Destroy this KeyNav (this is the same as calling disable).
+     * @param {Boolean} removeEl True to remove the element associated with this KeyNav.
+     */
+    destroy: function(removeEl){
+        this.map.destroy(removeEl);
+        delete this.map;
+    },
+
+<span id='Ext-util-KeyNav-method-enable'>    /**
+</span>     * Enable this KeyNav
+     */
+    enable: function() {
+        this.map.enable();
+        this.disabled = false;
+    },
+
+<span id='Ext-util-KeyNav-method-disable'>    /**
+</span>     * Disable this KeyNav
+     */
+    disable: function() {
+        this.map.disable();
+        this.disabled = true;
+    },
+    
+<span id='Ext-util-KeyNav-method-setDisabled'>    /**
+</span>     * Convenience function for setting disabled/enabled by boolean.
+     * @param {Boolean} disabled
+     */
+    setDisabled : function(disabled){
+        this.map.setDisabled(disabled);
+        this.disabled = disabled;
+    },
+    
+<span id='Ext-util-KeyNav-method-getKeyEvent'>    /**
+</span>     * Determines the event to bind to listen for keys. Depends on the {@link #forceKeyDown} setting,
+     * as well as the useKeyDown option on the EventManager.
+     * @return {String} The type of event to listen for.
+     */
+    getKeyEvent: function(forceKeyDown){
+        return (forceKeyDown || Ext.EventManager.useKeyDown) ? 'keydown' : 'keypress';
+    }
+});
+</pre>
+</body>
+</html>

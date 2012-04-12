@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-toolbar-Spacer'>/**
+</span> * A simple element that adds extra horizontal space between items in a toolbar.
+ * By default a 2px wide space is added via CSS specification:
+ *
+ *     .x-toolbar .x-toolbar-spacer {
+ *         width: 2px;
+ *     }
+ *
+ * Example:
+ *
+ *     @example
+ *     Ext.create('Ext.panel.Panel', {
+ *         title: 'Toolbar Spacer Example',
+ *         width: 300,
+ *         height: 200,
+ *         tbar : [
+ *             'Item 1',
+ *             { xtype: 'tbspacer' }, // or ' '
+ *             'Item 2',
+ *             // space width is also configurable via javascript
+ *             { xtype: 'tbspacer', width: 50 }, // add a 50px space
+ *             'Item 3'
+ *         ],
+ *         renderTo: Ext.getBody()
+ *     });
+ */
+Ext.define('Ext.toolbar.Spacer', {
+    extend: 'Ext.Component',
+    alias: 'widget.tbspacer',
+    alternateClassName: 'Ext.Toolbar.Spacer',
+    baseCls: Ext.baseCSSPrefix + 'toolbar-spacer',
+    focusable: false
+});</pre>
+</body>
+</html>

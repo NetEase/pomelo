@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-is'>/**
+</span> * @class Ext.is
+ * 
+ * Determines information about the current platform the application is running on.
+ * 
+ * @singleton
+ */
+Ext.is = {
+    init : function(navigator) {
+        var platforms = this.platforms,
+            ln = platforms.length,
+            i, platform;
+
+        navigator = navigator || window.navigator;
+
+        for (i = 0; i &lt; ln; i++) {
+            platform = platforms[i];
+            this[platform.identity] = platform.regex.test(navigator[platform.property]);
+        }
+
+<span id='Ext-is-property-Desktop'>        /**
+</span>         * @property Desktop True if the browser is running on a desktop machine
+         * @type {Boolean}
+         */
+        this.Desktop = this.Mac || this.Windows || (this.Linux &amp;&amp; !this.Android);
+<span id='Ext-is-property-Tablet'>        /**
+</span>         * @property Tablet True if the browser is running on a tablet (iPad)
+         */
+        this.Tablet = this.iPad;
+<span id='Ext-is-property-Phone'>        /**
+</span>         * @property Phone True if the browser is running on a phone.
+         * @type {Boolean}
+         */
+        this.Phone = !this.Desktop &amp;&amp; !this.Tablet;
+<span id='Ext-is-property-iOS'>        /**
+</span>         * @property iOS True if the browser is running on iOS
+         * @type {Boolean}
+         */
+        this.iOS = this.iPhone || this.iPad || this.iPod;
+        
+<span id='Ext-is-property-Standalone'>        /**
+</span>         * @property Standalone Detects when application has been saved to homescreen.
+         * @type {Boolean}
+         */
+        this.Standalone = !!window.navigator.standalone;
+    },
+    
+<span id='Ext-is-property-iPhone'>    /**
+</span>     * @property iPhone True when the browser is running on a iPhone
+     * @type {Boolean}
+     */
+    platforms: [{
+        property: 'platform',
+        regex: /iPhone/i,
+        identity: 'iPhone'
+    },
+    
+<span id='Ext-is-property-iPod'>    /**
+</span>     * @property iPod True when the browser is running on a iPod
+     * @type {Boolean}
+     */
+    {
+        property: 'platform',
+        regex: /iPod/i,
+        identity: 'iPod'
+    },
+    
+<span id='Ext-is-property-iPad'>    /**
+</span>     * @property iPad True when the browser is running on a iPad
+     * @type {Boolean}
+     */
+    {
+        property: 'userAgent',
+        regex: /iPad/i,
+        identity: 'iPad'
+    },
+    
+<span id='Ext-is-property-Blackberry'>    /**
+</span>     * @property Blackberry True when the browser is running on a Blackberry
+     * @type {Boolean}
+     */
+    {
+        property: 'userAgent',
+        regex: /Blackberry/i,
+        identity: 'Blackberry'
+    },
+    
+<span id='Ext-is-property-Android'>    /**
+</span>     * @property Android True when the browser is running on an Android device
+     * @type {Boolean}
+     */
+    {
+        property: 'userAgent',
+        regex: /Android/i,
+        identity: 'Android'
+    },
+    
+<span id='Ext-is-property-Mac'>    /**
+</span>     * @property Mac True when the browser is running on a Mac
+     * @type {Boolean}
+     */
+    {
+        property: 'platform',
+        regex: /Mac/i,
+        identity: 'Mac'
+    },
+    
+<span id='Ext-is-property-Windows'>    /**
+</span>     * @property Windows True when the browser is running on Windows
+     * @type {Boolean}
+     */
+    {
+        property: 'platform',
+        regex: /Win/i,
+        identity: 'Windows'
+    },
+    
+<span id='Ext-is-property-Linux'>    /**
+</span>     * @property Linux True when the browser is running on Linux
+     * @type {Boolean}
+     */
+    {
+        property: 'platform',
+        regex: /Linux/i,
+        identity: 'Linux'
+    }]
+};
+
+Ext.is.init();
+
+<span id='Ext-supports'>/**
+</span> * @class Ext.supports
+ *
+ * Determines information about features are supported in the current environment
+ * 
+ * @singleton
+ */
+Ext.supports = {
+    init : function() {
+        var doc = document,
+            div = doc.createElement('div'),
+            tests = this.tests,
+            ln = tests.length,
+            i, test;
+
+        div.innerHTML = [
+            '&lt;div style=&quot;height:30px;width:50px;&quot;&gt;',
+                '&lt;div style=&quot;height:20px;width:20px;&quot;&gt;&lt;/div&gt;',
+            '&lt;/div&gt;',
+            '&lt;div style=&quot;width: 200px; height: 200px; position: relative; padding: 5px;&quot;&gt;',
+                '&lt;div style=&quot;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&quot;&gt;&lt;/div&gt;',
+            '&lt;/div&gt;',
+            '&lt;div style=&quot;float:left; background-color:transparent;&quot;&gt;&lt;/div&gt;'
+        ].join('');
+
+        doc.body.appendChild(div);
+
+        for (i = 0; i &lt; ln; i++) {
+            test = tests[i];
+            this[test.identity] = test.fn.call(this, doc, div);
+        }
+
+        doc.body.removeChild(div);
+    },
+
+<span id='Ext-supports-property-CSS3BoxShadow'>    /**
+</span>     * @property CSS3BoxShadow True if document environment supports the CSS3 box-shadow style.
+     * @type {Boolean}
+     */
+    CSS3BoxShadow: Ext.isDefined(document.documentElement.style.boxShadow),
+
+<span id='Ext-supports-property-ClassList'>    /**
+</span>     * @property ClassList True if document environment supports the HTML5 classList API.
+     * @type {Boolean}
+     */
+    ClassList: !!document.documentElement.classList,
+
+<span id='Ext-supports-property-OrientationChange'>    /**
+</span>     * @property OrientationChange True if the device supports orientation change
+     * @type {Boolean}
+     */
+    OrientationChange: ((typeof window.orientation != 'undefined') &amp;&amp; ('onorientationchange' in window)),
+    
+<span id='Ext-supports-property-DeviceMotion'>    /**
+</span>     * @property DeviceMotion True if the device supports device motion (acceleration and rotation rate)
+     * @type {Boolean}
+     */
+    DeviceMotion: ('ondevicemotion' in window),
+    
+<span id='Ext-supports-property-Touch'>    /**
+</span>     * @property Touch True if the device supports touch
+     * @type {Boolean}
+     */
+    // is.Desktop is needed due to the bug in Chrome 5.0.375, Safari 3.1.2
+    // and Safari 4.0 (they all have 'ontouchstart' in the window object).
+    Touch: ('ontouchstart' in window) &amp;&amp; (!Ext.is.Desktop),
+
+    tests: [
+<span id='Ext-supports-property-Transitions'>        /**
+</span>         * @property Transitions True if the device supports CSS3 Transitions
+         * @type {Boolean}
+         */
+        {
+            identity: 'Transitions',
+            fn: function(doc, div) {
+                var prefix = [
+                        'webkit',
+                        'Moz',
+                        'o',
+                        'ms',
+                        'khtml'
+                    ],
+                    TE = 'TransitionEnd',
+                    transitionEndName = [
+                        prefix[0] + TE,
+                        'transitionend', //Moz bucks the prefixing convention
+                        prefix[2] + TE,
+                        prefix[3] + TE,
+                        prefix[4] + TE
+                    ],
+                    ln = prefix.length,
+                    i = 0,
+                    out = false;
+                div = Ext.get(div);
+                for (; i &lt; ln; i++) {
+                    if (div.getStyle(prefix[i] + &quot;TransitionProperty&quot;)) {
+                        Ext.supports.CSS3Prefix = prefix[i];
+                        Ext.supports.CSS3TransitionEnd = transitionEndName[i];
+                        out = true;
+                        break;
+                    }
+                }
+                return out;
+            }
+        },
+        
+<span id='Ext-supports-property-RightMargin'>        /**
+</span>         * @property RightMargin True if the device supports right margin.
+         * See https://bugs.webkit.org/show_bug.cgi?id=13343 for why this is needed.
+         * @type {Boolean}
+         */
+        {
+            identity: 'RightMargin',
+            fn: function(doc, div) {
+                var view = doc.defaultView;
+                return !(view &amp;&amp; view.getComputedStyle(div.firstChild.firstChild, null).marginRight != '0px');
+            }
+        },
+
+<span id='Ext-supports-property-DisplayChangeInputSelectionBug'>        /**
+</span>         * @property DisplayChangeInputSelectionBug True if INPUT elements lose their
+         * selection when their display style is changed. Essentially, if a text input
+         * has focus and its display style is changed, the I-beam disappears.
+         * 
+         * This bug is encountered due to the work around in place for the {@link #RightMargin}
+         * bug. This has been observed in Safari 4.0.4 and older, and appears to be fixed
+         * in Safari 5. It's not clear if Safari 4.1 has the bug, but it has the same WebKit
+         * version number as Safari 5 (according to http://unixpapa.com/js/gecko.html).
+         */
+        {
+            identity: 'DisplayChangeInputSelectionBug',
+            fn: function() {
+                var webKitVersion = Ext.webKitVersion;
+                // WebKit but older than Safari 5 or Chrome 6:
+                return 0 &lt; webKitVersion &amp;&amp; webKitVersion &lt; 533;
+            }
+        },
+
+<span id='Ext-supports-property-DisplayChangeTextAreaSelectionBug'>        /**
+</span>         * @property DisplayChangeTextAreaSelectionBug True if TEXTAREA elements lose their
+         * selection when their display style is changed. Essentially, if a text area has
+         * focus and its display style is changed, the I-beam disappears.
+         *
+         * This bug is encountered due to the work around in place for the {@link #RightMargin}
+         * bug. This has been observed in Chrome 10 and Safari 5 and older, and appears to
+         * be fixed in Chrome 11.
+         */
+        {
+            identity: 'DisplayChangeTextAreaSelectionBug',
+            fn: function() {
+                var webKitVersion = Ext.webKitVersion;
+
+                /*
+                Has bug w/textarea:
+
+                (Chrome) Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-US)
+                            AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.127
+                            Safari/534.16
+                (Safari) Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us)
+                            AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5
+                            Safari/533.21.1
+
+                No bug:
+
+                (Chrome) Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7)
+                            AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.57
+                            Safari/534.24
+                */
+                return 0 &lt; webKitVersion &amp;&amp; webKitVersion &lt; 534.24;
+            }
+        },
+
+<span id='Ext-supports-property-TransparentColor'>        /**
+</span>         * @property TransparentColor True if the device supports transparent color
+         * @type {Boolean}
+         */
+        {
+            identity: 'TransparentColor',
+            fn: function(doc, div, view) {
+                view = doc.defaultView;
+                return !(view &amp;&amp; view.getComputedStyle(div.lastChild, null).backgroundColor != 'transparent');
+            }
+        },
+
+<span id='Ext-supports-property-ComputedStyle'>        /**
+</span>         * @property ComputedStyle True if the browser supports document.defaultView.getComputedStyle()
+         * @type {Boolean}
+         */
+        {
+            identity: 'ComputedStyle',
+            fn: function(doc, div, view) {
+                view = doc.defaultView;
+                return view &amp;&amp; view.getComputedStyle;
+            }
+        },
+        
+<span id='Ext-supports-property-SVG'>        /**
+</span>         * @property SVG True if the device supports SVG
+         * @type {Boolean}
+         */
+        {
+            identity: 'Svg',
+            fn: function(doc) {
+                return !!doc.createElementNS &amp;&amp; !!doc.createElementNS( &quot;http:/&quot; + &quot;/www.w3.org/2000/svg&quot;, &quot;svg&quot;).createSVGRect;
+            }
+        },
+    
+<span id='Ext-supports-property-Canvas'>        /**
+</span>         * @property Canvas True if the device supports Canvas
+         * @type {Boolean}
+         */
+        {
+            identity: 'Canvas',
+            fn: function(doc) {
+                return !!doc.createElement('canvas').getContext;
+            }
+        },
+        
+<span id='Ext-supports-property-VML'>        /**
+</span>         * @property VML True if the device supports VML
+         * @type {Boolean}
+         */
+        {
+            identity: 'Vml',
+            fn: function(doc) {
+                var d = doc.createElement(&quot;div&quot;);
+                d.innerHTML = &quot;&lt;!--[if vml]&gt;&lt;br&gt;&lt;br&gt;&lt;![endif]--&gt;&quot;;
+                return (d.childNodes.length == 2);
+            }
+        },
+        
+<span id='Ext-supports-property-Float'>        /**
+</span>         * @property Float True if the device supports CSS float
+         * @type {Boolean}
+         */
+        {
+            identity: 'Float',
+            fn: function(doc, div) {
+                return !!div.lastChild.style.cssFloat;
+            }
+        },
+        
+<span id='Ext-supports-property-AudioTag'>        /**
+</span>         * @property AudioTag True if the device supports the HTML5 audio tag
+         * @type {Boolean}
+         */
+        {
+            identity: 'AudioTag',
+            fn: function(doc) {
+                return !!doc.createElement('audio').canPlayType;
+            }
+        },
+        
+<span id='Ext-supports-property-History'>        /**
+</span>         * @property History True if the device supports HTML5 history
+         * @type {Boolean}
+         */
+        {
+            identity: 'History',
+            fn: function() {
+                return !!(window.history &amp;&amp; history.pushState);
+            }
+        },
+        
+<span id='Ext-supports-property-CSS3DTransform'>        /**
+</span>         * @property CSS3DTransform True if the device supports CSS3DTransform
+         * @type {Boolean}
+         */
+        {
+            identity: 'CSS3DTransform',
+            fn: function() {
+                return (typeof WebKitCSSMatrix != 'undefined' &amp;&amp; new WebKitCSSMatrix().hasOwnProperty('m41'));
+            }
+        },
+
+<span id='Ext-supports-property-CSS3LinearGradient'>		/**
+</span>         * @property CSS3LinearGradient True if the device supports CSS3 linear gradients
+         * @type {Boolean}
+         */
+        {
+            identity: 'CSS3LinearGradient',
+            fn: function(doc, div) {
+                var property = 'background-image:',
+                    webkit   = '-webkit-gradient(linear, left top, right bottom, from(black), to(white))',
+                    w3c      = 'linear-gradient(left top, black, white)',
+                    moz      = '-moz-' + w3c,
+                    options  = [property + webkit, property + w3c, property + moz];
+                
+                div.style.cssText = options.join(';');
+                
+                return (&quot;&quot; + div.style.backgroundImage).indexOf('gradient') !== -1;
+            }
+        },
+        
+<span id='Ext-supports-property-CSS3BorderRadius'>        /**
+</span>         * @property CSS3BorderRadius True if the device supports CSS3 border radius
+         * @type {Boolean}
+         */
+        {
+            identity: 'CSS3BorderRadius',
+            fn: function(doc, div) {
+                var domPrefixes = ['borderRadius', 'BorderRadius', 'MozBorderRadius', 'WebkitBorderRadius', 'OBorderRadius', 'KhtmlBorderRadius'],
+                    pass = false,
+                    i;
+                for (i = 0; i &lt; domPrefixes.length; i++) {
+                    if (document.body.style[domPrefixes[i]] !== undefined) {
+                        return true;
+                    }
+                }
+                return pass;
+            }
+        },
+        
+<span id='Ext-supports-property-GeoLocation'>        /**
+</span>         * @property GeoLocation True if the device supports GeoLocation
+         * @type {Boolean}
+         */
+        {
+            identity: 'GeoLocation',
+            fn: function() {
+                return (typeof navigator != 'undefined' &amp;&amp; typeof navigator.geolocation != 'undefined') || (typeof google != 'undefined' &amp;&amp; typeof google.gears != 'undefined');
+            }
+        },
+<span id='Ext-supports-property-MouseEnterLeave'>        /**
+</span>         * @property MouseEnterLeave True if the browser supports mouseenter and mouseleave events
+         * @type {Boolean}
+         */
+        {
+            identity: 'MouseEnterLeave',
+            fn: function(doc, div){
+                return ('onmouseenter' in div &amp;&amp; 'onmouseleave' in div);
+            }
+        },
+<span id='Ext-supports-property-MouseWheel'>        /**
+</span>         * @property MouseWheel True if the browser supports the mousewheel event
+         * @type {Boolean}
+         */
+        {
+            identity: 'MouseWheel',
+            fn: function(doc, div) {
+                return ('onmousewheel' in div);
+            }
+        },
+<span id='Ext-supports-property-Opacity'>        /**
+</span>         * @property Opacity True if the browser supports normal css opacity
+         * @type {Boolean}
+         */
+        {
+            identity: 'Opacity',
+            fn: function(doc, div){
+                // Not a strict equal comparison in case opacity can be converted to a number.
+                if (Ext.isIE6 || Ext.isIE7 || Ext.isIE8) {
+                    return false;
+                }
+                div.firstChild.style.cssText = 'opacity:0.73';
+                return div.firstChild.style.opacity == '0.73';
+            }
+        },
+<span id='Ext-supports-property-Placeholder'>        /**
+</span>         * @property Placeholder True if the browser supports the HTML5 placeholder attribute on inputs
+         * @type {Boolean}
+         */
+        {
+            identity: 'Placeholder',
+            fn: function(doc) {
+                return 'placeholder' in doc.createElement('input');
+            }
+        },
+        
+<span id='Ext-supports-property-Direct2DBug'>        /**
+</span>         * @property Direct2DBug True if when asking for an element's dimension via offsetWidth or offsetHeight, 
+         * getBoundingClientRect, etc. the browser returns the subpixel width rounded to the nearest pixel.
+         * @type {Boolean}
+         */
+        {
+            identity: 'Direct2DBug',
+            fn: function() {
+                return Ext.isString(document.body.style.msTransformOrigin);
+            }
+        },
+<span id='Ext-supports-property-BoundingClientRect'>        /**
+</span>         * @property BoundingClientRect True if the browser supports the getBoundingClientRect method on elements
+         * @type {Boolean}
+         */
+        {
+            identity: 'BoundingClientRect',
+            fn: function(doc, div) {
+                return Ext.isFunction(div.getBoundingClientRect);
+            }
+        },
+        {
+            identity: 'IncludePaddingInWidthCalculation',
+            fn: function(doc, div){
+                var el = Ext.get(div.childNodes[1].firstChild);
+                return el.getWidth() == 210;
+            }
+        },
+        {
+            identity: 'IncludePaddingInHeightCalculation',
+            fn: function(doc, div){
+                var el = Ext.get(div.childNodes[1].firstChild);
+                return el.getHeight() == 210;
+            }
+        },
+        
+<span id='Ext-supports-property-ArraySort'>        /**
+</span>         * @property ArraySort True if the Array sort native method isn't bugged.
+         * @type {Boolean}
+         */
+        {
+            identity: 'ArraySort',
+            fn: function() {
+                var a = [1,2,3,4,5].sort(function(){ return 0; });
+                return a[0] === 1 &amp;&amp; a[1] === 2 &amp;&amp; a[2] === 3 &amp;&amp; a[3] === 4 &amp;&amp; a[4] === 5;
+            }
+        },
+<span id='Ext-supports-property-Range'>        /**
+</span>         * @property Range True if browser support document.createRange native method.
+         * @type {Boolean}
+         */
+        {
+            identity: 'Range',
+            fn: function() {
+                return !!document.createRange;
+            }
+        },
+<span id='Ext-supports-property-CreateContextualFragment'>        /**
+</span>         * @property CreateContextualFragment True if browser support CreateContextualFragment range native methods.
+         * @type {Boolean}
+         */
+        {
+            identity: 'CreateContextualFragment',
+            fn: function() {
+                var range = Ext.supports.Range ? document.createRange() : false;
+                
+                return range &amp;&amp; !!range.createContextualFragment;
+            }
+        },
+
+<span id='Ext-supports-property-WindowOnError'>        /**
+</span>         * @property WindowOnError True if browser supports window.onerror.
+         * @type {Boolean}
+         */
+        {
+            identity: 'WindowOnError',
+            fn: function () {
+                // sadly, we cannot feature detect this...
+                return Ext.isIE || Ext.isGecko || Ext.webKitVersion &gt;= 534.16; // Chrome 10+
+            }
+        }
+    ]
+};
+</pre>
+</body>
+</html>

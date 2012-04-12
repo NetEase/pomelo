@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-state-Manager'>/**
+</span> * @class Ext.state.Manager
+ * This is the global state manager. By default all components that are &quot;state aware&quot; check this class
+ * for state information if you don't pass them a custom state provider. In order for this class
+ * to be useful, it must be initialized with a provider when your application initializes. Example usage:
+ &lt;pre&gt;&lt;code&gt;
+// in your initialization function
+init : function(){
+   Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+   var win = new Window(...);
+   win.restoreState();
+}
+ &lt;/code&gt;&lt;/pre&gt;
+ * This class passes on calls from components to the underlying {@link Ext.state.Provider} so that
+ * there is a common interface that can be used without needing to refer to a specific provider instance
+ * in every component.
+ * @singleton
+ * @docauthor Evan Trimboli &lt;evan@sencha.com&gt;
+ */
+Ext.define('Ext.state.Manager', {
+    singleton: true,
+    requires: ['Ext.state.Provider'],
+    constructor: function() {
+        this.provider = Ext.create('Ext.state.Provider');
+    },
+    
+    
+<span id='Ext-state-Manager-method-setProvider'>    /**
+</span>     * Configures the default state provider for your application
+     * @param {Ext.state.Provider} stateProvider The state provider to set
+     */
+    setProvider : function(stateProvider){
+        this.provider = stateProvider;
+    },
+
+<span id='Ext-state-Manager-method-get'>    /**
+</span>     * Returns the current value for a key
+     * @param {String} name The key name
+     * @param {Object} defaultValue The default value to return if the key lookup does not match
+     * @return {Object} The state data
+     */
+    get : function(key, defaultValue){
+        return this.provider.get(key, defaultValue);
+    },
+
+<span id='Ext-state-Manager-method-set'>    /**
+</span>     * Sets the value for a key
+     * @param {String} name The key name
+     * @param {Object} value The state data
+     */
+     set : function(key, value){
+        this.provider.set(key, value);
+    },
+
+<span id='Ext-state-Manager-method-clear'>    /**
+</span>     * Clears a value from the state
+     * @param {String} name The key name
+     */
+    clear : function(key){
+        this.provider.clear(key);
+    },
+
+<span id='Ext-state-Manager-method-getProvider'>    /**
+</span>     * Gets the currently configured state provider
+     * @return {Ext.state.Provider} The state provider
+     */
+    getProvider : function(){
+        return this.provider;
+    }
+});</pre>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-Img'>/**
+</span> * @class Ext.Img
+ * @extends Ext.Component
+ *
+ * Simple helper class for easily creating image components. This simply renders an image tag to the DOM
+ * with the configured src.
+ *
+ * {@img Ext.Img/Ext.Img.png Ext.Img component}
+ *
+ * ## Example usage: 
+ *
+ *     var changingImage = Ext.create('Ext.Img', {
+ *         src: 'http://www.sencha.com/img/20110215-feat-html5.png',
+ *         renderTo: Ext.getBody()
+ *     });
+ *      
+ *     // change the src of the image programmatically
+ *     changingImage.setSrc('http://www.sencha.com/img/20110215-feat-perf.png');
+*/
+Ext.define('Ext.Img', {
+    extend: 'Ext.Component',
+    alias: ['widget.image', 'widget.imagecomponent'],
+<span id='Ext-Img-cfg-src'>    /** @cfg {String} src The image src */
+</span>    src: '',
+
+    getElConfig: function() {
+        return {
+            tag: 'img',
+            src: this.src
+        };
+    },
+    
+    // null out this function, we can't set any html inside the image
+    initRenderTpl: Ext.emptyFn,
+    
+<span id='Ext-Img-method-setSrc'>    /**
+</span>     * Updates the {@link #src} of the image
+     */
+    setSrc: function(src) {
+        var me = this,
+            img = me.el;
+        me.src = src;
+        if (img) {
+            img.dom.src = src;
+        }
+    }
+});
+</pre>
+</body>
+</html>
