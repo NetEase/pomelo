@@ -1,0 +1,39 @@
+#container {
+    width:750px;
+    height:300px;
+    border:3px solid #c3daf9;
+}
+
+.calendar {
+    background-image:url(../../resources/themes/images/default/shared/calendar.gif) !important;
+}
+
+.blist {
+    background-image: url(list-items.gif) !important;
+}
+
+.bmenu {
+    background-image: url(menu-show.gif) !important;
+}
+
+.menu-title{
+    background: #D6E3F2;
+    border-style: solid;
+    border-color:#DAE6F4 #99bbe8 #99bbe8 #DAE6F4;
+    border-width: 1px;
+    margin:-2px -2px 0;
+    color:#15428b;
+    font:bold 10px tahoma,arial,verdana,sans-serif;
+    display:block;
+    padding:3px;
+}
+
+.user {
+    background-image:url(../shared/icons/fam/user.gif) !important
+}
+.edit {
+    background-image:url(../toolbar/images/im32x32.gif) !important;
+}
+.add {
+    background-image:url(../button/images/add.gif) !important;
+}

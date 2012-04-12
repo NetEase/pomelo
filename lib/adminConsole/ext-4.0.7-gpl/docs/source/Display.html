@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-form-field-Display'>/**
+</span> * A display-only text field which is not validated and not submitted. This is useful for when you want to display a
+ * value from a form's {@link Ext.form.Basic#load loaded data} but do not want to allow the user to edit or submit that
+ * value. The value can be optionally {@link #htmlEncode HTML encoded} if it contains HTML markup that you do not want
+ * to be rendered.
+ *
+ * If you have more complex content, or need to include components within the displayed content, also consider using a
+ * {@link Ext.form.FieldContainer} instead.
+ *
+ * Example:
+ *
+ *     @example
+ *     Ext.create('Ext.form.Panel', {
+ *         renderTo: Ext.getBody(),
+ *         width: 175,
+ *         height: 120,
+ *         bodyPadding: 10,
+ *         title: 'Final Score',
+ *         items: [{
+ *             xtype: 'displayfield',
+ *             fieldLabel: 'Home',
+ *             name: 'home_score',
+ *             value: '10'
+ *         }, {
+ *             xtype: 'displayfield',
+ *             fieldLabel: 'Visitor',
+ *             name: 'visitor_score',
+ *             value: '11'
+ *         }],
+ *         buttons: [{
+ *             text: 'Update',
+ *         }]
+ *     });
+ */
+Ext.define('Ext.form.field.Display', {
+    extend:'Ext.form.field.Base',
+    alias: 'widget.displayfield',
+    requires: ['Ext.util.Format', 'Ext.XTemplate'],
+    alternateClassName: ['Ext.form.DisplayField', 'Ext.form.Display'],
+    fieldSubTpl: [
+        '&lt;div id=&quot;{id}&quot; class=&quot;{fieldCls}&quot;&gt;&lt;/div&gt;',
+        {
+            compiled: true,
+            disableFormats: true
+        }
+    ],
+
+<span id='Ext-form-field-Display-cfg-fieldCls'>    /**
+</span>     * @cfg {String} [fieldCls=&quot;x-form-display-field&quot;]
+     * The default CSS class for the field.
+     */
+    fieldCls: Ext.baseCSSPrefix + 'form-display-field',
+
+<span id='Ext-form-field-Display-cfg-htmlEncode'>    /**
+</span>     * @cfg {Boolean} htmlEncode
+     * false to skip HTML-encoding the text when rendering it. This might be useful if you want to
+     * include tags in the field's innerHTML rather than rendering them as string literals per the default logic.
+     */
+    htmlEncode: false,
+
+    validateOnChange: false,
+
+    initEvents: Ext.emptyFn,
+
+    submitValue: false,
+
+    isValid: function() {
+        return true;
+    },
+
+    validate: function() {
+        return true;
+    },
+
+    getRawValue: function() {
+        return this.rawValue;
+    },
+
+    setRawValue: function(value) {
+        var me = this;
+        value = Ext.value(value, '');
+        me.rawValue = value;
+        if (me.rendered) {
+            me.inputEl.dom.innerHTML = me.htmlEncode ? Ext.util.Format.htmlEncode(value) : value;
+        }
+        return value;
+    },
+
+    // private
+    getContentTarget: function() {
+        return this.inputEl;
+    }
+
+<span id='Ext-form-field-Display-cfg-inputType'>    /**
+</span>     * @cfg {String} inputType
+     * @hide
+     */
+<span id='Ext-form-field-Display-cfg-disabled'>    /**
+</span>     * @cfg {Boolean} disabled
+     * @hide
+     */
+<span id='Ext-form-field-Display-cfg-readOnly'>    /**
+</span>     * @cfg {Boolean} readOnly
+     * @hide
+     */
+<span id='Ext-form-field-Display-cfg-validateOnChange'>    /**
+</span>     * @cfg {Boolean} validateOnChange
+     * @hide
+     */
+<span id='Ext-form-field-Display-cfg-checkChangeEvents'>    /**
+</span>     * @cfg {Number} checkChangeEvents
+     * @hide
+     */
+<span id='Ext-form-field-Display-cfg-checkChangeBuffer'>    /**
+</span>     * @cfg {Number} checkChangeBuffer
+     * @hide
+     */
+});
+</pre>
+</body>
+</html>

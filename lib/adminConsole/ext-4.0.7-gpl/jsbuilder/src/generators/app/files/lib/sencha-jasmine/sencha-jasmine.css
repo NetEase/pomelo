@@ -1,0 +1,226 @@
+body {
+    font-family:"Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    margin:0;
+}
+
+.jasmine_reporter > * {
+    margin:10px;
+}
+
+.run_spec {
+    float:right;
+    font-size:10px;
+}
+
+/*banner*/
+.banner {
+    position:relative;
+    background:#fff;
+    -webkit-box-shadow:0 0 10px #ccc;
+    padding:4px 0 6px 6px;
+    margin:0 0 10px 0;
+}
+.banner .logo {
+    width:120px;
+    height:50px;
+
+    background:url(http://www.sencha.com/assets/images/logo-sencha-sm.png) no-repeat;
+}
+.banner .options {
+    position:absolute;
+    top:3px;
+    right:3px;
+    color:#666;
+    font-size:10px;
+}
+.banner .options .show {
+    text-align:right;
+}
+.banner .options .show > * {
+    display:inline-block;
+}
+.banner .options .show label {
+    margin-right:3px;
+}
+
+/*runner*/
+.runner,
+.suite {
+    display:block;
+
+    text-shadow:0 1px 0 #fff;
+
+    border:1px solid #bbb;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+
+    background:-webkit-gradient(linear, left top, left bottom, from(#eee), to(#d1d1d1));
+
+    -webkit-box-shadow:0 0 10px #ccc;
+
+    padding:6px;
+}
+.runner a,
+.suite a {
+    display:inline-block;
+
+    color:#eee;
+    font-size:11px;
+    text-decoration:none;
+    text-shadow:0 -1px 0 #000;
+
+    border:1px solid #111;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+
+    background:-webkit-gradient(linear, left top, left bottom, from(#555), to(#212121));
+
+    -webkit-background-clip: padding-box;
+
+    padding:1px 4px 2px 4px;
+}
+.runner .finished-at {
+    font-size:10px;
+
+    padding-top:1px;
+    padding-left:6px;
+}
+
+.runner.running {
+    text-shadow:0 1px 0 #EDECCA;
+
+    border-color:#D1CF84;
+
+    background:-webkit-gradient(linear, left top, left bottom, from(#EDE613), to(#DBD61F));
+}
+.runner.running a {
+    display:none;
+}
+
+.runner.failed a,
+.suite.failed a {
+    border-color:#660000;
+
+    background:-webkit-gradient(linear, left top, left bottom, from(#dd0000), to(#880000));
+}
+
+.runner.passed a,
+.suite.passed a {
+    border-color:#006600;
+
+    background:-webkit-gradient(linear, left top, left bottom, from(#00aa00), to(#006600));
+}
+
+/*suite*/
+.suite a.run_spec {
+    display:none;
+}
+.suite > a.description {
+    color:#000;
+    font-size:18px;
+    text-shadow:0 1px 0 #fff;
+
+    border:0;
+    background:transparent;
+}
+.suite .suite > a.description {
+    font-size:14px;
+}
+.suite.failed {
+    border-color:#E0C1C5;
+
+    background:-webkit-gradient(linear, left top, left bottom, from(#FFF7F8), to(#F0DADD));
+}
+.suite.failed a.description {
+    color:#440000;
+}
+.suite .suite {
+    margin:5px;
+}
+
+/*spec*/
+.spec {
+    margin: 5px;
+    padding-left: 1em;
+    clear: both;
+
+    border:1px solid #ccc;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+
+    background:#fff;
+
+    -webkit-box-shadow:inset 0 0 10px #ddd;
+
+    -webkit-background-clip:padding-box;
+
+    padding:10px;
+}
+.spec a.description {
+    display:block;
+
+    border:0;
+
+    background:transparent;
+
+    padding:0;
+
+    color:#000 !important;
+    font-size:16px;
+    text-shadow:none;
+}
+.spec .messages {
+    border:1px dashed #ccc;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+
+    background:#f1f1f1;
+
+    margin:10px 0 0 0;
+    padding:5px;
+
+    font-size:11px;
+    line-height:15px;
+}
+
+.passed,
+.skipped {
+    display:none;
+}
+
+.runner.passed,
+.runner.skipped {
+    display:block;
+}
+
+.suite.passed {
+    border-color:#AEBFA6;
+
+    background:-webkit-gradient(linear, left top, left bottom, from(#ECF2E9), to(#C8DBBF));
+}
+
+.show-passed .passed,
+.show-skipped .skipped {
+    display:block;
+}
+
+.stackTrace {
+  white-space: pre;
+  font-size: .8em;
+  margin-left: 10px;
+  max-height: 5em;
+  overflow: auto;
+  border: 1px inset red;
+  padding: 1em;
+  background: #eef;
+}
+
+
+#jasmine_content {
+  position:fixed;
+  right: 100%;
+}

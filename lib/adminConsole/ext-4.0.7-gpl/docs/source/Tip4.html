@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-Tip'>/**
+</span> * @class Ext.chart.Tip
+ * Provides tips for Ext.chart.series.Series.
+ */
+Ext.define('Ext.chart.Tip', {
+
+    /* Begin Definitions */
+
+    requires: ['Ext.tip.ToolTip', 'Ext.chart.TipSurface'],
+
+    /* End Definitions */
+
+    constructor: function(config) {
+        var me = this,
+            surface,
+            sprites,
+            tipSurface;
+        if (config.tips) {
+            me.tipTimeout = null;
+            me.tipConfig = Ext.apply({}, config.tips, {
+                renderer: Ext.emptyFn,
+                constrainPosition: false
+            });
+            me.tooltip = Ext.create('Ext.tip.ToolTip', me.tipConfig);
+            me.chart.surface.on('mousemove', me.tooltip.onMouseMove, me.tooltip);
+            me.chart.surface.on('mouseleave', function() {
+                me.hideTip();
+            });
+            if (me.tipConfig.surface) {
+                //initialize a surface
+                surface = me.tipConfig.surface;
+                sprites = surface.sprites;
+                tipSurface = Ext.create('Ext.chart.TipSurface', {
+                    id: 'tipSurfaceComponent',
+                    sprites: sprites
+                });
+                if (surface.width &amp;&amp; surface.height) {
+                    tipSurface.setSize(surface.width, surface.height);
+                }
+                me.tooltip.add(tipSurface);
+                me.spriteTip = tipSurface;
+            }
+        }
+    },
+
+    showTip: function(item) {
+        var me = this;
+        if (!me.tooltip) {
+            return;
+        }
+        clearTimeout(me.tipTimeout);
+        var tooltip = me.tooltip,
+            spriteTip = me.spriteTip,
+            tipConfig = me.tipConfig,
+            trackMouse = tooltip.trackMouse,
+            sprite, surface, surfaceExt, pos, x, y;
+        if (!trackMouse) {
+            tooltip.trackMouse = true;
+            sprite = item.sprite;
+            surface = sprite.surface;
+            surfaceExt = Ext.get(surface.getId());
+            if (surfaceExt) {
+                pos = surfaceExt.getXY();
+                x = pos[0] + (sprite.attr.x || 0) + (sprite.attr.translation &amp;&amp; sprite.attr.translation.x || 0);
+                y = pos[1] + (sprite.attr.y || 0) + (sprite.attr.translation &amp;&amp; sprite.attr.translation.y || 0);
+                tooltip.targetXY = [x, y];
+            }
+        }
+        if (spriteTip) {
+            tipConfig.renderer.call(tooltip, item.storeItem, item, spriteTip.surface);
+        } else {
+            tipConfig.renderer.call(tooltip, item.storeItem, item);
+        }
+        tooltip.show();
+        tooltip.trackMouse = trackMouse;
+    },
+
+    hideTip: function(item) {
+        var tooltip = this.tooltip;
+        if (!tooltip) {
+            return;
+        }
+        clearTimeout(this.tipTimeout);
+        this.tipTimeout = setTimeout(function() {
+            tooltip.hide();
+        }, 0);
+    }
+});</pre>
+</body>
+</html>

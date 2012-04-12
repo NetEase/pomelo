@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Tabs Example</title>
+    <!-- Ext includes -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared example includes -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    
+    <!-- Example includes -->
+    <link rel="stylesheet" type="text/css" href="tabs.css" />
+    <script type="text/javascript" src="tabs.js"></script>
+</head>
+<body>
+    <h1>Tab Panel Examples</h1>
+    <p>Note that the js and css is not minified so it is readable. See <a href="tabs.js">tabs.js</a> for the tab creation code
+    and <a href="tabs.css">tabs.css</a> for the css.</p>
+
+    <h2>Tabs with auto height that resize to the content. Built from existing markup.</h2><br>
+
+    <!-- container for the existing markup tabs -->
+    <div id="tabs1">
+        <div id="script" class="x-hide-display">
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed metus nibh, sodales a, porta at, vulputate 
+            eget, dui. Pellentesque ut nisl. Maecenas tortor turpis, interdum non, sodales non, iaculis ac, lacus.
+            <br/><br/> 
+            Vestibulum auctor, tortor quis iaculis malesuada, libero lectus bibendum purus, sit amet tincidunt quam turpis 
+            vel lacus. In pellentesque nisl non sem. Suspendisse nunc sem, pretium eget, cursus a, fringilla vel, urna.</p>
+        </div>
+        <div id="markup" class="x-hide-display">
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed metus nibh, sodales a, porta at, vulputate 
+            eget, dui. Pellentesque ut nisl. Maecenas tortor turpis, interdum non, sodales non, iaculis ac, lacus. 
+            Vestibulum auctor, tortor quis iaculis malesuada, libero lectus bibendum purus, sit amet tincidunt quam turpis 
+            vel lacus. In pellentesque nisl non sem. Suspendisse nunc sem, pretium eget, cursus a, fringilla vel, urna.
+            <br/><br/>
+            Aliquam commodo ullamcorper erat. Nullam vel justo in neque porttitor laoreet. Aenean lacus dui, consequat eu, 
+            adipiscing eget, nonummy non, nisi. Morbi nunc est, dignissim non, ornare sed, luctus eu, massa. Vivamus eget 
+            quam. Vivamus tincidunt diam nec urna. Curabitur velit.</p>
+        </div>
+    </div>
+    <br>
+    
+    <h2>Tabs with no tab strip and a fixed height that scroll the content. Built entirely with javascript.</h2>
+    
+    <ul class="list">
+        <li>Tab 1 is a normal tab with content passed when adding it.</li>
+        <li>Tab 2 is loaded via Ajax each time the panel is visually activated.</li>
+        <li>Tab 3 is loaded via Ajax only one time during panel construction. It was set up to pass parameters when loaded.</li>
+        <li>Tab 4 has an event listener attached.</li>
+        <li>Tab 5 is disabled.</li>
+    </ul>
+</body>
+</html>

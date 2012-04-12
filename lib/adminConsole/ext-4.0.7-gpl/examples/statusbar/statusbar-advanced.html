@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Advanced Ext.ux.StatusBar Example</title>
+    <!-- Ext -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="../ux/statusbar/css/statusbar.css" />
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <style>
+        .list {
+            list-style-image:none;
+            list-style-position:outside;
+            list-style-type:square;
+            padding-left:16px;
+        }
+        .list li {
+            font-size:11px;
+            padding:3px;
+        }
+    </style>
+    <script type="text/javascript" src="statusbar-advanced.js"> </script>
+</head>
+<body>
+    <h1>Advanced StatusBar Example</h1>
+    <p>This is an advanced example of customizing the <a href="../ux/statusbar/StatusBar.js">Ext.ux.StatusBar</a> component via a plugin.</p>
+    <p>Note that the js is not minified so it is readable. See <a href="statusbar-advanced.js">statusbar-advanced.js</a>.</p>
+
+    <h2>Customizing the StatusBar</h2>
+    <p>The <a href="../ux/statusbar/ValidationStatus.js">ValidationStatus</a> plugin hooks into the StatusBar and automatically
+    monitors the validation status of any fields in the associated FormPanel.  Items of interest:</p>
+    <ul class="list">
+        <li>The StatusBar syncs in real-time with the valid state of the form as you type</li>
+        <li>When the form is invalid, the error status message can be clicked to hide/show a custom error list</li>
+        <li>The error list items can be clicked to focus the associated fields</li>
+        <li>After submitting successfully, note that the confirmation status message will fade out after 5
+        seconds and return to the default status (this is a config option)</li>
+    </ul><br>
+
+</body>
+</html>

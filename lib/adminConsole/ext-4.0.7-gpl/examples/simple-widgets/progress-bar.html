@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>
+            ProgressBar
+        </title>
+        <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css">
+        <link rel="stylesheet" type="text/css" href="progress-bar.css">
+        <link rel="stylesheet" type="text/css" href="../shared/example.css">
+        <script type="text/javascript" src="../../bootstrap.js">
+</script>
+        <script type="text/javascript" src="progress-bar.js">
+</script>
+        <style type="text/css">
+p {
+                margin: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>
+            Progress Bar
+        </h1>
+        <p>
+            The example shows how to use the ProgressBar class. The js is not minified so it is readable. See <a href="progress-bar.js">progress-bar.js</a>.
+        </p>
+        <p>
+            <b>Basic Progress Bar:</b> Deferred rendering, dynamic show/hide and built-in progress text: <button id="btn1">Show</button><br>
+        </p>
+        <div class="status" id="p1text">
+            Nothing to see here.
+        </div>
+        <div id="p1" style="width:300px;"></div>
+        <p>
+            <b>Additional Options:</b> Rendered on page load, left-aligned text and % width: <button id="btn2">Show</button><br>
+        </p>
+        <div id="p2" style="width:50%;"></div>
+        <p>
+            <b>Waiting Bar:</b> Wait for a long operation to complete (example will stop after 5 secs): <button id="btn3">Show</button><br>
+        </p>
+        <div id="p3"></div>
+        <p>
+            <span class="status" id="p3text">Ready</span>
+        </p>
+        <p>
+            <b>Custom Styles:</b> Rendered like Windows XP with custom progress text element: <button id="btn4">Show</button><br>
+        </p>
+        <div id="p4" style="width:300px;"></div>
+        <div class="status">
+            <b>Status:</b> <span id="p4text"></span>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-util-Animate'>/**
+</span> * @class Ext.util.Animate
+ * This animation class is a mixin.
+ * 
+ * Ext.util.Animate provides an API for the creation of animated transitions of properties and styles.  
+ * This class is used as a mixin and currently applied to {@link Ext.Element}, {@link Ext.CompositeElement}, 
+ * {@link Ext.draw.Sprite}, {@link Ext.draw.CompositeSprite}, and {@link Ext.Component}.  Note that Components 
+ * have a limited subset of what attributes can be animated such as top, left, x, y, height, width, and 
+ * opacity (color, paddings, and margins can not be animated).
+ * 
+ * ## Animation Basics
+ * 
+ * All animations require three things - `easing`, `duration`, and `to` (the final end value for each property) 
+ * you wish to animate. Easing and duration are defaulted values specified below.
+ * Easing describes how the intermediate values used during a transition will be calculated. 
+ * {@link Ext.fx.Anim#easing Easing} allows for a transition to change speed over its duration.
+ * You may use the defaults for easing and duration, but you must always set a 
+ * {@link Ext.fx.Anim#to to} property which is the end value for all animations.  
+ * 
+ * Popular element 'to' configurations are:
+ * 
+ *  - opacity
+ *  - x
+ *  - y
+ *  - color
+ *  - height
+ *  - width 
+ * 
+ * Popular sprite 'to' configurations are:
+ * 
+ *  - translation
+ *  - path
+ *  - scale
+ *  - stroke
+ *  - rotation
+ * 
+ * The default duration for animations is 250 (which is a 1/4 of a second).  Duration is denoted in 
+ * milliseconds.  Therefore 1 second is 1000, 1 minute would be 60000, and so on. The default easing curve 
+ * used for all animations is 'ease'.  Popular easing functions are included and can be found in {@link Ext.fx.Anim#easing Easing}.
+ * 
+ * For example, a simple animation to fade out an element with a default easing and duration:
+ * 
+ *     var p1 = Ext.get('myElementId');
+ * 
+ *     p1.animate({
+ *         to: {
+ *             opacity: 0
+ *         }
+ *     });
+ * 
+ * To make this animation fade out in a tenth of a second:
+ * 
+ *     var p1 = Ext.get('myElementId');
+ * 
+ *     p1.animate({
+ *        duration: 100,
+ *         to: {
+ *             opacity: 0
+ *         }
+ *     });
+ * 
+ * ## Animation Queues
+ * 
+ * By default all animations are added to a queue which allows for animation via a chain-style API.
+ * For example, the following code will queue 4 animations which occur sequentially (one right after the other):
+ * 
+ *     p1.animate({
+ *         to: {
+ *             x: 500
+ *         }
+ *     }).animate({
+ *         to: {
+ *             y: 150
+ *         }
+ *     }).animate({
+ *         to: {
+ *             backgroundColor: '#f00'  //red
+ *         }
+ *     }).animate({
+ *         to: {
+ *             opacity: 0
+ *         }
+ *     });
+ * 
+ * You can change this behavior by calling the {@link Ext.util.Animate#syncFx syncFx} method and all 
+ * subsequent animations for the specified target will be run concurrently (at the same time).
+ * 
+ *     p1.syncFx();  //this will make all animations run at the same time
+ * 
+ *     p1.animate({
+ *         to: {
+ *             x: 500
+ *         }
+ *     }).animate({
+ *         to: {
+ *             y: 150
+ *         }
+ *     }).animate({
+ *         to: {
+ *             backgroundColor: '#f00'  //red
+ *         }
+ *     }).animate({
+ *         to: {
+ *             opacity: 0
+ *         }
+ *     });
+ * 
+ * This works the same as:
+ * 
+ *     p1.animate({
+ *         to: {
+ *             x: 500,
+ *             y: 150,
+ *             backgroundColor: '#f00'  //red
+ *             opacity: 0
+ *         }
+ *     });
+ * 
+ * The {@link Ext.util.Animate#stopAnimation stopAnimation} method can be used to stop any 
+ * currently running animations and clear any queued animations. 
+ * 
+ * ## Animation Keyframes
+ *
+ * You can also set up complex animations with {@link Ext.fx.Anim#keyframes keyframes} which follow the 
+ * CSS3 Animation configuration pattern. Note rotation, translation, and scaling can only be done for sprites. 
+ * The previous example can be written with the following syntax:
+ * 
+ *     p1.animate({
+ *         duration: 1000,  //one second total
+ *         keyframes: {
+ *             25: {     //from 0 to 250ms (25%)
+ *                 x: 0
+ *             },
+ *             50: {   //from 250ms to 500ms (50%)
+ *                 y: 0
+ *             },
+ *             75: {  //from 500ms to 750ms (75%)
+ *                 backgroundColor: '#f00'  //red
+ *             },
+ *             100: {  //from 750ms to 1sec
+ *                 opacity: 0
+ *             }
+ *         }
+ *     });
+ * 
+ * ## Animation Events
+ * 
+ * Each animation you create has events for {@link Ext.fx.Anim#beforeanimate beforeanimate}, 
+ * {@link Ext.fx.Anim#afteranimate afteranimate}, and {@link Ext.fx.Anim#lastframe lastframe}.  
+ * Keyframed animations adds an additional {@link Ext.fx.Animator#keyframe keyframe} event which 
+ * fires for each keyframe in your animation.
+ * 
+ * All animations support the {@link Ext.util.Observable#listeners listeners} configuration to attact functions to these events.
+ *    
+ *     startAnimate: function() {
+ *         var p1 = Ext.get('myElementId');
+ *         p1.animate({
+ *            duration: 100,
+ *             to: {
+ *                 opacity: 0
+ *             },
+ *             listeners: {
+ *                 beforeanimate:  function() {
+ *                     // Execute my custom method before the animation
+ *                     this.myBeforeAnimateFn();
+ *                 },
+ *                 afteranimate: function() {
+ *                     // Execute my custom method after the animation
+ *                     this.myAfterAnimateFn();
+ *                 },
+ *                 scope: this
+ *         });
+ *     },
+ *     myBeforeAnimateFn: function() {
+ *       // My custom logic
+ *     },
+ *     myAfterAnimateFn: function() {
+ *       // My custom logic
+ *     }
+ * 
+ * Due to the fact that animations run asynchronously, you can determine if an animation is currently 
+ * running on any target by using the {@link Ext.util.Animate#getActiveAnimation getActiveAnimation} 
+ * method.  This method will return false if there are no active animations or return the currently 
+ * running {@link Ext.fx.Anim} instance.
+ * 
+ * In this example, we're going to wait for the current animation to finish, then stop any other 
+ * queued animations before we fade our element's opacity to 0:
+ * 
+ *     var curAnim = p1.getActiveAnimation();
+ *     if (curAnim) {
+ *         curAnim.on('afteranimate', function() {
+ *             p1.stopAnimation();
+ *             p1.animate({
+ *                 to: {
+ *                     opacity: 0
+ *                 }
+ *             });
+ *         });
+ *     }
+ * 
+ * @docauthor Jamie Avins &lt;jamie@sencha.com&gt;
+ */
+Ext.define('Ext.util.Animate', {
+
+    uses: ['Ext.fx.Manager', 'Ext.fx.Anim'],
+
+<span id='Ext-util-Animate-method-animate'>    /**
+</span>     * &lt;p&gt;Perform custom animation on this object.&lt;p&gt;
+     * &lt;p&gt;This method is applicable to both the {@link Ext.Component Component} class and the {@link Ext.Element Element} class.
+     * It performs animated transitions of certain properties of this object over a specified timeline.&lt;/p&gt;
+     * &lt;p&gt;The sole parameter is an object which specifies start property values, end property values, and properties which
+     * describe the timeline. Of the properties listed below, only &lt;b&gt;&lt;code&gt;to&lt;/code&gt;&lt;/b&gt; is mandatory.&lt;/p&gt;
+     * &lt;p&gt;Properties include&lt;ul&gt;
+     * &lt;li&gt;&lt;code&gt;from&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;An object which specifies start values for the properties being animated.
+     * If not supplied, properties are animated from current settings. The actual properties which may be animated depend upon
+     * ths object being animated. See the sections below on Element and Component animation.&lt;div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;to&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;An object which specifies end values for the properties being animated.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;duration&lt;/code&gt;&lt;div class=&quot;sub-desc&quot;&gt;The duration &lt;b&gt;in milliseconds&lt;/b&gt; for which the animation will run.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;easing&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;A string value describing an easing type to modify the rate of change from the default linear to non-linear. Values may be one of:&lt;code&gt;&lt;ul&gt;
+     * &lt;li&gt;ease&lt;/li&gt;
+     * &lt;li&gt;easeIn&lt;/li&gt;
+     * &lt;li&gt;easeOut&lt;/li&gt;
+     * &lt;li&gt;easeInOut&lt;/li&gt;
+     * &lt;li&gt;backIn&lt;/li&gt;
+     * &lt;li&gt;backOut&lt;/li&gt;
+     * &lt;li&gt;elasticIn&lt;/li&gt;
+     * &lt;li&gt;elasticOut&lt;/li&gt;
+     * &lt;li&gt;bounceIn&lt;/li&gt;
+     * &lt;li&gt;bounceOut&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/code&gt;&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;keyframes&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;This is an object which describes the state of animated properties at certain points along the timeline.
+     * it is an object containing properties who's names are the percentage along the timeline being described and who's values specify the animation state at that point.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;listeners&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;This is a standard {@link Ext.util.Observable#listeners listeners} configuration object which may be used
+     * to inject behaviour at either the &lt;code&gt;beforeanimate&lt;/code&gt; event or the &lt;code&gt;afteranimate&lt;/code&gt; event.&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/p&gt;
+     * &lt;h3&gt;Animating an {@link Ext.Element Element}&lt;/h3&gt;
+     * When animating an Element, the following properties may be specified in &lt;code&gt;from&lt;/code&gt;, &lt;code&gt;to&lt;/code&gt;, and &lt;code&gt;keyframe&lt;/code&gt; objects:&lt;ul&gt;
+     * &lt;li&gt;&lt;code&gt;x&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The page X position in pixels.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;y&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The page Y position in pixels&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;left&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The element's CSS &lt;code&gt;left&lt;/code&gt; value. Units must be supplied.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;top&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The element's CSS &lt;code&gt;top&lt;/code&gt; value. Units must be supplied.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;width&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The element's CSS &lt;code&gt;width&lt;/code&gt; value. Units must be supplied.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;height&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The element's CSS &lt;code&gt;height&lt;/code&gt; value. Units must be supplied.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;scrollLeft&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The element's &lt;code&gt;scrollLeft&lt;/code&gt; value.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;scrollTop&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The element's &lt;code&gt;scrollLeft&lt;/code&gt; value.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;opacity&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The element's &lt;code&gt;opacity&lt;/code&gt; value. This must be a value between &lt;code&gt;0&lt;/code&gt; and &lt;code&gt;1&lt;/code&gt;.&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;
+     * &lt;p&gt;&lt;b&gt;Be aware than animating an Element which is being used by an Ext Component without in some way informing the Component about the changed element state
+     * will result in incorrect Component behaviour. This is because the Component will be using the old state of the element. To avoid this problem, it is now possible to
+     * directly animate certain properties of Components.&lt;/b&gt;&lt;/p&gt;
+     * &lt;h3&gt;Animating a {@link Ext.Component Component}&lt;/h3&gt;
+     * When animating an Element, the following properties may be specified in &lt;code&gt;from&lt;/code&gt;, &lt;code&gt;to&lt;/code&gt;, and &lt;code&gt;keyframe&lt;/code&gt; objects:&lt;ul&gt;
+     * &lt;li&gt;&lt;code&gt;x&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The Component's page X position in pixels.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;y&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The Component's page Y position in pixels&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;left&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The Component's &lt;code&gt;left&lt;/code&gt; value in pixels.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;top&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The Component's &lt;code&gt;top&lt;/code&gt; value in pixels.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;width&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The Component's &lt;code&gt;width&lt;/code&gt; value in pixels.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;width&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;The Component's &lt;code&gt;width&lt;/code&gt; value in pixels.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;dynamic&lt;/code&gt; &lt;div class=&quot;sub-desc&quot;&gt;Specify as true to update the Component's layout (if it is a Container) at every frame
+     * of the animation. &lt;i&gt;Use sparingly as laying out on every intermediate size change is an expensive operation&lt;/i&gt;.&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;
+     * &lt;p&gt;For example, to animate a Window to a new size, ensuring that its internal layout, and any shadow is correct:&lt;/p&gt;
+     * &lt;pre&gt;&lt;code&gt;
+myWindow = Ext.create('Ext.window.Window', {
+    title: 'Test Component animation',
+    width: 500,
+    height: 300,
+    layout: {
+        type: 'hbox',
+        align: 'stretch'
+    },
+    items: [{
+        title: 'Left: 33%',
+        margins: '5 0 5 5',
+        flex: 1
+    }, {
+        title: 'Left: 66%',
+        margins: '5 5 5 5',
+        flex: 2
+    }]
+});
+myWindow.show();
+myWindow.header.el.on('click', function() {
+    myWindow.animate({
+        to: {
+            width: (myWindow.getWidth() == 500) ? 700 : 500,
+            height: (myWindow.getHeight() == 300) ? 400 : 300,
+        }
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;For performance reasons, by default, the internal layout is only updated when the Window reaches its final &lt;code&gt;&quot;to&quot;&lt;/code&gt; size. If dynamic updating of the Window's child
+     * Components is required, then configure the animation with &lt;code&gt;dynamic: true&lt;/code&gt; and the two child items will maintain their proportions during the animation.&lt;/p&gt;
+     * @param {Object} config An object containing properties which describe the animation's start and end states, and the timeline of the animation.
+     * @return {Object} this
+     */
+    animate: function(animObj) {
+        var me = this;
+        if (Ext.fx.Manager.hasFxBlock(me.id)) {
+            return me;
+        }
+        Ext.fx.Manager.queueFx(Ext.create('Ext.fx.Anim', me.anim(animObj)));
+        return this;
+    },
+
+    // @private - process the passed fx configuration.
+    anim: function(config) {
+        if (!Ext.isObject(config)) {
+            return (config) ? {} : false;
+        }
+
+        var me = this;
+
+        if (config.stopAnimation) {
+            me.stopAnimation();
+        }
+
+        Ext.applyIf(config, Ext.fx.Manager.getFxDefaults(me.id));
+
+        return Ext.apply({
+            target: me,
+            paused: true
+        }, config);
+    },
+
+<span id='Ext-util-Animate-method-stopFx'>    /**
+</span>     * @deprecated 4.0 Replaced by {@link #stopAnimation}
+     * Stops any running effects and clears this object's internal effects queue if it contains
+     * any additional effects that haven't started yet.
+     * @return {Ext.Element} The Element
+     * @method
+     */
+    stopFx: Ext.Function.alias(Ext.util.Animate, 'stopAnimation'),
+
+<span id='Ext-util-Animate-method-stopAnimation'>    /**
+</span>     * Stops any running effects and clears this object's internal effects queue if it contains
+     * any additional effects that haven't started yet.
+     * @return {Ext.Element} The Element
+     */
+    stopAnimation: function() {
+        Ext.fx.Manager.stopAnimation(this.id);
+        return this;
+    },
+
+<span id='Ext-util-Animate-method-syncFx'>    /**
+</span>     * Ensures that all effects queued after syncFx is called on this object are
+     * run concurrently.  This is the opposite of {@link #sequenceFx}.
+     * @return {Object} this
+     */
+    syncFx: function() {
+        Ext.fx.Manager.setFxDefaults(this.id, {
+            concurrent: true
+        });
+        return this;
+    },
+
+<span id='Ext-util-Animate-method-sequenceFx'>    /**
+</span>     * Ensures that all effects queued after sequenceFx is called on this object are
+     * run in sequence.  This is the opposite of {@link #syncFx}.
+     * @return {Object} this
+     */
+    sequenceFx: function() {
+        Ext.fx.Manager.setFxDefaults(this.id, {
+            concurrent: false
+        });
+        return this;
+    },
+
+<span id='Ext-util-Animate-method-hasActiveFx'>    /**
+</span>     * @deprecated 4.0 Replaced by {@link #getActiveAnimation}
+     * @alias Ext.util.Animate#getActiveAnimation
+     * @method
+     */
+    hasActiveFx: Ext.Function.alias(Ext.util.Animate, 'getActiveAnimation'),
+
+<span id='Ext-util-Animate-method-getActiveAnimation'>    /**
+</span>     * Returns the current animation if this object has any effects actively running or queued, else returns false.
+     * @return {Ext.fx.Anim/Boolean} Anim if element has active effects, else false
+     */
+    getActiveAnimation: function() {
+        return Ext.fx.Manager.getActiveAnimation(this.id);
+    }
+}, function(){
+    // Apply Animate mixin manually until Element is defined in the proper 4.x way
+    Ext.applyIf(Ext.Element.prototype, this.prototype);
+    // We need to call this again so the animation methods get copied over to CE
+    Ext.CompositeElementLite.importElementMethods();
+});</pre>
+</body>
+</html>

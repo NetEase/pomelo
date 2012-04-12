@@ -1,0 +1,29 @@
+$tip-base-color: adjust-color($base-color, $hue: 2.121deg, $saturation: 44.444%, $lightness: 11.569%) !default;
+
+//background
+$tip-background-color: $tip-base-color !default;
+$tip-background-gradient: null !default;
+
+//text
+$tip-body-color      : adjust-color($neutral-color, $hue: 0deg, $saturation: 0%, $lightness: -66.667%) !default;
+$tip-body-font-size  : ceil($font-size * .9) !default;
+$tip-body-font-weight: normal !default;
+$tip-body-padding: 3px !default;
+$tip-body-link-color: darken($tip-body-color, 10%) !default;
+
+$tip-header-color      : $tip-body-color !default;
+$tip-header-font-size  : $tip-body-font-size !default;
+$tip-header-font-weight: bold !default;
+$tip-header-padding    : 3px 3px 0 !default;  
+
+//borders
+$tip-border-color: adjust-color($tip-base-color, $hue: -1.705deg, $saturation: -60.494%, $lightness: -27.451%) !default;
+$tip-border-width: 1px !default;
+$tip-border-radius: 3px !default;
+
+//error tips
+$tip-error-inner-border-color: #d87166 !default;
+$tip-error-border-color: #a1311f !default;
+$tip-error-border-radius: 5px !default;
+$tip-error-border-width: 1px !default;
+$tip-error-background-color: #fff !default;

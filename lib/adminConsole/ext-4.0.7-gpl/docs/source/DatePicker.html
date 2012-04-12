@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-menu-DatePicker'>/**
+</span> * A menu containing an Ext.picker.Date Component.
+ *
+ * Notes:
+ *
+ * - Although not listed here, the **constructor** for this class accepts all of the
+ *   configuration options of **{@link Ext.picker.Date}**.
+ * - If subclassing DateMenu, any configuration options for the DatePicker must be applied
+ *   to the **initialConfig** property of the DateMenu. Applying {@link Ext.picker.Date Date Picker}
+ *   configuration settings to **this** will **not** affect the Date Picker's configuration.
+ *
+ * Example:
+ *
+ *     @example
+ *     var dateMenu = Ext.create('Ext.menu.DatePicker', {
+ *         handler: function(dp, date){
+ *             Ext.Msg.alert('Date Selected', 'You selected ' + Ext.Date.format(date, 'M j, Y'));
+ *         }
+ *     });
+ *
+ *     Ext.create('Ext.menu.Menu', {
+ *         width: 100,
+ *         height: 90,
+ *         floating: false,  // usually you want this set to True (default)
+ *         renderTo: Ext.getBody(),  // usually rendered by it's containing component
+ *         items: [{
+ *             text: 'choose a date',
+ *             menu: dateMenu
+ *         },{
+ *             iconCls: 'add16',
+ *             text: 'icon item'
+ *         },{
+ *             text: 'regular item'
+ *         }]
+ *     });
+ */
+ Ext.define('Ext.menu.DatePicker', {
+     extend: 'Ext.menu.Menu',
+
+     alias: 'widget.datemenu',
+
+     requires: [
+        'Ext.picker.Date'
+     ],
+
+<span id='Ext-menu-DatePicker-cfg-hideOnClick'>    /**
+</span>     * @cfg {Boolean} hideOnClick
+     * False to continue showing the menu after a date is selected.
+     */
+    hideOnClick : true,
+
+<span id='Ext-menu-DatePicker-cfg-pickerId'>    /**
+</span>     * @cfg {String} pickerId
+     * An id to assign to the underlying date picker.
+     */
+    pickerId : null,
+
+<span id='Ext-menu-DatePicker-cfg-maxHeight'>    /**
+</span>     * @cfg {Number} maxHeight
+     * @hide
+     */
+
+<span id='Ext-menu-DatePicker-property-picker'>    /**
+</span>     * @property {Ext.picker.Date} picker
+     * The {@link Ext.picker.Date} instance for this DateMenu
+     */
+
+<span id='Ext-menu-DatePicker-event-click'>    /**
+</span>     * @event click
+     * @hide
+     */
+
+<span id='Ext-menu-DatePicker-event-itemclick'>    /**
+</span>     * @event itemclick
+     * @hide
+     */
+
+    initComponent : function(){
+        var me = this;
+
+        Ext.apply(me, {
+            showSeparator: false,
+            plain: true,
+            border: false,
+            bodyPadding: 0, // remove the body padding from the datepicker menu item so it looks like 3.3
+            items: Ext.applyIf({
+                cls: Ext.baseCSSPrefix + 'menu-date-item',
+                id: me.pickerId,
+                xtype: 'datepicker'
+            }, me.initialConfig)
+        });
+
+        me.callParent(arguments);
+
+        me.picker = me.down('datepicker');
+<span id='Ext-menu-DatePicker-event-select'>        /**
+</span>         * @event select
+         * @alias Ext.picker.Date#select
+         */
+        me.relayEvents(me.picker, ['select']);
+
+        if (me.hideOnClick) {
+            me.on('select', me.hidePickerOnSelect, me);
+        }
+    },
+
+    hidePickerOnSelect: function() {
+        Ext.menu.Manager.hideAll();
+    }
+ });</pre>
+</body>
+</html>

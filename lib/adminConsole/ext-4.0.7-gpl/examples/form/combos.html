@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Combo Boxes</title>
+
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+
+    <!-- Example -->
+    <script type="text/javascript" src="combos.js"></script>
+    <style type="text/css">
+        .example {
+            width: 600px;
+            border: 1px solid #CCC;
+            padding: 0 10px;
+            margin: 0 0 10px;
+        }
+        .x-fieldset {
+            margin-top: 20px;
+        }
+        #transformCombo label {
+            display: block;
+            margin: 1em 0 2px;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>Combo Boxes</h1>
+<p>The js is not minified so it is readable. See <a href="combos.js">combos.js</a>.</p>
+
+<div class="example">
+    <h2>Data Sources</h2>
+    <p>The combo box can use any type of Ext.data.Store as its data source.
+    This means your data can be XML, JSON, arrays or any other supported format. It can be loaded using
+    Ajax, via script tags or locally. This combo uses local data from a JS array:</p>
+
+    <div id="simpleCombo"></div>
+
+    <pre class="code x-hide-display" id="simpleComboCode">// Define the model for a State
+Ext.regModel('State', {
+    fields: [
+        {type: 'string', name: 'abbr'},
+        {type: 'string', name: 'name'},
+        {type: 'string', name: 'slogan'}
+    ]
+});
+
+// The data store holding the states
+var store = Ext.create('Ext.data.Store', {
+    model: 'State',
+    data: states
+});
+
+// Simple ComboBox using the data store
+var simpleCombo = Ext.create('Ext.form.field.ComboBox', {
+    fieldLabel: 'Select a single state',
+    renderTo: 'simpleCombo',
+    displayField: 'name',
+    width: 500,
+    labelWidth: 130,
+    store: store,
+    queryMode: 'local',
+    typeAhead: true
+});</pre>
+</div>
+
+<div class="example">
+    <h2>Custom Item Templates</h2>
+    <p>The combo below uses the same data, but also illustrates how to use an optional
+    custom template to create custom UI renditions for list items by overriding the getInnerTpl method. In this case
+    each item shows the state's abbreviation, and has a QuickTip which displays the state's nickname when hovered over.</p>
+
+    <div id="customTplCombo"></div>
+
+    <pre class="code x-hide-display" id="customTplComboCode">// Define the model for a State
+Ext.regModel('State', {
+    fields: [
+        {type: 'string', name: 'abbr'},
+        {type: 'string', name: 'name'},
+        {type: 'string', name: 'slogan'}
+    ]
+});
+
+// The data store holding the states
+var store = Ext.create('Ext.data.Store', {
+    model: 'State',
+    data: states
+});
+
+// ComboBox with a custom item template
+var customTplCombo = Ext.create('Ext.form.field.ComboBox', {
+    fieldLabel: 'Select a single state',
+    renderTo: 'customTplCombo',
+    displayField: 'name',
+    width: 500,
+    labelWidth: 130,
+    store: store,
+    queryMode: 'local',
+    listConfig: {
+        getInnerTpl: function() {
+            return '&lt;div data-qtip="{name}. {slogan}">{name} ({abbr})&lt;/div>';
+        }
+    }
+});</pre>
+</div>
+
+<div class="example">
+    <h2>Multiple Selection</h2>
+    <p>The combo below uses the same data once again, but allows selecting multiple values.</p>
+
+    <div id="multiSelectCombo"></div>
+
+    <pre class="code x-hide-display" id="multiSelectComboCode">// Define the model for a State
+Ext.regModel('State', {
+    fields: [
+        {type: 'string', name: 'abbr'},
+        {type: 'string', name: 'name'},
+        {type: 'string', name: 'slogan'}
+    ]
+});
+
+// The data store holding the states
+var store = Ext.create('Ext.data.Store', {
+    model: 'State',
+    data: states
+});
+
+// ComboBox with multiple selection enabled
+var multiCombo = Ext.create('Ext.form.field.ComboBox', {
+    fieldLabel: 'Select multiple states',
+    renderTo: 'multiSelectCombo',
+    multiSelect: true,
+    displayField: 'name',
+    width: 500,
+    labelWidth: 130,
+    store: store,
+    queryMode: 'local'
+});</pre>
+</div>
+
+<div class="example">
+    <h2>Transformation</h2>
+    <p>ComboBoxes can also be created from existing HTML <code>&lt;select&gt;</code> elements on the page by
+    specifying the <code>transform</code> config. This allows creation of rich ComboBox fields with autocompletion
+    and list filtering, in an unobtrusive way.</p>
+
+    <div id="transformCombo">
+        <label for="stateSelect">Transformed select:</label>
+        <select name="state" id="stateSelect">
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH" selected>Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+        </select>
+
+        <label for="stateSelectOrig">Originally looked like:</label>
+        <select name="state-orig" id="stateSelectOrig">
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH" selected>Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+        </select>
+    </div>
+
+    <pre class="code x-hide-display" id="transformComboCode">var transformed = Ext.create('Ext.form.field.ComboBox', {
+    typeAhead: true,
+    transform: 'stateSelect',
+    width: 135,
+    forceSelection: true
+});</pre>
+</div>
+
+</body>
+</html>

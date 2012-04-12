@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-ComponentManager'>/**
+</span> * @class Ext.ComponentManager
+ * @extends Ext.AbstractManager
+ * &lt;p&gt;Provides a registry of all Components (instances of {@link Ext.Component} or any subclass
+ * thereof) on a page so that they can be easily accessed by {@link Ext.Component component}
+ * {@link Ext.Component#id id} (see {@link #get}, or the convenience method {@link Ext#getCmp Ext.getCmp}).&lt;/p&gt;
+ * &lt;p&gt;This object also provides a registry of available Component &lt;i&gt;classes&lt;/i&gt;
+ * indexed by a mnemonic code known as the Component's {@link Ext.Component#xtype xtype}.
+ * The &lt;code&gt;xtype&lt;/code&gt; provides a way to avoid instantiating child Components
+ * when creating a full, nested config object for a complete Ext page.&lt;/p&gt;
+ * &lt;p&gt;A child Component may be specified simply as a &lt;i&gt;config object&lt;/i&gt;
+ * as long as the correct &lt;code&gt;{@link Ext.Component#xtype xtype}&lt;/code&gt; is specified so that if and when the Component
+ * needs rendering, the correct type can be looked up for lazy instantiation.&lt;/p&gt;
+ * &lt;p&gt;For a list of all available &lt;code&gt;{@link Ext.Component#xtype xtypes}&lt;/code&gt;, see {@link Ext.Component}.&lt;/p&gt;
+ * @singleton
+ */
+Ext.define('Ext.ComponentManager', {
+    extend: 'Ext.AbstractManager',
+    alternateClassName: 'Ext.ComponentMgr',
+    
+    singleton: true,
+    
+    typeName: 'xtype',
+    
+<span id='Ext-ComponentManager-method-create'>    /**
+</span>     * Creates a new Component from the specified config object using the
+     * config object's xtype to determine the class to instantiate.
+     * @param {Object} config A configuration object for the Component you wish to create.
+     * @param {Function} defaultType (optional) The constructor to provide the default Component type if
+     * the config object does not contain a &lt;code&gt;xtype&lt;/code&gt;. (Optional if the config contains a &lt;code&gt;xtype&lt;/code&gt;).
+     * @return {Ext.Component} The newly instantiated Component.
+     */
+    create: function(component, defaultType){
+        if (component instanceof Ext.AbstractComponent) {
+            return component;
+        }
+        else if (Ext.isString(component)) {
+            return Ext.createByAlias('widget.' + component);
+        }
+        else {
+            var type = component.xtype || defaultType,
+                config = component;
+            
+            return Ext.createByAlias('widget.' + type, config);
+        }
+    },
+
+    registerType: function(type, cls) {
+        this.types[type] = cls;
+        cls[this.typeName] = type;
+        cls.prototype[this.typeName] = type;
+    }
+});</pre>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Object'>/**
+</span> * @class Object
+ *
+ * Creates an object wrapper.
+ *
+ * The Object constructor creates an object wrapper for the given value. If the value is null or
+ * undefined, it will create and return an empty object, otherwise, it will return an object of a type
+ * that corresponds to the given value.
+ *
+ * When called in a non-constructor context, Object behaves identically.
+ *
+ * # Using Object given undefined and null types
+ *
+ * The following examples store an empty Object object in o:
+ *     var o = new Object();
+ *
+ *     var o = new Object(undefined);
+ *
+ *     var o = new Object(null);
+ *
+ * # Using Object to create Boolean objects
+ *
+ * The following examples store Boolean objects in o:
+ *
+ *     // equivalent to o = new Boolean(true);
+ *     var o = new Object(true);
+ *
+ *     // equivalent to o = new Boolean(false);
+ *     var o = new Object(Boolean());
+ *
+ * &lt;div class=&quot;notice&quot;&gt;
+ * Documentation for this class comes from &lt;a href=&quot;https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object&quot;&gt;MDN&lt;/a&gt;
+ * and is available under &lt;a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;&gt;Creative Commons: Attribution-Sharealike license&lt;/a&gt;.
+ * &lt;/div&gt;
+ */
+
+<span id='Object-method-constructor'>/**
+</span> * @method constructor
+ * Creates new Object.
+ * @param {Object} [value] The value to wrap.
+ */
+
+//Properties
+
+<span id='Object-property-prototype'>/**
+</span> * @property prototype
+ * Allows the addition of properties to all objects of type Object.
+ */
+
+//Methods
+
+<span id='Object-method-hasOwnProperty'>/**
+</span> * @method hasOwnProperty
+ * Returns a boolean indicating whether an object contains the specified property as a direct property
+ * of that object and not inherited through the prototype chain.
+ *
+ * Every object descended from `Object` inherits the `hasOwnProperty` method. This method can be used
+ * to determine whether an object has the specified property as a direct property of that object;
+ * unlike the `in` operator, this method does not check down the object's prototype chain.
+ *
+ * The following example determines whether the o object contains a property named prop:
+ *
+ *     o = new Object();
+ *     o.prop = 'exists';
+ *
+ *     function changeO() {
+ *         o.newprop = o.prop;
+ *         delete o.prop;
+ *     }
+ *
+ *     o.hasOwnProperty('prop');   //returns true
+ *     changeO();
+ *     o.hasOwnProperty('prop');   //returns false
+ *
+ * The following example differentiates between direct properties and properties inherited through the
+ * prototype chain:
+ *
+ *     o = new Object();
+ *     o.prop = 'exists';
+ *     o.hasOwnProperty('prop');             // returns true
+ *     o.hasOwnProperty('toString');         // returns false
+ *     o.hasOwnProperty('hasOwnProperty');   // returns false
+ *
+ * The following example shows how to iterate over the properties of an object without executing on
+ * inherit properties.
+ *
+ *     var buz = {
+ *         fog: 'stack'
+ *     };
+ *
+ *     for (var name in buz) {
+ *         if (buz.hasOwnProperty(name)) {
+ *             alert(&quot;this is fog (&quot; + name + &quot;) for sure. Value: &quot; + buz[name]);
+ *         }
+ *         else {
+ *             alert(name); // toString or something else
+ *         }
+ *     }
+ *
+ * @param {String} prop The name of the property to test.
+ * @return {Boolean} Returns true if object contains specified property; else
+ * returns false.
+ */
+
+<span id='Object-method-isPrototypeOf'>/**
+</span> * @method isPrototypeOf
+ * Returns a boolean indication whether the specified object is in the prototype chain of the object
+ * this method is called upon.
+ *
+ * `isPrototypeOf` allows you to check whether or not an object exists within another object's
+ * prototype chain.
+ *
+ * For example, consider the following prototype chain:
+ *
+ *     function Fee() {
+ *         // . . .
+ *     }
+ *
+ *     function Fi() {
+ *         // . . .
+ *     }
+ *     Fi.prototype = new Fee();
+ *
+ *     function Fo() {
+ *         // . . .
+ *     }
+ *     Fo.prototype = new Fi();
+ *
+ *     function Fum() {
+ *         // . . .
+ *     }
+ *     Fum.prototype = new Fo();
+ *
+ * Later on down the road, if you instantiate `Fum` and need to check if `Fi`'s prototype exists
+ * within the `Fum` prototype chain, you could do this:
+ *
+ *     var fum = new Fum();
+ *     . . .
+ *
+ *     if (Fi.prototype.isPrototypeOf(fum)) {
+ *     // do something safe
+ *     }
+ *
+ * This, along with the `instanceof` operator particularly comes in handy if you have code that can
+ * only function when dealing with objects descended from a specific prototype chain, e.g., to
+ * guarantee that certain methods or properties will be present on that object.
+ *
+ * @param {Object} prototype an object to be tested against each link in the prototype chain of the
+ * *object* argument
+ * @param {Object} object the object whose prototype chain will be searched
+ * @return {Boolean} Returns true if object is a prototype and false if not.
+ */
+
+<span id='Object-method-propertyIsEnumerable'>/**
+</span> * @method propertyIsEnumerable
+ * Returns a boolean indicating if the internal ECMAScript DontEnum attribute is set.
+ *
+ * Every object has a `propertyIsEnumerable` method. This method can determine whether the specified
+ * property in an object can be enumerated by a `for...in` loop, with the exception of properties
+ * inherited through the prototype chain. If the object does not have the specified property, this
+ * method returns false.
+ *
+ * The following example shows the use of `propertyIsEnumerable` on objects and arrays:
+ *
+ *     var o = {};
+ *     var a = [];
+ *     o.prop = 'is enumerable';
+ *     a[0] = 'is enumerable';
+ *
+ *     o.propertyIsEnumerable('prop');   // returns true
+ *     a.propertyIsEnumerable(0);        // returns true
+ *
+ * The following example demonstrates the enumerability of user-defined versus built-in properties:
+ *
+ *     var a = ['is enumerable'];
+ *
+ *     a.propertyIsEnumerable(0);          // returns true
+ *     a.propertyIsEnumerable('length');   // returns false
+ *
+ *     Math.propertyIsEnumerable('random');   // returns false
+ *     this.propertyIsEnumerable('Math');     // returns false
+ *
+ * Direct versus inherited properties
+ *
+ *     var a = [];
+ *     a.propertyIsEnumerable('constructor');         // returns false
+ *
+ *     function firstConstructor()
+ *     {
+ *         this.property = 'is not enumerable';
+ *     }
+ *     firstConstructor.prototype.firstMethod = function () {};
+ *
+ *     function secondConstructor()
+ *     {
+ *         this.method = function method() { return 'is enumerable'; };
+ *     }
+ *
+ *     secondConstructor.prototype = new firstConstructor;
+ *     secondConstructor.prototype.constructor = secondConstructor;
+ *
+ *     var o = new secondConstructor();
+ *     o.arbitraryProperty = 'is enumerable';
+ *
+ *     o.propertyIsEnumerable('arbitraryProperty');   // returns true
+ *     o.propertyIsEnumerable('method');              // returns true
+ *     o.propertyIsEnumerable('property');            // returns false
+ *
+ *     o.property = 'is enumerable';
+ *
+ *     o.propertyIsEnumerable('property');            // returns true
+ *
+ *     // These return false as they are on the prototype which
+ *     // propertyIsEnumerable does not consider (even though the last two
+ *     // are iteratable with for-in)
+ *     o.propertyIsEnumerable('prototype'); // returns false (as of JS 1.8.1/FF3.6)
+ *     o.propertyIsEnumerable('constructor'); // returns false
+ *     o.propertyIsEnumerable('firstMethod'); // returns false
+ *
+ * @param {String} prop The name of the property to test.
+ * @return {Boolean} If the object does not have the specified property, this
+ * method returns false.
+ */
+
+<span id='Object-method-toLocaleString'>/**
+</span> * @method toLocaleString
+ * Returns a string representing the object. This method is meant to be overridden by derived objects
+ * for locale-specific purposes.
+ *
+ * `Object`'s `toLocaleString` returns the result of calling `toString`.
+ *
+ * This function is provided to give objects a generic `toLocaleString` method, even though not all
+ * may use it. Currently, only `Array`, `Number`, and `Date` override `toLocaleString`.
+ *
+ * @return {String} Object represented as a string.
+ */
+
+<span id='Object-method-toString'>/**
+</span> * @method toString
+ * Returns a string representation of the object.
+ *
+ * Every object has a `toString()` method that is automatically called when the object is to be
+ * represented as a text value or when an object is referred to in a manner in which a string is
+ * expected. By default, the `toString()` method is inherited by every object descended from `Object`.
+ * If this method is not overridden in a custom object, `toString()` returns &quot;[object type]&quot;, where
+ * `type` is the object type. The following code illustrates this:
+ *
+ *     var o = new Object();
+ *     o.toString();           // returns [object Object]
+ *
+ * You can create a function to be called in place of the default `toString()` method. The
+ * `toString()` method takes no arguments and should return a string. The `toString()` method you
+ * create can be any value you want, but it will be most useful if it carries information about the
+ * object.
+ *
+ * The following code defines the `Dog` object type and creates `theDog`, an object of type `Dog`:
+ *
+ *     function Dog(name,breed,color,sex) {
+ *         this.name=name;
+ *         this.breed=breed;
+ *         this.color=color;
+ *         this.sex=sex;
+ *     }
+ *
+ *     theDog = new Dog(&quot;Gabby&quot;,&quot;Lab&quot;,&quot;chocolate&quot;,&quot;female&quot;);
+ *
+ * If you call the `toString()` method on this custom object, it returns the default value inherited
+ * from `Object`:
+ *
+ *     theDog.toString(); //returns [object Object]
+ *
+ * The following code creates and assigns `dogToString()` to override the default `toString()` method.
+ * This function generates a string containing the name, breed, color, and sex of the object, in the
+ * form `&quot;property = value;&quot;`.
+ *
+ *     Dog.prototype.toString = function dogToString() {
+ *         var ret = &quot;Dog &quot; + this.name + &quot; is a &quot; + this.sex + &quot; &quot; + this.color + &quot; &quot; + this.breed;
+ *         return ret;
+ *     }
+ *
+ * With the preceding code in place, any time theDog is used in a string context, JavaScript
+ * automatically calls the `dogToString()` function, which returns the following string:
+ *
+ *     Dog Gabby is a female chocolate Lab
+ *
+ * `toString()` can be used with every object and allows you to get its class. To use the
+ * `Object.prototype.toString()` with every object, you need to call `Function.prototype.call()` or
+ * `Function.prototype.apply()` on it, passing the object you want to inspect as the first parameter
+ * called `thisArg`.
+ *
+ *     var toString = Object.prototype.toString;
+ *
+ *     toString.call(new Date); // [object Date]
+ *     toString.call(new String); // [object String]
+ *     toString.call(Math); // [object Math]
+ *
+ * @return {String} Object represented as a string.
+ */
+
+<span id='Object-method-valueOf'>/**
+</span> * @method valueOf
+ * Returns the primitive value of the specified object.
+ *
+ * JavaScript calls the `valueOf` method to convert an object to a primitive value. You rarely need to
+ * invoke the `valueOf` method yourself; JavaScript automatically invokes it when encountering an
+ * object where a primitive value is expected.
+ *
+ * By default, the `valueOf` method is inherited by every object descended from `Object`. Every built-
+ * in core object overrides this method to return an appropriate value. If an object has no primitive
+ * value, `valueOf` returns the object itself, which is displayed as:
+ *
+ *     [object Object]
+ *
+ * You can use `valueOf` within your own code to convert a built-in object into a primitive value.
+ * When you create a custom object, you can override `Object.valueOf` to call a custom method instead
+ * of the default `Object` method.
+ *
+ * You can create a function to be called in place of the default `valueOf` method. Your function must
+ * take no arguments.
+ *
+ * Suppose you have an object type `myNumberType` and you want to create a `valueOf` method for it.
+ * The following code assigns a user-defined function to the object's valueOf method:
+ *
+ *     myNumberType.prototype.valueOf = new Function(functionText)
+ *
+ * With the preceding code in place, any time an object of type `myNumberType` is used in a context
+ * where it is to be represented as a primitive value, JavaScript automatically calls the function
+ * defined in the preceding code.
+ *
+ * An object's `valueOf` method is usually invoked by JavaScript, but you can invoke it yourself as
+ * follows:
+ *
+ *     myNumber.valueOf()
+ *
+ * Note: Objects in string contexts convert via the `toString` method, which is different from
+ * `String` objects converting to string primitives using `valueOf`. All objects have a string
+ * conversion, if only `&quot;[object type]&quot;`. But many objects do not convert to number, boolean, or
+ * function.
+ *
+ * @return {Object} Returns value of the object or the object itself.
+ */
+
+//Properties
+
+<span id='Object-property-constructor'>/**
+</span> * @property constructor
+ * Specifies the function that creates an object's prototype.
+ *
+ * Returns a reference to the Object function that created the instance's prototype. Note that the
+ * value of this property is a reference to the function itself, not a string containing the
+ * function's name, but it isn't read only (except for primitive Boolean, Number or String values: 1,
+ * true, &quot;read-only&quot;).
+ *
+ * All objects inherit a `constructor` property from their `prototype`:
+ *
+ *     o = new Object // or o = {} in JavaScript 1.2
+ *     o.constructor == Object
+ *     a = new Array // or a = [] in JavaScript 1.2
+ *     a.constructor == Array
+ *     n = new Number(3)
+ *     n.constructor == Number
+ *
+ * Even though you cannot construct most HTML objects, you can do comparisons. For example,
+ *
+ *     document.constructor == Document
+ *     document.form3.constructor == Form
+ *
+ * The following example creates a prototype, `Tree`, and an object of that type, theTree. The example then displays the `constructor` property for the object `theTree`.
+ *
+ *     function Tree(name) {
+ *         this.name = name;
+ *     }
+ *     theTree = new Tree(&quot;Redwood&quot;);
+ *     console.log(&quot;theTree.constructor is &quot; + theTree.constructor);
+ *
+ * This example displays the following output:
+ *
+ *     theTree.constructor is function Tree(name) {
+ *         this.name = name;
+ *     }
+ *
+ * The following example shows how to modify constructor value of generic objects. Only true, 1 and
+ * &quot;test&quot; variable constructors will not be changed. This example explains that is not always so safe
+ * to believe in constructor function.
+ *
+ *     function Type(){};
+ *     var	types = [
+ * 	    new Array,	[],
+ *	    new Boolean,	true,
+ *	    new Date,
+ *	    new Error,
+ *	    new Function,	function(){},
+ *	    Math,
+ *	    new Number,	1,
+ *	    new Object,	{},
+ *	    new RegExp,	/(?:)/,
+ *	    new String,	&quot;test&quot;
+ *     ];
+ *     for(var i = 0; i &lt; types.length; i++){
+ *         types[i].constructor = Type;
+ *         types[i] = [types[i].constructor, types[i] instanceof Type, types[i].toString()];
+ *     };
+ *     alert(types.join(&quot;\n&quot;));
+ */</pre>
+</body>
+</html>

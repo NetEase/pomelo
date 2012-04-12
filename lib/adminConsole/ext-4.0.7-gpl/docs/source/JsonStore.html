@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-JsonStore'>/**
+</span> * @author Ed Spencer
+ * @class Ext.data.JsonStore
+ * @extends Ext.data.Store
+ * @ignore
+ *
+ * &lt;p&gt;Small helper class to make creating {@link Ext.data.Store}s from JSON data easier.
+ * A JsonStore will be automatically configured with a {@link Ext.data.reader.Json}.&lt;/p&gt;
+ *
+ * &lt;p&gt;A store configuration would be something like:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+var store = new Ext.data.JsonStore({
+    // store configs
+    autoDestroy: true,
+    storeId: 'myStore',
+
+    proxy: {
+        type: 'ajax',
+        url: 'get-images.php',
+        reader: {
+            type: 'json',
+            root: 'images',
+            idProperty: 'name'
+        }
+    },
+
+    //alternatively, a {@link Ext.data.Model} name can be given (see {@link Ext.data.Store} for an example)
+    fields: ['name', 'url', {name:'size', type: 'float'}, {name:'lastmod', type:'date'}]
+});
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;This store is configured to consume a returned object of the form:&lt;pre&gt;&lt;code&gt;
+{
+    images: [
+        {name: 'Image one', url:'/GetImage.php?id=1', size:46.5, lastmod: new Date(2007, 10, 29)},
+        {name: 'Image Two', url:'/GetImage.php?id=2', size:43.2, lastmod: new Date(2007, 10, 30)}
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;An object literal of this form could also be used as the {@link #data} config option.&lt;/p&gt;
+ *
+ * @xtype jsonstore
+ */
+Ext.define('Ext.data.JsonStore',  {
+    extend: 'Ext.data.Store',
+    alias: 'store.json',
+
+<span id='Ext-data-JsonStore-cfg-reader'>    /**
+</span>     * @cfg {Ext.data.DataReader} reader @hide
+     */
+    constructor: function(config) {
+        config = config || {};
+
+        Ext.applyIf(config, {
+            proxy: {
+                type  : 'ajax',
+                reader: 'json',
+                writer: 'json'
+            }
+        });
+
+        this.callParent([config]);
+    }
+});
+</pre>
+</body>
+</html>

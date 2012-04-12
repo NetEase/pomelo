@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>XML Form</title>
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <script type="text/javascript" src="../shared/states.js"></script>
+
+    <!-- Example -->
+    <script type="text/javascript" src="xml-form.js"></script>
+</head>
+<body>
+    <h1>Loading/Saving a Dynamic Form using XML</h1>
+    <p>
+        This is a very simple example of using XML for load and submit of data with an Ext dynamic form.
+    </p>
+    <p>
+        Click "Load" to load the <a href="xml-form-data.xml">dummy XML data</a> from the server using an XmlReader.
+    </p>
+    <p>
+        After loading the form, you will be able to hit submit. The submit action will make a post to the server,
+        and the <a href="xml-form-errors.xml">dummy XML file</a> on the server with test server-side validation
+        failure messages will be sent back. Those messages will be applied to the appropriate fields in the form.
+    </p>
+    <p>The js is not minified so it is readable. See <a href="xml-form.js">xml-form.js</a>.</p>
+
+    <div id="form-ct"></div>
+
+</body>
+</html>

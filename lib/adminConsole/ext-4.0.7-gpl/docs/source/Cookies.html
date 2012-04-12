@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-util-Cookies'>/**
+</span> * @class Ext.util.Cookies
+
+Utility class for setting/reading values from browser cookies.
+Values can be written using the {@link #set} method.
+Values can be read using the {@link #get} method.
+A cookie can be invalidated on the client machine using the {@link #clear} method.
+
+ * @markdown
+ * @singleton
+ */
+Ext.define('Ext.util.Cookies', {
+    singleton: true,
+    
+<span id='Ext-util-Cookies-method-set'>    /**
+</span>     * Create a cookie with the specified name and value. Additional settings
+     * for the cookie may be optionally specified (for example: expiration,
+     * access restriction, SSL).
+     * @param {String} name The name of the cookie to set. 
+     * @param {Object} value The value to set for the cookie.
+     * @param {Object} expires (Optional) Specify an expiration date the
+     * cookie is to persist until.  Note that the specified Date object will
+     * be converted to Greenwich Mean Time (GMT). 
+     * @param {String} path (Optional) Setting a path on the cookie restricts
+     * access to pages that match that path. Defaults to all pages (&lt;tt&gt;'/'&lt;/tt&gt;). 
+     * @param {String} domain (Optional) Setting a domain restricts access to
+     * pages on a given domain (typically used to allow cookie access across
+     * subdomains). For example, &quot;sencha.com&quot; will create a cookie that can be
+     * accessed from any subdomain of sencha.com, including www.sencha.com,
+     * support.sencha.com, etc.
+     * @param {Boolean} secure (Optional) Specify true to indicate that the cookie
+     * should only be accessible via SSL on a page using the HTTPS protocol.
+     * Defaults to &lt;tt&gt;false&lt;/tt&gt;. Note that this will only work if the page
+     * calling this code uses the HTTPS protocol, otherwise the cookie will be
+     * created with default options.
+     */
+    set : function(name, value){
+        var argv = arguments,
+            argc = arguments.length,
+            expires = (argc &gt; 2) ? argv[2] : null,
+            path = (argc &gt; 3) ? argv[3] : '/',
+            domain = (argc &gt; 4) ? argv[4] : null,
+            secure = (argc &gt; 5) ? argv[5] : false;
+            
+        document.cookie = name + &quot;=&quot; + escape(value) + ((expires === null) ? &quot;&quot; : (&quot;; expires=&quot; + expires.toGMTString())) + ((path === null) ? &quot;&quot; : (&quot;; path=&quot; + path)) + ((domain === null) ? &quot;&quot; : (&quot;; domain=&quot; + domain)) + ((secure === true) ? &quot;; secure&quot; : &quot;&quot;);
+    },
+
+<span id='Ext-util-Cookies-method-get'>    /**
+</span>     * Retrieves cookies that are accessible by the current page. If a cookie
+     * does not exist, &lt;code&gt;get()&lt;/code&gt; returns &lt;tt&gt;null&lt;/tt&gt;.  The following
+     * example retrieves the cookie called &quot;valid&quot; and stores the String value
+     * in the variable &lt;tt&gt;validStatus&lt;/tt&gt;.
+     * &lt;pre&gt;&lt;code&gt;
+     * var validStatus = Ext.util.Cookies.get(&quot;valid&quot;);
+     * &lt;/code&gt;&lt;/pre&gt;
+     * @param {String} name The name of the cookie to get
+     * @return {Object} Returns the cookie value for the specified name;
+     * null if the cookie name does not exist.
+     */
+    get : function(name){
+        var arg = name + &quot;=&quot;,
+            alen = arg.length,
+            clen = document.cookie.length,
+            i = 0,
+            j = 0;
+            
+        while(i &lt; clen){
+            j = i + alen;
+            if(document.cookie.substring(i, j) == arg){
+                return this.getCookieVal(j);
+            }
+            i = document.cookie.indexOf(&quot; &quot;, i) + 1;
+            if(i === 0){
+                break;
+            }
+        }
+        return null;
+    },
+
+<span id='Ext-util-Cookies-method-clear'>    /**
+</span>     * Removes a cookie with the provided name from the browser
+     * if found by setting its expiration date to sometime in the past. 
+     * @param {String} name The name of the cookie to remove
+     * @param {String} path (optional) The path for the cookie. This must be included if you included a path while setting the cookie.
+     */
+    clear : function(name, path){
+        if(this.get(name)){
+            path = path || '/';
+            document.cookie = name + '=' + '; expires=Thu, 01-Jan-70 00:00:01 GMT; path=' + path;
+        }
+    },
+    
+<span id='Ext-util-Cookies-method-getCookieVal'>    /**
+</span>     * @private
+     */
+    getCookieVal : function(offset){
+        var endstr = document.cookie.indexOf(&quot;;&quot;, offset);
+        if(endstr == -1){
+            endstr = document.cookie.length;
+        }
+        return unescape(document.cookie.substring(offset, endstr));
+    }
+});
+</pre>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+    "success": true,
+    "users": [
+        {
+            "id": 1,
+            "firstName": "John",
+            "lastName": "Smith",
+            "birthDate": "03/25/1977"
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+sencha slice theme -d ../../../ -c ./resources/css/bubble-panel.css -m ./resources/manifest.js  -o ./resources/images/default/

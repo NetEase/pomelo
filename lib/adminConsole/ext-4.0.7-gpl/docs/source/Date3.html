@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-column-Date'>/**
+</span> * A Column definition class which renders a passed date according to the default locale, or a configured
+ * {@link #format}.
+ *
+ *     @example
+ *     Ext.create('Ext.data.Store', {
+ *         storeId:'sampleStore',
+ *         fields:[
+ *             { name: 'symbol', type: 'string' },
+ *             { name: 'date',   type: 'date' },
+ *             { name: 'change', type: 'number' },
+ *             { name: 'volume', type: 'number' },
+ *             { name: 'topday', type: 'date' }                        
+ *         ],
+ *         data:[
+ *             { symbol: &quot;msft&quot;,   date: '2011/04/22', change: 2.43, volume: 61606325, topday: '04/01/2010' },
+ *             { symbol: &quot;goog&quot;,   date: '2011/04/22', change: 0.81, volume: 3053782,  topday: '04/11/2010' },
+ *             { symbol: &quot;apple&quot;,  date: '2011/04/22', change: 1.35, volume: 24484858, topday: '04/28/2010' },            
+ *             { symbol: &quot;sencha&quot;, date: '2011/04/22', change: 8.85, volume: 5556351,  topday: '04/22/2010' }            
+ *         ]
+ *     });
+ *     
+ *     Ext.create('Ext.grid.Panel', {
+ *         title: 'Date Column Demo',
+ *         store: Ext.data.StoreManager.lookup('sampleStore'),
+ *         columns: [
+ *             { text: 'Symbol',   dataIndex: 'symbol', flex: 1 },
+ *             { text: 'Date',     dataIndex: 'date',   xtype: 'datecolumn',   format:'Y-m-d' },
+ *             { text: 'Change',   dataIndex: 'change', xtype: 'numbercolumn', format:'0.00' },
+ *             { text: 'Volume',   dataIndex: 'volume', xtype: 'numbercolumn', format:'0,000' },
+ *             { text: 'Top Day',  dataIndex: 'topday', xtype: 'datecolumn',   format:'l' }            
+ *         ],
+ *         height: 200,
+ *         width: 450,
+ *         renderTo: Ext.getBody()
+ *     });
+ */
+Ext.define('Ext.grid.column.Date', {
+    extend: 'Ext.grid.column.Column',
+    alias: ['widget.datecolumn'],
+    requires: ['Ext.Date'],
+    alternateClassName: 'Ext.grid.DateColumn',
+
+<span id='Ext-grid-column-Date-cfg-format'>    /**
+</span>     * @cfg {String} format
+     * A formatting string as used by {@link Ext.Date#format} to format a Date for this Column.
+     * This defaults to the default date from {@link Ext.Date#defaultFormat} which itself my be overridden
+     * in a locale file.
+     */
+
+    initComponent: function(){
+        var me = this;
+        
+        me.callParent(arguments);
+        if (!me.format) {
+            me.format = Ext.Date.defaultFormat;
+        }
+        me.renderer = Ext.util.Format.dateRenderer(me.format);
+    }
+});</pre>
+</body>
+</html>

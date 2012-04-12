@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-dd-DropTarget'>/**
+</span> * @class Ext.dd.DropTarget
+ * @extends Ext.dd.DDTarget
+ * A simple class that provides the basic implementation needed to make any element a drop target that can have
+ * draggable items dropped onto it.  The drop has no effect until an implementation of notifyDrop is provided.
+ */
+Ext.define('Ext.dd.DropTarget', {
+    extend: 'Ext.dd.DDTarget',
+    requires: ['Ext.dd.ScrollManager'],
+
+<span id='Ext-dd-DropTarget-method-constructor'>    /**
+</span>     * Creates new DropTarget.
+     * @param {String/HTMLElement/Ext.Element} el The container element or ID of it.
+     * @param {Object} config
+     */
+    constructor : function(el, config){
+        this.el = Ext.get(el);
+
+        Ext.apply(this, config);
+
+        if(this.containerScroll){
+            Ext.dd.ScrollManager.register(this.el);
+        }
+
+        this.callParent([this.el.dom, this.ddGroup || this.group,
+              {isTarget: true}]);
+    },
+
+<span id='Ext-dd-DropTarget-cfg-ddGroup'>    /**
+</span>     * @cfg {String} ddGroup
+     * A named drag drop group to which this object belongs.  If a group is specified, then this object will only
+     * interact with other drag drop objects in the same group.
+     */
+<span id='Ext-dd-DropTarget-cfg-overClass'>    /**
+</span>     * @cfg {String} [overClass=&quot;&quot;]
+     * The CSS class applied to the drop target element while the drag source is over it.
+     */
+<span id='Ext-dd-DropTarget-cfg-dropAllowed'>    /**
+</span>     * @cfg {String} [dropAllowed=&quot;x-dd-drop-ok&quot;]
+     * The CSS class returned to the drag source when drop is allowed.
+     */
+    dropAllowed : Ext.baseCSSPrefix + 'dd-drop-ok',
+<span id='Ext-dd-DropTarget-cfg-dropNotAllowed'>    /**
+</span>     * @cfg {String} [dropNotAllowed=&quot;x-dd-drop-nodrop&quot;]
+     * The CSS class returned to the drag source when drop is not allowed.
+     */
+    dropNotAllowed : Ext.baseCSSPrefix + 'dd-drop-nodrop',
+
+    // private
+    isTarget : true,
+
+    // private
+    isNotifyTarget : true,
+
+<span id='Ext-dd-DropTarget-method-notifyEnter'>    /**
+</span>     * The function a {@link Ext.dd.DragSource} calls once to notify this drop target that the source is now over the
+     * target.  This default implementation adds the CSS class specified by overClass (if any) to the drop element
+     * and returns the dropAllowed config value.  This method should be overridden if drop validation is required.
+     * @param {Ext.dd.DragSource} source The drag source that was dragged over this drop target
+     * @param {Event} e The event
+     * @param {Object} data An object containing arbitrary data supplied by the drag source
+     * @return {String} status The CSS class that communicates the drop status back to the source so that the
+     * underlying {@link Ext.dd.StatusProxy} can be updated
+     */
+    notifyEnter : function(dd, e, data){
+        if(this.overClass){
+            this.el.addCls(this.overClass);
+        }
+        return this.dropAllowed;
+    },
+
+<span id='Ext-dd-DropTarget-method-notifyOver'>    /**
+</span>     * The function a {@link Ext.dd.DragSource} calls continuously while it is being dragged over the target.
+     * This method will be called on every mouse movement while the drag source is over the drop target.
+     * This default implementation simply returns the dropAllowed config value.
+     * @param {Ext.dd.DragSource} source The drag source that was dragged over this drop target
+     * @param {Event} e The event
+     * @param {Object} data An object containing arbitrary data supplied by the drag source
+     * @return {String} status The CSS class that communicates the drop status back to the source so that the
+     * underlying {@link Ext.dd.StatusProxy} can be updated
+     */
+    notifyOver : function(dd, e, data){
+        return this.dropAllowed;
+    },
+
+<span id='Ext-dd-DropTarget-method-notifyOut'>    /**
+</span>     * The function a {@link Ext.dd.DragSource} calls once to notify this drop target that the source has been dragged
+     * out of the target without dropping.  This default implementation simply removes the CSS class specified by
+     * overClass (if any) from the drop element.
+     * @param {Ext.dd.DragSource} source The drag source that was dragged over this drop target
+     * @param {Event} e The event
+     * @param {Object} data An object containing arbitrary data supplied by the drag source
+     */
+    notifyOut : function(dd, e, data){
+        if(this.overClass){
+            this.el.removeCls(this.overClass);
+        }
+    },
+
+<span id='Ext-dd-DropTarget-method-notifyDrop'>    /**
+</span>     * The function a {@link Ext.dd.DragSource} calls once to notify this drop target that the dragged item has
+     * been dropped on it.  This method has no default implementation and returns false, so you must provide an
+     * implementation that does something to process the drop event and returns true so that the drag source's
+     * repair action does not run.
+     * @param {Ext.dd.DragSource} source The drag source that was dragged over this drop target
+     * @param {Event} e The event
+     * @param {Object} data An object containing arbitrary data supplied by the drag source
+     * @return {Boolean} False if the drop was invalid.
+     */
+    notifyDrop : function(dd, e, data){
+        return false;
+    },
+
+    destroy : function(){
+        this.callParent();
+        if(this.containerScroll){
+            Ext.dd.ScrollManager.unregister(this.el);
+        }
+    }
+});
+</pre>
+</body>
+</html>

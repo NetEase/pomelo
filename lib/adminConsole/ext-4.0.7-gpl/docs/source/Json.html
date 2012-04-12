@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-reader-Json'>/**
+</span> * @author Ed Spencer
+ * @class Ext.data.reader.Json
+ * @extends Ext.data.reader.Reader
+ *
+ * &lt;p&gt;The JSON Reader is used by a Proxy to read a server response that is sent back in JSON format. This usually
+ * happens as a result of loading a Store - for example we might create something like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+Ext.define('User', {
+    extend: 'Ext.data.Model',
+    fields: ['id', 'name', 'email']
+});
+
+var store = Ext.create('Ext.data.Store', {
+    model: 'User',
+    proxy: {
+        type: 'ajax',
+        url : 'users.json',
+        reader: {
+            type: 'json'
+        }
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;The example above creates a 'User' model. Models are explained in the {@link Ext.data.Model Model} docs if you're
+ * not already familiar with them.&lt;/p&gt;
+ *
+ * &lt;p&gt;We created the simplest type of JSON Reader possible by simply telling our {@link Ext.data.Store Store}'s
+ * {@link Ext.data.proxy.Proxy Proxy} that we want a JSON Reader. The Store automatically passes the configured model to the
+ * Store, so it is as if we passed this instead:
+ *
+&lt;pre&gt;&lt;code&gt;
+reader: {
+    type : 'json',
+    model: 'User'
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;The reader we set up is ready to read data from our server - at the moment it will accept a response like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+[
+    {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Ed Spencer&quot;,
+        &quot;email&quot;: &quot;ed@sencha.com&quot;
+    },
+    {
+        &quot;id&quot;: 2,
+        &quot;name&quot;: &quot;Abe Elias&quot;,
+        &quot;email&quot;: &quot;abe@sencha.com&quot;
+    }
+]
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;&lt;u&gt;Reading other JSON formats&lt;/u&gt;&lt;/p&gt;
+ *
+ * &lt;p&gt;If you already have your JSON format defined and it doesn't look quite like what we have above, you can usually
+ * pass JsonReader a couple of configuration options to make it parse your format. For example, we can use the
+ * {@link #root} configuration to parse data that comes back like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+{
+    &quot;users&quot;: [
+       {
+           &quot;id&quot;: 1,
+           &quot;name&quot;: &quot;Ed Spencer&quot;,
+           &quot;email&quot;: &quot;ed@sencha.com&quot;
+       },
+       {
+           &quot;id&quot;: 2,
+           &quot;name&quot;: &quot;Abe Elias&quot;,
+           &quot;email&quot;: &quot;abe@sencha.com&quot;
+       }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;To parse this we just pass in a {@link #root} configuration that matches the 'users' above:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+reader: {
+    type: 'json',
+    root: 'users'
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;Sometimes the JSON structure is even more complicated. Document databases like CouchDB often provide metadata
+ * around each record inside a nested structure like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+{
+    &quot;total&quot;: 122,
+    &quot;offset&quot;: 0,
+    &quot;users&quot;: [
+        {
+            &quot;id&quot;: &quot;ed-spencer-1&quot;,
+            &quot;value&quot;: 1,
+            &quot;user&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Ed Spencer&quot;,
+                &quot;email&quot;: &quot;ed@sencha.com&quot;
+            }
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;In the case above the record data is nested an additional level inside the &quot;users&quot; array as each &quot;user&quot; item has
+ * additional metadata surrounding it ('id' and 'value' in this case). To parse data out of each &quot;user&quot; item in the
+ * JSON above we need to specify the {@link #record} configuration like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+reader: {
+    type  : 'json',
+    root  : 'users',
+    record: 'user'
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;&lt;u&gt;Response metadata&lt;/u&gt;&lt;/p&gt;
+ *
+ * &lt;p&gt;The server can return additional data in its response, such as the {@link #totalProperty total number of records}
+ * and the {@link #successProperty success status of the response}. These are typically included in the JSON response
+ * like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+{
+    &quot;total&quot;: 100,
+    &quot;success&quot;: true,
+    &quot;users&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Ed Spencer&quot;,
+            &quot;email&quot;: &quot;ed@sencha.com&quot;
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;If these properties are present in the JSON response they can be parsed out by the JsonReader and used by the
+ * Store that loaded it. We can set up the names of these properties by specifying a final pair of configuration
+ * options:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+reader: {
+    type : 'json',
+    root : 'users',
+    totalProperty  : 'total',
+    successProperty: 'success'
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;These final options are not necessary to make the Reader work, but can be useful when the server needs to report
+ * an error or if it needs to indicate that there is a lot of data available of which only a subset is currently being
+ * returned.&lt;/p&gt;
+ */
+Ext.define('Ext.data.reader.Json', {
+    extend: 'Ext.data.reader.Reader',
+    alternateClassName: 'Ext.data.JsonReader',
+    alias : 'reader.json',
+
+    root: '',
+
+<span id='Ext-data-reader-Json-cfg-record'>    /**
+</span>     * @cfg {String} record The optional location within the JSON response that the record data itself can be found at.
+     * See the JsonReader intro docs for more details. This is not often needed.
+     */
+
+<span id='Ext-data-reader-Json-cfg-useSimpleAccessors'>    /**
+</span>     * @cfg {Boolean} useSimpleAccessors True to ensure that field names/mappings are treated as literals when
+     * reading values. Defalts to &lt;tt&gt;false&lt;/tt&gt;.
+     * For example, by default, using the mapping &quot;foo.bar.baz&quot; will try and read a property foo from the root, then a property bar
+     * from foo, then a property baz from bar. Setting the simple accessors to true will read the property with the name
+     * &quot;foo.bar.baz&quot; direct from the root object.
+     */
+    useSimpleAccessors: false,
+
+<span id='Ext-data-reader-Json-method-readRecords'>    /**
+</span>     * Reads a JSON object and returns a ResultSet. Uses the internal getTotal and getSuccess extractors to
+     * retrieve meta data from the response, and extractData to turn the JSON data into model instances.
+     * @param {Object} data The raw JSON data
+     * @return {Ext.data.ResultSet} A ResultSet containing model instances and meta data about the results
+     */
+    readRecords: function(data) {
+        //this has to be before the call to super because we use the meta data in the superclass readRecords
+        if (data.metaData) {
+            this.onMetaChange(data.metaData);
+        }
+
+<span id='Ext-data-reader-Json-property-jsonData'>        /**
+</span>         * @deprecated will be removed in Ext JS 5.0. This is just a copy of this.rawData - use that instead
+         * @property {Object} jsonData
+         */
+        this.jsonData = data;
+        return this.callParent([data]);
+    },
+
+    //inherit docs
+    getResponseData: function(response) {
+        var data;
+        try {
+            data = Ext.decode(response.responseText);
+        }
+        catch (ex) {
+            Ext.Error.raise({
+                response: response,
+                json: response.responseText,
+                parseError: ex,
+                msg: 'Unable to parse the JSON returned by the server: ' + ex.toString()
+            });
+        }
+        //&lt;debug&gt;
+        if (!data) {
+            Ext.Error.raise('JSON object not found');
+        }
+        //&lt;/debug&gt;
+
+        return data;
+    },
+
+    //inherit docs
+    buildExtractors : function() {
+        var me = this;
+
+        me.callParent(arguments);
+
+        if (me.root) {
+            me.getRoot = me.createAccessor(me.root);
+        } else {
+            me.getRoot = function(root) {
+                return root;
+            };
+        }
+    },
+
+<span id='Ext-data-reader-Json-method-extractData'>    /**
+</span>     * @private
+     * We're just preparing the data for the superclass by pulling out the record objects we want. If a {@link #record}
+     * was specified we have to pull those out of the larger JSON object, which is most of what this function is doing
+     * @param {Object} root The JSON root node
+     * @return {Ext.data.Model[]} The records
+     */
+    extractData: function(root) {
+        var recordName = this.record,
+            data = [],
+            length, i;
+
+        if (recordName) {
+            length = root.length;
+            
+            if (!length &amp;&amp; Ext.isObject(root)) {
+                length = 1;
+                root = [root];
+            }
+
+            for (i = 0; i &lt; length; i++) {
+                data[i] = root[i][recordName];
+            }
+        } else {
+            data = root;
+        }
+        return this.callParent([data]);
+    },
+
+<span id='Ext-data-reader-Json-method-createAccessor'>    /**
+</span>     * @private
+     * Returns an accessor function for the given property string. Gives support for properties such as the following:
+     * 'someProperty'
+     * 'some.property'
+     * 'some[&quot;property&quot;]'
+     * This is used by buildExtractors to create optimized extractor functions when casting raw data into model instances.
+     */
+    createAccessor: function() {
+        var re = /[\[\.]/;
+
+        return function(expr) {
+            if (Ext.isEmpty(expr)) {
+                return Ext.emptyFn;
+            }
+            if (Ext.isFunction(expr)) {
+                return expr;
+            }
+            if (this.useSimpleAccessors !== true) {
+                var i = String(expr).search(re);
+                if (i &gt;= 0) {
+                    return Ext.functionFactory('obj', 'return obj' + (i &gt; 0 ? '.' : '') + expr);
+                }
+            }
+            return function(obj) {
+                return obj[expr];
+            };
+        };
+    }()
+});</pre>
+</body>
+</html>

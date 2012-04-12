@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-property-Property-method-constructor'><span id='Ext-grid-property-Property'>/**
+</span></span> * @class Ext.grid.property.Property
+ * A specific {@link Ext.data.Model} type that represents a name/value pair and is made to work with the
+ * {@link Ext.grid.property.Grid}.  Typically, Properties do not need to be created directly as they can be
+ * created implicitly by simply using the appropriate data configs either via the {@link Ext.grid.property.Grid#source}
+ * config property or by calling {@link Ext.grid.property.Grid#setSource}.  However, if the need arises, these records
+ * can also be created explicitly as shown below.  Example usage:
+ * &lt;pre&gt;&lt;code&gt;
+var rec = new Ext.grid.property.Property({
+    name: 'birthday',
+    value: Ext.Date.parse('17/06/1962', 'd/m/Y')
+});
+// Add record to an already populated grid
+grid.store.addSorted(rec);
+&lt;/code&gt;&lt;/pre&gt;
+ * @constructor
+ * @param {Object} config A data object in the format:&lt;pre&gt;&lt;code&gt;
+{
+    name: [name],
+    value: [value]
+}&lt;/code&gt;&lt;/pre&gt;
+ * The specified value's type
+ * will be read automatically by the grid to determine the type of editor to use when displaying it.
+ */
+Ext.define('Ext.grid.property.Property', {
+    extend: 'Ext.data.Model',
+
+    alternateClassName: 'Ext.PropGridProperty',
+
+    fields: [{
+        name: 'name',
+        type: 'string'
+    }, {
+        name: 'value'
+    }],
+    idProperty: 'name'
+});</pre>
+</body>
+</html>

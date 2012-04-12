@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-writer-Xml'>/**
+</span> * @author Ed Spencer
+ * @class Ext.data.writer.Xml
+ * @extends Ext.data.writer.Writer
+
+This class is used to write {@link Ext.data.Model} data to the server in an XML format.
+The {@link #documentRoot} property is used to specify the root element in the XML document.
+The {@link #record} option is used to specify the element name for each record that will make
+up the XML document.
+
+ * @markdown
+ */
+Ext.define('Ext.data.writer.Xml', {
+    
+    /* Begin Definitions */
+    
+    extend: 'Ext.data.writer.Writer',
+    alternateClassName: 'Ext.data.XmlWriter',
+    
+    alias: 'writer.xml',
+    
+    /* End Definitions */
+    
+<span id='Ext-data-writer-Xml-cfg-documentRoot'>    /**
+</span>     * @cfg {String} documentRoot The name of the root element of the document. Defaults to &lt;tt&gt;'xmlData'&lt;/tt&gt;.
+     * If there is more than 1 record and the root is not specified, the default document root will still be used
+     * to ensure a valid XML document is created.
+     */
+    documentRoot: 'xmlData',
+    
+<span id='Ext-data-writer-Xml-cfg-defaultDocumentRoot'>    /**
+</span>     * @cfg {String} defaultDocumentRoot The root to be used if {@link #documentRoot} is empty and a root is required
+     * to form a valid XML document.
+     */
+    defaultDocumentRoot: 'xmlData',
+
+<span id='Ext-data-writer-Xml-cfg-header'>    /**
+</span>     * @cfg {String} header A header to use in the XML document (such as setting the encoding or version).
+     * Defaults to &lt;tt&gt;''&lt;/tt&gt;.
+     */
+    header: '',
+
+<span id='Ext-data-writer-Xml-cfg-record'>    /**
+</span>     * @cfg {String} record The name of the node to use for each record. Defaults to &lt;tt&gt;'record'&lt;/tt&gt;.
+     */
+    record: 'record',
+
+    //inherit docs
+    writeRecords: function(request, data) {
+        var me = this,
+            xml = [],
+            i = 0,
+            len = data.length,
+            root = me.documentRoot,
+            record = me.record,
+            needsRoot = data.length !== 1,
+            item,
+            key;
+            
+        // may not exist
+        xml.push(me.header || '');
+        
+        if (!root &amp;&amp; needsRoot) {
+            root = me.defaultDocumentRoot;
+        }
+        
+        if (root) {
+            xml.push('&lt;', root, '&gt;');
+        }
+            
+        for (; i &lt; len; ++i) {
+            item = data[i];
+            xml.push('&lt;', record, '&gt;');
+            for (key in item) {
+                if (item.hasOwnProperty(key)) {
+                    xml.push('&lt;', key, '&gt;', item[key], '&lt;/', key, '&gt;');
+                }
+            }
+            xml.push('&lt;/', record, '&gt;');
+        }
+        
+        if (root) {
+            xml.push('&lt;/', root, '&gt;');
+        }
+            
+        request.xmlData = xml.join('');
+        return request;
+    }
+});
+</pre>
+</body>
+</html>

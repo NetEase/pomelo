@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-direct-RemotingEvent'>/**
+</span> * @class Ext.direct.RemotingEvent
+ * @extends Ext.direct.Event
+ * An event that is fired when data is received from a 
+ * {@link Ext.direct.RemotingProvider}. Contains a method to the
+ * related transaction for the direct request, see {@link #getTransaction}
+ */
+Ext.define('Ext.direct.RemotingEvent', {
+    
+    /* Begin Definitions */
+   
+    extend: 'Ext.direct.Event',
+    
+    alias: 'direct.rpc',
+    
+    /* End Definitions */
+    
+<span id='Ext-direct-RemotingEvent-method-getTransaction'>    /**
+</span>     * Get the transaction associated with this event.
+     * @return {Ext.direct.Transaction} The transaction
+     */
+    getTransaction: function(){
+        return this.transaction || Ext.direct.Manager.getTransaction(this.tid);
+    }
+});
+</pre>
+</body>
+</html>

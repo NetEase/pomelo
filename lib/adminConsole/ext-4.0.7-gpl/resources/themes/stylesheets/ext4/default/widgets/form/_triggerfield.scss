@@ -1,0 +1,162 @@
+@mixin extjs-form-triggerfield {
+	.#{$prefix}form-trigger-wrap {
+        float: left;
+    }
+    
+    .#{$prefix}form-trigger {
+        background-image: theme-background-image($theme-name, 'form/trigger.gif');
+		background-position: 0 0;
+		
+		width: $form-trigger-width;
+		height: $form-trigger-height - $form-trigger-border-bottom-width;
+		float: left;
+
+		border-bottom: $form-trigger-border-bottom;
+
+        cursor: pointer;
+        cursor: hand;
+    }
+
+    .#{$prefix}border-box .#{$prefix}form-trigger {
+        height: $form-trigger-height;
+    }
+
+    .#{$prefix}field-default-toolbar .#{$prefix}form-trigger {
+        height: $form-toolbar-trigger-height - $form-trigger-border-bottom-width;
+    }
+
+    .#{$prefix}border-box .#{$prefix}field-default-toolbar .#{$prefix}form-trigger {
+        height: $form-toolbar-trigger-height;
+    }
+
+    
+    .#{$prefix}form-trigger-over {
+		background-position: -$form-trigger-width 0;
+
+		border-bottom-color: $form-trigger-border-bottom-color-over;
+    }
+    
+    .#{$prefix}form-trigger-wrap-focus .#{$prefix}form-trigger {
+		background-position: -($form-trigger-width * 3) 0;
+
+		border-bottom-color: $form-trigger-border-bottom-color-focus;
+    }
+    
+    .#{$prefix}form-trigger-wrap-focus .#{$prefix}form-trigger-over {
+        background-position: -($form-trigger-width * 4) 0;
+        
+        @if $form-trigger-border-bottom-color-focus-over {
+            border-bottom-color: $form-trigger-border-bottom-color-focus-over;
+        }
+    }
+    
+    .#{$prefix}form-trigger-click,
+    .#{$prefix}form-trigger-wrap-focus .#{$prefix}form-trigger-click {
+		background-position: -($form-trigger-width * 2) 0;
+		
+		@if $form-trigger-border-bottom-color-pressed {
+    		border-bottom-color: $form-trigger-border-bottom-color-pressed;
+    	}
+    }
+
+    .#{$prefix}form-trigger-icon {
+        height: $form-trigger-width - $form-trigger-border-bottom-width;
+        
+        background-repeat: no-repeat;
+        background-position: $form-trigger-icon-background-position;
+    }
+    
+    .#{$prefix}pickerfield-open {
+        .#{$prefix}form-field {
+            @include border-bottom-radius(0);
+        }
+    }
+    
+    .#{$prefix}pickerfield-open-above {
+        .#{$prefix}form-field {
+            @include border-bottom-left-radius(3px);
+            @include border-top-radius(0);
+        }
+    }
+    
+    .#{$prefix}form-arrow-trigger {
+        .#{$prefix}form-trigger-icon {
+            background-image: theme-background-image($theme-name, 'boundlist/trigger-arrow.png');
+        }
+    }
+    
+    .#{$prefix}form-date-trigger {
+        background-image: theme-background-image($theme-name, 'form/date-trigger.gif');
+    }
+
+    $spinner-btn-height: $form-trigger-height / 2;
+    .#{$prefix}form-trigger-wrap {
+        .#{$prefix}form-spinner-up,
+        .#{$prefix}form-spinner-down {
+            background-image: theme-background-image($theme-name, 'form/spinner.gif');
+
+            width: $form-trigger-width !important;
+            height: $spinner-btn-height !important;
+
+            font-size: 0; /*for IE*/
+
+            border-bottom: 0;
+        }
+        .#{$prefix}form-spinner-down {
+            background-position: 0 (-$spinner-btn-height);
+        }
+    }
+    .#{$prefix}form-trigger-wrap-focus .#{$prefix}form-spinner-down {
+        background-position: -($form-trigger-width * 3) (-$spinner-btn-height);
+    }
+    .#{$prefix}form-trigger-wrap .#{$prefix}form-spinner-down-over {
+        background-position: (-$form-trigger-width) (-$spinner-btn-height);
+    }
+    .#{$prefix}form-trigger-wrap-focus .#{$prefix}form-spinner-down-over {
+        background-position: -($form-trigger-width * 4) (-$spinner-btn-height);
+    }
+    .#{$prefix}form-trigger-wrap .#{$prefix}form-spinner-down-click {
+        background-position: -($form-trigger-width * 2) (-$spinner-btn-height);
+    }
+
+
+    .#{$prefix}field-default-toolbar {
+        $spinner-btn-height: $form-toolbar-trigger-height / 2;
+        .#{$prefix}form-trigger-wrap {
+            .#{$prefix}form-spinner-up,
+            .#{$prefix}form-spinner-down {
+               background-image: theme-background-image($theme-name, 'form/spinner-small.gif');
+                height: $spinner-btn-height !important;
+            }
+            .#{$prefix}form-spinner-down {
+                background-position: 0 (-$spinner-btn-height);
+            }
+        }
+        .#{$prefix}form-trigger-wrap-focus .#{$prefix}form-spinner-down {
+            background-position: -($form-trigger-width * 3) (-$spinner-btn-height);
+        }
+        .#{$prefix}form-trigger-wrap .#{$prefix}form-spinner-down-over {
+            background-position: (-$form-trigger-width) (-$spinner-btn-height);
+        }
+        .#{$prefix}form-trigger-wrap-focus .#{$prefix}form-spinner-down-over {
+            background-position: -($form-trigger-width * 4) (-$spinner-btn-height);
+        }
+        .#{$prefix}form-trigger-wrap .#{$prefix}form-spinner-down-click {
+            background-position: -($form-trigger-width * 2) (-$spinner-btn-height);
+        }
+    }
+
+
+    .#{$prefix}trigger-noedit {
+        cursor: pointer;
+        cursor: hand;
+    }
+
+
+    .#{$prefix}form-clear-trigger {
+        background-image: theme-background-image($theme-name, 'form/clear-trigger.gif');
+    }
+    .#{$prefix}form-search-trigger {
+        background-image: theme-background-image($theme-name, 'form/search-trigger.gif');
+    }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-BufferStore'>/**
+</span> * @class Ext.data.BufferStore
+ * @extends Ext.data.Store
+ * @ignore
+ */
+Ext.define('Ext.data.BufferStore', {
+    extend: 'Ext.data.Store',
+    alias: 'store.buffer',
+    sortOnLoad: false,
+    filterOnLoad: false,
+    
+    constructor: function() {
+        Ext.Error.raise('The BufferStore class has been deprecated. Instead, specify the buffered config option on Ext.data.Store');
+    }
+});</pre>
+</body>
+</html>

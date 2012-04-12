@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-ResultSet'>/**
+</span> * @author Ed Spencer
+ *
+ * Simple wrapper class that represents a set of records returned by a Proxy.
+ */
+Ext.define('Ext.data.ResultSet', {
+<span id='Ext-data-ResultSet-cfg-loaded'>    /**
+</span>     * @cfg {Boolean} loaded
+     * True if the records have already been loaded. This is only meaningful when dealing with
+     * SQL-backed proxies.
+     */
+    loaded: true,
+
+<span id='Ext-data-ResultSet-cfg-count'>    /**
+</span>     * @cfg {Number} count
+     * The number of records in this ResultSet. Note that total may differ from this number.
+     */
+    count: 0,
+
+<span id='Ext-data-ResultSet-cfg-total'>    /**
+</span>     * @cfg {Number} total
+     * The total number of records reported by the data source. This ResultSet may form a subset of
+     * those records (see {@link #count}).
+     */
+    total: 0,
+
+<span id='Ext-data-ResultSet-cfg-success'>    /**
+</span>     * @cfg {Boolean} success
+     * True if the ResultSet loaded successfully, false if any errors were encountered.
+     */
+    success: false,
+
+<span id='Ext-data-ResultSet-cfg-records'>    /**
+</span>     * @cfg {Ext.data.Model[]} records (required)
+     * The array of record instances.
+     */
+
+<span id='Ext-data-ResultSet-method-constructor'>    /**
+</span>     * Creates the resultSet
+     * @param {Object} [config] Config object.
+     */
+    constructor: function(config) {
+        Ext.apply(this, config);
+
+<span id='Ext-data-ResultSet-property-totalRecords'>        /**
+</span>         * @property {Number} totalRecords
+         * Copy of this.total.
+         * @deprecated Will be removed in Ext JS 5.0. Use {@link #total} instead.
+         */
+        this.totalRecords = this.total;
+
+        if (config.count === undefined) {
+            this.count = this.records.length;
+        }
+    }
+});</pre>
+</body>
+</html>

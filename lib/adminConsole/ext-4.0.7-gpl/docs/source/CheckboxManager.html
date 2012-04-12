@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-form-CheckboxManager'>/**
+</span> * @private
+ * Private utility class for managing all {@link Ext.form.field.Checkbox} fields grouped by name.
+ */
+Ext.define('Ext.form.CheckboxManager', {
+    extend: 'Ext.util.MixedCollection',
+    singleton: true,
+
+    getByName: function(name) {
+        return this.filterBy(function(item) {
+            return item.name == name;
+        });
+    },
+
+    getWithValue: function(name, value) {
+        return this.filterBy(function(item) {
+            return item.name == name &amp;&amp; item.inputValue == value;
+        });
+    },
+
+    getChecked: function(name) {
+        return this.filterBy(function(item) {
+            return item.name == name &amp;&amp; item.checked;
+        });
+    }
+});
+</pre>
+</body>
+</html>

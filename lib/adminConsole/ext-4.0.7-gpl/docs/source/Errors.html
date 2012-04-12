@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-Errors'>/**
+</span> * @author Ed Spencer
+ * @class Ext.data.Errors
+ * @extends Ext.util.MixedCollection
+ *
+ * &lt;p&gt;Wraps a collection of validation error responses and provides convenient functions for
+ * accessing and errors for specific fields.&lt;/p&gt;
+ *
+ * &lt;p&gt;Usually this class does not need to be instantiated directly - instances are instead created
+ * automatically when {@link Ext.data.Model#validate validate} on a model instance:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+//validate some existing model instance - in this case it returned 2 failures messages
+var errors = myModel.validate();
+
+errors.isValid(); //false
+
+errors.length; //2
+errors.getByField('name');  // [{field: 'name',  message: 'must be present'}]
+errors.getByField('title'); // [{field: 'title', message: 'is too short'}]
+&lt;/code&gt;&lt;/pre&gt;
+ */
+Ext.define('Ext.data.Errors', {
+    extend: 'Ext.util.MixedCollection',
+
+<span id='Ext-data-Errors-method-isValid'>    /**
+</span>     * Returns true if there are no errors in the collection
+     * @return {Boolean}
+     */
+    isValid: function() {
+        return this.length === 0;
+    },
+
+<span id='Ext-data-Errors-method-getByField'>    /**
+</span>     * Returns all of the errors for the given field
+     * @param {String} fieldName The field to get errors for
+     * @return {Object[]} All errors for the given field
+     */
+    getByField: function(fieldName) {
+        var errors = [],
+            error, field, i;
+
+        for (i = 0; i &lt; this.length; i++) {
+            error = this.items[i];
+
+            if (error.field == fieldName) {
+                errors.push(error);
+            }
+        }
+
+        return errors;
+    }
+});
+</pre>
+</body>
+</html>

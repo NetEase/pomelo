@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-direct-Provider'>/**
+</span> * @class Ext.direct.Provider
+ * &lt;p&gt;Ext.direct.Provider is an abstract class meant to be extended.&lt;/p&gt;
+ *
+ * &lt;p&gt;For example Ext JS implements the following subclasses:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+Provider
+|
++---{@link Ext.direct.JsonProvider JsonProvider}
+    |
+    +---{@link Ext.direct.PollingProvider PollingProvider}
+    |
+    +---{@link Ext.direct.RemotingProvider RemotingProvider}
+ * &lt;/code&gt;&lt;/pre&gt;
+ * @abstract
+ */
+Ext.define('Ext.direct.Provider', {
+
+    /* Begin Definitions */
+
+   alias: 'direct.provider',
+
+    mixins: {
+        observable: 'Ext.util.Observable'
+    },
+
+    /* End Definitions */
+
+<span id='Ext-direct-Provider-cfg-id'>   /**
+</span>     * @cfg {String} id
+     * The unique id of the provider (defaults to an {@link Ext#id auto-assigned id}).
+     * You should assign an id if you need to be able to access the provider later and you do
+     * not have an object reference available, for example:
+     * &lt;pre&gt;&lt;code&gt;
+Ext.direct.Manager.addProvider({
+    type: 'polling',
+    url:  'php/poll.php',
+    id:   'poll-provider'
+});
+var p = {@link Ext.direct.Manager}.{@link Ext.direct.Manager#getProvider getProvider}('poll-provider');
+p.disconnect();
+     * &lt;/code&gt;&lt;/pre&gt;
+     */
+
+    constructor : function(config){
+        var me = this;
+
+        Ext.apply(me, config);
+        me.addEvents(
+<span id='Ext-direct-Provider-event-connect'>            /**
+</span>             * @event connect
+             * Fires when the Provider connects to the server-side
+             * @param {Ext.direct.Provider} provider The {@link Ext.direct.Provider Provider}.
+             */
+            'connect',
+<span id='Ext-direct-Provider-event-disconnect'>            /**
+</span>             * @event disconnect
+             * Fires when the Provider disconnects from the server-side
+             * @param {Ext.direct.Provider} provider The {@link Ext.direct.Provider Provider}.
+             */
+            'disconnect',
+<span id='Ext-direct-Provider-event-data'>            /**
+</span>             * @event data
+             * Fires when the Provider receives data from the server-side
+             * @param {Ext.direct.Provider} provider The {@link Ext.direct.Provider Provider}.
+             * @param {Ext.direct.Event} e The Ext.direct.Event type that occurred.
+             */
+            'data',
+<span id='Ext-direct-Provider-event-exception'>            /**
+</span>             * @event exception
+             * Fires when the Provider receives an exception from the server-side
+             */
+            'exception'
+        );
+        me.mixins.observable.constructor.call(me, config);
+    },
+
+<span id='Ext-direct-Provider-method-isConnected'>    /**
+</span>     * Returns whether or not the server-side is currently connected.
+     * Abstract method for subclasses to implement.
+     */
+    isConnected: function(){
+        return false;
+    },
+
+<span id='Ext-direct-Provider-method-connect'>    /**
+</span>     * Abstract methods for subclasses to implement.
+     * @method
+     */
+    connect: Ext.emptyFn,
+
+<span id='Ext-direct-Provider-method-disconnect'>    /**
+</span>     * Abstract methods for subclasses to implement.
+     * @method
+     */
+    disconnect: Ext.emptyFn
+});
+</pre>
+</body>
+</html>

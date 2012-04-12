@@ -1,0 +1,5 @@
+.logo { padding: 0; }
+.logo a { color: #000; font-size: 1.4em; }
+.members .member a.side { display: none; }
+.members .member { padding: 5px; }
+.members h3.members-title { padding: 5px; }

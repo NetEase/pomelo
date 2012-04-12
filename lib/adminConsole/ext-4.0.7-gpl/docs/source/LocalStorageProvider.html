@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-state-LocalStorageProvider'>/**
+</span> * @class Ext.state.LocalStorageProvider
+ * @extends Ext.state.Provider
+ * A Provider implementation which saves and retrieves state via the HTML5 localStorage object.
+ * If the browser does not support local storage, an exception will be thrown upon instantiating
+ * this class.
+ */
+
+Ext.define('Ext.state.LocalStorageProvider', {
+    /* Begin Definitions */
+    
+    extend: 'Ext.state.Provider',
+    
+    alias: 'state.localstorage',
+    
+    /* End Definitions */
+   
+    constructor: function(){
+        var me = this;
+        me.callParent(arguments);
+        me.store = me.getStorageObject();
+        me.state = me.readLocalStorage();
+    },
+    
+    readLocalStorage: function(){
+        var store = this.store,
+            i = 0,
+            len = store.length,
+            prefix = this.prefix,
+            prefixLen = prefix.length,
+            data = {},
+            key;
+            
+        for (; i &lt; len; ++i) {
+            key = store.key(i);
+            if (key.substring(0, prefixLen) == prefix) {
+                data[key.substr(prefixLen)] = this.decodeValue(store.getItem(key));
+            }            
+        }
+        return data;
+    },
+    
+    set : function(name, value){
+        var me = this;
+        
+        me.clear(name);
+        if (typeof value == &quot;undefined&quot; || value === null) {
+            return;
+        }
+        me.store.setItem(me.prefix + name, me.encodeValue(value));
+        me.callParent(arguments);
+    },
+
+    // private
+    clear : function(name){
+        this.store.removeItem(this.prefix + name);
+        this.callParent(arguments);
+    },
+    
+    getStorageObject: function(){
+        try {
+            var supports = 'localStorage' in window &amp;&amp; window['localStorage'] !== null;
+            if (supports) {
+                return window.localStorage;
+            }
+        } catch (e) {
+            return false;
+        }
+        //&lt;debug&gt;
+        Ext.Error.raise('LocalStorage is not supported by the current browser');
+        //&lt;/debug&gt;
+    }    
+});
+</pre>
+</body>
+</html>

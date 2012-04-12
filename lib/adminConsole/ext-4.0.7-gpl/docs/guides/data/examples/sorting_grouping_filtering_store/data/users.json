@@ -1,0 +1,10 @@
+{
+    success: true,
+    users: [
+        {id: 5, name: 'Ed', age: 37},
+        {id: 2, name: 'Tommy', age: 50},
+        {id: 1, name: 'Ed', age: 25},
+        {id: 4, name: 'Phil', age: 29},
+        {id: 3, name: 'Ed', age: 25}
+    ]
+}

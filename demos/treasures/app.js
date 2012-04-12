@@ -21,9 +21,10 @@ appTemplate.done(app);
 
 
 
-if (app.serverType==='master') {
+//if (app.serverType==='master') {
 	startWebServer();
-}
+	console.log("!!!********************************************!!!!");
+//}
 //var app_console = require('../../lib/adminConsole/appCon');
 
 function startWebServer(){

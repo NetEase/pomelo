@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-ShadowPool'>/**
+</span> * Private utility class that manages the internal Shadow cache
+ * @private
+ */
+Ext.define('Ext.ShadowPool', {
+    singleton: true,
+    requires: ['Ext.DomHelper'],
+
+    markup: function() {
+        if (Ext.supports.CSS3BoxShadow) {
+            return '&lt;div class=&quot;' + Ext.baseCSSPrefix + 'css-shadow&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;';
+        } else if (Ext.isIE) {
+            return '&lt;div class=&quot;' + Ext.baseCSSPrefix + 'ie-shadow&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;';
+        } else {
+            return '&lt;div class=&quot;' + Ext.baseCSSPrefix + 'frame-shadow&quot; role=&quot;presentation&quot;&gt;' +
+                '&lt;div class=&quot;xst&quot; role=&quot;presentation&quot;&gt;' +
+                    '&lt;div class=&quot;xstl&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                    '&lt;div class=&quot;xstc&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                    '&lt;div class=&quot;xstr&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                '&lt;/div&gt;' +
+                '&lt;div class=&quot;xsc&quot; role=&quot;presentation&quot;&gt;' +
+                    '&lt;div class=&quot;xsml&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                    '&lt;div class=&quot;xsmc&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                    '&lt;div class=&quot;xsmr&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                '&lt;/div&gt;' +
+                '&lt;div class=&quot;xsb&quot; role=&quot;presentation&quot;&gt;' +
+                    '&lt;div class=&quot;xsbl&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                    '&lt;div class=&quot;xsbc&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                    '&lt;div class=&quot;xsbr&quot; role=&quot;presentation&quot;&gt;&lt;/div&gt;' +
+                '&lt;/div&gt;' +
+            '&lt;/div&gt;';
+        }
+    }(),
+
+    shadows: [],
+
+    pull: function() {
+        var sh = this.shadows.shift();
+        if (!sh) {
+            sh = Ext.get(Ext.DomHelper.insertHtml(&quot;beforeBegin&quot;, document.body.firstChild, this.markup));
+            sh.autoBoxAdjust = false;
+        }
+        return sh;
+    },
+
+    push: function(sh) {
+        this.shadows.push(sh);
+    },
+    
+    reset: function() {
+        Ext.Array.each(this.shadows, function(shadow) {
+            shadow.remove();
+        });
+        this.shadows = [];
+    }
+});</pre>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Spotlight Example</title>
+    <!-- Ext -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- example code -->
+    <script type="text/javascript" src="../ux/Spotlight.js"></script>
+    <script type="text/javascript" src="spotlight-example.js"></script>
+
+    <!-- Common Styles for the examples -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <style type="text/css">
+        body {
+            overflow: hidden;
+        }
+        
+        #demo-ct .x-table-layout-cell {
+            padding: 20px;
+        }
+
+        .x-spotlight {
+            background-color: #ccc;
+            
+            z-index: 8999;
+            position: absolute;
+            top: 0;
+            left: 0;
+            -moz-opacity: 0.5;
+            opacity: .50;
+            filter: alpha(opacity=50);
+            width: 0;
+            height: 0;
+            zoom: 1;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript" src="../shared/examples.js"></script><!-- EXAMPLES -->
+
+<h1>Spotlight</h1>
+
+<p>This utility allows you to restrict input to a particular element by masking all other page content.</p>
+<p>The js is not minified so it is readable. See <a href="spotlight-example.js">spotlight-example.js</a>.</p>
+
+<div id="start-ct"></div>
+
+</body>
+</html>

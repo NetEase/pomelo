@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-form-action-DirectLoad'>/**
+</span> * @class Ext.form.action.DirectLoad
+ * @extends Ext.form.action.Load
+ * &lt;p&gt;Provides {@link Ext.direct.Manager} support for loading form data.&lt;/p&gt;
+ * &lt;p&gt;This example illustrates usage of Ext.direct.Direct to &lt;b&gt;load&lt;/b&gt; a form through Ext.Direct.&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var myFormPanel = new Ext.form.Panel({
+    // configs for FormPanel
+    title: 'Basic Information',
+    renderTo: document.body,
+    width: 300, height: 160,
+    padding: 10,
+
+    // configs apply to child items
+    defaults: {anchor: '100%'},
+    defaultType: 'textfield',
+    items: [{
+        fieldLabel: 'Name',
+        name: 'name'
+    },{
+        fieldLabel: 'Email',
+        name: 'email'
+    },{
+        fieldLabel: 'Company',
+        name: 'company'
+    }],
+
+    // configs for BasicForm
+    api: {
+        // The server-side method to call for load() requests
+        load: Profile.getBasicInfo,
+        // The server-side must mark the submit handler as a 'formHandler'
+        submit: Profile.updateBasicInfo
+    },
+    // specify the order for the passed params
+    paramOrder: ['uid', 'foo']
+});
+
+// load the form
+myFormPanel.getForm().load({
+    // pass 2 arguments to server side getBasicInfo method (len=2)
+    params: {
+        foo: 'bar',
+        uid: 34
+    }
+});
+ * &lt;/code&gt;&lt;/pre&gt;
+ * The data packet sent to the server will resemble something like:
+ * &lt;pre&gt;&lt;code&gt;
+[
+    {
+        &quot;action&quot;:&quot;Profile&quot;,&quot;method&quot;:&quot;getBasicInfo&quot;,&quot;type&quot;:&quot;rpc&quot;,&quot;tid&quot;:2,
+        &quot;data&quot;:[34,&quot;bar&quot;] // note the order of the params
+    }
+]
+ * &lt;/code&gt;&lt;/pre&gt;
+ * The form will process a data packet returned by the server that is similar
+ * to the following format:
+ * &lt;pre&gt;&lt;code&gt;
+[
+    {
+        &quot;action&quot;:&quot;Profile&quot;,&quot;method&quot;:&quot;getBasicInfo&quot;,&quot;type&quot;:&quot;rpc&quot;,&quot;tid&quot;:2,
+        &quot;result&quot;:{
+            &quot;success&quot;:true,
+            &quot;data&quot;:{
+                &quot;name&quot;:&quot;Fred Flintstone&quot;,
+                &quot;company&quot;:&quot;Slate Rock and Gravel&quot;,
+                &quot;email&quot;:&quot;fred.flintstone@slaterg.com&quot;
+            }
+        }
+    }
+]
+ * &lt;/code&gt;&lt;/pre&gt;
+ */
+Ext.define('Ext.form.action.DirectLoad', {
+    extend:'Ext.form.action.Load',
+    requires: ['Ext.direct.Manager'],
+    alternateClassName: 'Ext.form.Action.DirectLoad',
+    alias: 'formaction.directload',
+
+    type: 'directload',
+
+    run: function() {
+        this.form.api.load.apply(window, this.getArgs());
+    },
+
+<span id='Ext-form-action-DirectLoad-method-getArgs'>    /**
+</span>     * @private
+     * Build the arguments to be sent to the Direct call.
+     * @return Array
+     */
+    getArgs: function() {
+        var me = this,
+            args = [],
+            form = me.form,
+            paramOrder = form.paramOrder,
+            params = me.getParams(),
+            i, len;
+
+        // If a paramOrder was specified, add the params into the argument list in that order.
+        if (paramOrder) {
+            for (i = 0, len = paramOrder.length; i &lt; len; i++) {
+                args.push(params[paramOrder[i]]);
+            }
+        }
+        // If paramsAsHash was specified, add all the params as a single object argument.
+        else if (form.paramsAsHash) {
+            args.push(params);
+        }
+
+        // Add the callback and scope to the end of the arguments list
+        args.push(me.onSuccess, me);
+
+        return args;
+    },
+
+    // Direct actions have already been processed and therefore
+    // we can directly set the result; Direct Actions do not have
+    // a this.response property.
+    processResponse: function(result) {
+        return (this.result = result);
+    },
+
+    onSuccess: function(result, trans) {
+        if (trans.type == Ext.direct.Manager.self.exceptions.SERVER) {
+            result = {};
+        }
+        this.callParent([result]);
+    }
+});
+
+
+</pre>
+</body>
+</html>

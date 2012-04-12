@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Tree Example</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script type="text/javascript" src="check-tree.js"></script>
+    
+    <style>
+        .x-tree-checked .x-grid-cell-inner {
+            font-style: italic;
+            color: #777;
+        }
+        .x-grid-row-selected .x-grid-cell {
+            background-color: #efefef !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Checkbox Selection in a TreePanel</h1>
+    <p>This example shows simple checkbox selection in a tree. It is enabled on leaf nodes by simply
+    setting <tt>checked:true/false</tt> at the node level.</p>
+    <p>This example also shows loading an entire tree structure statically in one load call, rather than
+    loading each node asynchronously.</p>
+    <p>The js is not minified so it is readable. See <a href="check-tree.js">check-tree.js</a>.</p>
+
+    <div id="tree-div"></div>
+</body>
+</html>
