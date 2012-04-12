@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-container-AbstractContainer'>/**
+</span> * @class Ext.container.AbstractContainer
+ * @extends Ext.Component
+ * An abstract base class which provides shared methods for Containers across the Sencha product line.
+ * @private
+ */
+Ext.define('Ext.container.AbstractContainer', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.Component',
+
+    requires: [
+        'Ext.util.MixedCollection',
+        'Ext.layout.container.Auto',
+        'Ext.ZIndexManager'
+    ],
+
+    /* End Definitions */
+<span id='Ext-container-AbstractContainer-cfg-layout'>    /**
+</span>     * @cfg {String/Object} layout
+     * &lt;p&gt;&lt;b&gt;Important&lt;/b&gt;: In order for child items to be correctly sized and
+     * positioned, typically a layout manager &lt;b&gt;must&lt;/b&gt; be specified through
+     * the &lt;code&gt;layout&lt;/code&gt; configuration option.&lt;/p&gt;
+     * &lt;p&gt;The sizing and positioning of child {@link #items} is the responsibility of
+     * the Container's layout manager which creates and manages the type of layout
+     * you have in mind.  For example:&lt;/p&gt;
+     * &lt;p&gt;If the {@link #layout} configuration is not explicitly specified for
+     * a general purpose container (e.g. Container or Panel) the
+     * {@link Ext.layout.container.Auto default layout manager} will be used
+     * which does nothing but render child components sequentially into the
+     * Container (no sizing or positioning will be performed in this situation).&lt;/p&gt;
+     * &lt;p&gt;&lt;b&gt;&lt;code&gt;layout&lt;/code&gt;&lt;/b&gt; may be specified as either as an Object or as a String:&lt;/p&gt;
+     * &lt;div&gt;&lt;ul class=&quot;mdetail-params&quot;&gt;
+     * &lt;li&gt;&lt;u&gt;Specify as an Object&lt;/u&gt;&lt;/li&gt;
+     * &lt;div&gt;&lt;ul class=&quot;mdetail-params&quot;&gt;
+     * &lt;li&gt;Example usage:&lt;/li&gt;
+     * &lt;pre&gt;&lt;code&gt;
+layout: {
+    type: 'vbox',
+    align: 'left'
+}
+       &lt;/code&gt;&lt;/pre&gt;
+     *
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;type&lt;/b&gt;&lt;/code&gt;&lt;/li&gt;
+     * &lt;br/&gt;&lt;p&gt;The layout type to be used for this container.  If not specified,
+     * a default {@link Ext.layout.container.Auto} will be created and used.&lt;/p&gt;
+     * &lt;p&gt;Valid layout &lt;code&gt;type&lt;/code&gt; values are:&lt;/p&gt;
+     * &lt;div class=&quot;sub-desc&quot;&gt;&lt;ul class=&quot;mdetail-params&quot;&gt;
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;{@link Ext.layout.container.Auto Auto}&lt;/b&gt;&lt;/code&gt; &amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;b&gt;Default&lt;/b&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;{@link Ext.layout.container.Card card}&lt;/b&gt;&lt;/code&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;{@link Ext.layout.container.Fit fit}&lt;/b&gt;&lt;/code&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;{@link Ext.layout.container.HBox hbox}&lt;/b&gt;&lt;/code&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;{@link Ext.layout.container.VBox vbox}&lt;/b&gt;&lt;/code&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;{@link Ext.layout.container.Anchor anchor}&lt;/b&gt;&lt;/code&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;{@link Ext.layout.container.Table table}&lt;/b&gt;&lt;/code&gt;&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/div&gt;
+     *
+     * &lt;li&gt;Layout specific configuration properties&lt;/li&gt;
+     * &lt;p&gt;Additional layout specific configuration properties may also be
+     * specified. For complete details regarding the valid config options for
+     * each layout type, see the layout class corresponding to the &lt;code&gt;type&lt;/code&gt;
+     * specified.&lt;/p&gt;
+     *
+     * &lt;/ul&gt;&lt;/div&gt;
+     *
+     * &lt;li&gt;&lt;u&gt;Specify as a String&lt;/u&gt;&lt;/li&gt;
+     * &lt;div&gt;&lt;ul class=&quot;mdetail-params&quot;&gt;
+     * &lt;li&gt;Example usage:&lt;/li&gt;
+     * &lt;pre&gt;&lt;code&gt;
+layout: 'vbox'
+       &lt;/code&gt;&lt;/pre&gt;
+     * &lt;li&gt;&lt;code&gt;&lt;b&gt;layout&lt;/b&gt;&lt;/code&gt;&lt;/li&gt;
+     * &lt;p&gt;The layout &lt;code&gt;type&lt;/code&gt; to be used for this container (see list
+     * of valid layout type values above).&lt;/p&gt;
+     * &lt;p&gt;Additional layout specific configuration properties. For complete
+     * details regarding the valid config options for each layout type, see the
+     * layout class corresponding to the &lt;code&gt;layout&lt;/code&gt; specified.&lt;/p&gt;
+     * &lt;/ul&gt;&lt;/div&gt;&lt;/ul&gt;&lt;/div&gt;
+     */
+
+<span id='Ext-container-AbstractContainer-cfg-activeItem'>    /**
+</span>     * @cfg {String/Number} activeItem
+     * A string component id or the numeric index of the component that should be initially activated within the
+     * container's layout on render.  For example, activeItem: 'item-1' or activeItem: 0 (index 0 = the first
+     * item in the container's collection).  activeItem only applies to layout styles that can display
+     * items one at a time (like {@link Ext.layout.container.Card} and {@link Ext.layout.container.Fit}).
+     */
+<span id='Ext-container-AbstractContainer-cfg-items'>    /**
+</span>     * @cfg {Object/Object[]} items
+     * &lt;p&gt;A single item, or an array of child Components to be added to this container&lt;/p&gt;
+     * &lt;p&gt;&lt;b&gt;Unless configured with a {@link #layout}, a Container simply renders child Components serially into
+     * its encapsulating element and performs no sizing or positioning upon them.&lt;/b&gt;&lt;p&gt;
+     * &lt;p&gt;Example:&lt;/p&gt;
+     * &lt;pre&gt;&lt;code&gt;
+// specifying a single item
+items: {...},
+layout: 'fit',    // The single items is sized to fit
+
+// specifying multiple items
+items: [{...}, {...}],
+layout: 'hbox', // The items are arranged horizontally
+       &lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;Each item may be:&lt;/p&gt;
+     * &lt;ul&gt;
+     * &lt;li&gt;A {@link Ext.Component Component}&lt;/li&gt;
+     * &lt;li&gt;A Component configuration object&lt;/li&gt;
+     * &lt;/ul&gt;
+     * &lt;p&gt;If a configuration object is specified, the actual type of Component to be
+     * instantiated my be indicated by using the {@link Ext.Component#xtype xtype} option.&lt;/p&gt;
+     * &lt;p&gt;Every Component class has its own {@link Ext.Component#xtype xtype}.&lt;/p&gt;
+     * &lt;p&gt;If an {@link Ext.Component#xtype xtype} is not explicitly
+     * specified, the {@link #defaultType} for the Container is used, which by default is usually &lt;code&gt;panel&lt;/code&gt;.&lt;/p&gt;
+     * &lt;p&gt;&lt;b&gt;Notes&lt;/b&gt;:&lt;/p&gt;
+     * &lt;p&gt;Ext uses lazy rendering. Child Components will only be rendered
+     * should it become necessary. Items are automatically laid out when they are first
+     * shown (no sizing is done while hidden), or in response to a {@link #doLayout} call.&lt;/p&gt;
+     * &lt;p&gt;Do not specify &lt;code&gt;{@link Ext.panel.Panel#contentEl contentEl}&lt;/code&gt; or
+     * &lt;code&gt;{@link Ext.panel.Panel#html html}&lt;/code&gt; with &lt;code&gt;items&lt;/code&gt;.&lt;/p&gt;
+     */
+<span id='Ext-container-AbstractContainer-cfg-defaults'>    /**
+</span>     * @cfg {Object/Function} defaults
+     * This option is a means of applying default settings to all added items whether added through the {@link #items}
+     * config or via the {@link #add} or {@link #insert} methods.
+     *
+     * Defaults are applied to both config objects and instantiated components conditionally so as not to override
+     * existing properties in the item (see {@link Ext#applyIf}).
+     *
+     * If the defaults option is specified as a function, then the function will be called using this Container as the
+     * scope (`this` reference) and passing the added item as the first parameter. Any resulting object
+     * from that call is then applied to the item as default properties.
+     *
+     * For example, to automatically apply padding to the body of each of a set of
+     * contained {@link Ext.panel.Panel} items, you could pass: `defaults: {bodyStyle:'padding:15px'}`.
+     *
+     * Usage:
+     *
+     *     defaults: { // defaults are applied to items, not the container
+     *         autoScroll: true
+     *     },
+     *     items: [
+     *         // default will not be applied here, panel1 will be autoScroll: false
+     *         {
+     *             xtype: 'panel',
+     *             id: 'panel1',
+     *             autoScroll: false
+     *         },
+     *         // this component will have autoScroll: true
+     *         new Ext.panel.Panel({
+     *             id: 'panel2'
+     *         })
+     *     ]
+     */
+
+<span id='Ext-container-AbstractContainer-cfg-suspendLayout'>    /** @cfg {Boolean} suspendLayout
+</span>     * If true, suspend calls to doLayout.  Useful when batching multiple adds to a container and not passing them
+     * as multiple arguments or an array.
+     */
+    suspendLayout : false,
+
+<span id='Ext-container-AbstractContainer-cfg-autoDestroy'>    /** @cfg {Boolean} autoDestroy
+</span>     * If true the container will automatically destroy any contained component that is removed from it, else
+     * destruction must be handled manually.
+     * Defaults to true.
+     */
+    autoDestroy : true,
+
+<span id='Ext-container-AbstractContainer-cfg-defaultType'>     /** @cfg {String} defaultType
+</span>      * &lt;p&gt;The default {@link Ext.Component xtype} of child Components to create in this Container when
+      * a child item is specified as a raw configuration object, rather than as an instantiated Component.&lt;/p&gt;
+      * &lt;p&gt;Defaults to &lt;code&gt;'panel'&lt;/code&gt;.&lt;/p&gt;
+      */
+    defaultType: 'panel',
+
+    isContainer : true,
+
+<span id='Ext-container-AbstractContainer-property-layoutCounter'>    /**
+</span>     * The number of container layout calls made on this object.
+     * @property layoutCounter
+     * @type {Number}
+     * @private
+     */
+    layoutCounter : 0,
+
+    baseCls: Ext.baseCSSPrefix + 'container',
+
+<span id='Ext-container-AbstractContainer-cfg-bubbleEvents'>    /**
+</span>     * @cfg {String[]} bubbleEvents
+     * &lt;p&gt;An array of events that, when fired, should be bubbled to any parent container.
+     * See {@link Ext.util.Observable#enableBubble}.
+     * Defaults to &lt;code&gt;['add', 'remove']&lt;/code&gt;.
+     */
+    bubbleEvents: ['add', 'remove'],
+
+    // @private
+    initComponent : function(){
+        var me = this;
+        me.addEvents(
+<span id='Ext-container-AbstractContainer-event-afterlayout'>            /**
+</span>             * @event afterlayout
+             * Fires when the components in this container are arranged by the associated layout manager.
+             * @param {Ext.container.Container} this
+             * @param {Ext.layout.container.Container} layout The ContainerLayout implementation for this container
+             */
+            'afterlayout',
+<span id='Ext-container-AbstractContainer-event-beforeadd'>            /**
+</span>             * @event beforeadd
+             * Fires before any {@link Ext.Component} is added or inserted into the container.
+             * A handler can return false to cancel the add.
+             * @param {Ext.container.Container} this
+             * @param {Ext.Component} component The component being added
+             * @param {Number} index The index at which the component will be added to the container's items collection
+             */
+            'beforeadd',
+<span id='Ext-container-AbstractContainer-event-beforeremove'>            /**
+</span>             * @event beforeremove
+             * Fires before any {@link Ext.Component} is removed from the container.  A handler can return
+             * false to cancel the remove.
+             * @param {Ext.container.Container} this
+             * @param {Ext.Component} component The component being removed
+             */
+            'beforeremove',
+<span id='Ext-container-AbstractContainer-event-add'>            /**
+</span>             * @event add
+             * @bubbles
+             * Fires after any {@link Ext.Component} is added or inserted into the container.
+             * @param {Ext.container.Container} this
+             * @param {Ext.Component} component The component that was added
+             * @param {Number} index The index at which the component was added to the container's items collection
+             */
+            'add',
+<span id='Ext-container-AbstractContainer-event-remove'>            /**
+</span>             * @event remove
+             * @bubbles
+             * Fires after any {@link Ext.Component} is removed from the container.
+             * @param {Ext.container.Container} this
+             * @param {Ext.Component} component The component that was removed
+             */
+            'remove'
+        );
+
+        // layoutOnShow stack
+        me.layoutOnShow = Ext.create('Ext.util.MixedCollection');
+        me.callParent();
+        me.initItems();
+    },
+
+    // @private
+    initItems : function() {
+        var me = this,
+            items = me.items;
+
+<span id='Ext-container-AbstractContainer-property-items'>        /**
+</span>         * The MixedCollection containing all the child items of this container.
+         * @property items
+         * @type Ext.util.MixedCollection
+         */
+        me.items = Ext.create('Ext.util.MixedCollection', false, me.getComponentId);
+
+        if (items) {
+            if (!Ext.isArray(items)) {
+                items = [items];
+            }
+
+            me.add(items);
+        }
+    },
+
+    // @private
+    afterRender : function() {
+        this.getLayout();
+        this.callParent();
+    },
+
+    renderChildren: function () {
+        var me = this,
+            layout = me.getLayout();
+
+        me.callParent();
+        // this component's elements exist, so now create the child components' elements
+
+        if (layout) {
+            me.suspendLayout = true;
+            layout.renderChildren();
+            delete me.suspendLayout;
+        }
+    },
+
+    // @private
+    setLayout : function(layout) {
+        var currentLayout = this.layout;
+
+        if (currentLayout &amp;&amp; currentLayout.isLayout &amp;&amp; currentLayout != layout) {
+            currentLayout.setOwner(null);
+        }
+
+        this.layout = layout;
+        layout.setOwner(this);
+    },
+
+<span id='Ext-container-AbstractContainer-method-getLayout'>    /**
+</span>     * Returns the {@link Ext.layout.container.AbstractContainer layout} instance currently associated with this Container.
+     * If a layout has not been instantiated yet, that is done first
+     * @return {Ext.layout.container.AbstractContainer} The layout
+     */
+    getLayout : function() {
+        var me = this;
+        if (!me.layout || !me.layout.isLayout) {
+            me.setLayout(Ext.layout.Layout.create(me.layout, 'autocontainer'));
+        }
+
+        return me.layout;
+    },
+
+<span id='Ext-container-AbstractContainer-method-doLayout'>    /**
+</span>     * Manually force this container's layout to be recalculated. The framework uses this internally to refresh layouts
+     * form most cases.
+     * @return {Ext.container.Container} this
+     */
+    doLayout : function() {
+        var me = this,
+            layout = me.getLayout();
+
+        if (me.rendered &amp;&amp; layout &amp;&amp; !me.suspendLayout) {
+            // If either dimension is being auto-set, then it requires a ComponentLayout to be run.
+            if (!me.isFixedWidth() || !me.isFixedHeight()) {
+                // Only run the ComponentLayout if it is not already in progress
+                if (me.componentLayout.layoutBusy !== true) {
+                    me.doComponentLayout();
+                    if (me.componentLayout.layoutCancelled === true) {
+                        layout.layout();
+                    }
+                }
+            }
+            // Both dimensions set, either by configuration, or by an owning layout, run a ContainerLayout
+            else {
+                // Only run the ContainerLayout if it is not already in progress
+                if (layout.layoutBusy !== true) {
+                    layout.layout();
+                }
+            }
+        }
+
+        return me;
+    },
+
+    // @private
+    afterLayout : function(layout) {
+        ++this.layoutCounter;
+        this.fireEvent('afterlayout', this, layout);
+    },
+
+    // @private
+    prepareItems : function(items, applyDefaults) {
+        if (!Ext.isArray(items)) {
+            items = [items];
+        }
+
+        // Make sure defaults are applied and item is initialized
+        var i = 0,
+            len = items.length,
+            item;
+
+        for (; i &lt; len; i++) {
+            item = items[i];
+            if (applyDefaults) {
+                item = this.applyDefaults(item);
+            }
+            items[i] = this.lookupComponent(item);
+        }
+        return items;
+    },
+
+    // @private
+    applyDefaults : function(config) {
+        var defaults = this.defaults;
+
+        if (defaults) {
+            if (Ext.isFunction(defaults)) {
+                defaults = defaults.call(this, config);
+            }
+
+            if (Ext.isString(config)) {
+                config = Ext.ComponentManager.get(config);
+            }
+            Ext.applyIf(config, defaults);
+        }
+
+        return config;
+    },
+
+    // @private
+    lookupComponent : function(comp) {
+        return Ext.isString(comp) ? Ext.ComponentManager.get(comp) : this.createComponent(comp);
+    },
+
+    // @private
+    createComponent : function(config, defaultType) {
+        // // add in ownerCt at creation time but then immediately
+        // // remove so that onBeforeAdd can handle it
+        // var component = Ext.create(Ext.apply({ownerCt: this}, config), defaultType || this.defaultType);
+        //
+        // delete component.initialConfig.ownerCt;
+        // delete component.ownerCt;
+
+        return Ext.ComponentManager.create(config, defaultType || this.defaultType);
+    },
+
+    // @private - used as the key lookup function for the items collection
+    getComponentId : function(comp) {
+        return comp.getItemId();
+    },
+
+<span id='Ext-container-AbstractContainer-method-add'>    /**
+</span>
+Adds {@link Ext.Component Component}(s) to this Container.
+
+##Description:##
+
+- Fires the {@link #beforeadd} event before adding.
+- The Container's {@link #defaults default config values} will be applied
+  accordingly (see `{@link #defaults}` for details).
+- Fires the `{@link #add}` event after the component has been added.
+
+##Notes:##
+
+If the Container is __already rendered__ when `add`
+is called, it will render the newly added Component into its content area.
+
+__**If**__ the Container was configured with a size-managing {@link #layout} manager, the Container
+will recalculate its internal layout at this time too.
+
+Note that the default layout manager simply renders child Components sequentially into the content area and thereafter performs no sizing.
+
+If adding multiple new child Components, pass them as an array to the `add` method, so that only one layout recalculation is performed.
+
+    tb = new {@link Ext.toolbar.Toolbar}({
+        renderTo: document.body
+    });  // toolbar is rendered
+    tb.add([{text:'Button 1'}, {text:'Button 2'}]); // add multiple items. ({@link #defaultType} for {@link Ext.toolbar.Toolbar Toolbar} is 'button')
+
+##Warning:##
+
+Components directly managed by the BorderLayout layout manager
+may not be removed or added.  See the Notes for {@link Ext.layout.container.Border BorderLayout}
+for more details.
+
+     * @param {Ext.Component[]/Ext.Component...} component
+     * Either one or more Components to add or an Array of Components to add.
+     * See `{@link #items}` for additional information.
+     *
+     * @return {Ext.Component[]/Ext.Component} The Components that were added.
+     * @markdown
+     */
+    add : function() {
+        var me = this,
+            args = Array.prototype.slice.call(arguments),
+            hasMultipleArgs,
+            items,
+            results = [],
+            i,
+            ln,
+            item,
+            index = -1,
+            cmp;
+
+        if (typeof args[0] == 'number') {
+            index = args.shift();
+        }
+
+        hasMultipleArgs = args.length &gt; 1;
+        if (hasMultipleArgs || Ext.isArray(args[0])) {
+
+            items = hasMultipleArgs ? args : args[0];
+            // Suspend Layouts while we add multiple items to the container
+            me.suspendLayout = true;
+            for (i = 0, ln = items.length; i &lt; ln; i++) {
+                item = items[i];
+
+                //&lt;debug&gt;
+                if (!item) {
+                    Ext.Error.raise(&quot;Trying to add a null item as a child of Container with itemId/id: &quot; + me.getItemId());
+                }
+                //&lt;/debug&gt;
+
+                if (index != -1) {
+                    item = me.add(index + i, item);
+                } else {
+                    item = me.add(item);
+                }
+                results.push(item);
+            }
+            // Resume Layouts now that all items have been added and do a single layout for all the items just added
+            me.suspendLayout = false;
+            me.doLayout();
+            return results;
+        }
+
+        cmp = me.prepareItems(args[0], true)[0];
+
+        // Floating Components are not added into the items collection
+        // But they do get an upward ownerCt link so that they can traverse
+        // up to their z-index parent.
+        if (cmp.floating) {
+            cmp.onAdded(me, index);
+        } else {
+            index = (index !== -1) ? index : me.items.length;
+            if (me.fireEvent('beforeadd', me, cmp, index) !== false &amp;&amp; me.onBeforeAdd(cmp) !== false) {
+                me.items.insert(index, cmp);
+                cmp.onAdded(me, index);
+                me.onAdd(cmp, index);
+                me.fireEvent('add', me, cmp, index);
+            }
+            me.doLayout();
+        }
+        return cmp;
+    },
+
+    onAdd : Ext.emptyFn,
+    onRemove : Ext.emptyFn,
+
+<span id='Ext-container-AbstractContainer-method-insert'>    /**
+</span>     * Inserts a Component into this Container at a specified index. Fires the
+     * {@link #beforeadd} event before inserting, then fires the {@link #add} event after the
+     * Component has been inserted.
+     * @param {Number} index The index at which the Component will be inserted
+     * into the Container's items collection
+     * @param {Ext.Component} component The child Component to insert.&lt;br&gt;&lt;br&gt;
+     * Ext uses lazy rendering, and will only render the inserted Component should
+     * it become necessary.&lt;br&gt;&lt;br&gt;
+     * A Component config object may be passed in order to avoid the overhead of
+     * constructing a real Component object if lazy rendering might mean that the
+     * inserted Component will not be rendered immediately. To take advantage of
+     * this 'lazy instantiation', set the {@link Ext.Component#xtype} config
+     * property to the registered type of the Component wanted.&lt;br&gt;&lt;br&gt;
+     * For a list of all available xtypes, see {@link Ext.Component}.
+     * @return {Ext.Component} component The Component (or config object) that was
+     * inserted with the Container's default config values applied.
+     */
+    insert : function(index, comp) {
+        return this.add(index, comp);
+    },
+
+<span id='Ext-container-AbstractContainer-method-move'>    /**
+</span>     * Moves a Component within the Container
+     * @param {Number} fromIdx The index the Component you wish to move is currently at.
+     * @param {Number} toIdx The new index for the Component.
+     * @return {Ext.Component} component The Component (or config object) that was moved.
+     */
+    move : function(fromIdx, toIdx) {
+        var items = this.items,
+            item;
+        item = items.removeAt(fromIdx);
+        if (item === false) {
+            return false;
+        }
+        items.insert(toIdx, item);
+        this.doLayout();
+        return item;
+    },
+
+    // @private
+    onBeforeAdd : function(item) {
+        var me = this;
+
+        if (item.ownerCt) {
+            item.ownerCt.remove(item, false);
+        }
+
+        if (me.border === false || me.border === 0) {
+            item.border = (item.border === true);
+        }
+    },
+
+<span id='Ext-container-AbstractContainer-method-remove'>    /**
+</span>     * Removes a component from this container.  Fires the {@link #beforeremove} event before removing, then fires
+     * the {@link #remove} event after the component has been removed.
+     * @param {Ext.Component/String} component The component reference or id to remove.
+     * @param {Boolean} autoDestroy (optional) True to automatically invoke the removed Component's {@link Ext.Component#destroy} function.
+     * Defaults to the value of this Container's {@link #autoDestroy} config.
+     * @return {Ext.Component} component The Component that was removed.
+     */
+    remove : function(comp, autoDestroy) {
+        var me = this,
+            c = me.getComponent(comp);
+        //&lt;debug&gt;
+            if (Ext.isDefined(Ext.global.console) &amp;&amp; !c) {
+                console.warn(&quot;Attempted to remove a component that does not exist. Ext.container.Container: remove takes an argument of the component to remove. cmp.remove() is incorrect usage.&quot;);
+            }
+        //&lt;/debug&gt;
+
+        if (c &amp;&amp; me.fireEvent('beforeremove', me, c) !== false) {
+            me.doRemove(c, autoDestroy);
+            me.fireEvent('remove', me, c);
+        }
+
+        return c;
+    },
+
+    // @private
+    doRemove : function(component, autoDestroy) {
+        var me = this,
+            layout = me.layout,
+            hasLayout = layout &amp;&amp; me.rendered;
+
+        me.items.remove(component);
+        component.onRemoved();
+
+        if (hasLayout) {
+            layout.onRemove(component);
+        }
+
+        me.onRemove(component, autoDestroy);
+
+        if (autoDestroy === true || (autoDestroy !== false &amp;&amp; me.autoDestroy)) {
+            component.destroy();
+        }
+
+        if (hasLayout &amp;&amp; !autoDestroy) {
+            layout.afterRemove(component);
+        }
+
+        if (!me.destroying) {
+            me.doLayout();
+        }
+    },
+
+<span id='Ext-container-AbstractContainer-method-removeAll'>    /**
+</span>     * Removes all components from this container.
+     * @param {Boolean} autoDestroy (optional) True to automatically invoke the removed Component's {@link Ext.Component#destroy} function.
+     * Defaults to the value of this Container's {@link #autoDestroy} config.
+     * @return {Ext.Component[]} Array of the destroyed components
+     */
+    removeAll : function(autoDestroy) {
+        var me = this,
+            removeItems = me.items.items.slice(),
+            items = [],
+            i = 0,
+            len = removeItems.length,
+            item;
+
+        // Suspend Layouts while we remove multiple items from the container
+        me.suspendLayout = true;
+        for (; i &lt; len; i++) {
+            item = removeItems[i];
+            me.remove(item, autoDestroy);
+
+            if (item.ownerCt !== me) {
+                items.push(item);
+            }
+        }
+
+        // Resume Layouts now that all items have been removed and do a single layout (if we removed anything!)
+        me.suspendLayout = false;
+        if (len) {
+            me.doLayout();
+        }
+        return items;
+    },
+
+    // Used by ComponentQuery to retrieve all of the items
+    // which can potentially be considered a child of this Container.
+    // This should be overriden by components which have child items
+    // that are not contained in items. For example dockedItems, menu, etc
+    // IMPORTANT note for maintainers:
+    //  Items are returned in tree traversal order. Each item is appended to the result array
+    //  followed by the results of that child's getRefItems call.
+    //  Floating child items are appended after internal child items.
+    getRefItems : function(deep) {
+        var me = this,
+            items = me.items.items,
+            len = items.length,
+            i = 0,
+            item,
+            result = [];
+
+        for (; i &lt; len; i++) {
+            item = items[i];
+            result.push(item);
+            if (deep &amp;&amp; item.getRefItems) {
+                result.push.apply(result, item.getRefItems(true));
+            }
+        }
+
+        // Append floating items to the list.
+        // These will only be present after they are rendered.
+        if (me.floatingItems &amp;&amp; me.floatingItems.accessList) {
+            result.push.apply(result, me.floatingItems.accessList);
+        }
+
+        return result;
+    },
+
+<span id='Ext-container-AbstractContainer-method-cascade'>    /**
+</span>     * Cascades down the component/container heirarchy from this component (passed in the first call), calling the specified function with
+     * each component. The scope (&lt;code&gt;this&lt;/code&gt; reference) of the
+     * function call will be the scope provided or the current component. The arguments to the function
+     * will be the args provided or the current component. If the function returns false at any point,
+     * the cascade is stopped on that branch.
+     * @param {Function} fn The function to call
+     * @param {Object} [scope] The scope of the function (defaults to current component)
+     * @param {Array} [args] The args to call the function with. The current component always passed as the last argument.
+     * @return {Ext.Container} this
+     */
+    cascade : function(fn, scope, origArgs){
+        var me = this,
+            cs = me.items ? me.items.items : [],
+            len = cs.length,
+            i = 0,
+            c,
+            args = origArgs ? origArgs.concat(me) : [me],
+            componentIndex = args.length - 1;
+
+        if (fn.apply(scope || me, args) !== false) {
+            for(; i &lt; len; i++){
+                c = cs[i];
+                if (c.cascade) {
+                    c.cascade(fn, scope, origArgs);
+                } else {
+                    args[componentIndex] = c;
+                    fn.apply(scope || cs, args);
+                }
+            }
+        }
+        return this;
+    },
+
+<span id='Ext-container-AbstractContainer-method-getComponent'>    /**
+</span>     * Examines this container's &lt;code&gt;{@link #items}&lt;/code&gt; &lt;b&gt;property&lt;/b&gt;
+     * and gets a direct child component of this container.
+     * @param {String/Number} comp This parameter may be any of the following:
+     * &lt;div&gt;&lt;ul class=&quot;mdetail-params&quot;&gt;
+     * &lt;li&gt;a &lt;b&gt;&lt;code&gt;String&lt;/code&gt;&lt;/b&gt; : representing the &lt;code&gt;{@link Ext.Component#itemId itemId}&lt;/code&gt;
+     * or &lt;code&gt;{@link Ext.Component#id id}&lt;/code&gt; of the child component &lt;/li&gt;
+     * &lt;li&gt;a &lt;b&gt;&lt;code&gt;Number&lt;/code&gt;&lt;/b&gt; : representing the position of the child component
+     * within the &lt;code&gt;{@link #items}&lt;/code&gt; &lt;b&gt;property&lt;/b&gt;&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/div&gt;
+     * &lt;p&gt;For additional information see {@link Ext.util.MixedCollection#get}.
+     * @return Ext.Component The component (if found).
+     */
+    getComponent : function(comp) {
+        if (Ext.isObject(comp)) {
+            comp = comp.getItemId();
+        }
+
+        return this.items.get(comp);
+    },
+
+<span id='Ext-container-AbstractContainer-method-query'>    /**
+</span>     * Retrieves all descendant components which match the passed selector.
+     * Executes an Ext.ComponentQuery.query using this container as its root.
+     * @param {String} selector (optional) Selector complying to an Ext.ComponentQuery selector.
+     * If no selector is specified all items will be returned.
+     * @return {Ext.Component[]} Components which matched the selector
+     */
+    query : function(selector) {
+        selector = selector || '*';
+        return Ext.ComponentQuery.query(selector, this);
+    },
+
+<span id='Ext-container-AbstractContainer-method-child'>    /**
+</span>     * Retrieves the first direct child of this container which matches the passed selector.
+     * The passed in selector must comply with an Ext.ComponentQuery selector.
+     * @param {String} selector (optional) An Ext.ComponentQuery selector. If no selector is
+     * specified, the first child will be returned.
+     * @return Ext.Component
+     */
+    child : function(selector) {
+        selector = selector || '';
+        return this.query('&gt; ' + selector)[0] || null;
+    },
+
+<span id='Ext-container-AbstractContainer-method-down'>    /**
+</span>     * Retrieves the first descendant of this container which matches the passed selector.
+     * The passed in selector must comply with an Ext.ComponentQuery selector.
+     * @param {String} selector (optional) An Ext.ComponentQuery selector. If no selector is
+     * specified, the first child will be returned.
+     * @return Ext.Component
+     */
+    down : function(selector) {
+        return this.query(selector)[0] || null;
+    },
+
+    // inherit docs
+    show : function() {
+        this.callParent(arguments);
+        this.performDeferredLayouts();
+        return this;
+    },
+
+    // Lay out any descendant containers who queued a layout operation during the time this was hidden
+    // This is also called by Panel after it expands because descendants of a collapsed Panel allso queue any layout ops.
+    performDeferredLayouts: function() {
+        var layoutCollection = this.layoutOnShow,
+            ln = layoutCollection.getCount(),
+            i = 0,
+            needsLayout,
+            item;
+
+        for (; i &lt; ln; i++) {
+            item = layoutCollection.get(i);
+            needsLayout = item.needsLayout;
+
+            if (Ext.isObject(needsLayout)) {
+                item.doComponentLayout(needsLayout.width, needsLayout.height, needsLayout.isSetSize, needsLayout.ownerCt);
+            }
+        }
+        layoutCollection.clear();
+    },
+
+    //@private
+    // Enable all immediate children that was previously disabled
+    onEnable: function() {
+        Ext.Array.each(this.query('[isFormField]'), function(item) {
+            if (item.resetDisable) {
+                item.enable();
+                delete item.resetDisable;
+            }
+        });
+        this.callParent();
+    },
+
+    // @private
+    // Disable all immediate children that was previously disabled
+    onDisable: function() {
+        Ext.Array.each(this.query('[isFormField]'), function(item) {
+            if (item.resetDisable !== false &amp;&amp; !item.disabled) {
+                item.disable();
+                item.resetDisable = true;
+            }
+        });
+        this.callParent();
+    },
+
+<span id='Ext-container-AbstractContainer-method-beforeLayout'>    /**
+</span>     * Occurs before componentLayout is run. Returning false from this method will prevent the containerLayout
+     * from being executed.
+     */
+    beforeLayout: function() {
+        return true;
+    },
+
+    // @private
+    beforeDestroy : function() {
+        var me = this,
+            items = me.items,
+            c;
+
+        if (items) {
+            while ((c = items.first())) {
+                me.doRemove(c, true);
+            }
+        }
+
+        Ext.destroy(
+            me.layout
+        );
+        me.callParent();
+    }
+});
+</pre>
+</body>
+</html>

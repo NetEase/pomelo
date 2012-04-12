@@ -1,0 +1,32 @@
+@mixin extjs-form-file {
+
+    .#{$prefix}form-file-wrap {
+        .#{$prefix}form-text {
+            color: #777;
+        }
+
+        .#{$prefix}form-file-btn {
+            overflow: hidden;
+            float: left;
+        }
+
+        .#{$prefix}form-file-input {
+            position: absolute;
+            top: -4px;
+            right: -2px;
+            height: $form-field-height + 8;
+            @include opacity(0);
+
+            /* Yes, there's actually a good reason for this...
+             * If the configured buttonText is set to something longer than the default,
+             * then it will quickly exceed the width of the hidden file input's "Browse..."
+             * button, so part of the custom button's clickable area will be covered by
+             * the hidden file input's text box instead. This results in a text-selection
+             * mouse cursor over that part of the button, at least in Firefox, which is
+             * confusing to a user. Giving the hidden file input a huge font-size makes
+             * the native button part very large so it will cover the whole clickable area.
+             */
+            font-size: 100px;
+        }
+    }
+}

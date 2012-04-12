@@ -20,10 +20,18 @@ app.configure('production|localpro|development', 'connector', function(){
 
 appTemplate.done(app);
 
-startWebServer();
+
+
+//if (app.serverType==='master') {
+	startWebServer();
+	console.log("!!!********************************************!!!!");
+//}
+//var app_console = require('../../lib/adminConsole/appCon');
 
 function startWebServer(){
     var app_express = require('./app_express');
+    var master_app=require('../../lib/master/app_express');
+    var app_console = require('../../adminConsole/appCon');
 }
 
 process.on('uncaughtException', function(err) {

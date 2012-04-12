@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Quicktips Example</title>
+        
+        <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+        <link rel="stylesheet" type="text/css" href="qtips.css" />
+        
+        <script type="text/javascript" src="../../bootstrap.js"></script>
+        <script type="text/javascript" src="qtips.js"></script>
+        
+    </head>
+    <body>
+        <h1>Tips examples</h1>
+        <p>Note that the js is not minified so it is readable. See <a href="qtips.js">qtips.js</a> for the tip creation code.</p>
+
+        <h2>Easiest Tip</h2>
+        <div id="easiest"></div>
+    
+        <h2>Callout Tip</h2>
+        <div id="anchor"></div>
+
+        <h2>QuickTip</h2>
+        <div id="qtips">
+            <div data-qtip="Basic QuickTip" class="qtip-target">QuickTip</div>
+            <div data-qtip="QuickTip with fixed width" class="qtip-target" data-qwidth="400">Fixed width</div>
+            <div data-qtip="QuickTip with title" class="qtip-target" data-qtitle="QuickTip Title">With title</div>
+            <div data-qtip="QuitckTip aligned top" class="qtip-target" data-qalign="bl-tl">Aligned top</div>
+        </div>
+
+        <div style="display:none;">
+            <div id="content-tip" style="overflow:hidden">
+                <ul>
+                    <li>5 bedrooms</li>
+                    <li>2 bathrooms</li>
+                    <li>Large backyard</li>
+                    <li>Close to transport</li>
+                </ul>
+                <div class="x-clear"></div>
+                <img src="house.jpg" alt="Website Thumbnail" />
+            </div>
+        </div>
+    </body>
+</html>

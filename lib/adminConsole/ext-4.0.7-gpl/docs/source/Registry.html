@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-dd-Registry'>/**
+</span> * @class Ext.dd.Registry
+ * Provides easy access to all drag drop components that are registered on a page.  Items can be retrieved either
+ * directly by DOM node id, or by passing in the drag drop event that occurred and looking up the event target.
+ * @singleton
+ */
+Ext.define('Ext.dd.Registry', {
+    singleton: true,
+    constructor: function() {
+        this.elements = {}; 
+        this.handles = {}; 
+        this.autoIdSeed = 0;
+    },
+    
+    getId: function(el, autogen){
+        if(typeof el == &quot;string&quot;){
+            return el;
+        }
+        var id = el.id;
+        if(!id &amp;&amp; autogen !== false){
+            id = &quot;extdd-&quot; + (++this.autoIdSeed);
+            el.id = id;
+        }
+        return id;
+    },
+    
+<span id='Ext-dd-Registry-method-register'>    /**
+</span>     * Resgister a drag drop element
+     * @param {String/HTMLElement} element The id or DOM node to register
+     * @param {Object} data (optional) An custom data object that will be passed between the elements that are involved
+     * in drag drop operations.  You can populate this object with any arbitrary properties that your own code
+     * knows how to interpret, plus there are some specific properties known to the Registry that should be
+     * populated in the data object (if applicable):
+     * &lt;pre&gt;
+Value      Description&lt;br /&gt;
+---------  ------------------------------------------&lt;br /&gt;
+handles    Array of DOM nodes that trigger dragging&lt;br /&gt;
+           for the element being registered&lt;br /&gt;
+isHandle   True if the element passed in triggers&lt;br /&gt;
+           dragging itself, else false
+&lt;/pre&gt;
+     */
+    register : function(el, data){
+        data = data || {};
+        if (typeof el == &quot;string&quot;) {
+            el = document.getElementById(el);
+        }
+        data.ddel = el;
+        this.elements[this.getId(el)] = data;
+        if (data.isHandle !== false) {
+            this.handles[data.ddel.id] = data;
+        }
+        if (data.handles) {
+            var hs = data.handles;
+            for (var i = 0, len = hs.length; i &lt; len; i++) {
+                this.handles[this.getId(hs[i])] = data;
+            }
+        }
+    },
+
+<span id='Ext-dd-Registry-method-unregister'>    /**
+</span>     * Unregister a drag drop element
+     * @param {String/HTMLElement} element The id or DOM node to unregister
+     */
+    unregister : function(el){
+        var id = this.getId(el, false);
+        var data = this.elements[id];
+        if(data){
+            delete this.elements[id];
+            if(data.handles){
+                var hs = data.handles;
+                for (var i = 0, len = hs.length; i &lt; len; i++) {
+                    delete this.handles[this.getId(hs[i], false)];
+                }
+            }
+        }
+    },
+
+<span id='Ext-dd-Registry-method-getHandle'>    /**
+</span>     * Returns the handle registered for a DOM Node by id
+     * @param {String/HTMLElement} id The DOM node or id to look up
+     * @return {Object} handle The custom handle data
+     */
+    getHandle : function(id){
+        if(typeof id != &quot;string&quot;){ // must be element?
+            id = id.id;
+        }
+        return this.handles[id];
+    },
+
+<span id='Ext-dd-Registry-method-getHandleFromEvent'>    /**
+</span>     * Returns the handle that is registered for the DOM node that is the target of the event
+     * @param {Event} e The event
+     * @return {Object} handle The custom handle data
+     */
+    getHandleFromEvent : function(e){
+        var t = e.getTarget();
+        return t ? this.handles[t.id] : null;
+    },
+
+<span id='Ext-dd-Registry-method-getTarget'>    /**
+</span>     * Returns a custom data object that is registered for a DOM node by id
+     * @param {String/HTMLElement} id The DOM node or id to look up
+     * @return {Object} data The custom data
+     */
+    getTarget : function(id){
+        if(typeof id != &quot;string&quot;){ // must be element?
+            id = id.id;
+        }
+        return this.elements[id];
+    },
+
+<span id='Ext-dd-Registry-method-getTargetFromEvent'>    /**
+</span>     * Returns a custom data object that is registered for the DOM node that is the target of the event
+     * @param {Event} e The event
+     * @return {Object} data The custom data
+     */
+    getTargetFromEvent : function(e){
+        var t = e.getTarget();
+        return t ? this.elements[t.id] || this.handles[t.id] : null;
+    }
+});</pre>
+</body>
+</html>

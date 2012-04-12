@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-env-OS'>/**
+</span> * @class Ext.env.OS
+ * Provides useful information about the current operating system environment.
+ * Access the global instance stored in {@link Ext#os}. Example:
+ *
+ *     if (Ext.os.is.Windows) {
+ *          // Windows specific code here
+ *     }
+ *
+ *     if (Ext.os.is.iOS) {
+ *          // iPad, iPod, iPhone, etc.
+ *     }
+ *
+ *     console.log(&quot;Version &quot; + Ext.os.version);
+ *
+ * For a full list of supported values, refer to: {@link Ext.env.OS#is}
+ */
+Ext.define('Ext.env.OS', {
+
+    statics: {
+        osNames: {
+            ios: 'iOS',
+            android: 'Android',
+            webos: 'WebOS',
+            blackberry: 'BlackBerry',
+            mac: 'MacOSX',
+            win: 'Windows',
+            linux: 'Linux',
+            other: 'Other'
+        },
+        osPrefixes: {
+            ios: 'iPhone OS ',
+            android: 'Android ',
+            blackberry: 'BlackBerry ',
+            webos: 'webOS/'
+        }
+    },
+
+<span id='Ext-env-OS-method-is'>    /**
+</span>     * A &quot;hybrid&quot; property, can be either accessed as a method call, i.e:
+     *
+     *     if (Ext.os.is('Android')) { ... }
+     *
+     * or as an object with boolean properties, i.e:
+     *
+     *     if (Ext.os.is.Android) { ... }
+     *
+     * Versions can be conveniently checked as well. For example:
+     *
+     *     if (Ext.os.is.Android2) { ... } // Equivalent to (Ext.os.is.Android &amp;&amp; Ext.os.version.equals(2))
+     * 
+     *     if (Ext.os.is.iOS32) { ... } // Equivalent to (Ext.os.is.iOS &amp;&amp; Ext.os.version.equals(3.2))
+     *
+     * Note that only {@link Ext.Version#getMajor major component}  and {@link Ext.Version#getShortVersion shortVersion}
+     * value of the version are available via direct property checking.
+     *
+     * Supported values are: iOS, iPad, iPhone, iPod, Android, WebOS, BlackBerry, MacOSX, Windows, Linux and Other
+     *
+     * @param {String} value The OS name to check
+     * @return {Boolean}
+     * @method
+     */
+    is: Ext.emptyFn,
+
+<span id='Ext-env-OS-property-name'>    /**
+</span>     * @property {String} name
+     * Read-only - the full name of the current operating system
+     * Possible values are: iOS, Android, WebOS, BlackBerry, MacOSX, Windows, Linux and Other
+     */
+    name: null,
+
+<span id='Ext-env-OS-property-version'>    /**
+</span>     * @property {Ext.Version} version
+     * Read-only, refer to {@link Ext.Version}
+     */
+    version: null,
+
+    constructor: function() {
+        var userAgent = Ext.global.navigator.userAgent,
+            platform = Ext.global.navigator.platform,
+            selfClass = this.statics(),
+            osMatch = userAgent.match(new RegExp('((?:' + Ext.Object.getValues(selfClass.osPrefixes).join(')|(?:') + '))([^\\s;]+)')),
+            name = 'other',
+            version = '',
+            actualVersionMatch;
+
+        if (osMatch) {
+            name = selfClass.osNames[Ext.Object.getKey(selfClass.osPrefixes, osMatch[1])];
+            version = osMatch[2];
+
+            if (name === 'BlackBerry') {
+                actualVersionMatch = userAgent.match(/Version\/([\d\._]+)/);
+
+                if (actualVersionMatch) {
+                    version = actualVersionMatch[1];
+                }
+            }
+        }
+        else {
+            name = selfClass.osNames[(userAgent.toLowerCase().match(/mac|win|linux/i) || ['other'])[0]];
+        }
+
+        Ext.apply(this, {
+            name: name,
+            version: new Ext.Version(version)
+        });
+
+        this.is = function(name) {
+            return this.is[name] === true;
+        };
+
+        if (name === 'iOS') {
+            this.is[platform] = true;
+        }
+
+        this.is[this.name] = true;
+        this.is[this.name + (this.version.getMajor() || '')] = true;
+        this.is[this.name + this.version.getShortVersion()] = true;
+
+        Ext.Object.each(selfClass.osNames, function(key, name) {
+            this.is[name] = (this.name === name);
+        }, this);
+
+        return this;
+    }
+}, function() {
+
+<span id='Ext-property-os'>    /**
+</span>     * @property {Ext.env.OS} os
+     * @member Ext
+     * Global convenient instance of {@link Ext.env.OS}.
+     */
+    Ext.os = new Ext.env.OS();
+
+});
+</pre>
+</body>
+</html>

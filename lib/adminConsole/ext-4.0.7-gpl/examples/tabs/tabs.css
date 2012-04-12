@@ -1,0 +1,12 @@
+.list {
+    padding-left: 16px;
+    padding-bottom: 10px;
+}
+.list li{
+    list-style: square;
+    padding: 2px;
+}
+
+pre {
+    font-size: 11px; 
+}

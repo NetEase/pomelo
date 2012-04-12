@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-RowNumberer'>/**
+</span> * This is a utility class that can be passed into a {@link Ext.grid.column.Column} as a column config that provides
+ * an automatic row numbering column.
+ * 
+ * Usage:
+ *
+ *     columns: [
+ *         {xtype: 'rownumberer'},
+ *         {text: &quot;Company&quot;, flex: 1, sortable: true, dataIndex: 'company'},
+ *         {text: &quot;Price&quot;, width: 120, sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
+ *         {text: &quot;Change&quot;, width: 120, sortable: true, dataIndex: 'change'},
+ *         {text: &quot;% Change&quot;, width: 120, sortable: true, dataIndex: 'pctChange'},
+ *         {text: &quot;Last Updated&quot;, width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('m/d/Y'), dataIndex: 'lastChange'}
+ *     ]
+ *
+ */
+Ext.define('Ext.grid.RowNumberer', {
+    extend: 'Ext.grid.column.Column',
+    alias: 'widget.rownumberer',
+
+<span id='Ext-grid-RowNumberer-cfg-text'>    /**
+</span>     * @cfg {String} text
+     * Any valid text or HTML fragment to display in the header cell for the row number column.
+     */
+    text: &quot;&amp;#160&quot;,
+
+<span id='Ext-grid-RowNumberer-cfg-width'>    /**
+</span>     * @cfg {Number} width
+     * The default width in pixels of the row number column.
+     */
+    width: 23,
+
+<span id='Ext-grid-RowNumberer-cfg-sortable'>    /**
+</span>     * @cfg {Boolean} sortable
+     * True if the row number column is sortable.
+     * @hide
+     */
+    sortable: false,
+
+    align: 'right',
+
+    constructor : function(config){
+        this.callParent(arguments);
+        if (this.rowspan) {
+            this.renderer = Ext.Function.bind(this.renderer, this);
+        }
+    },
+
+    // private
+    resizable: false,
+    hideable: false,
+    menuDisabled: true,
+    dataIndex: '',
+    cls: Ext.baseCSSPrefix + 'row-numberer',
+    rowspan: undefined,
+
+    // private
+    renderer: function(value, metaData, record, rowIdx, colIdx, store) {
+        if (this.rowspan){
+            metaData.cellAttr = 'rowspan=&quot;'+this.rowspan+'&quot;';
+        }
+
+        metaData.tdCls = Ext.baseCSSPrefix + 'grid-cell-special';
+        return store.indexOfTotal(record) + 1;
+    }
+});
+</pre>
+</body>
+</html>

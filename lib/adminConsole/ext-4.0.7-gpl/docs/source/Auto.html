@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-layout-component-Auto'>/**
+</span> * @class Ext.layout.component.Auto
+ * @extends Ext.layout.component.Component
+ * @private
+ *
+ * &lt;p&gt;The AutoLayout is the default layout manager delegated by {@link Ext.Component} to
+ * render any child Elements when no &lt;tt&gt;{@link Ext.container.Container#layout layout}&lt;/tt&gt; is configured.&lt;/p&gt;
+ */
+
+Ext.define('Ext.layout.component.Auto', {
+
+    /* Begin Definitions */
+
+    alias: 'layout.autocomponent',
+
+    extend: 'Ext.layout.component.Component',
+
+    /* End Definitions */
+
+    type: 'autocomponent',
+
+    onLayout : function(width, height) {
+        this.setTargetSize(width, height);
+    }
+});</pre>
+</body>
+</html>

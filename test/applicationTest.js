@@ -6,32 +6,34 @@ describe('applicationTest', function(){
     var app = pomelo.createApp();
     
     before(function(done){
+        filterManager.clear();
         done();
     });
     after(function(done){
         done();
     });
-    
-    it('set and get should be ok!', function(done){
-        app.should.have.property('settings');
-        app.set('test',true);
-        var test = app.get('test');
-        test.should.be.ok;
-        done();
-    });
-    
-    it('set json should be ok!', function(done){
-        app.set('servers', __dirname+'/config/servers.json');
+    describe('#set()', function(){
+        it('set and get should be ok!', function(done){
+            app.should.have.property('settings');
+            app.set('test',true);
+            var test = app.get('test');
+            test.should.be.ok;
+            done();
+        });
         
-        var servers = app.get('servers');
-        
-        should.exist(servers);
-        
-        servers.should.have.property('development');
-        servers.should.have.property('production');
-        servers.should.have.property('localpro');
-        
-        done();
+        it('set json should be ok!', function(done){
+            app.set('servers', __dirname+'/config/servers.json');
+            
+            var servers = app.get('servers');
+            
+            should.exist(servers);
+            
+            servers.should.have.property('development');
+            servers.should.have.property('production');
+            servers.should.have.property('localpro');
+            
+            done();
+        });        
     });
     
     it('enable should be ok!', function(done){

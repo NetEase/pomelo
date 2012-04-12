@@ -1,0 +1,215 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>ExtJS.com Drag and Drop with DOM Elements: Step 1</title>
+<link rel="stylesheet" type="text/css" href="/ext3/resources/css/ext-all.css" />
+<script type="text/javascript" src="/ext3/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="/ext3/ext-all-debug.js"></script>
+<!--<script type="text/javascript" src="dnd.js"></script>-->
+
+<style type="text/css">
+    body  {
+        padding: 10px;
+    }
+
+    .availableLot {
+        width:                 105px;
+        border:                1px solid #999999;
+        padding:               10px;
+        height:                290px;
+        -moz-border-radius:    17px;
+        -webkit-border-radius: 17px;
+
+    }
+
+
+    .rented, .repair {
+        width: 195px;
+    }
+
+    .availableLot div {
+        -moz-border-radius:    5px;
+        -webkit-border-radius: 5px;
+        width:                 85px;
+        border:                1px solid #666666;
+        padding:               3px;
+        background-color:      #FFFFFF;
+        margin:                5px;
+        cursor:                move;
+        text-align:            center;
+    }
+
+    #cars div, #trucks div {
+        margin: 5px;
+        width:  85px;
+    }
+
+    #repair div, #rented div {
+        float:  left;
+        margin: 2px;
+        /*padding:           3px;*/
+
+    }
+
+    .imgThumb {
+        height:  57px;
+        width:   77px;
+        border: 1px solid #777777;
+    }
+
+
+    .dropOK {
+        background-color: #99ff99 !important;
+    }
+
+    .dropNotOK {
+        border: 1px solid #FF0000 !important;
+    }
+</style>
+
+    <!--[if IE]>
+
+<style type="text/css">
+    body  {
+        padding: 10px;
+    }
+
+    .availableLot {
+        width:            120px;
+        border:           1px solid #999999;
+        padding:          10px;
+        height:           320px;
+    }
+
+
+    .rented, .repair {
+        width:            210px;
+    }
+
+    .availableLot div {
+        width:             85px;
+        border:            1px solid #666666;
+        padding:           3px;
+        background-color:  #FFFFFF;
+        margin:            5px;
+        cursor:            move;
+        text-align:        center;
+    }
+
+    #cars div, #trucks div {
+        margin: 5px;
+        width:  85px;
+    }
+
+    #repair div, #rented div {
+        float:  left;
+        margin: 2px;
+    }
+
+    .imgThumb {
+        height:  57px;
+        width:   77px;
+        border:  1px solid #777777;
+    }
+
+
+    .dropOK {
+        background-color: #99ff99 !important;
+    }
+
+    .dropNotOK {
+        border: 1px solid #FF0000 !important;
+    }
+</style>
+<![endif]-->
+</head>
+<body>
+<table class="x-unselectable">
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td align='center'>
+                        Available Cars
+                    </td>
+                <td align='center'>
+                    Available Trucks
+                </td>
+                </tr>
+
+
+               <tr>
+                    <td>
+                        <div id="cars" class="availableLot">
+                            <div><img src="img/camaro.jpg" class="imgThumb" qtip="Camaro"/></div>
+                            <div><img src="img/miata.jpg" class="imgThumb" qtip="Miata"/></div>
+                            <div><img src="img/mustang.jpg" class="imgThumb" qtip="Mustang"/></div>
+                            <div><img src="img/corvette.jpg" class="imgThumb" qtip="Corvette"/></div>
+                        </div>
+                    </td>
+
+                     <td>
+                         <div id="trucks" class="availableLot trucksLot">
+                             <div><img src="img/f150.jpg" class="imgThumb"  qtip="F150"/></div>
+                             <div><img src="img/tahoe.jpg" class="imgThumb" qtip="Tahoe"/></div>
+                             <div><img src="img/tacoma.jpg" class="imgThumb" qtip="Tacoma"/></div>
+                             <div><img src="img/s10.jpg" class="imgThumb" qtip="S10"/></div>
+                         </div>
+                     </td>
+                 </tr>
+
+            </table>
+        </td>
+        <td align='center' style="width: 200px;">
+            <table>
+                <tr>
+                    <td align='center' style="width: 200px;">
+                       Vehicles Rented
+                    </td>
+                    <td align='center' style="width: 200px;">
+                        Vehicles In Repair
+                    </td>
+                </tr>
+                <tr  style="">
+                    <td style="">
+                        <div id="rented" class="availableLot rented"></div>
+                    </td>
+                     <td>
+                         <div id="repair" class="availableLot repair"></div>
+                     </td>
+                 </tr>
+
+            </table>
+        </td>
+    </tr>
+    </table>
+<script type="text/javascript">
+
+Ext.onReady(function() {
+    Ext.QuickTips.init();
+
+    var overrides = {};
+
+    // Configure the cars to be draggable
+    var carElements = Ext.get('cars').select('div');
+    Ext.each(carElements.elements, function(el) {
+        var dd = new Ext.dd.DD(el, 'carsDDGroup', {
+            isTarget  : false
+        });
+        Ext.apply(dd, overrides);
+    });
+
+    var truckElements = Ext.get('trucks').select('div');
+    Ext.each(truckElements.elements, function(el) {
+        var dd = new Ext.dd.DD(el, 'trucksDDGroup', {
+            isTarget  : false
+        });
+        Ext.apply(dd, overrides);
+    });
+   
+});
+
+</script>
+</body>
+</html>
+

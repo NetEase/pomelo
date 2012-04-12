@@ -1,0 +1,19 @@
+$window-base-color: $base-color !default;
+
+$window-border-radius: 5px 5px !default;
+$window-border-width: 1px !default;
+$window-border-color: adjust-color($window-base-color, $hue: 0.952deg, $saturation: -32.377%, $lightness: -13.725%) !default;
+$window-inner-border-width: 1px !default;
+$window-inner-border-color: adjust-color($window-base-color, $hue: 2.667deg, $saturation: 9.662%, $lightness: 11.373%) !default;
+$window-background-color: adjust-color($window-base-color, $hue: 0.267deg, $saturation: -21.309%, $lightness: 1.569%) !default;
+
+$window-body-border-width: 1px !default;
+$window-body-border-style: solid !default;
+$window-body-border-color: adjust-color($window-base-color, $hue: 0.844deg, $saturation: 7.644%, $lightness: -8.627%) !default;
+$window-body-background-color: adjust-color($window-base-color, $hue: 3.188deg, $saturation: 0.542%, $lightness: 7.843%) !default;
+$window-body-color: #000 !default;
+
+$window-header-padding: 5px 5px 0 !default;
+$window-header-font-size: ceil($font-size * .9) !default; //11px
+$window-header-color: adjust-color($window-base-color, $hue: -2.451deg, $saturation: 38.889%, $lightness: -55.882%) !default;
+$window-header-font-weight: bold !default;

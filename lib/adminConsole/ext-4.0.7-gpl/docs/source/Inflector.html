@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-util-Inflector'>/**
+</span> * General purpose inflector class that {@link #pluralize pluralizes}, {@link #singularize singularizes} and
+ * {@link #ordinalize ordinalizes} words. Sample usage:
+ *
+ *     //turning singular words into plurals
+ *     Ext.util.Inflector.pluralize('word'); //'words'
+ *     Ext.util.Inflector.pluralize('person'); //'people'
+ *     Ext.util.Inflector.pluralize('sheep'); //'sheep'
+ *
+ *     //turning plurals into singulars
+ *     Ext.util.Inflector.singularize('words'); //'word'
+ *     Ext.util.Inflector.singularize('people'); //'person'
+ *     Ext.util.Inflector.singularize('sheep'); //'sheep'
+ *
+ *     //ordinalizing numbers
+ *     Ext.util.Inflector.ordinalize(11); //&quot;11th&quot;
+ *     Ext.util.Inflector.ordinalize(21); //&quot;21th&quot;
+ *     Ext.util.Inflector.ordinalize(1043); //&quot;1043rd&quot;
+ *
+ * # Customization
+ *
+ * The Inflector comes with a default set of US English pluralization rules. These can be augmented with additional
+ * rules if the default rules do not meet your application's requirements, or swapped out entirely for other languages.
+ * Here is how we might add a rule that pluralizes &quot;ox&quot; to &quot;oxen&quot;:
+ *
+ *     Ext.util.Inflector.plural(/^(ox)$/i, &quot;$1en&quot;);
+ *
+ * Each rule consists of two items - a regular expression that matches one or more rules, and a replacement string. In
+ * this case, the regular expression will only match the string &quot;ox&quot;, and will replace that match with &quot;oxen&quot;. Here's
+ * how we could add the inverse rule:
+ *
+ *     Ext.util.Inflector.singular(/^(ox)en$/i, &quot;$1&quot;);
+ *
+ * Note that the ox/oxen rules are present by default.
+ */
+Ext.define('Ext.util.Inflector', {
+
+    /* Begin Definitions */
+
+    singleton: true,
+
+    /* End Definitions */
+
+<span id='Ext-util-Inflector-property-plurals'>    /**
+</span>     * @private
+     * The registered plural tuples. Each item in the array should contain two items - the first must be a regular
+     * expression that matchers the singular form of a word, the second must be a String that replaces the matched
+     * part of the regular expression. This is managed by the {@link #plural} method.
+     * @property {Array} plurals
+     */
+    plurals: [
+        [(/(quiz)$/i),                &quot;$1zes&quot;  ],
+        [(/^(ox)$/i),                 &quot;$1en&quot;   ],
+        [(/([m|l])ouse$/i),           &quot;$1ice&quot;  ],
+        [(/(matr|vert|ind)ix|ex$/i),  &quot;$1ices&quot; ],
+        [(/(x|ch|ss|sh)$/i),          &quot;$1es&quot;   ],
+        [(/([^aeiouy]|qu)y$/i),       &quot;$1ies&quot;  ],
+        [(/(hive)$/i),                &quot;$1s&quot;    ],
+        [(/(?:([^f])fe|([lr])f)$/i),  &quot;$1$2ves&quot;],
+        [(/sis$/i),                   &quot;ses&quot;    ],
+        [(/([ti])um$/i),              &quot;$1a&quot;    ],
+        [(/(buffal|tomat|potat)o$/i), &quot;$1oes&quot;  ],
+        [(/(bu)s$/i),                 &quot;$1ses&quot;  ],
+        [(/(alias|status|sex)$/i),    &quot;$1es&quot;   ],
+        [(/(octop|vir)us$/i),         &quot;$1i&quot;    ],
+        [(/(ax|test)is$/i),           &quot;$1es&quot;   ],
+        [(/^person$/),                &quot;people&quot; ],
+        [(/^man$/),                   &quot;men&quot;    ],
+        [(/^(child)$/),               &quot;$1ren&quot;  ],
+        [(/s$/i),                     &quot;s&quot;      ],
+        [(/$/),                       &quot;s&quot;      ]
+    ],
+
+<span id='Ext-util-Inflector-property-singulars'>    /**
+</span>     * @private
+     * The set of registered singular matchers. Each item in the array should contain two items - the first must be a
+     * regular expression that matches the plural form of a word, the second must be a String that replaces the
+     * matched part of the regular expression. This is managed by the {@link #singular} method.
+     * @property {Array} singulars
+     */
+    singulars: [
+      [(/(quiz)zes$/i),                                                    &quot;$1&quot;     ],
+      [(/(matr)ices$/i),                                                   &quot;$1ix&quot;   ],
+      [(/(vert|ind)ices$/i),                                               &quot;$1ex&quot;   ],
+      [(/^(ox)en/i),                                                       &quot;$1&quot;     ],
+      [(/(alias|status)es$/i),                                             &quot;$1&quot;     ],
+      [(/(octop|vir)i$/i),                                                 &quot;$1us&quot;   ],
+      [(/(cris|ax|test)es$/i),                                             &quot;$1is&quot;   ],
+      [(/(shoe)s$/i),                                                      &quot;$1&quot;     ],
+      [(/(o)es$/i),                                                        &quot;$1&quot;     ],
+      [(/(bus)es$/i),                                                      &quot;$1&quot;     ],
+      [(/([m|l])ice$/i),                                                   &quot;$1ouse&quot; ],
+      [(/(x|ch|ss|sh)es$/i),                                               &quot;$1&quot;     ],
+      [(/(m)ovies$/i),                                                     &quot;$1ovie&quot; ],
+      [(/(s)eries$/i),                                                     &quot;$1eries&quot;],
+      [(/([^aeiouy]|qu)ies$/i),                                            &quot;$1y&quot;    ],
+      [(/([lr])ves$/i),                                                    &quot;$1f&quot;    ],
+      [(/(tive)s$/i),                                                      &quot;$1&quot;     ],
+      [(/(hive)s$/i),                                                      &quot;$1&quot;     ],
+      [(/([^f])ves$/i),                                                    &quot;$1fe&quot;   ],
+      [(/(^analy)ses$/i),                                                  &quot;$1sis&quot;  ],
+      [(/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i), &quot;$1$2sis&quot;],
+      [(/([ti])a$/i),                                                      &quot;$1um&quot;   ],
+      [(/(n)ews$/i),                                                       &quot;$1ews&quot;  ],
+      [(/people$/i),                                                       &quot;person&quot; ],
+      [(/s$/i),                                                            &quot;&quot;       ]
+    ],
+
+<span id='Ext-util-Inflector-property-uncountable'>    /**
+</span>     * @private
+     * The registered uncountable words
+     * @property {String[]} uncountable
+     */
+     uncountable: [
+        &quot;sheep&quot;,
+        &quot;fish&quot;,
+        &quot;series&quot;,
+        &quot;species&quot;,
+        &quot;money&quot;,
+        &quot;rice&quot;,
+        &quot;information&quot;,
+        &quot;equipment&quot;,
+        &quot;grass&quot;,
+        &quot;mud&quot;,
+        &quot;offspring&quot;,
+        &quot;deer&quot;,
+        &quot;means&quot;
+    ],
+
+<span id='Ext-util-Inflector-method-singular'>    /**
+</span>     * Adds a new singularization rule to the Inflector. See the intro docs for more information
+     * @param {RegExp} matcher The matcher regex
+     * @param {String} replacer The replacement string, which can reference matches from the matcher argument
+     */
+    singular: function(matcher, replacer) {
+        this.singulars.unshift([matcher, replacer]);
+    },
+
+<span id='Ext-util-Inflector-method-plural'>    /**
+</span>     * Adds a new pluralization rule to the Inflector. See the intro docs for more information
+     * @param {RegExp} matcher The matcher regex
+     * @param {String} replacer The replacement string, which can reference matches from the matcher argument
+     */
+    plural: function(matcher, replacer) {
+        this.plurals.unshift([matcher, replacer]);
+    },
+
+<span id='Ext-util-Inflector-method-clearSingulars'>    /**
+</span>     * Removes all registered singularization rules
+     */
+    clearSingulars: function() {
+        this.singulars = [];
+    },
+
+<span id='Ext-util-Inflector-method-clearPlurals'>    /**
+</span>     * Removes all registered pluralization rules
+     */
+    clearPlurals: function() {
+        this.plurals = [];
+    },
+
+<span id='Ext-util-Inflector-method-isTransnumeral'>    /**
+</span>     * Returns true if the given word is transnumeral (the word is its own singular and plural form - e.g. sheep, fish)
+     * @param {String} word The word to test
+     * @return {Boolean} True if the word is transnumeral
+     */
+    isTransnumeral: function(word) {
+        return Ext.Array.indexOf(this.uncountable, word) != -1;
+    },
+
+<span id='Ext-util-Inflector-method-pluralize'>    /**
+</span>     * Returns the pluralized form of a word (e.g. Ext.util.Inflector.pluralize('word') returns 'words')
+     * @param {String} word The word to pluralize
+     * @return {String} The pluralized form of the word
+     */
+    pluralize: function(word) {
+        if (this.isTransnumeral(word)) {
+            return word;
+        }
+
+        var plurals = this.plurals,
+            length  = plurals.length,
+            tuple, regex, i;
+
+        for (i = 0; i &lt; length; i++) {
+            tuple = plurals[i];
+            regex = tuple[0];
+
+            if (regex == word || (regex.test &amp;&amp; regex.test(word))) {
+                return word.replace(regex, tuple[1]);
+            }
+        }
+
+        return word;
+    },
+
+<span id='Ext-util-Inflector-method-singularize'>    /**
+</span>     * Returns the singularized form of a word (e.g. Ext.util.Inflector.singularize('words') returns 'word')
+     * @param {String} word The word to singularize
+     * @return {String} The singularized form of the word
+     */
+    singularize: function(word) {
+        if (this.isTransnumeral(word)) {
+            return word;
+        }
+
+        var singulars = this.singulars,
+            length    = singulars.length,
+            tuple, regex, i;
+
+        for (i = 0; i &lt; length; i++) {
+            tuple = singulars[i];
+            regex = tuple[0];
+
+            if (regex == word || (regex.test &amp;&amp; regex.test(word))) {
+                return word.replace(regex, tuple[1]);
+            }
+        }
+
+        return word;
+    },
+
+<span id='Ext-util-Inflector-method-classify'>    /**
+</span>     * Returns the correct {@link Ext.data.Model Model} name for a given string. Mostly used internally by the data
+     * package
+     * @param {String} word The word to classify
+     * @return {String} The classified version of the word
+     */
+    classify: function(word) {
+        return Ext.String.capitalize(this.singularize(word));
+    },
+
+<span id='Ext-util-Inflector-method-ordinalize'>    /**
+</span>     * Ordinalizes a given number by adding a prefix such as 'st', 'nd', 'rd' or 'th' based on the last digit of the
+     * number. 21 -&gt; 21st, 22 -&gt; 22nd, 23 -&gt; 23rd, 24 -&gt; 24th etc
+     * @param {Number} number The number to ordinalize
+     * @return {String} The ordinalized number
+     */
+    ordinalize: function(number) {
+        var parsed = parseInt(number, 10),
+            mod10  = parsed % 10,
+            mod100 = parsed % 100;
+
+        //11 through 13 are a special case
+        if (11 &lt;= mod100 &amp;&amp; mod100 &lt;= 13) {
+            return number + &quot;th&quot;;
+        } else {
+            switch(mod10) {
+                case 1 : return number + &quot;st&quot;;
+                case 2 : return number + &quot;nd&quot;;
+                case 3 : return number + &quot;rd&quot;;
+                default: return number + &quot;th&quot;;
+            }
+        }
+    }
+}, function() {
+    //aside from the rules above, there are a number of words that have irregular pluralization so we add them here
+    var irregulars = {
+            alumnus: 'alumni',
+            cactus : 'cacti',
+            focus  : 'foci',
+            nucleus: 'nuclei',
+            radius: 'radii',
+            stimulus: 'stimuli',
+            ellipsis: 'ellipses',
+            paralysis: 'paralyses',
+            oasis: 'oases',
+            appendix: 'appendices',
+            index: 'indexes',
+            beau: 'beaux',
+            bureau: 'bureaux',
+            tableau: 'tableaux',
+            woman: 'women',
+            child: 'children',
+            man: 'men',
+            corpus:	'corpora',
+            criterion: 'criteria',
+            curriculum:	'curricula',
+            genus: 'genera',
+            memorandum:	'memoranda',
+            phenomenon:	'phenomena',
+            foot: 'feet',
+            goose: 'geese',
+            tooth: 'teeth',
+            antenna: 'antennae',
+            formula: 'formulae',
+            nebula: 'nebulae',
+            vertebra: 'vertebrae',
+            vita: 'vitae'
+        },
+        singular;
+
+    for (singular in irregulars) {
+        this.plural(singular, irregulars[singular]);
+        this.singular(irregulars[singular], singular);
+    }
+});</pre>
+</body>
+</html>

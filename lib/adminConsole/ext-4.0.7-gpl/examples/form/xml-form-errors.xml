@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message success="false">
+<errors>
+    <field>
+        <id>first</id>
+        <msg><![CDATA[
+            Invalid name. <br /><i>This is a test validation message from the server </i>
+         ]]></msg>
+    </field>
+    <field>
+        <id>dob</id>
+        <msg><![CDATA[
+            Invalid Date of Birth. <br /><i>This is a test validation message from the server </i>
+         ]]></msg>
+    </field>
+</errors>
+</message>

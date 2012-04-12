@@ -1,0 +1,113 @@
+@import "compass/css3";
+@import "blueprint/typography";
+
+$include-default: true !default;
+$include-default-uis: true !default;
+
+@import 'functions';
+@import 'variables';
+@import 'mixins';
+
+//core
+@import 'core';
+
+//layout
+@import 'layout/layout';
+
+//utils
+@import 'util/tool';
+@import 'util/messagebox';
+@import 'util/splitter';
+@import 'util/resizable';
+@import 'util/dragdrop';
+@import 'util/scroller';
+@import 'util/focus';
+
+//widgets
+@import 'widgets';
+
+@if $scope-reset-css {
+    .#{$prefix}reset {
+        @if $include-default {
+        	@include extjs-boundlist;
+        	@include extjs-button;
+        	@include extjs-btn-group;
+        	@include extjs-datepicker;
+        	@include extjs-colorpicker;
+        	@include extjs-menu;
+        	@include extjs-grid;
+        	@include extjs-form;
+        	    @include extjs-form-field;
+        	    @include extjs-form-fieldset;
+        	    @include extjs-form-file;
+        	    @include extjs-form-checkboxfield;
+        	    @include extjs-form-checkboxgroup;
+        	    @include extjs-form-triggerfield;
+        	    @include extjs-form-htmleditor;
+        	@include extjs-panel;
+        	@include extjs-qtip;
+        	@include extjs-slider;
+        	@include extjs-progress;
+        	@include extjs-toolbar;
+            @include extjs-window;
+            @include extjs-messagebox;
+            @include extjs-tabbar;
+        	@include extjs-tab;
+        	@include extjs-tree;
+        	@include extjs-drawcomponent;
+        	@include extjs-viewport;
+        }
+
+        @include extjs-dragdrop;
+        @include extjs-resizable;
+        @include extjs-splitter;
+        @include extjs-layout;
+        @include extjs-tool;
+        @include extjs-scroller;
+        
+        @include extjs-html;
+    }
+
+    @include extjs-reset-extras;
+}
+@else {
+    @if $include-default {
+    	@include extjs-boundlist;
+    	@include extjs-button;
+    	@include extjs-btn-group;
+    	@include extjs-datepicker;
+    	@include extjs-colorpicker;
+    	@include extjs-menu;
+    	@include extjs-grid;
+    	@include extjs-form;
+    	    @include extjs-form-field;
+    	    @include extjs-form-fieldset;
+    	    @include extjs-form-file;
+    	    @include extjs-form-checkboxfield;
+    	    @include extjs-form-checkboxgroup;
+    	    @include extjs-form-triggerfield;
+    	    @include extjs-form-htmleditor;
+    	@include extjs-panel;
+    	@include extjs-qtip;
+    	@include extjs-slider;
+    	@include extjs-progress;
+    	@include extjs-toolbar;
+        @include extjs-window;
+        @include extjs-messagebox;
+        @include extjs-tabbar;
+    	@include extjs-tab;
+    	@include extjs-tree;
+    	@include extjs-drawcomponent;
+    	@include extjs-viewport;
+    }
+
+    @include extjs-dragdrop;
+    @include extjs-resizable;
+    @include extjs-splitter;
+    @include extjs-layout;
+    @include extjs-tool;
+    @include extjs-scroller;
+    
+    @include extjs-html;
+}
+

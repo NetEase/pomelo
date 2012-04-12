@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-CellEditor'>/**
+</span> * @class Ext.grid.CellEditor
+ * @extends Ext.Editor
+ * Internal utility class that provides default configuration for cell editing.
+ * @ignore
+ */
+Ext.define('Ext.grid.CellEditor', {
+    extend: 'Ext.Editor',
+    constructor: function(config) {
+        config = Ext.apply({}, config);
+        
+        if (config.field) {
+            config.field.monitorTab = false;
+        }
+        if (!Ext.isDefined(config.autoSize)) {
+            config.autoSize = {
+                width: 'boundEl'
+            };
+        }
+        this.callParent([config]);
+    },
+    
+<span id='Ext-grid-CellEditor-method-onShow'>    /**
+</span>     * @private
+     * Hide the grid cell when editor is shown.
+     */
+    onShow: function() {
+        var first = this.boundEl.first();
+        if (first) {
+            first.hide();
+        }
+        this.callParent(arguments);
+    },
+    
+<span id='Ext-grid-CellEditor-method-onHide'>    /**
+</span>     * @private
+     * Show grid cell when editor is hidden.
+     */
+    onHide: function() {
+        var first = this.boundEl.first();
+        if (first) {
+            first.show();
+        }
+        this.callParent(arguments);
+    },
+    
+<span id='Ext-grid-CellEditor-method-afterRender'>    /**
+</span>     * @private
+     * Fix checkbox blur when it is clicked.
+     */
+    afterRender: function() {
+        this.callParent(arguments);
+        var field = this.field;
+        if (field.isXType('checkboxfield')) {
+            field.mon(field.inputEl, 'mousedown', this.onCheckBoxMouseDown, this);
+            field.mon(field.inputEl, 'click', this.onCheckBoxClick, this);
+        }
+    },
+    
+<span id='Ext-grid-CellEditor-method-onCheckBoxMouseDown'>    /**
+</span>     * @private
+     * Because when checkbox is clicked it loses focus  completeEdit is bypassed.
+     */
+    onCheckBoxMouseDown: function() {
+        this.completeEdit = Ext.emptyFn;
+    },
+    
+<span id='Ext-grid-CellEditor-method-onCheckBoxClick'>    /**
+</span>     * @private
+     * Restore checkbox focus and completeEdit method.
+     */
+    onCheckBoxClick: function() {
+        delete this.completeEdit;
+        this.field.focus(false, 10);
+    },
+    
+    alignment: &quot;tl-tl&quot;,
+    hideEl : false,
+    cls: Ext.baseCSSPrefix + &quot;small-editor &quot; + Ext.baseCSSPrefix + &quot;grid-editor&quot;,
+    shim: false,
+    shadow: false
+});</pre>
+</body>
+</html>

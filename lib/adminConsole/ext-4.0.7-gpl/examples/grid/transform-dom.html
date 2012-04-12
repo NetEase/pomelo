@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>From Markup Grid Example</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <style type="text/css">
+        #the-table { 
+            border:1px solid #bbb;
+            border-collapse:collapse; 
+        }
+        #the-table td,#the-table th { 
+            border:1px solid #ccc;
+            border-collapse:collapse;
+            padding:5px; 
+        }
+    </style>
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script type="text/javascript" src="transform-dom.js"></script>
+</head>
+<body>
+    <h1>From Markup Grid Example</h1>
+    <p>This example shows how to create a grid with from an existing, unformatted HTML table.</p>
+    <p>Note that the js is not minified so it is readable. See <a href="transform-dom.js">transform-dom.js</a>.</p>
+    
+    <button id="create-grid" type="button">Create grid</button>
+    <br />
+    <br />
+    <table cellspacing="0" id="the-table">
+        <thead>
+            <tr style="background:#eeeeee;">
+                <th>Name</th>
+                <th style="width: 40px;">Age</th>
+                <th>Sex</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Barney Rubble</td>
+                <td>32</td>
+                <td>Male</td>
+            </tr>
+            <tr>
+                <td>Fred Flintstone</td>
+                <td>33</td>
+                <td>Male</td>
+            </tr>
+            <tr>
+                <td>Betty Rubble</td>
+                <td>32</td>
+                <td>Female</td>
+            </tr>
+            <tr>
+                <td>Pebbles</td>
+                <td>1</td>
+                <td>Female</td>
+            </tr>
+            <tr>
+                <td>Bamm Bamm</td>
+                <td>2</td>
+                <td>Male</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

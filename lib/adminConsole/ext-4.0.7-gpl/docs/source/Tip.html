@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-layout-component-Tip'>/**
+</span> * Component layout for Tip/ToolTip/etc. components
+ * @class Ext.layout.component.Tip
+ * @extends Ext.layout.component.Dock
+ * @private
+ */
+
+Ext.define('Ext.layout.component.Tip', {
+
+    /* Begin Definitions */
+
+    alias: ['layout.tip'],
+
+    extend: 'Ext.layout.component.Dock',
+
+    /* End Definitions */
+
+    type: 'tip',
+    
+    onLayout: function(width, height) {
+        var me = this,
+            owner = me.owner,
+            el = owner.el,
+            minWidth,
+            maxWidth,
+            naturalWidth,
+            constrainedWidth,
+            xy = el.getXY();
+
+        // Position offscreen so the natural width is not affected by the viewport's right edge
+        el.setXY([-9999,-9999]);
+
+        // Calculate initial layout
+        this.callParent(arguments);
+
+        // Handle min/maxWidth for auto-width tips
+        if (!Ext.isNumber(width)) {
+            minWidth = owner.minWidth;
+            maxWidth = owner.maxWidth;
+            // IE6/7 in strict mode have a problem doing an autoWidth
+            if (Ext.isStrict &amp;&amp; (Ext.isIE6 || Ext.isIE7)) {
+                constrainedWidth = me.doAutoWidth();
+            } else {
+                naturalWidth = el.getWidth();
+            }
+            if (naturalWidth &lt; minWidth) {
+                constrainedWidth = minWidth;
+            }
+            else if (naturalWidth &gt; maxWidth) {
+                constrainedWidth = maxWidth;
+            }
+            if (constrainedWidth) {
+                this.callParent([constrainedWidth, height]);
+            }
+        }
+
+        // Restore position
+        el.setXY(xy);
+    },
+    
+    doAutoWidth: function(){
+        var me = this,
+            owner = me.owner,
+            body = owner.body,
+            width = body.getTextWidth();
+            
+        if (owner.header) {
+            width = Math.max(width, owner.header.getWidth());
+        }
+        if (!Ext.isDefined(me.frameWidth)) {
+            me.frameWidth = owner.el.getWidth() - body.getWidth();
+        }
+        width += me.frameWidth + body.getPadding('lr');
+        return width;
+    }
+});
+</pre>
+</body>
+</html>

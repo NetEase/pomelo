@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-form-action-DirectSubmit'>/**
+</span> * @class Ext.form.action.DirectSubmit
+ * @extends Ext.form.action.Submit
+ * &lt;p&gt;Provides Ext.direct support for submitting form data.&lt;/p&gt;
+ * &lt;p&gt;This example illustrates usage of Ext.direct.Direct to &lt;b&gt;submit&lt;/b&gt; a form through Ext.Direct.&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var myFormPanel = new Ext.form.Panel({
+    // configs for FormPanel
+    title: 'Basic Information',
+    renderTo: document.body,
+    width: 300, height: 160,
+    padding: 10,
+    buttons:[{
+        text: 'Submit',
+        handler: function(){
+            myFormPanel.getForm().submit({
+                params: {
+                    foo: 'bar',
+                    uid: 34
+                }
+            });
+        }
+    }],
+
+    // configs apply to child items
+    defaults: {anchor: '100%'},
+    defaultType: 'textfield',
+    items: [{
+        fieldLabel: 'Name',
+        name: 'name'
+    },{
+        fieldLabel: 'Email',
+        name: 'email'
+    },{
+        fieldLabel: 'Company',
+        name: 'company'
+    }],
+
+    // configs for BasicForm
+    api: {
+        // The server-side method to call for load() requests
+        load: Profile.getBasicInfo,
+        // The server-side must mark the submit handler as a 'formHandler'
+        submit: Profile.updateBasicInfo
+    },
+    // specify the order for the passed params
+    paramOrder: ['uid', 'foo']
+});
+ * &lt;/code&gt;&lt;/pre&gt;
+ * The data packet sent to the server will resemble something like:
+ * &lt;pre&gt;&lt;code&gt;
+{
+    &quot;action&quot;:&quot;Profile&quot;,&quot;method&quot;:&quot;updateBasicInfo&quot;,&quot;type&quot;:&quot;rpc&quot;,&quot;tid&quot;:&quot;6&quot;,
+    &quot;result&quot;:{
+        &quot;success&quot;:true,
+        &quot;id&quot;:{
+            &quot;extAction&quot;:&quot;Profile&quot;,&quot;extMethod&quot;:&quot;updateBasicInfo&quot;,
+            &quot;extType&quot;:&quot;rpc&quot;,&quot;extTID&quot;:&quot;6&quot;,&quot;extUpload&quot;:&quot;false&quot;,
+            &quot;name&quot;:&quot;Aaron Conran&quot;,&quot;email&quot;:&quot;aaron@sencha.com&quot;,&quot;company&quot;:&quot;Sencha Inc.&quot;
+        }
+    }
+}
+ * &lt;/code&gt;&lt;/pre&gt;
+ * The form will process a data packet returned by the server that is similar
+ * to the following:
+ * &lt;pre&gt;&lt;code&gt;
+// sample success packet (batched requests)
+[
+    {
+        &quot;action&quot;:&quot;Profile&quot;,&quot;method&quot;:&quot;updateBasicInfo&quot;,&quot;type&quot;:&quot;rpc&quot;,&quot;tid&quot;:3,
+        &quot;result&quot;:{
+            &quot;success&quot;:true
+        }
+    }
+]
+
+// sample failure packet (one request)
+{
+        &quot;action&quot;:&quot;Profile&quot;,&quot;method&quot;:&quot;updateBasicInfo&quot;,&quot;type&quot;:&quot;rpc&quot;,&quot;tid&quot;:&quot;6&quot;,
+        &quot;result&quot;:{
+            &quot;errors&quot;:{
+                &quot;email&quot;:&quot;already taken&quot;
+            },
+            &quot;success&quot;:false,
+            &quot;foo&quot;:&quot;bar&quot;
+        }
+}
+ * &lt;/code&gt;&lt;/pre&gt;
+ * Also see the discussion in {@link Ext.form.action.DirectLoad}.
+ */
+Ext.define('Ext.form.action.DirectSubmit', {
+    extend:'Ext.form.action.Submit',
+    requires: ['Ext.direct.Manager'],
+    alternateClassName: 'Ext.form.Action.DirectSubmit',
+    alias: 'formaction.directsubmit',
+
+    type: 'directsubmit',
+
+    doSubmit: function() {
+        var me = this,
+            callback = Ext.Function.bind(me.onSuccess, me),
+            formEl = me.buildForm();
+        me.form.api.submit(formEl, callback, me);
+        Ext.removeNode(formEl);
+    },
+
+    // Direct actions have already been processed and therefore
+    // we can directly set the result; Direct Actions do not have
+    // a this.response property.
+    processResponse: function(result) {
+        return (this.result = result);
+    },
+
+    onSuccess: function(response, trans) {
+        if (trans.type === Ext.direct.Manager.self.exceptions.SERVER) {
+            response = {};
+        }
+        this.callParent([response]);
+    }
+});
+</pre>
+</body>
+</html>

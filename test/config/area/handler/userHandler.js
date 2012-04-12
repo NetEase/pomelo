@@ -24,6 +24,8 @@ handler.addUser = function(msg, session) {
  * @param msg
  */
 handler.move = function (msg, session){
+  //console.log('move message: '+ JSON.stringify(msg));
+  //console.log('session message: '+ JSON.stringify(session));
   return true;
 };
 

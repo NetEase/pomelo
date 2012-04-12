@@ -1,0 +1,222 @@
+@mixin extjs-resizable {
+    .#{$prefix}resizable-handle {
+        position: absolute;
+        
+        z-index: 100;
+        
+        font-size: 1px;
+        line-height: 6px;
+        
+        overflow: hidden;
+            
+        zoom: 1;
+        
+        @include opacity(0);
+        
+        background-color: #fff;
+    }
+
+    .#{$prefix}resizable-handle-east {
+        width: 6px;
+        height: 100%;
+        
+        right: 0;
+        top: 0;
+    }
+    
+    .#{$prefix}resizable-over {
+        .#{$prefix}resizable-handle-east {
+            cursor: e-resize;
+        }
+    }
+    
+    .#{$prefix}resizable-handle-south {
+        width: 100%;
+        height: 6px;
+        
+        left: 0;
+        bottom: 0;
+    }
+    
+    .#{$prefix}resizable-over {
+        .#{$prefix}resizable-handle-south {
+            cursor: s-resize;
+        }
+    }
+    
+    .#{$prefix}resizable-handle-west {
+        width: 6px;
+        height: 100%;
+        
+        left: 0;
+        top: 0;
+    }
+    
+    .#{$prefix}resizable-over {
+        .#{$prefix}resizable-handle-west {
+            cursor: w-resize;
+        }
+    }
+
+    .#{$prefix}resizable-handle-north {
+        width: 100%;
+        height: 6px;
+        
+        left: 0;
+        top: 0;
+    }
+    
+    .#{$prefix}resizable-over {
+        .#{$prefix}resizable-handle-north {
+            cursor: n-resize;
+        }
+    }
+
+    .#{$prefix}resizable-handle-southeast {
+        width: 6px;
+        height: 6px;
+        
+        right: 0;
+        bottom: 0;
+        
+        z-index: 101;
+    }
+    
+    .#{$prefix}resizable-over {
+        .#{$prefix}resizable-handle-southeast {
+            cursor: se-resize;
+        }
+    }
+
+    .#{$prefix}resizable-handle-northwest {
+        width: 6px;
+        height: 6px;
+        
+        left: 0;
+        top: 0;
+        
+        z-index: 101;
+    }
+    
+    .#{$prefix}resizable-over {
+        .#{$prefix}resizable-handle-northwest {
+            cursor: nw-resize;
+        }
+    }
+
+    .#{$prefix}resizable-handle-northeast {
+        width: 6px;
+        height: 6px;
+        
+        right: 0;
+        top: 0;
+        
+        z-index: 101;
+    }
+    
+    .#{$prefix}resizable-over {
+        .#{$prefix}resizable-handle-northeast {
+            cursor: ne-resize;
+        }
+    }
+
+    .#{$prefix}resizable-handle-southwest {
+        width: 6px;
+        height: 6px;
+        
+        left: 0;
+        bottom: 0;
+        
+        z-index: 101;
+    }
+    
+    .#{$prefix}resizable-over {
+        .#{$prefix}resizable-handle-southwest {
+            cursor: sw-resize;
+        }
+    }
+    
+    /*IE rounding error*/
+    .#{$prefix}ie {
+        .#{$prefix}resizable-handle-east {
+            margin-right: -1px; /*IE rounding error*/
+        }
+        
+        .#{$prefix}resizable-handle-south {
+            margin-bottom: -1px;
+        }
+    }
+
+    .#{$prefix}resizable-over .#{$prefix}resizable-handle, .#{$prefix}resizable-pinned .#{$prefix}resizable-handle{
+        @include opacity(1);
+    }
+
+    .#{$prefix}window .#{$prefix}window-handle {
+        @include opacity(0);
+    }
+
+    .#{$prefix}window-collapsed .#{$prefix}window-handle {
+        display: none;
+    }
+
+    .#{$prefix}resizable-proxy {
+        border: 1px dashed #3b5a82;
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+        z-index: 50000;
+    }
+
+    .#{$prefix}resizable-overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        
+        width: 100%;
+        height: 100%;
+        
+        display: none;
+        
+        z-index: 200000;
+        
+        background-color: #fff;
+            
+        @include opacity(0);
+    }
+    
+    .#{$prefix}resizable-over,
+    .#{$prefix}resizable-pinned {
+        .#{$prefix}resizable-handle-east,
+        .#{$prefix}resizable-handle-west {
+                background-position: left;
+                background-image: theme-background-image($theme-name, 'sizer/e-handle.gif');
+        }
+        
+        .#{$prefix}resizable-handle-south,
+        .#{$prefix}resizable-handle-north {
+            background-position: top;
+            background-image: theme-background-image($theme-name, 'sizer/s-handle.gif');
+        }
+        
+        .#{$prefix}resizable-handle-southeast {
+            background-position: top left;
+            background-image: theme-background-image($theme-name, 'sizer/se-handle.gif');
+        }
+        
+        .#{$prefix}resizable-handle-northwest {
+            background-position: bottom right;
+            background-image: theme-background-image($theme-name, 'sizer/nw-handle.gif');
+        }
+        
+        .#{$prefix}resizable-handle-northeast {
+            background-position: bottom left;
+            background-image: theme-background-image($theme-name, 'sizer/ne-handle.gif');
+        }
+
+        .#{$prefix}resizable-handle-southwest {
+            background-position: top right;
+            background-image: theme-background-image($theme-name, 'sizer/sw-handle.gif');
+        }
+    }
+}

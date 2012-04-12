@@ -1,0 +1,188 @@
+$base-color: #ddd;
+
+$font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+
+@import 'compass';
+@import 'ext4/default/all';
+
+$highlight-background-color: #7b8b9d;
+
+$header-background-color: darken($highlight-background-color, 30);
+$sidebar-background-color: #eaeaea;
+$review-background-color: lighten($highlight-background-color, 20);
+
+/**
+ * Application header
+ */
+.app-header {
+    padding: 10px;
+    
+    @include background-gradient($header-background-color, 'matte');
+    
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 1px 0 darken($header-background-color, 15);
+    
+    border-bottom: 1px solid darken($header-background-color, 15) !important;
+}
+
+//for browsers that dont support linear gradients
+.x-nlg {
+    .app-header {
+        background: url(../images/legacy/header-bg.png) repeat-x;
+    }
+}
+
+/**
+ * Sidebar
+ */
+.sidebar-list {
+    //border-right: 1px solid $panel-border-color !important;
+    
+    background: $sidebar-background-color;
+    
+    .x-item-selected {
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 0 1px 0 darken($highlight-background-color, 20);
+        
+        border-color: $highlight-background-color;
+        
+        @include background-gradient($highlight-background-color, 'matte');
+    }
+}
+
+//for browsers that dont support linear gradients
+.x-nlg {
+    .sidebar-list {
+        .x-item-selected {
+            background: url(../images/legacy/sidebar-selected-bg.png) repeat-x;
+        }
+    }
+}
+
+.sidebar-title {
+    color: #666;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 lighten(#e8ecf1, 10);
+    
+    padding: 5px;
+}
+
+.product {
+    border-width: 1px 0;
+    border-style: solid;
+    border-color: $sidebar-background-color;
+    
+    padding: 3px 10px;
+    
+    font-size: 12px;
+}
+
+/**
+ * Reviews
+ */
+.review-list {
+    @include background-gradient($review-background-color, 'recessed');
+    
+    border: 1px solid darken($review-background-color, 10);
+    
+    color: darken($highlight-background-color, 40);
+    font-size: 12px;
+    
+    padding: 0;
+    
+    .review-title {
+        color: lighten($highlight-background-color, 40);
+        font-size: 20px;
+        text-shadow: 0 1px 0 darken($review-background-color, 10);
+        
+        @include background-gradient($header-background-color, 'matte');
+        
+        padding: 10px;
+        
+        span {
+            color: lighten($highlight-background-color, 2);
+        }
+    }
+    
+    .review {
+        margin: 10px;
+        padding: 10px;
+        
+        background: lighten($review-background-color, 20);
+        
+        line-height: 18px;
+        
+        .title {
+            font-size: 13px;
+            font-weight: bold;
+            
+            img {
+                position: relative;
+                top: 1px;
+                
+                margin-right: 1px;
+            }
+        }
+        
+        .author {
+            color: darken($highlight-background-color, 30);
+            font-size: 11px;
+            
+            margin-bottom: 5px;
+            
+            span {
+                color: darken($highlight-background-color, 40);
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+/**
+ *
+ */
+.item-ct {
+    table {
+        margin: 50px auto;
+    }
+    
+    .img {
+        padding-right: 10px;
+        margin-right: 10px;
+        
+        border-right: 1px solid $panel-border-color;
+        
+        text-align: right;
+    }
+    
+    .name {
+        font-size: 28px;
+        font-weight: bold;
+        text-wrap: nowrap;
+        
+        span {
+            color: $highlight-background-color;
+        }
+    }
+    
+    .author {
+        color: #333;
+        font-size: 18px;
+        
+        border-bottom: 1px solid #eaeaea;
+        
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        
+        span {
+            color: #000;
+        }
+    }
+}
+

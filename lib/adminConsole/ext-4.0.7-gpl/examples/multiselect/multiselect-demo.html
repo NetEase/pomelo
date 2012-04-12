@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>MultiSelect &amp; ItemSelector</title>
+
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+
+    <!-- Example -->
+    <script type="text/javascript" src="multiselect-demo.js"></script>
+    <link rel="stylesheet" type="text/css" href="../ux/css/ItemSelector.css" />
+
+</head>
+<body>
+    <h1>MultiSelect &amp; ItemSelector</h1>
+    <p>The js is not minified so it is readable. See <a href="multiselect-demo.js">multiselect-demo.js</a>.</p>
+    
+    <h2>MultiSelect</h2>
+    <p>MultiSelect is a form field type that allows selection of one or more items from a list. The list is
+    populated using a data Store. Items can be reordered via drag and drop if <code>ddReorder:true</code> is set.</p>
+    <p>This example has <code>allowBlank:false</code> so a validation error will appear when the item's selections
+    are cleared. Validations for <code>minSelections</code> and <code>maxSelections</code> can also be applied.</p>
+    <div id="multiselect" class="demo-ct"></div>
+    
+    <h2>ItemSelector</h2>
+    <p>ItemSelector is a specialized MultiSelect field that renders as a pair of MultiSelect field, one with
+    available options and the other with selected options. A set of buttons in between allows items to be
+    moved between the fields and reordered within the selection. Items can also be moved via drag and drop.
+    All the same validations as MultiSelect are supported.</p>
+    <div id="itemselector" class="demo-ct"></div>
+</body>
+</html>

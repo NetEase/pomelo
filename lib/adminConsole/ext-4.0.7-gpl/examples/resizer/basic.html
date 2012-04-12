@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Resizable Examples</title>
+
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <link rel="stylesheet" type="text/css" href="basic.css" />
+
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script src="basic.js"></script>
+
+</head>
+
+<body>
+
+<h1>Resizable Examples</h1>
+<p>These examples show how to apply a floating (default) and pinned Resizable component to a standard element.</p>
+<p>Note that the js is not minified so it is readable. See <a href="basic.js">basic.js</a> for the full source code.</p>
+
+<p>
+    <b>Basic Example</b><br />
+    This is a basic as you get. To resize the box, position your mouse anywhere near the bottom,
+    right or border right edge of the box. This example uses the default "floating" handles.
+</p>
+<div id="basic">Resize Me!</div>
+<pre class="code"><code>var basic = Ext.create('Ext.create', 'Ext.resizer.Resizer', {
+        target: 'basic',
+        width: 200,
+        height: 100,
+        minWidth:100,
+        minHeight:50
+});</code></pre>
+<hr>
+<p>
+    <b>Wrapped Elements</b><br />
+    Some elements such as images and textareas don't allow child elements. Prior to Ext JS 3.x, you had
+    to wrap these elements and set up a Resizable with resize child. With Ext JS 3.x we made it a little
+    easier for you and all you had to do was set "wrap:true". Now with Ext JS 4.x we go a step further
+    and automatically detect if the element needs a wrap and wrap it for you.
+</p><p>
+    <b>Pinned Handles</b><br />
+    Notice this example has the resize handles "pinned". This is done by setting "pinned:true".
+</p><p>
+    <b>Dynamic Sizing</b><br />
+    If you don't like the proxy resizing, you can also turn on dynamic sizing. Just set "dynamic:true".
+</p>
+<p>
+    Here's a textarea that is wrapped (automatically), has pinned handles and has dynamic sizing turned on.
+</p>
+<textarea id="dwrapped" style="resize: none;">
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed metus nibh, sodales a, porta at, vulputate eget, dui. Pellentesque ut nisl. Maecenas tortor turpis, interdum non, sodales non, iaculis ac, lacus. Vestibulum auctor, tortor quis iaculis malesuada, libero lectus bibendum purus, sit amet tincidunt quam turpis vel lacus. In pellentesque nisl non sem. Suspendisse nunc sem, pretium eget, cursus a, fringilla vel, urna. Aliquam commodo ullamcorper erat. Nullam vel justo in neque porttitor laoreet. Aenean lacus dui, consequat eu, adipiscing eget, nonummy non, nisi. Morbi nunc est, dignissim non, ornare sed, luctus eu, massa.
+Vivamus eget quam. Vivamus tincidunt diam nec urna. Curabitur velit. Quisque dolor magna, ornare sed, elementum porta, luctus in, leo.
+</textarea><br /><br />
+And look how simple the code is, even my grandma could write it.
+<pre class="code"><code>var dwrapped = Ext.create('Ext.resizer.Resizer', {
+    target: 'dwrapped',
+    pinned:true,
+    width:450,
+    height:150,
+    minWidth:200,
+    minHeight: 50,
+    dynamic: true
+});</code></pre>
+<hr>
+<p>
+<b>Preserve Ratio</b><br />
+    For some things like images, you will probably want to preserve the ratio of width to height. Just set preserveRatio:true.
+</p>
+<img id="wrapped" src="flower.jpg" width="200" height="133"/>
+<pre class="code"><code>var wrapped = Ext.create('Ext.create', 'Ext.resizer.Resizer', {
+    target: 'wrapped',
+    pinned:true,
+    minWidth:50,
+    minHeight: 50,
+    preserveRatio: true
+});</code></pre>
+<p>
+<b>Snapping</b><br />
+    To resize in fixed increments, specify the <code>widthIncrement</code> or <code>heightIncrement</code> options. The image below
+    resizes (maintaining its aspect ratio) in increments of 20 pixels in both directions.
+</p>
+<img id="croix-de-fer" src="CroixDeFer.jpg" width="160" height="120"/>
+<pre class="code"><code>var snapping = Ext.create('Ext.resizer.Resizer', {
+    target: 'croix-de-fer',
+    width: 160,
+    height: 120,
+    minWidth: 160,
+    minHeight: 120,
+    preserveRatio: true,
+    heightIncrement: 20,
+    widthIncrement: 20
+});
+</code></pre>
+<hr>
+<p>
+<b>Transparent Handles</b><br />
+    If you just want the element to be resizable without any fancy handles, set transparent to true.
+</p>
+<img id="transparent" src="grass.jpg" width="200" height="133"/>
+<pre class="code"><code>var transparent = Ext.create('Ext.create', 'Ext.resizer.Resizer', {
+    target: 'transparent',
+    minWidth:50,
+    minHeight: 50,
+    preserveRatio: true,
+    transparent:true
+});</code></pre>
+<hr>
+<p>
+    <b>Customizable Handles</b><br />
+    Resizable elements are resizable 8 ways. 8 way resizing for a static positioned element will cause the element to be positioned relative and taken out of the document flow. For resizing which adjusts the
+    x and y of the element, the element should be positioned absolute. You can also control which handles are displayed by setting the "handles" attribute.
+    The handles are styled using CSS so they can be customized to look however you would like them to.
+</p>
+<p>
+    This image has 8 way resizing, custom handles and preserved aspect ratio.<br />
+    <b>Double click anywhere on the image to hide it when you are done.</b>
+</p>
+<img id="custom" src="stones.jpg" width="200" height="150" style="position:absolute;left:0;top:0;"/>
+<div style="padding:8px;border:1px solid #c3daf9;background:#d9e8fb;width:150px;text-align:center;"><button id="showMe">Show Me</button></div>
+<pre class="code"><code>var custom = Ext.create('Ext.create', 'Ext.resizer.Resizer', {
+    target: 'custom',
+    pinned:true,
+    minWidth:50,
+    minHeight: 50,
+    preserveRatio: true,
+    dynamic:true,
+    handles: 'all' // shorthand for 'n s e w ne nw se sw'
+});</code></pre>
+
+<p>Images: graur codrin, Matt Banks, Lavoview (FreeDigitalPhotos.net)</p>
+
+</body>
+</html>

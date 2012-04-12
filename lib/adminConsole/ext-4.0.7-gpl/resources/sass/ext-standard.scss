@@ -1,0 +1,14 @@
+$prefix: 'x-';
+
+$include-ff: true;
+$include-chrome: true;
+$include-safari: true;
+$include-opera: true;
+$include-ie: false;
+
+$compile-all: false;
+$supports-border-radius: true;
+$supports-gradients: false;
+
+@import 'compass';
+@import 'ext4/default/all';

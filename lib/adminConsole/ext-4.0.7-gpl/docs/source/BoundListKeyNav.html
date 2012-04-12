@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-view-BoundListKeyNav'>/**
+</span> * @class Ext.view.BoundListKeyNav
+ * @extends Ext.util.KeyNav
+ * A specialized {@link Ext.util.KeyNav} implementation for navigating a {@link Ext.view.BoundList} using
+ * the keyboard. The up, down, pageup, pagedown, home, and end keys move the active highlight
+ * through the list. The enter key invokes the selection model's select action using the highlighted item.
+ */
+Ext.define('Ext.view.BoundListKeyNav', {
+    extend: 'Ext.util.KeyNav',
+    requires: 'Ext.view.BoundList',
+
+<span id='Ext-view-BoundListKeyNav-cfg-boundList'>    /**
+</span>     * @cfg {Ext.view.BoundList} boundList (required)
+     * The {@link Ext.view.BoundList} instance for which key navigation will be managed.
+     */
+
+    constructor: function(el, config) {
+        var me = this;
+        me.boundList = config.boundList;
+        me.callParent([el, Ext.apply({}, config, me.defaultHandlers)]);
+    },
+
+    defaultHandlers: {
+        up: function() {
+            var me = this,
+                boundList = me.boundList,
+                allItems = boundList.all,
+                oldItem = boundList.highlightedItem,
+                oldItemIdx = oldItem ? boundList.indexOf(oldItem) : -1,
+                newItemIdx = oldItemIdx &gt; 0 ? oldItemIdx - 1 : allItems.getCount() - 1; //wraps around
+            me.highlightAt(newItemIdx);
+        },
+
+        down: function() {
+            var me = this,
+                boundList = me.boundList,
+                allItems = boundList.all,
+                oldItem = boundList.highlightedItem,
+                oldItemIdx = oldItem ? boundList.indexOf(oldItem) : -1,
+                newItemIdx = oldItemIdx &lt; allItems.getCount() - 1 ? oldItemIdx + 1 : 0; //wraps around
+            me.highlightAt(newItemIdx);
+        },
+
+        pageup: function() {
+            //TODO
+        },
+
+        pagedown: function() {
+            //TODO
+        },
+
+        home: function() {
+            this.highlightAt(0);
+        },
+
+        end: function() {
+            var me = this;
+            me.highlightAt(me.boundList.all.getCount() - 1);
+        },
+
+        enter: function(e) {
+            this.selectHighlighted(e);
+        }
+    },
+
+<span id='Ext-view-BoundListKeyNav-method-highlightAt'>    /**
+</span>     * Highlights the item at the given index.
+     * @param {Number} index
+     */
+    highlightAt: function(index) {
+        var boundList = this.boundList,
+            item = boundList.all.item(index);
+        if (item) {
+            item = item.dom;
+            boundList.highlightItem(item);
+            boundList.getTargetEl().scrollChildIntoView(item, false);
+        }
+    },
+
+<span id='Ext-view-BoundListKeyNav-method-selectHighlighted'>    /**
+</span>     * Triggers selection of the currently highlighted item according to the behavior of
+     * the configured SelectionModel.
+     */
+    selectHighlighted: function(e) {
+        var me = this,
+            boundList = me.boundList,
+            highlighted = boundList.highlightedItem,
+            selModel = boundList.getSelectionModel();
+        if (highlighted) {
+            selModel.selectWithEvent(boundList.getRecord(highlighted), e);
+        }
+    }
+
+});</pre>
+</body>
+</html>

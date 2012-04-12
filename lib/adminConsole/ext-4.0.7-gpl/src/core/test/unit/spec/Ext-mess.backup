@@ -1,0 +1,198 @@
+describe("Ext-mess", function() {
+   
+
+    xdescribe("Ext.repaint", function() {
+        it("should create a mask in the body", function(){
+            var body = Ext.getBody();
+
+            spyOn(Ext, "getBody").andCallThrough();
+            spyOn(body, "createChild").andCallThrough();
+
+            Ext.repaint();
+
+            expect(Ext.getBody).toHaveBeenCalled();
+            expect(body.createChild).toHaveBeenCalledWith({cls: "x-mask x-mask-transparent", tag: "div"});
+        });
+    });
+
+
+
+
+
+
+    describe("Ext.num", function() {
+        it("should work with an integer", function() {
+            expect(Ext.num(3)).toEqual(3);
+        });
+
+        it("should work with a negative integer", function() {
+            expect(Ext.num(-7)).toEqual(-7);
+        });
+
+        it("should work with a float", function() {
+            expect(Ext.num(5.43)).toEqual(5.43);
+        });
+
+        it("should work with a negative float", function() {
+            expect(Ext.num(-9.8)).toEqual(-9.8);
+        });
+
+        it("should work with Math.PI", function() {
+            expect(Ext.num(Math.PI)).toEqual(Math.PI);
+        });
+
+        it("should return undefined with null", function() {
+            expect(Ext.num(null)).toBeUndefined();
+        });
+
+        it("should work with null, with defaults", function() {
+            expect(Ext.num(null, 4)).toEqual(4);
+        });
+
+        it("should return undefined with undefined", function() {
+            expect(Ext.num(undefined)).toBeUndefined();
+        });
+
+        it("should work with undefined, with defaults", function() {
+            expect(Ext.num(undefined, 42)).toEqual(42);
+        });
+
+        it("should return undefined with boolean", function() {
+            expect(Ext.num(true)).toBeUndefined();
+        });
+
+        it("should work with boolean, with defaults", function() {
+            expect(Ext.num(true, 12)).toEqual(12);
+        });
+
+        it("should return undefined with empty string", function() {
+            expect(Ext.num("")).toBeUndefined();
+        });
+
+        it("should work with string argument in the form of a number", function() {
+            expect(Ext.num('666')).toEqual(666);
+        });
+
+        it("should return undefined with a string containing only spaces", function() {
+            expect(Ext.num("     ")).toBeUndefined();
+        });
+
+        it("should return undefined with non empty string", function() {
+            expect(Ext.num("foo")).toBeUndefined();
+        });
+
+        it("should return undefined with empty array", function() {
+            expect(Ext.num([])).toBeUndefined();
+        });
+
+        it("should return undefined with non empty array", function() {
+            expect(Ext.num([1, 2, 3])).toBeUndefined();
+        });
+
+        it("should return undefined with array with a single item", function() {
+            expect(Ext.num([3])).toBeUndefined();
+        });
+    });
+
+    describe("Ext.pluck", function() {
+        it("should return results", function() {
+            var results = Ext.pluck([{
+                n: 11,
+                c: 17
+            }, {
+                n: 13,
+                p: true
+            }, {
+                n: 18,
+                p: false
+            }], 'n');
+
+            expect(results).toEqual([11, 13, 18]);
+        });
+    });
+
+    describe("Ext.toArray", function() {
+        var span1,
+            span2,
+            span3,
+            span4,
+            div,
+            htmlCollection;
+
+        beforeEach(function() {
+            div = Ext.getBody().createChild({tag: "div"});
+            span1 = div.createChild({tag: "span"});
+            span2 = div.createChild({tag: "span"});
+            span3 = div.createChild({tag: "span"});
+            span4 = div.createChild({tag: "span"});
+            htmlCollection = div.dom.getElementsByTagName("span");
+        });
+
+        it("should convert iterable to an array", function() {
+           expect(Ext.toArray(htmlCollection)).toEqual([span1.dom, span2.dom, span3.dom, span4.dom]);
+        });
+
+        it("should convert a part of an iterable to an array", function() {
+           expect(Ext.toArray(htmlCollection, 1, 3)).toEqual([span2.dom, span3.dom]);
+        });
+    });
+
+
+    xdescribe("Ext.urlDecode", function() {
+        it ("should return an empty object if string is empty", function (){
+            expect(Ext.urlDecode("")).toEqual({});
+        });
+
+        it("should decode 2 keys", function(){
+            expect(Ext.urlDecode("foo=1&bar=2")).toEqual({
+                foo: "1",
+                bar: "2"
+            });
+        });
+
+        it("should decode 2 keys, one of them an array (overwrite off)", function() {
+            expect(Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", false)).toEqual({
+                foo: "1",
+                bar: ['2', '3', '4']
+            });
+        });
+
+        it("should decode 2 keys, one of them an array (overwrite on)", function() {
+            expect(Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", true)).toEqual({
+                foo: "1",
+                bar: "4"
+            });
+        });
+    });
+
+    xdescribe("Ext.urlEncode", function() {
+        it("should encode 2 keys", function() {
+            expect(Ext.urlEncode({
+                foo: "1",
+                bar: "2"
+            })).toEqual("foo=1&bar=2");
+        });
+
+        it("should encode 2 keys, one of them an array", function() {
+            expect(Ext.urlEncode({
+                foo: "1",
+                bar: ['2', '3', '4']
+            })).toEqual("foo=1&bar=2&bar=3&bar=4");
+        });
+
+        it("should encode 2 keys, one of them an array, with pre: test=1", function() {
+            expect(Ext.urlEncode({
+                foo: "1",
+                bar: ['2', '3', '4']
+            }, "test=1")).toEqual("test=1&foo=1&bar=2&bar=3&bar=4");
+        });
+    });
+
+
+
+
+
+
+
+
+});

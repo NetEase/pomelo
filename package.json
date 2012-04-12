@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": false, 
   "dependencies": {
-   	"dnode": ">=0.0.1" 
-  , "express": "2.5.2"
+  "express": "2.5.2"
   , "connect": ">=0.0.1"
   , "jade": ">= 0.0.1"
   , "log4js": ">= 0.4.1"
@@ -15,7 +14,7 @@
   , "seq-queue": ">=0.0.1"
   , "pomelo-schedule": ">=0.3.1"
   , "pomelo-monitor": ">=0.1.2"
-  , "mail-box": ">=0.0.1"
+  , "mail-box": ">=0.0.2"
   , "mail-router": ">=0.0.2"
   , "data-sync": ">=0.0.3"
   , "mime": "1.2.5"
@@ -23,7 +22,7 @@
   , "debug": "*"
   , "module-loader": ">=0.0.1"
   , "local-proxy": ">=0.0.1"
-  , "rpc-gateway": ">=0.0.1"
+  , "rpc-gateway": ">=0.0.2"
   , "async": ">=0.0.1"
   , "seq-queue": ">=0.0.4"
   , "commander" : ">=0.5.2"

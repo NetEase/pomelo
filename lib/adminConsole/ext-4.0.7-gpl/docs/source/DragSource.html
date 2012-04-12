@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-dd-DragSource'>/**
+</span> * @class Ext.dd.DragSource
+ * @extends Ext.dd.DDProxy
+ * A simple class that provides the basic implementation needed to make any element draggable.
+ */
+Ext.define('Ext.dd.DragSource', {
+    extend: 'Ext.dd.DDProxy',
+    requires: [
+        'Ext.dd.StatusProxy',
+        'Ext.dd.DragDropManager'
+    ],
+
+<span id='Ext-dd-DragSource-cfg-ddGroup'>    /**
+</span>     * @cfg {String} ddGroup
+     * A named drag drop group to which this object belongs.  If a group is specified, then this object will only
+     * interact with other drag drop objects in the same group.
+     */
+
+<span id='Ext-dd-DragSource-cfg-dropAllowed'>    /**
+</span>     * @cfg {String} [dropAllowed=&quot;x-dd-drop-ok&quot;]
+     * The CSS class returned to the drag source when drop is allowed.
+     */
+    dropAllowed : Ext.baseCSSPrefix + 'dd-drop-ok',
+<span id='Ext-dd-DragSource-cfg-dropNotAllowed'>    /**
+</span>     * @cfg {String} [dropNotAllowed=&quot;x-dd-drop-nodrop&quot;]
+     * The CSS class returned to the drag source when drop is not allowed.
+     */
+    dropNotAllowed : Ext.baseCSSPrefix + 'dd-drop-nodrop',
+
+<span id='Ext-dd-DragSource-cfg-animRepair'>    /**
+</span>     * @cfg {Boolean} animRepair
+     * If true, animates the proxy element back to the position of the handle element used to trigger the drag.
+     */
+    animRepair: true,
+
+<span id='Ext-dd-DragSource-cfg-repairHighlightColor'>    /**
+</span>     * @cfg {String} repairHighlightColor
+     * The color to use when visually highlighting the drag source in the afterRepair
+     * method after a failed drop (defaults to light blue). The color must be a 6 digit hex value, without
+     * a preceding '#'.
+     */
+    repairHighlightColor: 'c3daf9',
+
+<span id='Ext-dd-DragSource-method-constructor'>    /**
+</span>     * Creates new drag-source.
+     * @constructor
+     * @param {String/HTMLElement/Ext.Element} el The container element or ID of it.
+     * @param {Object} config (optional) Config object.
+     */
+    constructor: function(el, config) {
+        this.el = Ext.get(el);
+        if(!this.dragData){
+            this.dragData = {};
+        }
+
+        Ext.apply(this, config);
+
+        if(!this.proxy){
+            this.proxy = Ext.create('Ext.dd.StatusProxy', {
+                animRepair: this.animRepair
+            });
+        }
+        this.callParent([this.el.dom, this.ddGroup || this.group,
+              {dragElId : this.proxy.id, resizeFrame: false, isTarget: false, scroll: this.scroll === true}]);
+
+        this.dragging = false;
+    },
+
+<span id='Ext-dd-DragSource-method-getDragData'>    /**
+</span>     * Returns the data object associated with this drag source
+     * @return {Object} data An object containing arbitrary data
+     */
+    getDragData : function(e){
+        return this.dragData;
+    },
+
+    // private
+    onDragEnter : function(e, id){
+        var target = Ext.dd.DragDropManager.getDDById(id);
+        this.cachedTarget = target;
+        if (this.beforeDragEnter(target, e, id) !== false) {
+            if (target.isNotifyTarget) {
+                var status = target.notifyEnter(this, e, this.dragData);
+                this.proxy.setStatus(status);
+            } else {
+                this.proxy.setStatus(this.dropAllowed);
+            }
+
+            if (this.afterDragEnter) {
+<span id='Ext-dd-DragSource-method-afterDragEnter'>                /**
+</span>                 * An empty function by default, but provided so that you can perform a custom action
+                 * when the dragged item enters the drop target by providing an implementation.
+                 * @param {Ext.dd.DragDrop} target The drop target
+                 * @param {Event} e The event object
+                 * @param {String} id The id of the dragged element
+                 * @method afterDragEnter
+                 */
+                this.afterDragEnter(target, e, id);
+            }
+        }
+    },
+
+<span id='Ext-dd-DragSource-method-beforeDragEnter'>    /**
+</span>     * An empty function by default, but provided so that you can perform a custom action
+     * before the dragged item enters the drop target and optionally cancel the onDragEnter.
+     * @param {Ext.dd.DragDrop} target The drop target
+     * @param {Event} e The event object
+     * @param {String} id The id of the dragged element
+     * @return {Boolean} isValid True if the drag event is valid, else false to cancel
+     */
+    beforeDragEnter: function(target, e, id) {
+        return true;
+    },
+
+    // private
+    alignElWithMouse: function() {
+        this.callParent(arguments);
+        this.proxy.sync();
+    },
+
+    // private
+    onDragOver: function(e, id) {
+        var target = this.cachedTarget || Ext.dd.DragDropManager.getDDById(id);
+        if (this.beforeDragOver(target, e, id) !== false) {
+            if(target.isNotifyTarget){
+                var status = target.notifyOver(this, e, this.dragData);
+                this.proxy.setStatus(status);
+            }
+
+            if (this.afterDragOver) {
+<span id='Ext-dd-DragSource-method-afterDragOver'>                /**
+</span>                 * An empty function by default, but provided so that you can perform a custom action
+                 * while the dragged item is over the drop target by providing an implementation.
+                 * @param {Ext.dd.DragDrop} target The drop target
+                 * @param {Event} e The event object
+                 * @param {String} id The id of the dragged element
+                 * @method afterDragOver
+                 */
+                this.afterDragOver(target, e, id);
+            }
+        }
+    },
+
+<span id='Ext-dd-DragSource-method-beforeDragOver'>    /**
+</span>     * An empty function by default, but provided so that you can perform a custom action
+     * while the dragged item is over the drop target and optionally cancel the onDragOver.
+     * @param {Ext.dd.DragDrop} target The drop target
+     * @param {Event} e The event object
+     * @param {String} id The id of the dragged element
+     * @return {Boolean} isValid True if the drag event is valid, else false to cancel
+     */
+    beforeDragOver: function(target, e, id) {
+        return true;
+    },
+
+    // private
+    onDragOut: function(e, id) {
+        var target = this.cachedTarget || Ext.dd.DragDropManager.getDDById(id);
+        if (this.beforeDragOut(target, e, id) !== false) {
+            if (target.isNotifyTarget) {
+                target.notifyOut(this, e, this.dragData);
+            }
+            this.proxy.reset();
+            if (this.afterDragOut) {
+<span id='Ext-dd-DragSource-method-afterDragOut'>                /**
+</span>                 * An empty function by default, but provided so that you can perform a custom action
+                 * after the dragged item is dragged out of the target without dropping.
+                 * @param {Ext.dd.DragDrop} target The drop target
+                 * @param {Event} e The event object
+                 * @param {String} id The id of the dragged element
+                 * @method afterDragOut
+                 */
+                this.afterDragOut(target, e, id);
+            }
+        }
+        this.cachedTarget = null;
+    },
+
+<span id='Ext-dd-DragSource-method-beforeDragOut'>    /**
+</span>     * An empty function by default, but provided so that you can perform a custom action before the dragged
+     * item is dragged out of the target without dropping, and optionally cancel the onDragOut.
+     * @param {Ext.dd.DragDrop} target The drop target
+     * @param {Event} e The event object
+     * @param {String} id The id of the dragged element
+     * @return {Boolean} isValid True if the drag event is valid, else false to cancel
+     */
+    beforeDragOut: function(target, e, id){
+        return true;
+    },
+
+    // private
+    onDragDrop: function(e, id){
+        var target = this.cachedTarget || Ext.dd.DragDropManager.getDDById(id);
+        if (this.beforeDragDrop(target, e, id) !== false) {
+            if (target.isNotifyTarget) {
+                if (target.notifyDrop(this, e, this.dragData) !== false) { // valid drop?
+                    this.onValidDrop(target, e, id);
+                } else {
+                    this.onInvalidDrop(target, e, id);
+                }
+            } else {
+                this.onValidDrop(target, e, id);
+            }
+
+            if (this.afterDragDrop) {
+<span id='Ext-dd-DragSource-method-afterDragDrop'>                /**
+</span>                 * An empty function by default, but provided so that you can perform a custom action
+                 * after a valid drag drop has occurred by providing an implementation.
+                 * @param {Ext.dd.DragDrop} target The drop target
+                 * @param {Event} e The event object
+                 * @param {String} id The id of the dropped element
+                 * @method afterDragDrop
+                 */
+                this.afterDragDrop(target, e, id);
+            }
+        }
+        delete this.cachedTarget;
+    },
+
+<span id='Ext-dd-DragSource-method-beforeDragDrop'>    /**
+</span>     * An empty function by default, but provided so that you can perform a custom action before the dragged
+     * item is dropped onto the target and optionally cancel the onDragDrop.
+     * @param {Ext.dd.DragDrop} target The drop target
+     * @param {Event} e The event object
+     * @param {String} id The id of the dragged element
+     * @return {Boolean} isValid True if the drag drop event is valid, else false to cancel
+     */
+    beforeDragDrop: function(target, e, id){
+        return true;
+    },
+
+    // private
+    onValidDrop: function(target, e, id){
+        this.hideProxy();
+        if(this.afterValidDrop){
+<span id='Ext-dd-DragSource-method-afterValidDrop'>            /**
+</span>             * An empty function by default, but provided so that you can perform a custom action
+             * after a valid drop has occurred by providing an implementation.
+             * @param {Object} target The target DD
+             * @param {Event} e The event object
+             * @param {String} id The id of the dropped element
+             * @method afterValidDrop
+             */
+            this.afterValidDrop(target, e, id);
+        }
+    },
+
+    // private
+    getRepairXY: function(e, data){
+        return this.el.getXY();
+    },
+
+    // private
+    onInvalidDrop: function(target, e, id) {
+        this.beforeInvalidDrop(target, e, id);
+        if (this.cachedTarget) {
+            if(this.cachedTarget.isNotifyTarget){
+                this.cachedTarget.notifyOut(this, e, this.dragData);
+            }
+            this.cacheTarget = null;
+        }
+        this.proxy.repair(this.getRepairXY(e, this.dragData), this.afterRepair, this);
+
+        if (this.afterInvalidDrop) {
+<span id='Ext-dd-DragSource-method-afterInvalidDrop'>            /**
+</span>             * An empty function by default, but provided so that you can perform a custom action
+             * after an invalid drop has occurred by providing an implementation.
+             * @param {Event} e The event object
+             * @param {String} id The id of the dropped element
+             * @method afterInvalidDrop
+             */
+            this.afterInvalidDrop(e, id);
+        }
+    },
+
+    // private
+    afterRepair: function() {
+        var me = this;
+        if (Ext.enableFx) {
+            me.el.highlight(me.repairHighlightColor);
+        }
+        me.dragging = false;
+    },
+
+<span id='Ext-dd-DragSource-method-beforeInvalidDrop'>    /**
+</span>     * An empty function by default, but provided so that you can perform a custom action after an invalid
+     * drop has occurred.
+     * @param {Ext.dd.DragDrop} target The drop target
+     * @param {Event} e The event object
+     * @param {String} id The id of the dragged element
+     * @return {Boolean} isValid True if the invalid drop should proceed, else false to cancel
+     */
+    beforeInvalidDrop: function(target, e, id) {
+        return true;
+    },
+
+    // private
+    handleMouseDown: function(e) {
+        if (this.dragging) {
+            return;
+        }
+        var data = this.getDragData(e);
+        if (data &amp;&amp; this.onBeforeDrag(data, e) !== false) {
+            this.dragData = data;
+            this.proxy.stop();
+            this.callParent(arguments);
+        }
+    },
+
+<span id='Ext-dd-DragSource-method-onBeforeDrag'>    /**
+</span>     * An empty function by default, but provided so that you can perform a custom action before the initial
+     * drag event begins and optionally cancel it.
+     * @param {Object} data An object containing arbitrary data to be shared with drop targets
+     * @param {Event} e The event object
+     * @return {Boolean} isValid True if the drag event is valid, else false to cancel
+     */
+    onBeforeDrag: function(data, e){
+        return true;
+    },
+
+<span id='Ext-dd-DragSource-method-onStartDrag'>    /**
+</span>     * An empty function by default, but provided so that you can perform a custom action once the initial
+     * drag event has begun.  The drag cannot be canceled from this function.
+     * @param {Number} x The x position of the click on the dragged object
+     * @param {Number} y The y position of the click on the dragged object
+     * @method
+     */
+    onStartDrag: Ext.emptyFn,
+
+    // private override
+    startDrag: function(x, y) {
+        this.proxy.reset();
+        this.dragging = true;
+        this.proxy.update(&quot;&quot;);
+        this.onInitDrag(x, y);
+        this.proxy.show();
+    },
+
+    // private
+    onInitDrag: function(x, y) {
+        var clone = this.el.dom.cloneNode(true);
+        clone.id = Ext.id(); // prevent duplicate ids
+        this.proxy.update(clone);
+        this.onStartDrag(x, y);
+        return true;
+    },
+
+<span id='Ext-dd-DragSource-method-getProxy'>    /**
+</span>     * Returns the drag source's underlying {@link Ext.dd.StatusProxy}
+     * @return {Ext.dd.StatusProxy} proxy The StatusProxy
+     */
+    getProxy: function() {
+        return this.proxy;
+    },
+
+<span id='Ext-dd-DragSource-method-hideProxy'>    /**
+</span>     * Hides the drag source's {@link Ext.dd.StatusProxy}
+     */
+    hideProxy: function() {
+        this.proxy.hide();
+        this.proxy.reset(true);
+        this.dragging = false;
+    },
+
+    // private
+    triggerCacheRefresh: function() {
+        Ext.dd.DDM.refreshCache(this.groups);
+    },
+
+    // private - override to prevent hiding
+    b4EndDrag: function(e) {
+    },
+
+    // private - override to prevent moving
+    endDrag : function(e){
+        this.onEndDrag(this.dragData, e);
+    },
+
+    // private
+    onEndDrag : function(data, e){
+    },
+
+    // private - pin to cursor
+    autoOffset : function(x, y) {
+        this.setDelta(-12, -20);
+    },
+
+    destroy: function(){
+        this.callParent();
+        Ext.destroy(this.proxy);
+    }
+});
+</pre>
+</body>
+</html>

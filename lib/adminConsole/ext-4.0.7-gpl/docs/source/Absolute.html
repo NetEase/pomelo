@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-layout-container-Absolute'>/**
+</span> * @class Ext.layout.container.Absolute
+ * @extends Ext.layout.container.Anchor
+ *
+ * This is a layout that inherits the anchoring of {@link Ext.layout.container.Anchor} and adds the
+ * ability for x/y positioning using the standard x and y component config options.
+ *
+ * This class is intended to be extended or created via the {@link Ext.container.Container#layout layout}
+ * configuration property.  See {@link Ext.container.Container#layout} for additional details.
+ *
+ *     @example
+ *     Ext.create('Ext.form.Panel', {
+ *         title: 'Absolute Layout',
+ *         width: 300,
+ *         height: 275,
+ *         layout:'absolute',
+ *         layoutConfig: {
+ *             // layout-specific configs go here
+ *             //itemCls: 'x-abs-layout-item',
+ *         },
+ *         url:'save-form.php',
+ *         defaultType: 'textfield',
+ *         items: [{
+ *             x: 10,
+ *             y: 10,
+ *             xtype:'label',
+ *             text: 'Send To:'
+ *         },{
+ *             x: 80,
+ *             y: 10,
+ *             name: 'to',
+ *             anchor:'90%'  // anchor width by percentage
+ *         },{
+ *             x: 10,
+ *             y: 40,
+ *             xtype:'label',
+ *             text: 'Subject:'
+ *         },{
+ *             x: 80,
+ *             y: 40,
+ *             name: 'subject',
+ *             anchor: '90%'  // anchor width by percentage
+ *         },{
+ *             x:0,
+ *             y: 80,
+ *             xtype: 'textareafield',
+ *             name: 'msg',
+ *             anchor: '100% 100%'  // anchor width and height
+ *         }],
+ *         renderTo: Ext.getBody()
+ *     });
+ */
+Ext.define('Ext.layout.container.Absolute', {
+
+    /* Begin Definitions */
+
+    alias: 'layout.absolute',
+    extend: 'Ext.layout.container.Anchor',
+    alternateClassName: 'Ext.layout.AbsoluteLayout',
+
+    /* End Definitions */
+
+    itemCls: Ext.baseCSSPrefix + 'abs-layout-item',
+
+    type: 'absolute',
+
+    onLayout: function() {
+        var me = this,
+            target = me.getTarget(),
+            targetIsBody = target.dom === document.body;
+
+        // Do not set position: relative; when the absolute layout target is the body
+        if (!targetIsBody) {
+            target.position();
+        }
+        me.paddingLeft = target.getPadding('l');
+        me.paddingTop = target.getPadding('t');
+        me.callParent(arguments);
+    },
+
+    // private
+    adjustWidthAnchor: function(value, comp) {
+        //return value ? value - comp.getPosition(true)[0] + this.paddingLeft: value;
+        return value ? value - comp.getPosition(true)[0] : value;
+    },
+
+    // private
+    adjustHeightAnchor: function(value, comp) {
+        //return value ? value - comp.getPosition(true)[1] + this.paddingTop: value;
+        return value ? value - comp.getPosition(true)[1] : value;
+    }
+});</pre>
+</body>
+</html>

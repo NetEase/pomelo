@@ -1,0 +1,295 @@
+@mixin extjs-tool {
+    .#{$prefix}tool {
+        height: $tool-size;
+
+        img {
+            overflow: hidden;
+
+            width: $tool-size;
+            height: $tool-size;
+
+            cursor: pointer;
+
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-image: theme-background-image($theme-name, 'tools/tool-sprites.gif');
+
+            margin: 0;
+        }
+    }
+
+    .#{$prefix}panel-header-horizontal,
+    .#{$prefix}window-header-horizontal {
+        .#{$prefix}tool {
+                margin-left: 2px;
+        }
+    }
+
+    .#{$prefix}panel-header-vertical,
+    .#{$prefix}window-header-vertical {
+        .#{$prefix}tool {
+                margin-bottom: 2px;
+        }
+    }
+
+.#{$prefix}tool-placeholder {
+        visibility: hidden;
+    }
+
+    .#{$prefix}tool-toggle {
+        background-position: 0 -60px;
+    }
+
+    .#{$prefix}tool-over {
+        .#{$prefix}tool-toggle {
+            background-position: -15px -60px;
+        }
+    }
+
+    .#{$prefix}panel-collapsed,
+    .#{$prefix}fieldset-collapsed {
+        .#{$prefix}tool-toggle {
+            background-position: 0 -75px;
+        }
+
+        .#{$prefix}tool-over {
+            .#{$prefix}tool-toggle {
+                background-position: -15px -75px;
+            }
+        }
+    }
+
+    .#{$prefix}tool-close {
+        background-position: 0 0;
+    }
+    
+    .#{$prefix}tool-minimize {
+        background-position: 0 -15px;
+    }
+    
+    .#{$prefix}tool-maximize {
+        background-position: 0 -30px;
+    }
+    
+    .#{$prefix}tool-restore {
+        background-position: 0 -45px;
+    }
+    
+    .#{$prefix}tool-gear {
+        background-position: 0 -90px;
+    }
+    
+    .#{$prefix}tool-prev {
+        background-position: 0 -105px;
+    }
+    
+    .#{$prefix}tool-next {
+        background-position: 0 -120px;
+    }
+    
+    .#{$prefix}tool-pin {
+        background-position: 0 -135px;
+    }
+
+    .#{$prefix}tool-unpin {
+        background-position: 0 -150px;
+    }
+
+    .#{$prefix}tool-right {
+        background-position: 0 -165px;
+    }
+
+    .#{$prefix}tool-left {
+        background-position: 0 -180px;
+    }
+    
+    .#{$prefix}tool-help {
+        background-position: 0 -300px;
+    }
+
+    .#{$prefix}tool-save {
+        background-position: 0 -285px;
+    }
+
+    .#{$prefix}tool-search {
+        background-position: 0 -270px;
+    }
+
+    .#{$prefix}tool-minus {
+        background-position: 0 -255px;
+    }
+
+    .#{$prefix}tool-plus {
+        background-position: 0 -240px;
+    }
+
+    .#{$prefix}tool-refresh {
+        background-position: 0 -225px;
+    }
+
+    .#{$prefix}tool-up {
+        background-position: 0 -210px;
+    }
+
+    .#{$prefix}tool-down {
+        background-position: 0 -195px;
+    }
+    
+    .#{$prefix}tool-move {
+        background-position: 0 -375px;
+    }
+
+    .#{$prefix}tool-resize {
+        background-position: 0 -360px;
+    }
+    
+    .#{$prefix}tool-collapse {
+        background-position: 0 -345px;
+    }
+
+    .#{$prefix}tool-expand {
+        background-position: 0 -330px;
+    }
+
+    .#{$prefix}tool-print {
+        background-position: 0 -315px;
+    }
+
+    .#{$prefix}tool-expand-bottom,
+    .#{$prefix}tool-collapse-bottom {
+        background-position: 0 -195px;
+    }
+
+    .#{$prefix}tool-expand-top,
+    .#{$prefix}tool-collapse-top {
+        background-position: 0 -210px;
+    }
+
+    .#{$prefix}tool-expand-left,
+    .#{$prefix}tool-collapse-left {
+        background-position: 0 -180px;
+    }
+
+    .#{$prefix}tool-expand-right,
+    .#{$prefix}tool-collapse-right {
+        background-position: 0 -165px;
+    }
+
+    .#{$prefix}tool-over {
+        .#{$prefix}tool-close {
+            background-position: -15px 0;
+        }
+
+        .#{$prefix}tool-minimize {
+            background-position: -15px -15px;
+        }
+    
+        .#{$prefix}tool-maximize {
+            background-position: -15px -30px;
+        }
+
+        .#{$prefix}tool-restore {
+            background-position: -15px -45px;
+        }
+    
+        .#{$prefix}tool-gear {
+            background-position: -15px -90px;
+        }
+    
+        .#{$prefix}tool-prev {
+            background-position: -15px -105px;
+        }
+    
+        .#{$prefix}tool-next {
+            background-position: -15px -120px;
+        }
+    
+        .#{$prefix}tool-pin {
+            background-position: -15px -135px;
+        }
+    
+        .#{$prefix}tool-unpin {
+            background-position: -15px -150px;
+        }
+    
+        .#{$prefix}tool-right {
+            background-position: -15px -165px;
+        }
+    
+        .#{$prefix}tool-left {
+            background-position: -15px -180px;
+        }
+
+        .#{$prefix}tool-down {
+            background-position: -15px -195px;
+        }
+    
+        .#{$prefix}tool-up {
+            background-position: -15px -210px;
+        }
+    
+        .#{$prefix}tool-refresh {
+            background-position: -15px -225px;
+        }
+    
+        .#{$prefix}tool-plus {
+            background-position: -15px -240px;
+        }
+
+        .#{$prefix}tool-minus {
+            background-position: -15px -255px;
+        }
+
+        .#{$prefix}tool-search {
+            background-position: -15px -270px;
+        }
+
+        .#{$prefix}tool-save {
+            background-position: -15px -285px;
+        }
+
+        .#{$prefix}tool-help {
+            background-position: -15px -300px;
+        }
+
+        .#{$prefix}tool-print {
+            background-position: -15px -315px;
+        }
+
+        .#{$prefix}tool-expand {
+            background-position: -15px -330px;
+        }
+
+        .#{$prefix}tool-collapse {
+            background-position: -15px -345px;
+        }
+    
+        .#{$prefix}tool-resize {
+            background-position: -15px -360px;
+        }
+    
+        .#{$prefix}tool-move {
+            background-position: -15px -375px;
+        }
+        
+        .#{$prefix}tool-expand-bottom,
+        .#{$prefix}tool-collapse-bottom {
+            background-position: -15px -195px;
+        }
+    
+        .#{$prefix}tool-expand-top,
+        .#{$prefix}tool-collapse-top {
+            background-position: -15px -210px;
+        }
+    
+        .#{$prefix}tool-expand-left,
+        .#{$prefix}tool-collapse-left {
+            background-position: -15px -180px;
+        }
+    
+        .#{$prefix}tool-expand-right,
+        .#{$prefix}tool-collapse-right {
+            background-position: -15px -165px;
+        }
+    }
+}

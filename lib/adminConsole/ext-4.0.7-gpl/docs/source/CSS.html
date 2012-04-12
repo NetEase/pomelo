@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-util-CSS'>/**
+</span> * @class Ext.util.CSS
+ * Utility class for manipulating CSS rules
+ * @singleton
+ */
+Ext.define('Ext.util.CSS', function() {
+    var rules = null;
+    var doc = document;
+
+    var camelRe = /(-[a-z])/gi;
+    var camelFn = function(m, a){ return a.charAt(1).toUpperCase(); };
+
+    return {
+
+        singleton: true,
+
+        constructor: function() {
+            this.rules = {};
+            this.initialized = false;
+        },
+
+<span id='Ext-util-CSS-method-createStyleSheet'>        /**
+</span>         * Creates a stylesheet from a text blob of rules.
+         * These rules will be wrapped in a STYLE tag and appended to the HEAD of the document.
+         * @param {String} cssText The text containing the css rules
+         * @param {String} id An id to add to the stylesheet for later removal
+         * @return {CSSStyleSheet}
+         */
+        createStyleSheet : function(cssText, id) {
+            var ss,
+                head = doc.getElementsByTagName(&quot;head&quot;)[0],
+                styleEl = doc.createElement(&quot;style&quot;);
+
+            styleEl.setAttribute(&quot;type&quot;, &quot;text/css&quot;);
+            if (id) {
+               styleEl.setAttribute(&quot;id&quot;, id);
+            }
+
+            if (Ext.isIE) {
+               head.appendChild(styleEl);
+               ss = styleEl.styleSheet;
+               ss.cssText = cssText;
+            } else {
+                try{
+                    styleEl.appendChild(doc.createTextNode(cssText));
+                } catch(e) {
+                   styleEl.cssText = cssText;
+                }
+                head.appendChild(styleEl);
+                ss = styleEl.styleSheet ? styleEl.styleSheet : (styleEl.sheet || doc.styleSheets[doc.styleSheets.length-1]);
+            }
+            this.cacheStyleSheet(ss);
+            return ss;
+        },
+
+<span id='Ext-util-CSS-method-removeStyleSheet'>        /**
+</span>         * Removes a style or link tag by id
+         * @param {String} id The id of the tag
+         */
+        removeStyleSheet : function(id) {
+            var existing = document.getElementById(id);
+            if (existing) {
+                existing.parentNode.removeChild(existing);
+            }
+        },
+
+<span id='Ext-util-CSS-method-swapStyleSheet'>        /**
+</span>         * Dynamically swaps an existing stylesheet reference for a new one
+         * @param {String} id The id of an existing link tag to remove
+         * @param {String} url The href of the new stylesheet to include
+         */
+        swapStyleSheet : function(id, url) {
+            var doc = document;
+            this.removeStyleSheet(id);
+            var ss = doc.createElement(&quot;link&quot;);
+            ss.setAttribute(&quot;rel&quot;, &quot;stylesheet&quot;);
+            ss.setAttribute(&quot;type&quot;, &quot;text/css&quot;);
+            ss.setAttribute(&quot;id&quot;, id);
+            ss.setAttribute(&quot;href&quot;, url);
+            doc.getElementsByTagName(&quot;head&quot;)[0].appendChild(ss);
+        },
+
+<span id='Ext-util-CSS-method-refreshCache'>        /**
+</span>         * Refresh the rule cache if you have dynamically added stylesheets
+         * @return {Object} An object (hash) of rules indexed by selector
+         */
+        refreshCache : function() {
+            return this.getRules(true);
+        },
+
+        // private
+        cacheStyleSheet : function(ss) {
+            if(!rules){
+                rules = {};
+            }
+            try {// try catch for cross domain access issue
+                var ssRules = ss.cssRules || ss.rules,
+                    selectorText,
+                    i = ssRules.length - 1,
+                    j,
+                    selectors;
+
+                for (; i &gt;= 0; --i) {
+                    selectorText = ssRules[i].selectorText;
+                    if (selectorText) {
+
+                        // Split in case there are multiple, comma-delimited selectors
+                        selectorText = selectorText.split(',');
+                        selectors = selectorText.length;
+                        for (j = 0; j &lt; selectors; j++) {
+                            rules[Ext.String.trim(selectorText[j]).toLowerCase()] = ssRules[i];
+                        }
+                    }
+                }
+            } catch(e) {}
+        },
+
+<span id='Ext-util-CSS-method-getRules'>        /**
+</span>        * Gets all css rules for the document
+        * @param {Boolean} refreshCache true to refresh the internal cache
+        * @return {Object} An object (hash) of rules indexed by selector
+        */
+        getRules : function(refreshCache) {
+            if (rules === null || refreshCache) {
+                rules = {};
+                var ds = doc.styleSheets,
+                    i = 0,
+                    len = ds.length;
+
+                for (; i &lt; len; i++) {
+                    try {
+                        if (!ds[i].disabled) {
+                            this.cacheStyleSheet(ds[i]);
+                        }
+                    } catch(e) {}
+                }
+            }
+            return rules;
+        },
+
+<span id='Ext-util-CSS-method-getRule'>        /**
+</span>         * Gets an an individual CSS rule by selector(s)
+         * @param {String/String[]} selector The CSS selector or an array of selectors to try. The first selector that is found is returned.
+         * @param {Boolean} refreshCache true to refresh the internal cache if you have recently updated any rules or added styles dynamically
+         * @return {CSSStyleRule} The CSS rule or null if one is not found
+         */
+        getRule: function(selector, refreshCache) {
+            var rs = this.getRules(refreshCache);
+            if (!Ext.isArray(selector)) {
+                return rs[selector.toLowerCase()];
+            }
+            for (var i = 0; i &lt; selector.length; i++) {
+                if (rs[selector[i]]) {
+                    return rs[selector[i].toLowerCase()];
+                }
+            }
+            return null;
+        },
+
+<span id='Ext-util-CSS-method-updateRule'>        /**
+</span>         * Updates a rule property
+         * @param {String/String[]} selector If it's an array it tries each selector until it finds one. Stops immediately once one is found.
+         * @param {String} property The css property
+         * @param {String} value The new value for the property
+         * @return {Boolean} true If a rule was found and updated
+         */
+        updateRule : function(selector, property, value){
+            if (!Ext.isArray(selector)) {
+                var rule = this.getRule(selector);
+                if (rule) {
+                    rule.style[property.replace(camelRe, camelFn)] = value;
+                    return true;
+                }
+            } else {
+                for (var i = 0; i &lt; selector.length; i++) {
+                    if (this.updateRule(selector[i], property, value)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    };
+}());</pre>
+</body>
+</html>

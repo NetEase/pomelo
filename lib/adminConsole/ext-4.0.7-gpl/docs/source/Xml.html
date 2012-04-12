@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-reader-Xml'>/**
+</span> * @author Ed Spencer
+ * @class Ext.data.reader.Xml
+ * @extends Ext.data.reader.Reader
+ *
+ * &lt;p&gt;The XML Reader is used by a Proxy to read a server response that is sent back in XML format. This usually
+ * happens as a result of loading a Store - for example we might create something like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+Ext.define('User', {
+    extend: 'Ext.data.Model',
+    fields: ['id', 'name', 'email']
+});
+
+var store = Ext.create('Ext.data.Store', {
+    model: 'User',
+    proxy: {
+        type: 'ajax',
+        url : 'users.xml',
+        reader: {
+            type: 'xml',
+            record: 'user'
+        }
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;The example above creates a 'User' model. Models are explained in the {@link Ext.data.Model Model} docs if you're
+ * not already familiar with them.&lt;/p&gt;
+ *
+ * &lt;p&gt;We created the simplest type of XML Reader possible by simply telling our {@link Ext.data.Store Store}'s
+ * {@link Ext.data.proxy.Proxy Proxy} that we want a XML Reader. The Store automatically passes the configured model to the
+ * Store, so it is as if we passed this instead:
+ *
+&lt;pre&gt;&lt;code&gt;
+reader: {
+    type : 'xml',
+    model: 'User',
+    record: 'user'
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;The reader we set up is ready to read data from our server - at the moment it will accept a response like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;
+&amp;lt;user&amp;gt;
+    &amp;lt;id&amp;gt;1&amp;lt;/id&amp;gt;
+    &amp;lt;name&amp;gt;Ed Spencer&amp;lt;/name&amp;gt;
+    &amp;lt;email&amp;gt;ed@sencha.com&amp;lt;/email&amp;gt;
+&amp;lt;/user&amp;gt;
+&amp;lt;user&amp;gt;
+    &amp;lt;id&amp;gt;2&amp;lt;/id&amp;gt;
+    &amp;lt;name&amp;gt;Abe Elias&amp;lt;/name&amp;gt;
+    &amp;lt;email&amp;gt;abe@sencha.com&amp;lt;/email&amp;gt;
+&amp;lt;/user&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;The XML Reader uses the configured {@link #record} option to pull out the data for each record - in this case we
+ * set record to 'user', so each &amp;lt;user&amp;gt; above will be converted into a User model.&lt;/p&gt;
+ *
+ * &lt;p&gt;&lt;u&gt;Reading other XML formats&lt;/u&gt;&lt;/p&gt;
+ *
+ * &lt;p&gt;If you already have your XML format defined and it doesn't look quite like what we have above, you can usually
+ * pass XmlReader a couple of configuration options to make it parse your format. For example, we can use the
+ * {@link #root} configuration to parse data that comes back like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;
+&amp;lt;users&amp;gt;
+    &amp;lt;user&amp;gt;
+        &amp;lt;id&amp;gt;1&amp;lt;/id&amp;gt;
+        &amp;lt;name&amp;gt;Ed Spencer&amp;lt;/name&amp;gt;
+        &amp;lt;email&amp;gt;ed@sencha.com&amp;lt;/email&amp;gt;
+    &amp;lt;/user&amp;gt;
+    &amp;lt;user&amp;gt;
+        &amp;lt;id&amp;gt;2&amp;lt;/id&amp;gt;
+        &amp;lt;name&amp;gt;Abe Elias&amp;lt;/name&amp;gt;
+        &amp;lt;email&amp;gt;abe@sencha.com&amp;lt;/email&amp;gt;
+    &amp;lt;/user&amp;gt;
+&amp;lt;/users&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;To parse this we just pass in a {@link #root} configuration that matches the 'users' above:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+reader: {
+    type  : 'xml',
+    root  : 'users',
+    record: 'user'
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;Note that XmlReader doesn't care whether your {@link #root} and {@link #record} elements are nested deep inside
+ * a larger structure, so a response like this will still work:
+ *
+&lt;pre&gt;&lt;code&gt;
+&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;
+&amp;lt;deeply&amp;gt;
+    &amp;lt;nested&amp;gt;
+        &amp;lt;xml&amp;gt;
+            &amp;lt;users&amp;gt;
+                &amp;lt;user&amp;gt;
+                    &amp;lt;id&amp;gt;1&amp;lt;/id&amp;gt;
+                    &amp;lt;name&amp;gt;Ed Spencer&amp;lt;/name&amp;gt;
+                    &amp;lt;email&amp;gt;ed@sencha.com&amp;lt;/email&amp;gt;
+                &amp;lt;/user&amp;gt;
+                &amp;lt;user&amp;gt;
+                    &amp;lt;id&amp;gt;2&amp;lt;/id&amp;gt;
+                    &amp;lt;name&amp;gt;Abe Elias&amp;lt;/name&amp;gt;
+                    &amp;lt;email&amp;gt;abe@sencha.com&amp;lt;/email&amp;gt;
+                &amp;lt;/user&amp;gt;
+            &amp;lt;/users&amp;gt;
+        &amp;lt;/xml&amp;gt;
+    &amp;lt;/nested&amp;gt;
+&amp;lt;/deeply&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;&lt;u&gt;Response metadata&lt;/u&gt;&lt;/p&gt;
+ *
+ * &lt;p&gt;The server can return additional data in its response, such as the {@link #totalProperty total number of records}
+ * and the {@link #successProperty success status of the response}. These are typically included in the XML response
+ * like this:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;
+&amp;lt;total&amp;gt;100&amp;lt;/total&amp;gt;
+&amp;lt;success&amp;gt;true&amp;lt;/success&amp;gt;
+&amp;lt;users&amp;gt;
+    &amp;lt;user&amp;gt;
+        &amp;lt;id&amp;gt;1&amp;lt;/id&amp;gt;
+        &amp;lt;name&amp;gt;Ed Spencer&amp;lt;/name&amp;gt;
+        &amp;lt;email&amp;gt;ed@sencha.com&amp;lt;/email&amp;gt;
+    &amp;lt;/user&amp;gt;
+    &amp;lt;user&amp;gt;
+        &amp;lt;id&amp;gt;2&amp;lt;/id&amp;gt;
+        &amp;lt;name&amp;gt;Abe Elias&amp;lt;/name&amp;gt;
+        &amp;lt;email&amp;gt;abe@sencha.com&amp;lt;/email&amp;gt;
+    &amp;lt;/user&amp;gt;
+&amp;lt;/users&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;If these properties are present in the XML response they can be parsed out by the XmlReader and used by the
+ * Store that loaded it. We can set up the names of these properties by specifying a final pair of configuration
+ * options:&lt;/p&gt;
+ *
+&lt;pre&gt;&lt;code&gt;
+reader: {
+    type: 'xml',
+    root: 'users',
+    totalProperty  : 'total',
+    successProperty: 'success'
+}
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * &lt;p&gt;These final options are not necessary to make the Reader work, but can be useful when the server needs to report
+ * an error or if it needs to indicate that there is a lot of data available of which only a subset is currently being
+ * returned.&lt;/p&gt;
+ *
+ * &lt;p&gt;&lt;u&gt;Response format&lt;/u&gt;&lt;/p&gt;
+ *
+ * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; in order for the browser to parse a returned XML document, the Content-Type header in the HTTP
+ * response must be set to &quot;text/xml&quot; or &quot;application/xml&quot;. This is very important - the XmlReader will not
+ * work correctly otherwise.&lt;/p&gt;
+ */
+Ext.define('Ext.data.reader.Xml', {
+    extend: 'Ext.data.reader.Reader',
+    alternateClassName: 'Ext.data.XmlReader',
+    alias : 'reader.xml',
+
+<span id='Ext-data-reader-Xml-cfg-record'>    /**
+</span>     * @cfg {String} record (required)
+     * The DomQuery path to the repeated element which contains record information.
+     */
+
+<span id='Ext-data-reader-Xml-method-createAccessor'>    /**
+</span>     * @private
+     * Creates a function to return some particular key of data from a response. The totalProperty and
+     * successProperty are treated as special cases for type casting, everything else is just a simple selector.
+     * @param {String} key
+     * @return {Function}
+     */
+    createAccessor: function(expr) {
+        var me = this;
+
+        if (Ext.isEmpty(expr)) {
+            return Ext.emptyFn;
+        }
+
+        if (Ext.isFunction(expr)) {
+            return expr;
+        }
+
+        return function(root) {
+            return me.getNodeValue(Ext.DomQuery.selectNode(expr, root));
+        };
+    },
+
+    getNodeValue: function(node) {
+        if (node &amp;&amp; node.firstChild) {
+            return node.firstChild.nodeValue;
+        }
+        return undefined;
+    },
+
+    //inherit docs
+    getResponseData: function(response) {
+        var xml = response.responseXML;
+
+        //&lt;debug&gt;
+        if (!xml) {
+            Ext.Error.raise({
+                response: response,
+                msg: 'XML data not found in the response'
+            });
+        }
+        //&lt;/debug&gt;
+
+        return xml;
+    },
+
+<span id='Ext-data-reader-Xml-method-getData'>    /**
+</span>     * Normalizes the data object
+     * @param {Object} data The raw data object
+     * @return {Object} Returns the documentElement property of the data object if present, or the same object if not
+     */
+    getData: function(data) {
+        return data.documentElement || data;
+    },
+
+<span id='Ext-data-reader-Xml-method-getRoot'>    /**
+</span>     * @private
+     * Given an XML object, returns the Element that represents the root as configured by the Reader's meta data
+     * @param {Object} data The XML data object
+     * @return {XMLElement} The root node element
+     */
+    getRoot: function(data) {
+        var nodeName = data.nodeName,
+            root     = this.root;
+
+        if (!root || (nodeName &amp;&amp; nodeName == root)) {
+            return data;
+        } else if (Ext.DomQuery.isXml(data)) {
+            // This fix ensures we have XML data
+            // Related to TreeStore calling getRoot with the root node, which isn't XML
+            // Probably should be resolved in TreeStore at some point
+            return Ext.DomQuery.selectNode(root, data);
+        }
+    },
+
+<span id='Ext-data-reader-Xml-method-extractData'>    /**
+</span>     * @private
+     * We're just preparing the data for the superclass by pulling out the record nodes we want
+     * @param {XMLElement} root The XML root node
+     * @return {Ext.data.Model[]} The records
+     */
+    extractData: function(root) {
+        var recordName = this.record;
+
+        //&lt;debug&gt;
+        if (!recordName) {
+            Ext.Error.raise('Record is a required parameter');
+        }
+        //&lt;/debug&gt;
+
+        if (recordName != root.nodeName) {
+            root = Ext.DomQuery.select(recordName, root);
+        } else {
+            root = [root];
+        }
+        return this.callParent([root]);
+    },
+
+<span id='Ext-data-reader-Xml-method-getAssociatedDataRoot'>    /**
+</span>     * @private
+     * See Ext.data.reader.Reader's getAssociatedDataRoot docs
+     * @param {Object} data The raw data object
+     * @param {String} associationName The name of the association to get data for (uses associationKey if present)
+     * @return {XMLElement} The root
+     */
+    getAssociatedDataRoot: function(data, associationName) {
+        return Ext.DomQuery.select(associationName, data)[0];
+    },
+
+<span id='Ext-data-reader-Xml-method-readRecords'>    /**
+</span>     * Parses an XML document and returns a ResultSet containing the model instances
+     * @param {Object} doc Parsed XML document
+     * @return {Ext.data.ResultSet} The parsed result set
+     */
+    readRecords: function(doc) {
+        //it's possible that we get passed an array here by associations. Make sure we strip that out (see Ext.data.reader.Reader#readAssociated)
+        if (Ext.isArray(doc)) {
+            doc = doc[0];
+        }
+
+<span id='Ext-data-reader-Xml-property-xmlData'>        /**
+</span>         * @deprecated will be removed in Ext JS 5.0. This is just a copy of this.rawData - use that instead
+         * @property xmlData
+         * @type Object
+         */
+        this.xmlData = doc;
+        return this.callParent([doc]);
+    }
+});</pre>
+</body>
+</html>

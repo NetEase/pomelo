@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Windows Example</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../shared/example.css"/>
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script language="javascript" src="window.js"></script>
+    <style type="text/css">
+        .x-panel-body p {
+            margin: 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<!-- EXAMPLES -->
+<h1>Windows Example</h1>
+<p>Note that the js is not minified so it is readable. See <a href="window.js">window.js</a> for the full source code.</p>
+<p>This illustrates the <code>headerPosition</code> config of Panels, and also relative z-index management.</p>
+<p>The third Window owns two floating Windows who's z-indices are managed relative to <i>its</i> z-index. When that Window
+is occluded by another Window, and you click to bring it to the front, both its dependent Windows move to the front too.
+<p>This also illustrates constraining Windows.</p>
+</body>
+</html>

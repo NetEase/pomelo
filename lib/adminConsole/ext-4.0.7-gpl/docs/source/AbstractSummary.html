@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-feature-AbstractSummary'>/**
+</span> * @class Ext.grid.feature.AbstractSummary
+ * @extends Ext.grid.feature.Feature
+ * A small abstract class that contains the shared behaviour for any summary
+ * calculations to be used in the grid.
+ */
+Ext.define('Ext.grid.feature.AbstractSummary', {
+    
+    /* Begin Definitions */
+   
+    extend: 'Ext.grid.feature.Feature',
+    
+    alias: 'feature.abstractsummary',
+   
+    /* End Definitions */
+   
+<span id='Ext-grid-feature-AbstractSummary-cfg-showSummaryRow'>   /**
+</span>    * @cfg {Boolean} showSummaryRow True to show the summary row. Defaults to &lt;tt&gt;true&lt;/tt&gt;.
+    */
+    showSummaryRow: true,
+    
+    // @private
+    nestedIdRe: /\{\{id\}([\w\-]*)\}/g,
+    
+<span id='Ext-grid-feature-AbstractSummary-method-toggleSummaryRow'>    /**
+</span>     * Toggle whether or not to show the summary row.
+     * @param {Boolean} visible True to show the summary row
+     */
+    toggleSummaryRow: function(visible){
+        this.showSummaryRow = !!visible;
+    },
+    
+<span id='Ext-grid-feature-AbstractSummary-method-getSummaryFragments'>    /**
+</span>     * Gets any fragments to be used in the tpl
+     * @private
+     * @return {Object} The fragments
+     */
+    getSummaryFragments: function(){
+        var fragments = {};
+        if (this.showSummaryRow) {
+            Ext.apply(fragments, {
+                printSummaryRow: Ext.bind(this.printSummaryRow, this)
+            });
+        }
+        return fragments;
+    },
+    
+<span id='Ext-grid-feature-AbstractSummary-method-printSummaryRow'>    /**
+</span>     * Prints a summary row
+     * @private
+     * @param {Object} index The index in the template
+     * @return {String} The value of the summary row
+     */
+    printSummaryRow: function(index){
+        var inner = this.view.getTableChunker().metaRowTpl.join(''),
+            prefix = Ext.baseCSSPrefix;
+        
+        inner = inner.replace(prefix + 'grid-row', prefix + 'grid-row-summary');
+        inner = inner.replace('{{id}}', '{gridSummaryValue}');
+        inner = inner.replace(this.nestedIdRe, '{id$1}');  
+        inner = inner.replace('{[this.embedRowCls()]}', '{rowCls}');
+        inner = inner.replace('{[this.embedRowAttr()]}', '{rowAttr}');
+        inner = Ext.create('Ext.XTemplate', inner, {
+            firstOrLastCls: Ext.view.TableChunker.firstOrLastCls
+        });
+        
+        return inner.applyTemplate({
+            columns: this.getPrintData(index)
+        });
+    },
+    
+<span id='Ext-grid-feature-AbstractSummary-method-getColumnValue'>    /**
+</span>     * Gets the value for the column from the attached data.
+     * @param {Ext.grid.column.Column} column The header
+     * @param {Object} data The current data
+     * @return {String} The value to be rendered
+     */
+    getColumnValue: function(column, summaryData){
+        var comp     = Ext.getCmp(column.id),
+            value    = summaryData[column.id],
+            renderer = comp.summaryRenderer;
+
+        if (renderer) {
+            value = renderer.call(
+                comp.scope || this,
+                value,
+                summaryData,
+                column.dataIndex
+            );
+        }
+        return value;
+    },
+    
+<span id='Ext-grid-feature-AbstractSummary-method-getSummary'>    /**
+</span>     * Get the summary data for a field.
+     * @private
+     * @param {Ext.data.Store} store The store to get the data from
+     * @param {String/Function} type The type of aggregation. If a function is specified it will
+     * be passed to the stores aggregate function.
+     * @param {String} field The field to aggregate on
+     * @param {Boolean} group True to aggregate in grouped mode 
+     * @return {Number/String/Object} See the return type for the store functions.
+     */
+    getSummary: function(store, type, field, group){
+        if (type) {
+            if (Ext.isFunction(type)) {
+                return store.aggregate(type, null, group);
+            }
+            
+            switch (type) {
+                case 'count':
+                    return store.count(group);
+                case 'min':
+                    return store.min(field, group);
+                case 'max':
+                    return store.max(field, group);
+                case 'sum':
+                    return store.sum(field, group);
+                case 'average':
+                    return store.average(field, group);
+                default:
+                    return group ? {} : '';
+                    
+            }
+        }
+    }
+    
+});
+</pre>
+</body>
+</html>

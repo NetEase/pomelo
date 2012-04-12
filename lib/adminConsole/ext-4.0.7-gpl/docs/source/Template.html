@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-column-Template'>/**
+</span> * A Column definition class which renders a value by processing a {@link Ext.data.Model Model}'s
+ * {@link Ext.data.Model#persistenceProperty data} using a {@link #tpl configured}
+ * {@link Ext.XTemplate XTemplate}.
+ * 
+ *     @example
+ *     Ext.create('Ext.data.Store', {
+ *         storeId:'employeeStore',
+ *         fields:['firstname', 'lastname', 'senority', 'department'],
+ *         groupField: 'department',
+ *         data:[
+ *             { firstname: &quot;Michael&quot;, lastname: &quot;Scott&quot;,   senority: 7, department: &quot;Manangement&quot; },
+ *             { firstname: &quot;Dwight&quot;,  lastname: &quot;Schrute&quot;, senority: 2, department: &quot;Sales&quot; },
+ *             { firstname: &quot;Jim&quot;,     lastname: &quot;Halpert&quot;, senority: 3, department: &quot;Sales&quot; },
+ *             { firstname: &quot;Kevin&quot;,   lastname: &quot;Malone&quot;,  senority: 4, department: &quot;Accounting&quot; },
+ *             { firstname: &quot;Angela&quot;,  lastname: &quot;Martin&quot;,  senority: 5, department: &quot;Accounting&quot; }                        
+ *         ]
+ *     });
+ *     
+ *     Ext.create('Ext.grid.Panel', {
+ *         title: 'Column Template Demo',
+ *         store: Ext.data.StoreManager.lookup('employeeStore'),
+ *         columns: [
+ *             { text: 'Full Name',       xtype: 'templatecolumn', tpl: '{firstname} {lastname}', flex:1 },
+ *             { text: 'Deparment (Yrs)', xtype: 'templatecolumn', tpl: '{department} ({senority})' }
+ *         ],
+ *         height: 200,
+ *         width: 300,
+ *         renderTo: Ext.getBody()
+ *     });
+ */
+Ext.define('Ext.grid.column.Template', {
+    extend: 'Ext.grid.column.Column',
+    alias: ['widget.templatecolumn'],
+    requires: ['Ext.XTemplate'],
+    alternateClassName: 'Ext.grid.TemplateColumn',
+
+<span id='Ext-grid-column-Template-cfg-tpl'>    /**
+</span>     * @cfg {String/Ext.XTemplate} tpl
+     * An {@link Ext.XTemplate XTemplate}, or an XTemplate *definition string* to use to process a
+     * {@link Ext.data.Model Model}'s {@link Ext.data.Model#persistenceProperty data} to produce a
+     * column's rendered value.
+     */
+
+    constructor: function(cfg){
+        var me = this,
+            tpl;
+            
+        me.callParent(arguments);
+        tpl = me.tpl = (!Ext.isPrimitive(me.tpl) &amp;&amp; me.tpl.compile) ? me.tpl : Ext.create('Ext.XTemplate', me.tpl);
+
+        me.renderer = function(value, p, record) {
+            var data = Ext.apply({}, record.data, record.getAssociatedData());
+            return tpl.apply(data);
+        };
+    }
+});
+</pre>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-tree-Column'>/**
+</span> * @class Ext.tree.Column
+ * @extends Ext.grid.column.Column
+ * 
+ * Provides indentation and folder structure markup for a Tree taking into account
+ * depth and position within the tree hierarchy.
+ * 
+ * @private
+ */
+Ext.define('Ext.tree.Column', {
+    extend: 'Ext.grid.column.Column',
+    alias: 'widget.treecolumn',
+
+    initComponent: function() {
+        var origRenderer = this.renderer || this.defaultRenderer,
+            origScope    = this.scope || window;
+
+        this.renderer = function(value, metaData, record, rowIdx, colIdx, store, view) {
+            var buf   = [],
+                format = Ext.String.format,
+                depth = record.getDepth(),
+                treePrefix  = Ext.baseCSSPrefix + 'tree-',
+                elbowPrefix = treePrefix + 'elbow-',
+                expanderCls = treePrefix + 'expander',
+                imgText     = '&lt;img src=&quot;{1}&quot; class=&quot;{0}&quot; /&gt;',
+                checkboxText= '&lt;input type=&quot;button&quot; role=&quot;checkbox&quot; class=&quot;{0}&quot; {1} /&gt;',
+                formattedValue = origRenderer.apply(origScope, arguments),
+                href = record.get('href'),
+                target = record.get('hrefTarget'),
+                cls = record.get('cls');
+
+            while (record) {
+                if (!record.isRoot() || (record.isRoot() &amp;&amp; view.rootVisible)) {
+                    if (record.getDepth() === depth) {
+                        buf.unshift(format(imgText,
+                            treePrefix + 'icon ' + 
+                            treePrefix + 'icon' + (record.get('icon') ? '-inline ' : (record.isLeaf() ? '-leaf ' : '-parent ')) +
+                            (record.get('iconCls') || ''),
+                            record.get('icon') || Ext.BLANK_IMAGE_URL
+                        ));
+                        if (record.get('checked') !== null) {
+                            buf.unshift(format(
+                                checkboxText,
+                                (treePrefix + 'checkbox') + (record.get('checked') ? ' ' + treePrefix + 'checkbox-checked' : ''),
+                                record.get('checked') ? 'aria-checked=&quot;true&quot;' : ''
+                            ));
+                            if (record.get('checked')) {
+                                metaData.tdCls += (' ' + treePrefix + 'checked');
+                            }
+                        }
+                        if (record.isLast()) {
+                            if (record.isExpandable()) {
+                                buf.unshift(format(imgText, (elbowPrefix + 'end-plus ' + expanderCls), Ext.BLANK_IMAGE_URL));
+                            } else {
+                                buf.unshift(format(imgText, (elbowPrefix + 'end'), Ext.BLANK_IMAGE_URL));
+                            }
+                            
+                        } else {
+                            if (record.isExpandable()) {
+                                buf.unshift(format(imgText, (elbowPrefix + 'plus ' + expanderCls), Ext.BLANK_IMAGE_URL));
+                            } else {
+                                buf.unshift(format(imgText, (treePrefix + 'elbow'), Ext.BLANK_IMAGE_URL));
+                            }
+                        }
+                    } else {
+                        if (record.isLast() || record.getDepth() === 0) {
+                            buf.unshift(format(imgText, (elbowPrefix + 'empty'), Ext.BLANK_IMAGE_URL));
+                        } else if (record.getDepth() !== 0) {
+                            buf.unshift(format(imgText, (elbowPrefix + 'line'), Ext.BLANK_IMAGE_URL));
+                        }                      
+                    }
+                }
+                record = record.parentNode;
+            }
+            if (href) {
+                buf.push('&lt;a href=&quot;', href, '&quot; target=&quot;', target, '&quot;&gt;', formattedValue, '&lt;/a&gt;');
+            } else {
+                buf.push(formattedValue);
+            }
+            if (cls) {
+                metaData.tdCls += ' ' + cls;
+            }
+            return buf.join('');
+        };
+        this.callParent(arguments);
+    },
+
+    defaultRenderer: function(value) {
+        return value;
+    }
+});</pre>
+</body>
+</html>

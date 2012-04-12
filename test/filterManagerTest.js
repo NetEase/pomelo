@@ -26,6 +26,7 @@ describe('filterManagerTest', function(){
     var testFilter3 = filterMaker.create('filter3');
     
     before(function(done){
+        filterManager.clear();
         done();
     });
     after(function(done){

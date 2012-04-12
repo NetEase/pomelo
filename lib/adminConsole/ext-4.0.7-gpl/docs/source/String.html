@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='String'>/**
+</span> * @class String
+ *
+ * `String` is a global object that may be used to construct String instances.
+ *
+ * String objects may be created by calling the constructor `new String()`. The `String` object wraps
+ * JavaScript's string primitive data type with the methods described below. The global function
+ * `String()` can also be called without new in front to create a primitive string. String literals in
+ * JavaScript are primitive strings.
+ *
+ * Because JavaScript automatically converts between string primitives and String objects, you can call
+ * any of the methods of the `String` object on a string primitive. JavaScript automatically converts the
+ * string primitive to a temporary `String` object, calls the method, then discards the temporary String
+ * object. For example, you can use the `String.length` property on a string primitive created from a
+ * string literal:
+ *
+ *     s_obj = new String(s_prim = s_also_prim = &quot;foo&quot;);
+ *
+ *     s_obj.length;       // 3
+ *     s_prim.length;      // 3
+ *     s_also_prim.length; // 3
+ *     'foo'.length;       // 3
+ *     &quot;foo&quot;.length;       // 3
+ *
+ * (A string literal is denoted with single or double quotation marks.)
+ *
+ * String objects can be converted to primitive strings with the `valueOf` method.
+ *
+ * String primitives and String objects give different results when evaluated as JavaScript. Primitives
+ * are treated as source code; String objects are treated as a character sequence object. For example:
+ *
+ *     s1 = &quot;2 + 2&quot;;               // creates a string primitive
+ *     s2 = new String(&quot;2 + 2&quot;);   // creates a String object
+ *     eval(s1);                   // returns the number 4
+ *     eval(s2);                   // returns the string &quot;2 + 2&quot;
+ *     eval(s2.valueOf());         // returns the number 4
+ *
+ * # Character access
+ *
+ * There are two ways to access an individual character in a string. The first is the `charAt` method:
+ *
+ *     return 'cat'.charAt(1); // returns &quot;a&quot;
+ *
+ * The other way is to treat the string as an array, where each index corresponds to an individual
+ * character:
+ *
+ *     return 'cat'[1]; // returns &quot;a&quot;
+ *
+ * The second way (treating the string as an array) is not part of ECMAScript 3. It is a JavaScript and
+ * ECMAScript 5 feature.
+ *
+ * In both cases, attempting to set an individual character won't work. Trying to set a character
+ * through `charAt` results in an error, while trying to set a character via indexing does not throw an
+ * error, but the string itself is unchanged.
+ *
+ * # Comparing strings
+ *
+ * C developers have the `strcmp()` function for comparing strings. In JavaScript, you just use the less-
+ * than and greater-than operators:
+ *
+ *     var a = &quot;a&quot;;
+ *     var b = &quot;b&quot;;
+ *     if (a &lt; b) // true
+ *         print(a + &quot; is less than &quot; + b);
+ *     else if (a &gt; b)
+ *         print(a + &quot; is greater than &quot; + b);
+ *     else
+ *         print(a + &quot; and &quot; + b + &quot; are equal.&quot;);
+ *
+ * A similar result can be achieved using the `localeCompare` method inherited by `String` instances.
+ *
+ * &lt;div class=&quot;notice&quot;&gt;
+ * Documentation for this class comes from &lt;a href=&quot;https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String&quot;&gt;MDN&lt;/a&gt;
+ * and is available under &lt;a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;&gt;Creative Commons: Attribution-Sharealike license&lt;/a&gt;.
+ * &lt;/div&gt;
+ */
+
+<span id='String-method-constructor'>/**
+</span> * @method constructor
+ * Creates new String object.
+ * @param {Object} value The value to wrap into String object.
+ */
+
+//Methods
+
+<span id='String-method-fromCharCode'>/**
+</span> * @method fromCharCode
+ * Returns a string created by using the specified sequence of Unicode values.
+ *
+ * This method returns a string and not a `String` object.
+ *
+ * Because `fromCharCode` is a static method of `String`, you always use it as `String.fromCharCode()`,
+ * rather than as a method of a `String` object you created.
+ *
+ * Although most common Unicode values can be represented in a fixed width system/with one number (as
+ * expected early on during JavaScript standardization) and `fromCharCode()` can be used to return a
+ * single character for the most common values (i.e., UCS-2 values which are the subset of UTF-16 with
+ * the most common characters), in order to deal with ALL legal Unicode values, `fromCharCode()` alone
+ * is inadequate. Since the higher code point characters use two (lower value) &quot;surrogate&quot; numbers to
+ * form a single character, `fromCharCode()` can be used to return such a pair and thus adequately
+ * represent these higher valued characters.
+ *
+ * Be aware, therefore, that the following utility function to grab the accurate character even for
+ * higher value code points, may be returning a value which is rendered as a single character, but
+ * which has a string count of two (though usually the count will be one).
+ *
+ *     // String.fromCharCode() alone cannot get the character at such a high code point
+ *     // The following, on the other hand, can return a 4-byte character as well as the
+ *     //   usual 2-byte ones (i.e., it can return a single character which actually has
+ *     //   a string length of 2 instead of 1!)
+ *     alert(fixedFromCharCode(0x2F804)); // or 194564 in decimal
+ *
+ *     function fixedFromCharCode (codePt) {
+ *         if (codePt &gt; 0xFFFF) {
+ *             codePt -= 0x10000;
+ *             return String.fromCharCode(0xD800 + (codePt &gt;&gt; 10), 0xDC00 +
+ *             (codePt &amp; 0x3FF));
+ *         }
+ *         else {
+ *             return String.fromCharCode(codePt);
+ *         }
+ *     }
+ *
+ * The following example returns the string &quot;ABC&quot;.
+ *
+ *     String.fromCharCode(65,66,67)
+ *
+ * @param {Number} num1, ..., numN A sequence of numbers that are Unicode values.
+ * @return {String} String containing characters from encoding.
+ */
+
+//Properties
+
+<span id='String-property-length'>/**
+</span> * @property {Number} length
+ * Reflects the length of the string.
+ *
+ * This property returns the number of code units in the string. UTF-16, the string format used by JavaScript, uses a single 16-bit
+ * code unit to represent the most common characters, but needs to use two code units for less commonly-used characters, so it's
+ * possible for the value returned by `length` to not match the actual number of characters in the string.
+ *
+ * For an empty string, `length` is 0.
+ *
+ *     var x = &quot;Netscape&quot;;
+ *     var empty = &quot;&quot;;
+ *
+ *     console.log(&quot;Netspace is &quot; + x.length + &quot; code units long&quot;);
+ *     console.log(&quot;The empty string is has a length of &quot; + empty.length); // should be 0
+ */
+
+//Methods
+
+<span id='String-method-charAt'>/**
+</span> * @method charAt
+ * Returns the character at the specified index.
+ *
+ * Characters in a string are indexed from left to right. The index of the first character is 0, and
+ * the index of the last character in a string called `stringName` is `stringName.length - 1`. If the
+ * index you supply is out of range, JavaScript returns an empty string.
+ *
+ * The following example displays characters at different locations in the string &quot;Brave new world&quot;:
+ *
+ *     var anyString=&quot;Brave new world&quot;;
+ *
+ *     document.writeln(&quot;The character at index 0 is '&quot; + anyString.charAt(0) + &quot;'&quot;);
+ *     document.writeln(&quot;The character at index 1 is '&quot; + anyString.charAt(1) + &quot;'&quot;);
+ *     document.writeln(&quot;The character at index 2 is '&quot; + anyString.charAt(2) + &quot;'&quot;);
+ *     document.writeln(&quot;The character at index 3 is '&quot; + anyString.charAt(3) + &quot;'&quot;);
+ *     document.writeln(&quot;The character at index 4 is '&quot; + anyString.charAt(4) + &quot;'&quot;);
+ *     document.writeln(&quot;The character at index 999 is '&quot; + anyString.charAt(999) + &quot;'&quot;);
+ *
+ * These lines display the following:
+ *
+ *     The character at index 0 is 'B'
+ *     The character at index 1 is 'r'
+ *     The character at index 2 is 'a'
+ *     The character at index 3 is 'v'
+ *     The character at index 4 is 'e'
+ *     The character at index 999 is ''
+ *
+ * The following provides a means of ensuring that going through a string loop always provides a whole
+ * character, even if the string contains characters that are not in the Basic Multi-lingual Plane.
+ *
+ *     var str = 'A\uD87E\uDC04Z'; // We could also use a non-BMP character directly
+ *     for (var i=0, chr; i &lt; str.length; i++) {
+ *         if ((chr = getWholeChar(str, i)) === false) {continue;} // Adapt this line at the top of
+ * each loop, passing in the whole string and the current iteration and returning a variable to
+ * represent the individual character
+ *         alert(chr);
+ *     }
+ *
+ *     function getWholeChar (str, i) {
+ *         var code = str.charCodeAt(i);
+ *
+ *         if (isNaN(code)) {
+ *         return ''; // Position not found
+ *         }
+ *         if (code &lt; 0xD800 || code &gt; 0xDFFF) {
+ *             return str.charAt(i);
+ *         }
+ *         if (0xD800 &lt;= code &amp;&amp; code &lt;= 0xDBFF) { // High surrogate (could change last hex to 0xDB7F
+ * to treat high private surrogates as single characters)
+ *         if (str.length &lt;= (i+1))  {
+ *             throw 'High surrogate without following low surrogate';
+ *         }
+ *         var next = str.charCodeAt(i+1);
+ *         if (0xDC00 &gt; next || next &gt; 0xDFFF) {
+ *             throw 'High surrogate without following low surrogate';
+ *         }
+ *         return str.charAt(i)+str.charAt(i+1);
+ *     }
+ *     // Low surrogate (0xDC00 &lt;= code &amp;&amp; code &lt;= 0xDFFF)
+ *     if (i === 0) {
+ *         throw 'Low surrogate without preceding high surrogate';
+ *     }
+ *     var prev = str.charCodeAt(i-1);
+ *     if (0xD800 &gt; prev || prev &gt; 0xDBFF) { // (could change last hex to 0xDB7F to treat high private
+ * surrogates as single characters)
+ *       throw 'Low surrogate without preceding high surrogate';
+ *     }
+ *     return false; // We can pass over low surrogates now as the second component in a pair which we
+ * have already processed
+ * }
+ *
+ * While the second example may be more frequently useful for those wishing to support non-BMP
+ * characters (since the above does not require the caller to know where any non-BMP character might
+ * appear), in the event that one _does_ wish, in choosing a character by index, to treat the surrogate
+ * pairs within a string as the single characters they represent, one can use the following:
+ *
+ *     function fixedCharAt (str, idx) {
+ *         var ret = '';
+ *         str += '';
+ *         var end = str.length;
+ *
+ *         var surrogatePairs = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+ *         while ((surrogatePairs.exec(str)) != null) {
+ *             var li = surrogatePairs.lastIndex;
+ *             if (li - 2 &lt; idx) {
+ *                 idx++;
+ *             }
+ *             else {
+ *             break;
+ *         }
+ *     }
+ *
+ *     if (idx &gt;= end || idx &lt; 0) {
+ *         return '';
+ *     }
+ *
+ *     ret += str.charAt(idx);
+ *
+ *     if (/[\uD800-\uDBFF]/.test(ret) &amp;&amp; /[\uDC00-\uDFFF]/.test(str.charAt(idx+1))) {
+ *         ret += str.charAt(idx+1); // Go one further, since one of the &quot;characters&quot; is part of a
+ * surrogate pair
+ *     }
+ *     return ret;
+ *     }
+ *
+ * @param {Number} index An integer between 0 and 1 less than the length of the string.
+ * @return {String} Individual character from string.
+ */
+
+<span id='String-method-charCodeAt'>/**
+</span> * @method charCodeAt
+ * Returns a number indicating the Unicode value of the character at the given index.
+ *
+ * Unicode code points range from 0 to 1,114,111. The first 128 Unicode code points are a direct match
+ * of the ASCII character encoding.
+ *
+ * Note that `charCodeAt` will always return a value that is less than 65,536. This is because the
+ * higher code points are represented by a pair of (lower valued) &quot;surrogate&quot; pseudo-characters which
+ * are used to comprise the real character. Because of this, in order to examine or reproduce the full
+ * character for individual characters of value 65,536 and above, for such characters, it is necessary
+ * to retrieve not only `charCodeAt(i)`, but also `charCodeAt(i+1)` (as if examining/reproducing a
+ * string with two letters). See example 2 and 3 below.
+ *
+ * `charCodeAt` returns `NaN` if the given index is not greater than 0 or is greater than the length of
+ * the string.
+ *
+ * Backward Compatibility with JavaScript 1.2
+ *
+ * The `charCodeAt` method returns a number indicating the ISO-Latin-1 codeset value of the character
+ * at the given index. The ISO-Latin-1 codeset ranges from 0 to 255. The first 0 to 127 are a direct
+ * match of the ASCII character set.
+ *
+ * Example 1: Using `charCodeAt`
+ *
+ * The following example returns 65, the Unicode value for A.
+ *
+ *    &quot;ABC&quot;.charCodeAt(0) // returns 65
+ *
+ * Example 2: Fixing `charCodeAt` to handle non-Basic-Multilingual-Plane characters if their presence
+ * earlier in the string is unknown
+ *
+ * This version might be used in for loops and the like when it is unknown whether non-BMP characters
+ * exist before the specified index position.
+ *
+ *     function fixedCharCodeAt (str, idx) {
+ *         // ex. fixedCharCodeAt ('\uD800\uDC00', 0); // 65536
+ *         // ex. fixedCharCodeAt ('\uD800\uDC00', 1); // 65536
+ *         idx = idx || 0;
+ *         var code = str.charCodeAt(idx);
+ *         var hi, low;
+ *         if (0xD800 &lt;= code &amp;&amp; code &lt;= 0xDBFF) { // High surrogate (could change last hex to 0xDB7F to treat high private surrogates as single characters)
+ *             hi = code;
+ *             low = str.charCodeAt(idx+1);
+ *             if (isNaN(low)) {
+ *                 throw 'High surrogate not followed by low surrogate in fixedCharCodeAt()';
+ *             }
+ *             return ((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000;
+ *         }
+ *         if (0xDC00 &lt;= code &amp;&amp; code &lt;= 0xDFFF) { // Low surrogate
+ *         // We return false to allow loops to skip this iteration since should have already handled
+ * high surrogate above in the previous iteration
+ *             return false;
+ *         }
+ *         return code;
+ *     }
+ *
+ * Example 3: Fixing `charCodeAt` to handle non-Basic-Multilingual-Plane characters if their presence
+ * earlier in the string is known
+ *
+ *     function knownCharCodeAt (str, idx) {
+ *         str += '';
+ *         var code,
+ *         end = str.length;
+ *
+ *         var surrogatePairs = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+ *         while ((surrogatePairs.exec(str)) != null) {
+ *             var li = surrogatePairs.lastIndex;
+ *             if (li - 2 &lt; idx) {
+ *                 idx++;
+ *             }
+ *             else {
+ *                 break;
+ *             }
+ *         }
+ *
+ *         if (idx &gt;= end || idx &lt; 0) {
+ *             return NaN;
+ *         }
+ *
+ *         code = str.charCodeAt(idx);
+ *
+ *         var hi, low;
+ *         if (0xD800 &lt;= code &amp;&amp; code &lt;= 0xDBFF) {
+ *             hi = code;
+ *             low = str.charCodeAt(idx+1); // Go one further, since one of the &quot;characters&quot; is part of
+ * a surrogate pair
+ *             return ((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000;
+ *         }
+ *         return code;
+ *     }
+ *
+ * @param {Number} index An integer greater than 0 and less than the length of the string; if it is
+ * not a number, it defaults to 0.
+ * @return {Number} Value between 0 and 65535.
+ */
+
+<span id='String-method-concat'>/**
+</span> * @method concat
+ * Combines the text of two strings and returns a new string.
+ *
+ * `concat` combines the text from one or more strings and returns a new string. Changes to the text in
+ * one string do not affect the other string.
+ *
+ * The following example combines strings into a new string.
+ *
+ *     var hello = &quot;Hello, &quot;;
+ *     console.log(hello.concat(&quot;Kevin&quot;, &quot; have a nice day.&quot;)); // Hello, Kevin have a nice day.
+ *
+ * @param {String} string2...stringN
+ * @return {String} Result of both strings.
+ */
+
+<span id='String-method-indexOf'>/**
+</span> * @method indexOf
+ * Returns the index within the calling `String` object of the first occurrence of the specified value,
+ * or -1 if not found.
+ *
+ * Characters in a string are indexed from left to right. The index of the first character is 0, and the index of the last character
+ * of a string called `stringName` is `stringName.length - 1`.
+ *
+ *     &quot;Blue Whale&quot;.indexOf(&quot;Blue&quot;)    // returns 0
+ *     &quot;Blue Whale&quot;.indexOf(&quot;Blute&quot;)   // returns -1
+ *     &quot;Blue Whale&quot;.indexOf(&quot;Whale&quot;,0) // returns 5
+ *     &quot;Blue Whale&quot;.indexOf(&quot;Whale&quot;,5) // returns 5
+ *     &quot;Blue Whale&quot;.indexOf(&quot;&quot;,9)      // returns 9
+ *     &quot;Blue Whale&quot;.indexOf(&quot;&quot;,10)     // returns 10
+ *     &quot;Blue Whale&quot;.indexOf(&quot;&quot;,11)     // returns 10
+ *
+ * The `indexOf` method is case sensitive. For example, the following expression returns -1:
+ *
+ *     &quot;Blue Whale&quot;.indexOf(&quot;blue&quot;)
+ *
+ * Note that '0' doesn't evaluate to true and '-1' doesn't evaluate to false. Therefore, when checking if a specific string exists
+ * within another string the correct way to check would be:
+ *
+ *     &quot;Blue Whale&quot;.indexOf(&quot;Blue&quot;) != -1 // true
+ *     &quot;Blue Whale&quot;.indexOf(&quot;Bloe&quot;) != -1 // false
+ *
+ * The following example uses indexOf and lastIndexOf to locate values in the string &quot;Brave new world&quot;.
+ *
+ *     var anyString=&quot;Brave new world&quot;
+ *
+ *     document.write(&quot;&lt;P&gt;The index of the first w from the beginning is &quot; + anyString.indexOf(&quot;w&quot;))          // Displays 8
+ *     document.write(&quot;&lt;P&gt;The index of the first w from the end is &quot; + anyString.lastIndexOf(&quot;w&quot;))      // Displays 10
+ *     document.write(&quot;&lt;P&gt;The index of 'new' from the beginning is &quot; + anyString.indexOf(&quot;new&quot;))        // Displays 6
+ *     document.write(&quot;&lt;P&gt;The index of 'new' from the end is &quot; + anyString.lastIndexOf(&quot;new&quot;))    // Displays 6
+ *
+ * The following example defines two string variables. The variables contain the same string except that the second string contains
+ * uppercase letters. The first `writeln` method displays 19. But because the `indexOf` method is case sensitive, the string
+ * &quot;cheddar&quot; is not found in `myCapString`, so the second `writeln` method displays -1.
+ *
+ *     myString=&quot;brie, pepper jack, cheddar&quot;
+ *     myCapString=&quot;Brie, Pepper Jack, Cheddar&quot;
+ *     document.writeln('myString.indexOf(&quot;cheddar&quot;) is ' + myString.indexOf(&quot;cheddar&quot;))
+ *     document.writeln('&lt;P&gt;myCapString.indexOf(&quot;cheddar&quot;) is ' + myCapString.indexOf(&quot;cheddar&quot;))
+ *
+ * The following example sets count to the number of occurrences of the letter x in the string str:
+ *
+ *     count = 0;
+ *     pos = str.indexOf(&quot;x&quot;);
+ *     while ( pos != -1 ) {
+ *         count++;
+ *         pos = str.indexOf(&quot;x&quot;,pos+1);
+ *     }
+ *
+ * @param {String} searchValue A string representing the value to search for.
+ * @param {Number} fromIndex The location within the calling string to start the search from. It can be any integer between 0 and
+ * the length of the string. The default value is 0.
+ * @return {Number} Position of specified value or -1 if not found.
+ */
+
+<span id='String-method-lastIndexOf'>/**
+</span> * @method lastIndexOf
+ * Returns the index within the calling String object of the last occurrence of
+ * the specified value, or -1 if not found. The calling string is searched
+ * backward, starting at fromIndex.
+ *
+ * Characters in a string are indexed from left to right. The index of the first character is 0, and the index of the last character
+ * is `stringName.length - 1`.
+ *
+ *     &quot;canal&quot;.lastIndexOf(&quot;a&quot;)   // returns 3
+ *     &quot;canal&quot;.lastIndexOf(&quot;a&quot;,2) // returns 1
+ *     &quot;canal&quot;.lastIndexOf(&quot;a&quot;,0) // returns -1
+ *     &quot;canal&quot;.lastIndexOf(&quot;x&quot;)   // returns -1
+ *
+ * The `lastIndexOf` method is case sensitive. For example, the following expression returns -1:
+ *
+ *     &quot;Blue Whale, Killer Whale&quot;.lastIndexOf(&quot;blue&quot;)
+ *
+ * The following example uses `indexOf` and `lastIndexOf` to locate values in the string &quot;`Brave new world`&quot;.
+ *
+ *     var anyString=&quot;Brave new world&quot;
+ *
+ *     // Displays 8
+ *     document.write(&quot;&lt;P&gt;The index of the first w from the beginning is &quot; +
+ *     anyString.indexOf(&quot;w&quot;))
+ *     // Displays 10
+ *     document.write(&quot;&lt;P&gt;The index of the first w from the end is &quot; +
+ *     anyString.lastIndexOf(&quot;w&quot;))
+ *     // Displays 6
+ *     document.write(&quot;&lt;P&gt;The index of 'new' from the beginning is &quot; +
+ *     anyString.indexOf(&quot;new&quot;))
+ *     // Displays 6
+ *     document.write(&quot;&lt;P&gt;The index of 'new' from the end is &quot; +
+ *     anyString.lastIndexOf(&quot;new&quot;))
+ *
+ * @param {String} searchValue A string representing the value to search for.
+ * @param {Number} fromIndex The location within the calling string to start the search from, indexed from left to right. It can
+ * be any integer between 0 and the length of the string. The default value is the length of the string.
+ * @return {Number}
+ */
+
+<span id='String-method-localeCompare'>/**
+</span> * @method localeCompare
+ * Returns a number indicating whether a reference string comes before or after or is the same as the
+ * given string in sort order.
+ *
+ * Returns a number indicating whether a reference string comes before or after or is the same as the
+ * given string in sort order. Returns -1 if the string occurs earlier in a sort than `compareString`,
+ * returns 1 if the string occurs afterwards in such a sort, and returns 0 if they occur at the same
+ * level.
+ *
+ * The following example demonstrates the different potential results for a string occurring before,
+ * after, or at the same level as another:
+ *
+ *     alert('a'.localeCompare('b')); // -1
+ *     alert('b'.localeCompare('a')); // 1
+ *     alert('b'.localeCompare('b')); // 0
+ *
+ * @param {String} compareString The string against which the referring string is comparing.
+ * @return {Number} Returns -1 if the string occurs earlier in a sort than
+ * compareString, returns 1 if the string occurs afterwards in such a sort, and
+ * returns 0 if they occur at the same level.
+ */
+
+<span id='String-method-match'>/**
+</span> * @method match
+ * Used to match a regular expression against a string.
+ *
+ * If the regular expression does not include the `g` flag, returns the same result as `regexp.exec(string)`.
+ *
+ * If the regular expression includes the `g` flag, the method returns an Array containing all matches. If there were no matches,
+ * the method returns `null`.
+ *
+ * The returned {@link Array} has an extra `input` property, which contains the regexp that generated it as a result. In addition,
+ * it has an `index` property, which represents the zero-based index of the match in the string.
+ *
+ * In the following example, `match` is used to find &quot;Chapter&quot; followed by 1 or more numeric characters followed by a decimal point
+ * and numeric character 0 or more times. The regular expression includes the `i` flag so that case will be ignored.
+ *
+ *     str = &quot;For more information, see Chapter 3.4.5.1&quot;;
+ *     re = /(chapter \d+(\.\d)*)/i;
+ *     found = str.match(re);
+ *     document.write(found);
+ *
+ * This returns the array containing Chapter 3.4.5.1,Chapter 3.4.5.1,.1
+ *
+ * &quot;`Chapter 3.4.5.1`&quot; is the first match and the first value remembered from `(Chapter \d+(\.\d)*)`.
+ *
+ * &quot;`.1`&quot; is the second value remembered from `(\.\d)`.
+ *
+ * The following example demonstrates the use of the global and ignore case flags with `match`. All letters A through E and a
+ * through e are returned, each its own element in the array
+ *
+ *     var str = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;;
+ *     var regexp = /[A-E]/gi;
+ *     var matches_array = str.match(regexp);
+ *     document.write(matches_array);
+ *
+ * `matches_array` now equals `['A', 'B', 'C', 'D', 'E', 'a', 'b', 'c', 'd', 'e']`.
+ *
+ * @param {RegExp} regexp A {@link RegExp} object. If a non-RegExp object `obj` is passed, it is
+ * implicitly converted to a RegExp by using `new RegExp(obj)`.
+ * @return {Array} Contains results of the match (if any).
+ */
+
+<span id='String-method-replace'>/**
+</span> * @method replace
+ * Used to find a match between a regular expression and a string, and to replace the matched substring
+ * with a new substring.
+ *
+ * This method does not change the `String` object it is called on. It simply returns a new string.
+ *
+ * To perform a global search and replace, either include the `g` flag in the regular expression or if
+ * the first parameter is a string, include `g` in the flags parameter.
+ *
+ * The replacement string can include the following special replacement patterns:
+ *
+ * | Pattern       | Inserts
+ * |:--------------|:--------------------------------------------------------------------------------------
+ * | `$$`          | Inserts a `$`.
+ * | `$&amp;`          | Inserts the matched substring.
+ * | `$``          | Inserts the portion of the string that precedes the matched substring.
+ * | `$'`          | Inserts the portion of the string that follows the matched substring.
+ * | `$n` or `$nn` | Where `n` or `nn` are decimal digits, inserts the _n_th parenthesized submatch string, provided the first
+ * |               | argument was a `RegExp` object.
+ *
+ * You can specify a function as the second parameter. In this case, the function will be invoked after the match has been
+ * performed. The function's result (return value) will be used as the replacement string. (Note: the above-mentioned special
+ * replacement patterns do not apply in this case.) Note that the function will be invoked multiple times for each full match to be
+ * replaced if the regular expression in the first parameter is global.
+ *
+ * The arguments to the function are as follows:
+ *
+ * | Possible Name | Supplied Value
+ * |:--------------|:--------------------------------------------------------------------------------------
+ * | `str`         | The matched substring. (Corresponds to `$&amp;` above.)
+ * | `p1, p2, ...` | The _n_th parenthesized submatch string, provided the first argument to replace was a `RegExp` object.
+ * |               | (Correspond to $1, $2, etc. above.)
+ * | `offset`      | The offset of the matched substring within the total string being examined. (For example, if the total string
+ * |               | was &quot;`abcd`&quot;, and the matched substring was &quot;`bc`&quot;, then this argument will be 1.)
+ * | `s`           | The total string being examined.
+ *
+ * (The exact number of arguments will depend on whether the first argument was a `RegExp` object and, if so, how many parenthesized
+ * submatches it specifies.)
+ *
+ * The following example will set `newString` to &quot;`XXzzzz - XX , zzzz`&quot;:
+ *
+ *     function replacer(str, p1, p2, offset, s)
+ *     {
+ *         return str + &quot; - &quot; + p1 + &quot; , &quot; + p2;
+ *     }
+ *     var newString = &quot;XXzzzz&quot;.replace(/(X*)(z*)/, replacer);
+ *
+ * In the following example, the regular expression includes the global and ignore case flags which permits replace to replace each
+ * occurrence of 'apples' in the string with 'oranges'.
+ *
+ *     var re = /apples/gi;
+ *     var str = &quot;Apples are round, and apples are juicy.&quot;;
+ *     var newstr = str.replace(re, &quot;oranges&quot;);
+ *     print(newstr);
+ *
+ * In this version, a string is used as the first parameter and the global and ignore case flags are specified in the flags
+ * parameter.
+ *
+ *     var str = &quot;Apples are round, and apples are juicy.&quot;;
+ *     var newstr = str.replace(&quot;apples&quot;, &quot;oranges&quot;, &quot;gi&quot;);
+ *     print(newstr);
+ *
+ * Both of these examples print &quot;oranges are round, and oranges are juicy.&quot;
+ *
+ * In the following example, the regular expression is defined in replace and includes the ignore case flag.
+ *
+ *     var str = &quot;Twas the night before Xmas...&quot;;
+ *     var newstr = str.replace(/xmas/i, &quot;Christmas&quot;);
+ *     print(newstr);
+ *
+ * This prints &quot;Twas the night before Christmas...&quot;
+ *
+ * The following script switches the words in the string. For the replacement text, the script uses the $1 and $2 replacement
+ * patterns.
+ *
+ *     var re = /(\w+)\s(\w+)/;
+ *     var str = &quot;John Smith&quot;;
+ *     var newstr = str.replace(re, &quot;$2, $1&quot;);
+ *     print(newstr);
+ *
+ * This prints &quot;Smith, John&quot;.
+ *
+ * In this example, all occurrences of capital letters in the string are converted to lower case, and a hyphen is inserted just
+ * before the match location. The important thing here is that additional operations are needed on the matched item before it is
+ * given back as a replacement.
+ *
+ * The replacement function accepts the matched snippet as its parameter, and uses it to transform the case and concatenate the
+ * hyphen before returning.
+ *
+ *     function styleHyphenFormat(propertyName)
+ *     {
+ *         function upperToHyphenLower(match)
+ *         {
+ *             return '-' + match.toLowerCase();
+ *         }
+ *         return propertyName.replace(/[A-Z]/, upperToHyphenLower);
+ *     }
+ *
+ * Given `styleHyphenFormat('borderTop')`, this returns 'border-top'.
+ *
+ * Because we want to further transform the _result_ of the match before the final substitution is made, we must use a function.
+ * This forces the evaluation of the match prior to the `toLowerCase()` method. If we had tried to do this using the match without a
+ *  function, the `toLowerCase()` would have no effect.
+ *
+ *     var newString = propertyName.replace(/[A-Z]/, '-' + '$&amp;'.toLowerCase());  // won't work
+ *
+ * This is because `'$&amp;'.toLowerCase()` would be evaluated first as a string literal (resulting in the same `'$&amp;'`) before using the
+ * characters as a pattern.
+ *
+ * The following example replaces a Fahrenheit degree with its equivalent Celsius degree. The Fahrenheit degree should be a number
+ * ending with F. The function returns the Celsius number ending with C. For example, if the input number is 212F, the function
+ *  returns 100C. If the number is 0F, the function returns -17.77777777777778C.
+ *
+ * The regular expression `test` checks for any number that ends with F. The number of Fahrenheit degree is accessible to the
+ * function through its second parameter, `p1`. The function sets the Celsius number based on the Fahrenheit degree passed in a
+ * string to the `f2c` function. `f2c` then returns the Celsius number. This function approximates Perl's `s///e` flag.
+ *
+ *     function f2c(x)
+ *     {
+ *         function convert(str, p1, offset, s)
+ *         {
+ *             return ((p1-32) * 5/9) + &quot;C&quot;;
+ *         }
+ *         var s = String(x);
+ *         var test = /(\d+(?:\.\d*)?)F\b/g;
+ *         return s.replace(test, convert);
+ *     }
+ *
+ * @param {RegExp} regexp A RegExp object. The match is replaced by the return value of parameter #2.
+ * @param {String} substr A String that is to be replaced by `newSubStr`.
+ * @param {String} newSubStr The String that replaces the substring received from parameter #1. A
+ * number of special replacement patterns are supported; see the &quot;Specifying a string as a parameter&quot;
+ * section below.
+ * @param {Function} function A function to be invoked to create the new substring (to put in place
+ * of the substring received from parameter #1). The arguments supplied to this function are described
+ * in the &quot;Specifying a function as a parameter&quot; section below.
+ * @return {String} String of matched replaced items.
+ */
+
+<span id='String-method-search'>/**
+</span> * @method search
+ * Executes the search for a match between a regular expression and a specified string.
+ *
+ * If successful, search returns the index of the regular expression inside the string. Otherwise, it
+ * returns -1.
+ *
+ * When you want to know whether a pattern is found in a string use search (similar to the regular
+ * expression `test` method); for more information (but slower execution) use `match` (similar to the
+ * regular expression `exec` method).
+ *
+ * The following example prints a message which depends on the success of the test.
+ *
+ *     function testinput(re, str){
+ *         if (str.search(re) != -1)
+ *             midstring = &quot; contains &quot;;
+ *         else
+ *             midstring = &quot; does not contain &quot;;
+ *         document.write (str + midstring + re);
+ *     }
+ *
+ * @param {RegExp} regexp A regular expression object. If a non-RegExp object obj is passed, it is
+ * implicitly converted to a RegExp by using `new RegExp(obj)`.
+ * @return {Number} If successful, search returns the index of the regular
+ * expression inside the string. Otherwise, it returns -1.
+ */
+
+<span id='String-method-slice'>/**
+</span> * @method slice
+ * Extracts a section of a string and returns a new string.
+ *
+ * `slice` extracts the text from one string and returns a new string. Changes to the text in one
+ * string do not affect the other string.
+ *
+ * `slice` extracts up to but not including `endSlice`. `string.slice(1,4)` extracts the second
+ * character through the fourth character (characters indexed 1, 2, and 3).
+ *
+ * As a negative index, `endSlice` indicates an offset from the end of the string. `string.slice(2,-1)`
+ * extracts the third character through the second to last character in the string.
+ *
+ * The following example uses slice to create a new string.
+ *
+ *     // assumes a print function is defined
+ *     var str1 = &quot;The morning is upon us.&quot;;
+ *     var str2 = str1.slice(4, -2);
+ *     print(str2);
+ *
+ * This writes:
+ *
+ *     morning is upon u
+ *
+ * @param {Number} beginSlice The zero-based index at which to begin extraction.
+ * @param {Number} endSlice The zero-based index at which to end extraction. If omitted, `slice`
+ * extracts to the end of the string.
+ * @return {String} All characters from specified start up to (but excluding)
+ * end.
+ */
+
+<span id='String-method-split'>/**
+</span> * @method split
+ * Splits a `String` object into an array of strings by separating the string into substrings.
+ *
+ * The `split` method returns the new array.
+ *
+ * When found, `separator` is removed from the string and the substrings are returned in an array. If
+ * `separator` is omitted, the array contains one element consisting of the entire string.
+ *
+ * If `separator` is a regular expression that contains capturing parentheses, then each time separator
+ * is matched the results (including any undefined results) of the capturing parentheses are spliced
+ * into the output array. However, not all browsers support this capability.
+ *
+ * Note: When the string is empty, `split` returns an array containing one empty string, rather than an
+ * empty array.
+ *
+ * The following example defines a function that splits a string into an array of strings using the
+ * specified separator. After splitting the string, the function displays messages indicating the
+ * original string (before the split), the separator used, the number of elements in the array, and the
+ * individual array elements.
+ *
+ *     function splitString(stringToSplit,separator)
+ *     {
+ *         var arrayOfStrings = stringToSplit.split(separator);
+ *         print('The original string is: &quot;' + stringToSplit + '&quot;');
+ *         print('The separator is: &quot;' + separator + '&quot;');
+ *         print(&quot;The array has &quot; + arrayOfStrings.length + &quot; elements: &quot;);
+ *
+ *         for (var i=0; i &lt; arrayOfStrings.length; i++)
+ *             print(arrayOfStrings[i] + &quot; / &quot;);
+ *     }
+ *
+ *     var tempestString = &quot;Oh brave new world that has such people in it.&quot;;
+ *     var monthString = &quot;Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec&quot;;
+ *
+ *     var space = &quot; &quot;;
+ *     var comma = &quot;,&quot;;
+ *
+ *     splitString(tempestString, space);
+ *     splitString(tempestString);
+ *     splitString(monthString, comma);
+ *
+ * This example produces the following output:
+ *
+ *     The original string is: &quot;Oh brave new world that has such people in it.&quot;
+ *     The separator is: &quot; &quot;
+ *     The array has 10 elements: Oh / brave / new / world / that / has / such / people / in / it. /
+ *
+ *     The original string is: &quot;Oh brave new world that has such people in it.&quot;
+ *     The separator is: &quot;undefined&quot;
+ *     The array has 1 elements: Oh brave new world that has such people in it. /
+ *
+ * The original string is: &quot;Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec&quot;
+ * The separator is: &quot;,&quot;
+ * The array has 12 elements: Jan / Feb / Mar / Apr / May / Jun / Jul / Aug / Sep / Oct / Nov / Dec /
+ *
+ * In the following example, `split` looks for 0 or more spaces followed by a semicolon followed by 0
+ * or more spaces and, when found, removes the spaces from the string. nameList is the array returned
+ * as a result of split.
+ *
+ *     var names = &quot;Harry Trump ;Fred Barney; Helen Rigby ; Bill Abel ;Chris Hand &quot;;
+ *     print(names);
+ *     var re = /\s*;\s*\/;
+ *     var nameList = names.split(re);
+ *     print(nameList);
+ *
+ * This prints two lines; the first line prints the original string, and the second line prints the
+ * resulting array.
+ *
+ *     Harry Trump ;Fred Barney; Helen Rigby ; Bill Abel ;Chris Hand
+ *     Harry Trump,Fred Barney,Helen Rigby,Bill Abel,Chris Hand
+ *
+ * In the following example, split looks for 0 or more spaces in a string and returns the first 3
+ * splits that it finds.
+ *
+ *     var myString = &quot;Hello World. How are you doing?&quot;;
+ *     var splits = myString.split(&quot; &quot;, 3);
+ *     print(splits);
+ *
+ * This script displays the following:
+ *
+ *     Hello,World.,How
+ *
+ * If `separator` contains capturing parentheses, matched results are returned in the array.
+ *
+ *     var myString = &quot;Hello 1 word. Sentence number 2.&quot;;
+ *     var splits = myString.split(/(\d)/);
+ *     print(splits);
+ *
+ * This script displays the following:
+ *
+ *     Hello ,1, word. Sentence number ,2, .
+ *
+ * @param {String} seperator Specifies the character to use for separating the string. The separator is treated as a string or a
+ * regular expression. If separator is omitted, the array returned contains one element consisting of the entire string.
+ * @param {Number} limit Integer specifying a limit on the number of splits to be found.  The split method still splits on every
+ * match of separator, but it truncates the returned array to at most limit elements.
+ * @return {Array} Substrings are returned in an array.
+ */
+
+<span id='String-method-substr'>/**
+</span> * @method substr
+ * Returns the characters in a string beginning at the specified location through the specified number
+ * of characters.
+ *
+ * `start` is a character index. The index of the first character is 0, and the index of the last
+ * character is 1 less than the length of the string. `substr` begins extracting characters at start
+ * and collects length characters (unless it reaches the end of the string first, in which case it will
+ * return fewer).
+ *
+ * If `start` is positive and is greater than or equal to the length of the string, `substr` returns an
+ * empty string.
+ *
+ * If `start` is negative, `substr` uses it as a character index from the end of the string. If start
+ * is negative and abs(start) is larger than the length of the string, `substr` uses 0 as the start
+ * index. Note: the described handling of negative values of the start argument is not supported by
+ * Microsoft JScript.
+ *
+ * If length is 0 or negative, `substr` returns an empty string. If length is omitted, `substr`
+ * extracts characters to the end of the string.
+ *
+ * Consider the following script:
+ *
+ *     // assumes a print function is defined
+ *     var str = &quot;abcdefghij&quot;;
+ *     print(&quot;(1,2): &quot;    + str.substr(1,2));
+ *     print(&quot;(-3,2): &quot;   + str.substr(-3,2));
+ *     print(&quot;(-3): &quot;     + str.substr(-3));
+ *     print(&quot;(1): &quot;      + str.substr(1));
+ *     print(&quot;(-20, 2): &quot; + str.substr(-20,2));
+ *     print(&quot;(20, 2): &quot;  + str.substr(20,2));
+ *
+ * This script displays:
+ *
+ *     (1,2): bc
+ *     (-3,2): hi
+ *     (-3): hij
+ *     (1): bcdefghij
+ *     (-20, 2): ab
+ *     (20, 2):
+ *
+ * @param {Number} start Location at which to begin extracting characters.
+ * @param {Number} length The number of characters to extract.
+ * @return {String} Modified string.
+ */
+
+<span id='String-method-substring'>/**
+</span> * @method substring
+ * Returns the characters in a string between two indexes into the string.
+ *
+ * substring extracts characters from indexA up to but not including indexB. In particular:
+ * *   If `indexA` equals `indexB`, `substring` returns an empty string.
+ * *   If `indexB` is omitted, substring extracts characters to the end of the string.
+ * *   If either argument is less than 0 or is `NaN`, it is treated as if it were 0.
+ * *   If either argument is greater than `stringName.length`, it is treated as if it were
+ * `stringName.length`.
+ *
+ * If `indexA` is larger than `indexB`, then the effect of substring is as if the two arguments were
+ * swapped; for example, `str.substring(1, 0) == str.substring(0, 1)`.
+ *
+ * The following example uses substring to display characters from the string &quot;Sencha&quot;:
+ *
+ *     // assumes a print function is defined
+ *     var anyString = &quot;Sencha&quot;;
+ *
+ *     // Displays &quot;Sen&quot;
+ *     print(anyString.substring(0,3));
+ *     print(anyString.substring(3,0));
+ *
+ *     // Displays &quot;cha&quot;
+ *     print(anyString.substring(3,6));
+ *     print(anyString.substring(6,3));
+ *
+ *     // Displays &quot;Sencha&quot;
+ *     print(anyString.substring(0,6));
+ *     print(anyString.substring(0,10));
+ *
+ * The following example replaces a substring within a string. It will replace both individual
+ * characters and `substrings`. The function call at the end of the example changes the string &quot;Brave
+ * New World&quot; into &quot;Brave New Web&quot;.
+ *
+ *     function replaceString(oldS, newS, fullS) {
+ *         // Replaces oldS with newS in the string fullS
+ *         for (var i = 0; i &lt; fullS.length; i++) {
+ *             if (fullS.substring(i, i + oldS.length) == oldS) {
+ *                 fullS = fullS.substring(0, i) + newS + fullS.substring(i + oldS.length,
+ * fullS.length);
+ *             }
+ *         }
+ *         return fullS;
+ *     }
+ *
+ *     replaceString(&quot;World&quot;, &quot;Web&quot;, &quot;Brave New World&quot;);
+ *
+ * @param {Number} indexA An integer between 0 and one less than the length of the string.
+ * @param {Number} indexB (optional) An integer between 0 and the length of the string.
+ * @return {String} Returns the characters in a string between two indexes into the string.
+ */
+
+<span id='String-method-toLocaleLowerCase'>/**
+</span> * @method toLocaleLowerCase
+ * The characters within a string are converted to lower case while respecting the current locale. For
+ * most languages, this will return the same as `toLowerCase`.
+ *
+ * The `toLocaleLowerCase` method returns the value of the string converted to lower case according to
+ * any locale-specific case mappings. `toLocaleLowerCase` does not affect the value of the string
+ * itself. In most cases, this will produce the same result as `toLowerCase()`, but for some locales,
+ * such as Turkish, whose case mappings do not follow the default case mappings in Unicode, there may
+ * be a different result.
+ *
+ * The following example displays the string &quot;sencha&quot;:
+ *
+ *     var upperText=&quot;sencha&quot;;
+ *     document.write(upperText.toLocaleLowerCase());
+ *
+ * @return {String} Returns value of the string in lowercase.
+ */
+
+<span id='String-method-toLocaleUpperCase'>/**
+</span> * @method toLocaleUpperCase
+ * The characters within a string are converted to upper case while respecting the current locale. For
+ * most languages, this will return the same as `toUpperCase`.
+ *
+ * The `toLocaleUpperCase` method returns the value of the string converted to upper case according to
+ * any locale-specific case mappings. `toLocaleUpperCase` does not affect the value of the string
+ * itself. In most cases, this will produce the same result as `toUpperCase()`, but for some locales,
+ * such as Turkish, whose case mappings do not follow the default case mappings in Unicode, there may
+ * be a different result.
+ *
+ * The following example displays the string &quot;SENCHA&quot;:
+ *
+ *     var lowerText=&quot;sencha&quot;;
+ *     document.write(lowerText.toLocaleUpperCase());
+ *
+ * @return {String} Returns value of the string in uppercase.
+ */
+
+<span id='String-method-toLowerCase'>/**
+</span> * @method toLowerCase
+ * Returns the calling string value converted to lower case.
+ *
+ * The `toLowerCase` method returns the value of the string converted to lowercase. `toLowerCase` does
+ * not affect the value of the string itself.
+ *
+ * The following example displays the lowercase string &quot;sencha&quot;:
+ *
+ *     var upperText=&quot;SENCHA&quot;;
+ *     document.write(upperText.toLowerCase());
+ *
+ * @return {String} Returns value of the string in lowercase.
+ */
+
+<span id='String-method-toString'>/**
+</span> * @method toString
+ * Returns a string representing the specified object. Overrides the `Object.toString` method.
+ *
+ * The `String` object overrides the `toString` method of the `Object` object; it does not inherit
+ * `Object.toString`. For `String` objects, the `toString` method returns a string representation of
+ * the object.
+ *
+ * The following example displays the string value of a String object:
+ *
+ *     x = new String(&quot;Hello world&quot;);
+ *     alert(x.toString())      // Displays &quot;Hello world&quot;
+ *
+ * @return {String} A string representation of the object.
+ */
+
+<span id='String-method-toUpperCase'>/**
+</span> * @method toUpperCase
+ * Returns the calling string value converted to uppercase.
+ *
+ * The `toUpperCase` method returns the value of the string converted to uppercase. `toUpperCase` does
+ * not affect the value of the string itself.
+ *
+ * The following example displays the string &quot;SENCHA&quot;:
+
+ *     var lowerText=&quot;sencha&quot;;
+ *     document.write(lowerText.toUpperCase());
+ *
+ * @return {String} Returns value of the string in uppercase.
+ */
+
+<span id='String-method-valueOf'>/**
+</span> * @method valueOf
+ * Returns the primitive value of the specified object. Overrides the `Object.valueOf` method.
+ *
+ * The `valueOf` method of String returns the primitive value of a `String` object as a string data
+ * type. This value is equivalent to `String.toString`.
+ *
+ * This method is usually called internally by JavaScript and not explicitly in code.
+ *
+ *     x = new String(&quot;Hello world&quot;);
+ *     alert(x.valueOf())          // Displays &quot;Hello world&quot;
+ *
+ * @return {String} Returns value of string.
+ */</pre>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-container-ButtonGroup'>/**
+</span> * Provides a container for arranging a group of related Buttons in a tabular manner.
+ *
+ *     @example
+ *     Ext.create('Ext.panel.Panel', {
+ *         title: 'Panel with ButtonGroup',
+ *         width: 300,
+ *         height:200,
+ *         renderTo: document.body,
+ *         bodyPadding: 10,
+ *         html: 'HTML Panel Content',
+ *         tbar: [{
+ *             xtype: 'buttongroup',
+ *             columns: 3,
+ *             title: 'Clipboard',
+ *             items: [{
+ *                 text: 'Paste',
+ *                 scale: 'large',
+ *                 rowspan: 3,
+ *                 iconCls: 'add',
+ *                 iconAlign: 'top',
+ *                 cls: 'btn-as-arrow'
+ *             },{
+ *                 xtype:'splitbutton',
+ *                 text: 'Menu Button',
+ *                 scale: 'large',
+ *                 rowspan: 3,
+ *                 iconCls: 'add',
+ *                 iconAlign: 'top',
+ *                 arrowAlign:'bottom',
+ *                 menu: [{ text: 'Menu Item 1' }]
+ *             },{
+ *                 xtype:'splitbutton', text: 'Cut', iconCls: 'add16', menu: [{text: 'Cut Menu Item'}]
+ *             },{
+ *                 text: 'Copy', iconCls: 'add16'
+ *             },{
+ *                 text: 'Format', iconCls: 'add16'
+ *             }]
+ *         }]
+ *     });
+ *
+ */
+Ext.define('Ext.container.ButtonGroup', {
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.buttongroup',
+    alternateClassName: 'Ext.ButtonGroup',
+
+<span id='Ext-container-ButtonGroup-cfg-columns'>    /**
+</span>     * @cfg {Number} columns The `columns` configuration property passed to the
+     * {@link #layout configured layout manager}. See {@link Ext.layout.container.Table#columns}.
+     */
+
+<span id='Ext-container-ButtonGroup-cfg-baseCls'>    /**
+</span>     * @cfg {String} baseCls  Defaults to &lt;tt&gt;'x-btn-group'&lt;/tt&gt;.  See {@link Ext.panel.Panel#baseCls}.
+     */
+    baseCls: Ext.baseCSSPrefix + 'btn-group',
+
+<span id='Ext-container-ButtonGroup-cfg-layout'>    /**
+</span>     * @cfg {Object} layout  Defaults to &lt;tt&gt;'table'&lt;/tt&gt;.  See {@link Ext.container.Container#layout}.
+     */
+    layout: {
+        type: 'table'
+    },
+
+    defaultType: 'button',
+
+<span id='Ext-container-ButtonGroup-cfg-frame'>    /**
+</span>     * @cfg {Boolean} frame  Defaults to &lt;tt&gt;true&lt;/tt&gt;.  See {@link Ext.panel.Panel#frame}.
+     */
+    frame: true,
+
+    frameHeader: false,
+
+    internalDefaults: {removeMode: 'container', hideParent: true},
+
+    initComponent : function(){
+        // Copy the component's columns config to the layout if specified
+        var me = this,
+            cols = me.columns;
+
+        me.noTitleCls = me.baseCls + '-notitle';
+        if (cols) {
+            me.layout = Ext.apply({}, {columns: cols}, me.layout);
+        }
+
+        if (!me.title) {
+            me.addCls(me.noTitleCls);
+        }
+        me.callParent(arguments);
+    },
+
+    afterLayout: function() {
+        var me = this;
+
+        me.callParent(arguments);
+
+        // Pugly hack for a pugly browser:
+        // If not an explicitly set width, then size the width to match the inner table
+        if (me.layout.table &amp;&amp; (Ext.isIEQuirks || Ext.isIE6) &amp;&amp; !me.width) {
+            var t = me.getTargetEl();
+            t.setWidth(me.layout.table.offsetWidth + t.getPadding('lr'));
+        }
+    },
+
+    afterRender: function() {
+        var me = this;
+
+        //we need to add an addition item in here so the ButtonGroup title is centered
+        if (me.header) {
+            // Header text cannot flex, but must be natural size if it's being centered
+            delete me.header.items.items[0].flex;
+
+            // For Centering, surround the text with two flex:1 spacers.
+            me.suspendLayout = true;
+            me.header.insert(1, {
+                xtype: 'component',
+                ui   : me.ui,
+                flex : 1
+            });
+            me.header.insert(0, {
+                xtype: 'component',
+                ui   : me.ui,
+                flex : 1
+            });
+            me.suspendLayout = false;
+        }
+
+        me.callParent(arguments);
+    },
+
+    // private
+    onBeforeAdd: function(component) {
+        if (component.is('button')) {
+            component.ui = component.ui + '-toolbar';
+        }
+        this.callParent(arguments);
+    },
+
+    //private
+    applyDefaults: function(c) {
+        if (!Ext.isString(c)) {
+            c = this.callParent(arguments);
+            var d = this.internalDefaults;
+            if (c.events) {
+                Ext.applyIf(c.initialConfig, d);
+                Ext.apply(c, d);
+            } else {
+                Ext.applyIf(c, d);
+            }
+        }
+        return c;
+    }
+
+<span id='Ext-container-ButtonGroup-cfg-tools'>    /**
+</span>     * @cfg {Array} tools  @hide
+     */
+<span id='Ext-container-ButtonGroup-cfg-collapsible'>    /**
+</span>     * @cfg {Boolean} collapsible  @hide
+     */
+<span id='Ext-container-ButtonGroup-cfg-collapseMode'>    /**
+</span>     * @cfg {Boolean} collapseMode  @hide
+     */
+<span id='Ext-container-ButtonGroup-cfg-animCollapse'>    /**
+</span>     * @cfg {Boolean} animCollapse  @hide
+     */
+<span id='Ext-container-ButtonGroup-cfg-closable'>    /**
+</span>     * @cfg {Boolean} closable  @hide
+     */
+});
+</pre>
+</body>
+</html>

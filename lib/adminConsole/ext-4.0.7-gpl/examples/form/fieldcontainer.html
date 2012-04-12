@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>FieldContainer Example</title>
+
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+
+    <!-- Example -->
+    <script type="text/javascript" src="fieldcontainer.js"></script>
+</head>
+<body id="docbody">
+
+  <h1>FieldContainer Example</h1>
+
+  <p>Several form fields can be placed onto the same row with a FieldContainer.</p>
+  
+  <p>The FieldContainer's child items are arranged like in any other container, using the
+      <code>layout</code> configuration property. In this example, each FieldContainer
+      is set to use an HBox layout - <a href="http://www.sencha.com/deploy/dev/docs/?class=Ext.layout.HBoxLayout">see
+      the HBox docs for details</a> or the <a href="../layout/hbox.html">HBox layout example</a>.</p>
+  
+  <p>FieldContainers can be configured with the combineErrors option, which combines errors from
+      the sub fields and presents them at the container level.</p>
+
+  <p>In this example the Date Range, Phone and Full Name items have this option enabled, and
+      the Time worked item does not. The <a href="http://www.sencha.com/deploy/dev/docs/?class=Ext.form.Labelable&member=msgTarget">msgTarget</a>
+      config option is fully supported, so errors can be rendered to any of the supported locations.</p>
+
+  <p>The js is not minified so it is readable. See <a href="fieldcontainer.js">fieldcontainer.js</a>.</p>
+</body>
+</html>
