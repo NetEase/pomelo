@@ -1,11 +1,12 @@
-
 var pomelo = require('../../lib/pomelo');
 var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
+var routeService = require('./app/service/routeService');
 
 var app = appTemplate.init();
 app.set('name','抢宝');
 app.set('dirname', __dirname);
+//app.set('calculator', routeService.calculator);
 appTemplate.defaultConfig(app);
 
 app.configure(function(){

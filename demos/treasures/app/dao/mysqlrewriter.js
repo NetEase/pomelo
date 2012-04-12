@@ -53,8 +53,8 @@ MysqlRewriter.prototype.write = function(val){
   {
  	//var val = vals[id];
 	//console.error(' ' + JSON.stringify(val)+ '  ' + val.x+ '  ' +val.y + '  ' +val.uid);
-    var sql = 'update Hero set x = ? ,y = ? where id = ?';
-    var args = [val.x, val.y,val.uid];
+    var sql = 'update Hero set x = ? ,y = ? ,sceneId = ? ,where id = ?';
+    var args = [val.x, val.y, val.sceneId, val.uid];
     this.client.update(sql, args, function(err, res){
       if(err !== null){
         //console.error(sql + ' ' + JSON.stringify(val));

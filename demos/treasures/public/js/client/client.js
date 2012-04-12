@@ -5,6 +5,7 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	//收到消息的处理方法，在初始化时由外部注入
     
 	var serverMsgHandler = require('serverMsgHandler');
+	var clientManager = require('clientManager');
 
 	//暴露的接口
 	exports.init = init;
@@ -13,10 +14,11 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 
 	function pushMessage(msg){
       console.log('[client.pushMessage], msg: '+msg.route+ ' params:'+JSON.stringify(msg.params));
-	    if(!!msg)
-            socket.emit('message', msg);
-        else
-            console.log('Error message type!');
+	    if(!!msg){
+	      msg = filter(msg);
+        socket.emit('message', msg);
+      }else
+        console.log('Error message type!');
 	}
 
 	function init(params){
@@ -42,5 +44,10 @@ __resources__["/client.js"] = {meta: {mimetype: "application/javascript"}, data:
 	  });
 	}
 
-
+  function filter(msg){
+    if(msg.route.indexOf('area.') == 0){
+      msg.areaId = clientManager.areaId;
+    }
+    return msg;
+  }
 }};

@@ -15,6 +15,7 @@ var loginUsername = "";
 var loginName = "";
 var sid = 0;
 var uid = 0;
+var areaId = 1;
 
 
 //暴露的接口和对象
@@ -129,7 +130,8 @@ function getOnlineUsers(){
  */
 function move(startX, startY, endX, endY, time){
   path = [{x:startX, y:startY},{x:endX, y:endY}];
-  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: self.uid }});
+  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: self.uid}});
+  
 }
 
 /**

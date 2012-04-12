@@ -16,10 +16,10 @@ if(!channel)
   channel = channelManager.createChannel('pomelo');
   
 var schedule = require('pomelo-schedule');
+var pomelo = require('../../../../../lib/pomelo');
 
 var initX = 100;
 var initY = 100;
-var sceneId = 0;
       
 /**
  * 用户退出场景
@@ -44,8 +44,8 @@ handler.removeUser = function(msg, session) {
 handler.addUser = function(msg, session) {
   var uid = session.uid;
 	logger.debug('user login :'+uid+","+this.name);
-	userService.getUserById(uid,function(err, data){
-		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
+	userService.getUserById(uid, function(err, data){
+		sceneDao.addUser(data.sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
 			if(!!err) {
 				session.response({route: msg.route, code: 500});
 			} else {
@@ -145,4 +145,16 @@ function updateRankList(uid){
 	  channel.pushMessageByUids(msg,uids,function(){});
 	  logger.info('logining,updateRankList success!');
 	});
+}
+
+function transferUser(msg, session){
+  pomelo.getApp().get('proxyMap').user.area.areaManager.userTransfer(session.uid, function(err) {
+    //TODO: logout logic
+    //TODO: remember to call session.closed() to finish logout flow finally
+    if(!!err){
+      session({route:msg.route, code: 500});
+    }else{
+      session({route:msg.route, code: 200});
+    }
+  });
 }
