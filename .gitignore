@@ -1,5 +1,6 @@
 .project
 */node-log.log
+./logs/*.log
 node_modules/*
 .project
 .settings/
