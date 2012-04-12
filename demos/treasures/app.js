@@ -30,7 +30,7 @@ appTemplate.done(app);
 function startWebServer(){
     var app_express = require('./app_express');
     var master_app=require('../../lib/master/app_express');
-    var app_console = require('../../lib/adminConsole/appCon');
+    var app_console = require('../../adminConsole/appCon');
 }
 
 process.on('uncaughtException', function(err) {
