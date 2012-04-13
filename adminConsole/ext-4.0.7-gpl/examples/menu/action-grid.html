@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Actions Example</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- page specific -->
+    <style type="text/css">
+        /* style rows on mouseover */
+        .x-grid-row-over .x-grid-cell-inner {
+            font-weight: bold;
+        }
+
+        /* Style the buyAction Components; Button and MenuItem */
+        .buy-button {
+            background-image: url(../shared/icons/fam/accept.png) !important;
+			background-repeat: no-repeat !important;
+        }
+    </style>
+    <script type="text/javascript" src="action-grid.js"></script>
+</head>
+<body>
+    <h1>Actions Example</h1>
+    <p>This example shows how to create multiple active UI event handling widgets from a single Action definition.</p>
+    <p>Both Buttons and MenuItems can be created from the same Action instance. Action's enable, disable, hide, show and
+    setText methods affect every Component created from that Action.<p>
+    <p>In this example, the Action is disabled when there is no grid selection, and this disables both Buttons and MenuItems.</p>
+    <p>Note that the js is not minified so it is readable. See <a href="action-grid.js">action-grid.js</a>.</p>
+    <div id="grid-example"></div>
+</body>
+</html>

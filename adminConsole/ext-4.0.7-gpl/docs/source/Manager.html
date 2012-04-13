@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-menu-Manager'>/**
+</span> * @class Ext.menu.Manager
+ * Provides a common registry of all menus on a page.
+ * @singleton
+ */
+Ext.define('Ext.menu.Manager', {
+    singleton: true,
+    requires: [
+        'Ext.util.MixedCollection',
+        'Ext.util.KeyMap'
+    ],
+    alternateClassName: 'Ext.menu.MenuMgr',
+
+    uses: ['Ext.menu.Menu'],
+
+    menus: {},
+    groups: {},
+    attached: false,
+    lastShow: new Date(),
+
+    init: function() {
+        var me = this;
+        
+        me.active = Ext.create('Ext.util.MixedCollection');
+        Ext.getDoc().addKeyListener(27, function() {
+            if (me.active.length &gt; 0) {
+                me.hideAll();
+            }
+        }, me);
+    },
+
+<span id='Ext-menu-Manager-method-hideAll'>    /**
+</span>     * Hides all menus that are currently visible
+     * @return {Boolean} success True if any active menus were hidden.
+     */
+    hideAll: function() {
+        var active = this.active,
+            c;
+        if (active &amp;&amp; active.length &gt; 0) {
+            c = active.clone();
+            c.each(function(m) {
+                m.hide();
+            });
+            return true;
+        }
+        return false;
+    },
+
+    onHide: function(m) {
+        var me = this,
+            active = me.active;
+        active.remove(m);
+        if (active.length &lt; 1) {
+            Ext.getDoc().un('mousedown', me.onMouseDown, me);
+            me.attached = false;
+        }
+    },
+
+    onShow: function(m) {
+        var me = this,
+            active   = me.active,
+            last     = active.last(),
+            attached = me.attached,
+            menuEl   = m.getEl(),
+            zIndex;
+
+        me.lastShow = new Date();
+        active.add(m);
+        if (!attached) {
+            Ext.getDoc().on('mousedown', me.onMouseDown, me);
+            me.attached = true;
+        }
+        m.toFront();
+    },
+
+    onBeforeHide: function(m) {
+        if (m.activeChild) {
+            m.activeChild.hide();
+        }
+        if (m.autoHideTimer) {
+            clearTimeout(m.autoHideTimer);
+            delete m.autoHideTimer;
+        }
+    },
+
+    onBeforeShow: function(m) {
+        var active = this.active,
+            parentMenu = m.parentMenu;
+            
+        active.remove(m);
+        if (!parentMenu &amp;&amp; !m.allowOtherMenus) {
+            this.hideAll();
+        }
+        else if (parentMenu &amp;&amp; parentMenu.activeChild &amp;&amp; m != parentMenu.activeChild) {
+            parentMenu.activeChild.hide();
+        }
+    },
+
+    // private
+    onMouseDown: function(e) {
+        var me = this,
+            active = me.active,
+            lastShow = me.lastShow,
+            target = e.target;
+
+        if (Ext.Date.getElapsed(lastShow) &gt; 50 &amp;&amp; active.length &gt; 0 &amp;&amp; !e.getTarget('.' + Ext.baseCSSPrefix + 'menu')) {
+            me.hideAll();
+            // in IE, if we mousedown on a focusable element, the focus gets cancelled and the focus event is never
+            // fired on the element, so we'll focus it here
+            if (Ext.isIE &amp;&amp; Ext.fly(target).focusable()) {
+                target.focus();
+            }
+        }
+    },
+
+    // private
+    register: function(menu) {
+        var me = this;
+
+        if (!me.active) {
+            me.init();
+        }
+
+        if (menu.floating) {
+            me.menus[menu.id] = menu;
+            menu.on({
+                beforehide: me.onBeforeHide,
+                hide: me.onHide,
+                beforeshow: me.onBeforeShow,
+                show: me.onShow,
+                scope: me
+            });
+        }
+    },
+
+<span id='Ext-menu-Manager-method-get'>    /**
+</span>     * Returns a {@link Ext.menu.Menu} object
+     * @param {String/Object} menu The string menu id, an existing menu object reference, or a Menu config that will
+     * be used to generate and return a new Menu this.
+     * @return {Ext.menu.Menu} The specified menu, or null if none are found
+     */
+    get: function(menu) {
+        var menus = this.menus;
+        
+        if (typeof menu == 'string') { // menu id
+            if (!menus) {  // not initialized, no menus to return
+                return null;
+            }
+            return menus[menu];
+        } else if (menu.isMenu) {  // menu instance
+            return menu;
+        } else if (Ext.isArray(menu)) { // array of menu items
+            return Ext.create('Ext.menu.Menu', {items:menu});
+        } else { // otherwise, must be a config
+            return Ext.ComponentManager.create(menu, 'menu');
+        }
+    },
+
+    // private
+    unregister: function(menu) {
+        var me = this,
+            menus = me.menus,
+            active = me.active;
+
+        delete menus[menu.id];
+        active.remove(menu);
+        menu.un({
+            beforehide: me.onBeforeHide,
+            hide: me.onHide,
+            beforeshow: me.onBeforeShow,
+            show: me.onShow,
+            scope: me
+        });
+    },
+
+    // private
+    registerCheckable: function(menuItem) {
+        var groups  = this.groups,
+            groupId = menuItem.group;
+
+        if (groupId) {
+            if (!groups[groupId]) {
+                groups[groupId] = [];
+            }
+
+            groups[groupId].push(menuItem);
+        }
+    },
+
+    // private
+    unregisterCheckable: function(menuItem) {
+        var groups  = this.groups,
+            groupId = menuItem.group;
+
+        if (groupId) {
+            Ext.Array.remove(groups[groupId], menuItem);
+        }
+    },
+
+    onCheckChange: function(menuItem, state) {
+        var groups  = this.groups,
+            groupId = menuItem.group,
+            i       = 0,
+            group, ln, curr;
+
+        if (groupId &amp;&amp; state) {
+            group = groups[groupId];
+            ln = group.length;
+            for (; i &lt; ln; i++) {
+                curr = group[i];
+                if (curr != menuItem) {
+                    curr.setChecked(false);
+                }
+            }
+        }
+    }
+});</pre>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-toolbar-Separator'>/**
+</span> * @class Ext.toolbar.Separator
+ * @extends Ext.toolbar.Item
+ * A simple class that adds a vertical separator bar between toolbar items (css class: 'x-toolbar-separator').
+ *
+ *     @example
+ *     Ext.create('Ext.panel.Panel', {
+ *         title: 'Toolbar Seperator Example',
+ *         width: 300,
+ *         height: 200,
+ *         tbar : [
+ *             'Item 1',
+ *             { xtype: 'tbseparator' },
+ *             'Item 2'
+ *         ],
+ *         renderTo: Ext.getBody()
+ *     });
+ */
+Ext.define('Ext.toolbar.Separator', {
+    extend: 'Ext.toolbar.Item',
+    alias: 'widget.tbseparator',
+    alternateClassName: 'Ext.Toolbar.Separator',
+    baseCls: Ext.baseCSSPrefix + 'toolbar-separator',
+    focusable: false
+});</pre>
+</body>
+</html>

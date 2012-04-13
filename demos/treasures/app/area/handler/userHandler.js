@@ -5,8 +5,6 @@ var userService = require('../../service/userService');
 var rankService=require('../../service/rankService');
 var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
-var eventUtils = require('../../../../../lib/util/event/eventUtils');
-var Event= require('../../../../../lib/util/event/event');
 var Move= require('../../meta/move');
 
 var app = require('../../../../../lib/pomelo').getApp();
@@ -16,10 +14,12 @@ if(!channel)
   channel = channelManager.createChannel('pomelo');
   
 var schedule = require('pomelo-schedule');
+var pomelo = require('../../../../../lib/pomelo');
 
 var initX = 100;
 var initY = 100;
-var sceneId = 0;
+
+var moveJob = {};
       
 /**
  * 用户退出场景
@@ -44,8 +44,8 @@ handler.removeUser = function(msg, session) {
 handler.addUser = function(msg, session) {
   var uid = session.uid;
 	logger.debug('user login :'+uid+","+this.name);
-	userService.getUserById(uid,function(err, data){
-		sceneDao.addUser(sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
+	userService.getUserById(uid, function(err, data){
+		sceneDao.addUser(data.sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
 			if(!!err) {
 				session.response({route: msg.route, code: 500});
 			} else {
@@ -88,19 +88,18 @@ handler.move = function (msg, session){
 	logger.debug('in scene server move:');
 	logger.debug(uid+","+startx+","+starty+","+speed+","+path);
 	//先结束上次的移动
-	eventUtils.stopEvent("areaId:0;moveCalc:"+uid,function(err,data){
-		logger.debug("in move cb:");
-		logger.debug(data);
-		//更新用户的位置信息数据
-		sceneDao.setUserPos(0, uid, {x: path[1].x, y: path[1].y});
-		var period = 100; //算出时间？TODO
-		var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
+	if(!!moveJob[uid])
+		schedule.cancelJob(moveJob[uid]);
+	
+	//更新用户的位置信息数据
+	sceneDao.setUserPos(0, uid, {x: path[1].x, y: path[1].y});
+	var period = 100; //算出时间？TODO
+	var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 
-		
-		schedule.scheduleJob({period: period, count: 1}, handler.moveCalc, {move: move, channel: channel, route:'onMove'});
-        console.log('[move]  msg: ' + JSON.stringify(msg));
-		session.response({route: msg.route, body: move, code: 200});
-	});
+	
+	schedule.scheduleJob({period: period, count: 1}, handler.moveCalc, {move: move, channel: channel, route:'onMove'});
+      console.log('[move]  msg: ' + JSON.stringify(msg));
+	session.response({route: msg.route, body: move, code: 200});
 };
 
 handler.moveCalc = function(data){
@@ -113,6 +112,7 @@ handler.moveCalc = function(data){
   var target = move.path[1];
   var time = move.time;
   logger.debug(startx+","+starty+","+time+","+target.x+","+target.y);
+  delete moveJob[move.uid];
   channel.pushMessage({route: data.route, uid: move.uid, path: [{x: startx, y: starty},{x: target.x, y: target.y}], time: time});
 };
 
@@ -145,4 +145,16 @@ function updateRankList(uid){
 	  channel.pushMessageByUids(msg,uids,function(){});
 	  logger.info('logining,updateRankList success!');
 	});
+}
+
+function transferUser(msg, session){
+  pomelo.getApp().get('proxyMap').user.area.areaManager.userTransfer(session.uid, function(err) {
+    //TODO: logout logic
+    //TODO: remember to call session.closed() to finish logout flow finally
+    if(!!err){
+      session({route:msg.route, code: 500});
+    }else{
+      session({route:msg.route, code: 200});
+    }
+  });
 }

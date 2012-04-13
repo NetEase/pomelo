@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-ClassManager'>/**
+</span> * @author Jacky Nguyen &lt;jacky@sencha.com&gt;
+ * @docauthor Jacky Nguyen &lt;jacky@sencha.com&gt;
+ * @class Ext.ClassManager
+ *
+ * Ext.ClassManager manages all classes and handles mapping from string class name to
+ * actual class objects throughout the whole framework. It is not generally accessed directly, rather through
+ * these convenient shorthands:
+ *
+ * - {@link Ext#define Ext.define}
+ * - {@link Ext#create Ext.create}
+ * - {@link Ext#widget Ext.widget}
+ * - {@link Ext#getClass Ext.getClass}
+ * - {@link Ext#getClassName Ext.getClassName}
+ *
+ * # Basic syntax:
+ *
+ *     Ext.define(className, properties);
+ *
+ * in which `properties` is an object represent a collection of properties that apply to the class. See
+ * {@link Ext.ClassManager#create} for more detailed instructions.
+ *
+ *     Ext.define('Person', {
+ *          name: 'Unknown',
+ *
+ *          constructor: function(name) {
+ *              if (name) {
+ *                  this.name = name;
+ *              }
+ *
+ *              return this;
+ *          },
+ *
+ *          eat: function(foodType) {
+ *              alert(&quot;I'm eating: &quot; + foodType);
+ *
+ *              return this;
+ *          }
+ *     });
+ *
+ *     var aaron = new Person(&quot;Aaron&quot;);
+ *     aaron.eat(&quot;Sandwich&quot;); // alert(&quot;I'm eating: Sandwich&quot;);
+ *
+ * Ext.Class has a powerful set of extensible {@link Ext.Class#registerPreprocessor pre-processors} which takes care of
+ * everything related to class creation, including but not limited to inheritance, mixins, configuration, statics, etc.
+ *
+ * # Inheritance:
+ *
+ *     Ext.define('Developer', {
+ *          extend: 'Person',
+ *
+ *          constructor: function(name, isGeek) {
+ *              this.isGeek = isGeek;
+ *
+ *              // Apply a method from the parent class' prototype
+ *              this.callParent([name]);
+ *
+ *              return this;
+ *
+ *          },
+ *
+ *          code: function(language) {
+ *              alert(&quot;I'm coding in: &quot; + language);
+ *
+ *              this.eat(&quot;Bugs&quot;);
+ *
+ *              return this;
+ *          }
+ *     });
+ *
+ *     var jacky = new Developer(&quot;Jacky&quot;, true);
+ *     jacky.code(&quot;JavaScript&quot;); // alert(&quot;I'm coding in: JavaScript&quot;);
+ *                               // alert(&quot;I'm eating: Bugs&quot;);
+ *
+ * See {@link Ext.Base#callParent} for more details on calling superclass' methods
+ *
+ * # Mixins:
+ *
+ *     Ext.define('CanPlayGuitar', {
+ *          playGuitar: function() {
+ *             alert(&quot;F#...G...D...A&quot;);
+ *          }
+ *     });
+ *
+ *     Ext.define('CanComposeSongs', {
+ *          composeSongs: function() { ... }
+ *     });
+ *
+ *     Ext.define('CanSing', {
+ *          sing: function() {
+ *              alert(&quot;I'm on the highway to hell...&quot;)
+ *          }
+ *     });
+ *
+ *     Ext.define('Musician', {
+ *          extend: 'Person',
+ *
+ *          mixins: {
+ *              canPlayGuitar: 'CanPlayGuitar',
+ *              canComposeSongs: 'CanComposeSongs',
+ *              canSing: 'CanSing'
+ *          }
+ *     })
+ *
+ *     Ext.define('CoolPerson', {
+ *          extend: 'Person',
+ *
+ *          mixins: {
+ *              canPlayGuitar: 'CanPlayGuitar',
+ *              canSing: 'CanSing'
+ *          },
+ *
+ *          sing: function() {
+ *              alert(&quot;Ahem....&quot;);
+ *
+ *              this.mixins.canSing.sing.call(this);
+ *
+ *              alert(&quot;[Playing guitar at the same time...]&quot;);
+ *
+ *              this.playGuitar();
+ *          }
+ *     });
+ *
+ *     var me = new CoolPerson(&quot;Jacky&quot;);
+ *
+ *     me.sing(); // alert(&quot;Ahem...&quot;);
+ *                // alert(&quot;I'm on the highway to hell...&quot;);
+ *                // alert(&quot;[Playing guitar at the same time...]&quot;);
+ *                // alert(&quot;F#...G...D...A&quot;);
+ *
+ * # Config:
+ *
+ *     Ext.define('SmartPhone', {
+ *          config: {
+ *              hasTouchScreen: false,
+ *              operatingSystem: 'Other',
+ *              price: 500
+ *          },
+ *
+ *          isExpensive: false,
+ *
+ *          constructor: function(config) {
+ *              this.initConfig(config);
+ *
+ *              return this;
+ *          },
+ *
+ *          applyPrice: function(price) {
+ *              this.isExpensive = (price &gt; 500);
+ *
+ *              return price;
+ *          },
+ *
+ *          applyOperatingSystem: function(operatingSystem) {
+ *              if (!(/^(iOS|Android|BlackBerry)$/i).test(operatingSystem)) {
+ *                  return 'Other';
+ *              }
+ *
+ *              return operatingSystem;
+ *          }
+ *     });
+ *
+ *     var iPhone = new SmartPhone({
+ *          hasTouchScreen: true,
+ *          operatingSystem: 'iOS'
+ *     });
+ *
+ *     iPhone.getPrice(); // 500;
+ *     iPhone.getOperatingSystem(); // 'iOS'
+ *     iPhone.getHasTouchScreen(); // true;
+ *     iPhone.hasTouchScreen(); // true
+ *
+ *     iPhone.isExpensive; // false;
+ *     iPhone.setPrice(600);
+ *     iPhone.getPrice(); // 600
+ *     iPhone.isExpensive; // true;
+ *
+ *     iPhone.setOperatingSystem('AlienOS');
+ *     iPhone.getOperatingSystem(); // 'Other'
+ *
+ * # Statics:
+ *
+ *     Ext.define('Computer', {
+ *          statics: {
+ *              factory: function(brand) {
+ *                 // 'this' in static methods refer to the class itself
+ *                  return new this(brand);
+ *              }
+ *          },
+ *
+ *          constructor: function() { ... }
+ *     });
+ *
+ *     var dellComputer = Computer.factory('Dell');
+ *
+ * Also see {@link Ext.Base#statics} and {@link Ext.Base#self} for more details on accessing
+ * static properties within class methods
+ *
+ * @singleton
+ */
+(function(Class, alias) {
+
+    var slice = Array.prototype.slice;
+
+    var Manager = Ext.ClassManager = {
+
+<span id='Ext-ClassManager-property-classes'>        /**
+</span>         * @property {Object} classes
+         * All classes which were defined through the ClassManager. Keys are the
+         * name of the classes and the values are references to the classes.
+         * @private
+         */
+        classes: {},
+
+<span id='Ext-ClassManager-property-existCache'>        /**
+</span>         * @private
+         */
+        existCache: {},
+
+<span id='Ext-ClassManager-property-namespaceRewrites'>        /**
+</span>         * @private
+         */
+        namespaceRewrites: [{
+            from: 'Ext.',
+            to: Ext
+        }],
+
+<span id='Ext-ClassManager-property-maps'>        /**
+</span>         * @private
+         */
+        maps: {
+            alternateToName: {},
+            aliasToName: {},
+            nameToAliases: {}
+        },
+
+<span id='Ext-ClassManager-property-enableNamespaceParseCache'>        /** @private */
+</span>        enableNamespaceParseCache: true,
+
+<span id='Ext-ClassManager-property-namespaceParseCache'>        /** @private */
+</span>        namespaceParseCache: {},
+
+<span id='Ext-ClassManager-property-instantiators'>        /** @private */
+</span>        instantiators: [],
+
+        //&lt;debug&gt;
+<span id='Ext-ClassManager-property-instantiationCounts'>        /** @private */
+</span>        instantiationCounts: {},
+        //&lt;/debug&gt;
+
+<span id='Ext-ClassManager-method-isCreated'>        /**
+</span>         * Checks if a class has already been created.
+         *
+         * @param {String} className
+         * @return {Boolean} exist
+         */
+        isCreated: function(className) {
+            var i, ln, part, root, parts;
+
+            //&lt;debug error&gt;
+            if (typeof className !== 'string' || className.length &lt; 1) {
+                Ext.Error.raise({
+                    sourceClass: &quot;Ext.ClassManager&quot;,
+                    sourceMethod: &quot;exist&quot;,
+                    msg: &quot;Invalid classname, must be a string and must not be empty&quot;
+                });
+            }
+            //&lt;/debug&gt;
+
+            if (this.classes.hasOwnProperty(className) || this.existCache.hasOwnProperty(className)) {
+                return true;
+            }
+
+            root = Ext.global;
+            parts = this.parseNamespace(className);
+
+            for (i = 0, ln = parts.length; i &lt; ln; i++) {
+                part = parts[i];
+
+                if (typeof part !== 'string') {
+                    root = part;
+                } else {
+                    if (!root || !root[part]) {
+                        return false;
+                    }
+
+                    root = root[part];
+                }
+            }
+
+            Ext.Loader.historyPush(className);
+
+            this.existCache[className] = true;
+
+            return true;
+        },
+
+<span id='Ext-ClassManager-method-parseNamespace'>        /**
+</span>         * Supports namespace rewriting
+         * @private
+         */
+        parseNamespace: function(namespace) {
+            //&lt;debug error&gt;
+            if (typeof namespace !== 'string') {
+                Ext.Error.raise({
+                    sourceClass: &quot;Ext.ClassManager&quot;,
+                    sourceMethod: &quot;parseNamespace&quot;,
+                    msg: &quot;Invalid namespace, must be a string&quot;
+                });
+            }
+            //&lt;/debug&gt;
+
+            var cache = this.namespaceParseCache;
+
+            if (this.enableNamespaceParseCache) {
+                if (cache.hasOwnProperty(namespace)) {
+                    return cache[namespace];
+                }
+            }
+
+            var parts = [],
+                rewrites = this.namespaceRewrites,
+                rewrite, from, to, i, ln, root = Ext.global;
+
+            for (i = 0, ln = rewrites.length; i &lt; ln; i++) {
+                rewrite = rewrites[i];
+                from = rewrite.from;
+                to = rewrite.to;
+
+                if (namespace === from || namespace.substring(0, from.length) === from) {
+                    namespace = namespace.substring(from.length);
+
+                    if (typeof to !== 'string') {
+                        root = to;
+                    } else {
+                        parts = parts.concat(to.split('.'));
+                    }
+
+                    break;
+                }
+            }
+
+            parts.push(root);
+
+            parts = parts.concat(namespace.split('.'));
+
+            if (this.enableNamespaceParseCache) {
+                cache[namespace] = parts;
+            }
+
+            return parts;
+        },
+
+<span id='Ext-ClassManager-method-setNamespace'>        /**
+</span>         * Creates a namespace and assign the `value` to the created object
+         *
+         *     Ext.ClassManager.setNamespace('MyCompany.pkg.Example', someObject);
+         *
+         *     alert(MyCompany.pkg.Example === someObject); // alerts true
+         *
+         * @param {String} name
+         * @param {Object} value
+         */
+        setNamespace: function(name, value) {
+            var root = Ext.global,
+                parts = this.parseNamespace(name),
+                ln = parts.length - 1,
+                leaf = parts[ln],
+                i, part;
+
+            for (i = 0; i &lt; ln; i++) {
+                part = parts[i];
+
+                if (typeof part !== 'string') {
+                    root = part;
+                } else {
+                    if (!root[part]) {
+                        root[part] = {};
+                    }
+
+                    root = root[part];
+                }
+            }
+
+            root[leaf] = value;
+
+            return root[leaf];
+        },
+
+<span id='Ext-ClassManager-method-createNamespaces'>        /**
+</span>         * The new Ext.ns, supports namespace rewriting
+         * @private
+         */
+        createNamespaces: function() {
+            var root = Ext.global,
+                parts, part, i, j, ln, subLn;
+
+            for (i = 0, ln = arguments.length; i &lt; ln; i++) {
+                parts = this.parseNamespace(arguments[i]);
+
+                for (j = 0, subLn = parts.length; j &lt; subLn; j++) {
+                    part = parts[j];
+
+                    if (typeof part !== 'string') {
+                        root = part;
+                    } else {
+                        if (!root[part]) {
+                            root[part] = {};
+                        }
+
+                        root = root[part];
+                    }
+                }
+            }
+
+            return root;
+        },
+
+<span id='Ext-ClassManager-method-set'>        /**
+</span>         * Sets a name reference to a class.
+         *
+         * @param {String} name
+         * @param {Object} value
+         * @return {Ext.ClassManager} this
+         */
+        set: function(name, value) {
+            var targetName = this.getName(value);
+
+            this.classes[name] = this.setNamespace(name, value);
+
+            if (targetName &amp;&amp; targetName !== name) {
+                this.maps.alternateToName[name] = targetName;
+            }
+
+            return this;
+        },
+
+<span id='Ext-ClassManager-method-get'>        /**
+</span>         * Retrieve a class by its name.
+         *
+         * @param {String} name
+         * @return {Ext.Class} class
+         */
+        get: function(name) {
+            if (this.classes.hasOwnProperty(name)) {
+                return this.classes[name];
+            }
+
+            var root = Ext.global,
+                parts = this.parseNamespace(name),
+                part, i, ln;
+
+            for (i = 0, ln = parts.length; i &lt; ln; i++) {
+                part = parts[i];
+
+                if (typeof part !== 'string') {
+                    root = part;
+                } else {
+                    if (!root || !root[part]) {
+                        return null;
+                    }
+
+                    root = root[part];
+                }
+            }
+
+            return root;
+        },
+
+<span id='Ext-ClassManager-method-setAlias'>        /**
+</span>         * Register the alias for a class.
+         *
+         * @param {Ext.Class/String} cls a reference to a class or a className
+         * @param {String} alias Alias to use when referring to this class
+         */
+        setAlias: function(cls, alias) {
+            var aliasToNameMap = this.maps.aliasToName,
+                nameToAliasesMap = this.maps.nameToAliases,
+                className;
+
+            if (typeof cls === 'string') {
+                className = cls;
+            } else {
+                className = this.getName(cls);
+            }
+
+            if (alias &amp;&amp; aliasToNameMap[alias] !== className) {
+                //&lt;debug info&gt;
+                if (aliasToNameMap.hasOwnProperty(alias) &amp;&amp; Ext.isDefined(Ext.global.console)) {
+                    Ext.global.console.log(&quot;[Ext.ClassManager] Overriding existing alias: '&quot; + alias + &quot;' &quot; +
+                        &quot;of: '&quot; + aliasToNameMap[alias] + &quot;' with: '&quot; + className + &quot;'. Be sure it's intentional.&quot;);
+                }
+                //&lt;/debug&gt;
+
+                aliasToNameMap[alias] = className;
+            }
+
+            if (!nameToAliasesMap[className]) {
+                nameToAliasesMap[className] = [];
+            }
+
+            if (alias) {
+                Ext.Array.include(nameToAliasesMap[className], alias);
+            }
+
+            return this;
+        },
+
+<span id='Ext-ClassManager-method-getByAlias'>        /**
+</span>         * Get a reference to the class by its alias.
+         *
+         * @param {String} alias
+         * @return {Ext.Class} class
+         */
+        getByAlias: function(alias) {
+            return this.get(this.getNameByAlias(alias));
+        },
+
+<span id='Ext-ClassManager-method-getNameByAlias'>        /**
+</span>         * Get the name of a class by its alias.
+         *
+         * @param {String} alias
+         * @return {String} className
+         */
+        getNameByAlias: function(alias) {
+            return this.maps.aliasToName[alias] || '';
+        },
+
+<span id='Ext-ClassManager-method-getNameByAlternate'>        /**
+</span>         * Get the name of a class by its alternate name.
+         *
+         * @param {String} alternate
+         * @return {String} className
+         */
+        getNameByAlternate: function(alternate) {
+            return this.maps.alternateToName[alternate] || '';
+        },
+
+<span id='Ext-ClassManager-method-getAliasesByName'>        /**
+</span>         * Get the aliases of a class by the class name
+         *
+         * @param {String} name
+         * @return {String[]} aliases
+         */
+        getAliasesByName: function(name) {
+            return this.maps.nameToAliases[name] || [];
+        },
+
+<span id='Ext-ClassManager-method-getName'>        /**
+</span>         * Get the name of the class by its reference or its instance.
+         *
+         *     Ext.ClassManager.getName(Ext.Action); // returns &quot;Ext.Action&quot;
+         *
+         * {@link Ext#getClassName Ext.getClassName} is alias for {@link Ext.ClassManager#getName Ext.ClassManager.getName}.
+         *
+         * @param {Ext.Class/Object} object
+         * @return {String} className
+         */
+        getName: function(object) {
+            return object &amp;&amp; object.$className || '';
+        },
+
+<span id='Ext-ClassManager-method-getClass'>        /**
+</span>         * Get the class of the provided object; returns null if it's not an instance
+         * of any class created with Ext.define.
+         *
+         *     var component = new Ext.Component();
+         *
+         *     Ext.ClassManager.getClass(component); // returns Ext.Component
+         *
+         * {@link Ext#getClass Ext.getClass} is alias for {@link Ext.ClassManager#getClass Ext.ClassManager.getClass}.
+         *
+         * @param {Object} object
+         * @return {Ext.Class} class
+         */
+        getClass: function(object) {
+            return object &amp;&amp; object.self || null;
+        },
+
+<span id='Ext-ClassManager-method-create'>        /**
+</span>         * Defines a class.
+         *
+         * {@link Ext#define Ext.define} and {@link Ext.ClassManager#create Ext.ClassManager.create} are almost aliases
+         * of each other, with the only exception that Ext.define allows definition of {@link Ext.Class#override overrides}.
+         * To avoid trouble, always use Ext.define.
+         *
+         *     Ext.define('My.awesome.Class', {
+         *         someProperty: 'something',
+         *         someMethod: function() { ... }
+         *         ...
+         *
+         *     }, function() {
+         *         alert('Created!');
+         *         alert(this === My.awesome.Class); // alerts true
+         *
+         *         var myInstance = new this();
+         *     });
+         *
+         * @param {String} className The class name to create in string dot-namespaced format, for example:
+         * `My.very.awesome.Class`, `FeedViewer.plugin.CoolPager`. It is highly recommended to follow this simple convention:
+         *
+         * - The root and the class name are 'CamelCased'
+         * - Everything else is lower-cased
+         *
+         * @param {Object} data The key-value pairs of properties to apply to this class. Property names can be of any valid
+         * strings, except those in the reserved list below:
+         *
+         * - {@link Ext.Base#self self}
+         * - {@link Ext.Class#alias alias}
+         * - {@link Ext.Class#alternateClassName alternateClassName}
+         * - {@link Ext.Class#config config}
+         * - {@link Ext.Class#extend extend}
+         * - {@link Ext.Class#inheritableStatics inheritableStatics}
+         * - {@link Ext.Class#mixins mixins}
+         * - {@link Ext.Class#override override} (only when using {@link Ext#define Ext.define})
+         * - {@link Ext.Class#requires requires}
+         * - {@link Ext.Class#singleton singleton}
+         * - {@link Ext.Class#statics statics}
+         * - {@link Ext.Class#uses uses}
+         *
+         * @param {Function} [createdFn] callback to execute after the class is created, the execution scope of which
+         * (`this`) will be the newly created class itself.
+         *
+         * @return {Ext.Base}
+         */
+        create: function(className, data, createdFn) {
+            var manager = this;
+
+            //&lt;debug error&gt;
+            if (typeof className !== 'string') {
+                Ext.Error.raise({
+                    sourceClass: &quot;Ext&quot;,
+                    sourceMethod: &quot;define&quot;,
+                    msg: &quot;Invalid class name '&quot; + className + &quot;' specified, must be a non-empty string&quot;
+                });
+            }
+            //&lt;/debug&gt;
+
+            data.$className = className;
+
+            return new Class(data, function() {
+                var postprocessorStack = data.postprocessors || manager.defaultPostprocessors,
+                    registeredPostprocessors = manager.postprocessors,
+                    index = 0,
+                    postprocessors = [],
+                    postprocessor, process, i, ln;
+
+                delete data.postprocessors;
+
+                for (i = 0, ln = postprocessorStack.length; i &lt; ln; i++) {
+                    postprocessor = postprocessorStack[i];
+
+                    if (typeof postprocessor === 'string') {
+                        postprocessor = registeredPostprocessors[postprocessor];
+
+                        if (!postprocessor.always) {
+                            if (data[postprocessor.name] !== undefined) {
+                                postprocessors.push(postprocessor.fn);
+                            }
+                        }
+                        else {
+                            postprocessors.push(postprocessor.fn);
+                        }
+                    }
+                    else {
+                        postprocessors.push(postprocessor);
+                    }
+                }
+
+                process = function(clsName, cls, clsData) {
+                    postprocessor = postprocessors[index++];
+
+                    if (!postprocessor) {
+                        manager.set(className, cls);
+
+                        Ext.Loader.historyPush(className);
+
+                        if (createdFn) {
+                            createdFn.call(cls, cls);
+                        }
+
+                        return;
+                    }
+
+                    if (postprocessor.call(this, clsName, cls, clsData, process) !== false) {
+                        process.apply(this, arguments);
+                    }
+                };
+
+                process.call(manager, className, this, data);
+            });
+        },
+
+<span id='Ext-ClassManager-method-instantiateByAlias'>        /**
+</span>         * Instantiate a class by its alias.
+         *
+         * If {@link Ext.Loader} is {@link Ext.Loader#setConfig enabled} and the class has not been defined yet, it will
+         * attempt to load the class via synchronous loading.
+         *
+         *     var window = Ext.ClassManager.instantiateByAlias('widget.window', { width: 600, height: 800, ... });
+         *
+         * {@link Ext#createByAlias Ext.createByAlias} is alias for {@link Ext.ClassManager#instantiateByAlias Ext.ClassManager.instantiateByAlias}.
+         *
+         * @param {String} alias
+         * @param {Object...} args Additional arguments after the alias will be passed to the
+         * class constructor.
+         * @return {Object} instance
+         */
+        instantiateByAlias: function() {
+            var alias = arguments[0],
+                args = slice.call(arguments),
+                className = this.getNameByAlias(alias);
+
+            if (!className) {
+                className = this.maps.aliasToName[alias];
+
+                //&lt;debug error&gt;
+                if (!className) {
+                    Ext.Error.raise({
+                        sourceClass: &quot;Ext&quot;,
+                        sourceMethod: &quot;createByAlias&quot;,
+                        msg: &quot;Cannot create an instance of unrecognized alias: &quot; + alias
+                    });
+                }
+                //&lt;/debug&gt;
+
+                //&lt;debug warn&gt;
+                if (Ext.global.console) {
+                    Ext.global.console.warn(&quot;[Ext.Loader] Synchronously loading '&quot; + className + &quot;'; consider adding &quot; +
+                         &quot;Ext.require('&quot; + alias + &quot;') above Ext.onReady&quot;);
+                }
+                //&lt;/debug&gt;
+
+                Ext.syncRequire(className);
+            }
+
+            args[0] = className;
+
+            return this.instantiate.apply(this, args);
+        },
+
+<span id='Ext-ClassManager-method-instantiate'>        /**
+</span>         * Instantiate a class by either full name, alias or alternate name.
+         *
+         * If {@link Ext.Loader} is {@link Ext.Loader#setConfig enabled} and the class has not been defined yet, it will
+         * attempt to load the class via synchronous loading.
+         *
+         * For example, all these three lines return the same result:
+         *
+         *     // alias
+         *     var window = Ext.ClassManager.instantiate('widget.window', { width: 600, height: 800, ... });
+         *
+         *     // alternate name
+         *     var window = Ext.ClassManager.instantiate('Ext.Window', { width: 600, height: 800, ... });
+         *
+         *     // full class name
+         *     var window = Ext.ClassManager.instantiate('Ext.window.Window', { width: 600, height: 800, ... });
+         *
+         * {@link Ext#create Ext.create} is alias for {@link Ext.ClassManager#instantiate Ext.ClassManager.instantiate}.
+         *
+         * @param {String} name
+         * @param {Object...} args Additional arguments after the name will be passed to the class' constructor.
+         * @return {Object} instance
+         */
+        instantiate: function() {
+            var name = arguments[0],
+                args = slice.call(arguments, 1),
+                alias = name,
+                possibleName, cls;
+
+            if (typeof name !== 'function') {
+                //&lt;debug error&gt;
+                if ((typeof name !== 'string' || name.length &lt; 1)) {
+                    Ext.Error.raise({
+                        sourceClass: &quot;Ext&quot;,
+                        sourceMethod: &quot;create&quot;,
+                        msg: &quot;Invalid class name or alias '&quot; + name + &quot;' specified, must be a non-empty string&quot;
+                    });
+                }
+                //&lt;/debug&gt;
+
+                cls = this.get(name);
+            }
+            else {
+                cls = name;
+            }
+
+            // No record of this class name, it's possibly an alias, so look it up
+            if (!cls) {
+                possibleName = this.getNameByAlias(name);
+
+                if (possibleName) {
+                    name = possibleName;
+
+                    cls = this.get(name);
+                }
+            }
+
+            // Still no record of this class name, it's possibly an alternate name, so look it up
+            if (!cls) {
+                possibleName = this.getNameByAlternate(name);
+
+                if (possibleName) {
+                    name = possibleName;
+
+                    cls = this.get(name);
+                }
+            }
+
+            // Still not existing at this point, try to load it via synchronous mode as the last resort
+            if (!cls) {
+                //&lt;debug warn&gt;
+                if (Ext.global.console) {
+                    Ext.global.console.warn(&quot;[Ext.Loader] Synchronously loading '&quot; + name + &quot;'; consider adding &quot; +
+                         &quot;Ext.require('&quot; + ((possibleName) ? alias : name) + &quot;') above Ext.onReady&quot;);
+                }
+                //&lt;/debug&gt;
+
+                Ext.syncRequire(name);
+
+                cls = this.get(name);
+            }
+
+            //&lt;debug error&gt;
+            if (!cls) {
+                Ext.Error.raise({
+                    sourceClass: &quot;Ext&quot;,
+                    sourceMethod: &quot;create&quot;,
+                    msg: &quot;Cannot create an instance of unrecognized class name / alias: &quot; + alias
+                });
+            }
+
+            if (typeof cls !== 'function') {
+                Ext.Error.raise({
+                    sourceClass: &quot;Ext&quot;,
+                    sourceMethod: &quot;create&quot;,
+                    msg: &quot;'&quot; + name + &quot;' is a singleton and cannot be instantiated&quot;
+                });
+            }
+            //&lt;/debug&gt;
+
+            //&lt;debug&gt;
+            if (!this.instantiationCounts[name]) {
+                this.instantiationCounts[name] = 0;
+            }
+
+            this.instantiationCounts[name]++;
+            //&lt;/debug&gt;
+
+            return this.getInstantiator(args.length)(cls, args);
+        },
+
+<span id='Ext-ClassManager-method-dynInstantiate'>        /**
+</span>         * @private
+         * @param name
+         * @param args
+         */
+        dynInstantiate: function(name, args) {
+            args = Ext.Array.from(args, true);
+            args.unshift(name);
+
+            return this.instantiate.apply(this, args);
+        },
+
+<span id='Ext-ClassManager-method-getInstantiator'>        /**
+</span>         * @private
+         * @param length
+         */
+        getInstantiator: function(length) {
+            if (!this.instantiators[length]) {
+                var i = length,
+                    args = [];
+
+                for (i = 0; i &lt; length; i++) {
+                    args.push('a['+i+']');
+                }
+
+                this.instantiators[length] = new Function('c', 'a', 'return new c('+args.join(',')+')');
+            }
+
+            return this.instantiators[length];
+        },
+
+<span id='Ext-ClassManager-property-postprocessors'>        /**
+</span>         * @private
+         */
+        postprocessors: {},
+
+<span id='Ext-ClassManager-property-defaultPostprocessors'>        /**
+</span>         * @private
+         */
+        defaultPostprocessors: [],
+
+<span id='Ext-ClassManager-method-registerPostprocessor'>        /**
+</span>         * Register a post-processor function.
+         *
+         * @param {String} name
+         * @param {Function} postprocessor
+         */
+        registerPostprocessor: function(name, fn, always) {
+            this.postprocessors[name] = {
+                name: name,
+                always: always ||  false,
+                fn: fn
+            };
+
+            return this;
+        },
+
+<span id='Ext-ClassManager-method-setDefaultPostprocessors'>        /**
+</span>         * Set the default post processors array stack which are applied to every class.
+         *
+         * @param {String/String[]} The name of a registered post processor or an array of registered names.
+         * @return {Ext.ClassManager} this
+         */
+        setDefaultPostprocessors: function(postprocessors) {
+            this.defaultPostprocessors = Ext.Array.from(postprocessors);
+
+            return this;
+        },
+
+<span id='Ext-ClassManager-method-setDefaultPostprocessorPosition'>        /**
+</span>         * Insert this post-processor at a specific position in the stack, optionally relative to
+         * any existing post-processor
+         *
+         * @param {String} name The post-processor name. Note that it needs to be registered with
+         * {@link Ext.ClassManager#registerPostprocessor} before this
+         * @param {String} offset The insertion position. Four possible values are:
+         * 'first', 'last', or: 'before', 'after' (relative to the name provided in the third argument)
+         * @param {String} relativeName
+         * @return {Ext.ClassManager} this
+         */
+        setDefaultPostprocessorPosition: function(name, offset, relativeName) {
+            var defaultPostprocessors = this.defaultPostprocessors,
+                index;
+
+            if (typeof offset === 'string') {
+                if (offset === 'first') {
+                    defaultPostprocessors.unshift(name);
+
+                    return this;
+                }
+                else if (offset === 'last') {
+                    defaultPostprocessors.push(name);
+
+                    return this;
+                }
+
+                offset = (offset === 'after') ? 1 : -1;
+            }
+
+            index = Ext.Array.indexOf(defaultPostprocessors, relativeName);
+
+            if (index !== -1) {
+                Ext.Array.splice(defaultPostprocessors, Math.max(0, index + offset), 0, name);
+            }
+
+            return this;
+        },
+
+<span id='Ext-ClassManager-method-getNamesByExpression'>        /**
+</span>         * Converts a string expression to an array of matching class names. An expression can either refers to class aliases
+         * or class names. Expressions support wildcards:
+         *
+         *     // returns ['Ext.window.Window']
+         *     var window = Ext.ClassManager.getNamesByExpression('widget.window');
+         *
+         *     // returns ['widget.panel', 'widget.window', ...]
+         *     var allWidgets = Ext.ClassManager.getNamesByExpression('widget.*');
+         *
+         *     // returns ['Ext.data.Store', 'Ext.data.ArrayProxy', ...]
+         *     var allData = Ext.ClassManager.getNamesByExpression('Ext.data.*');
+         *
+         * @param {String} expression
+         * @return {String[]} classNames
+         */
+        getNamesByExpression: function(expression) {
+            var nameToAliasesMap = this.maps.nameToAliases,
+                names = [],
+                name, alias, aliases, possibleName, regex, i, ln;
+
+            //&lt;debug error&gt;
+            if (typeof expression !== 'string' || expression.length &lt; 1) {
+                Ext.Error.raise({
+                    sourceClass: &quot;Ext.ClassManager&quot;,
+                    sourceMethod: &quot;getNamesByExpression&quot;,
+                    msg: &quot;Expression &quot; + expression + &quot; is invalid, must be a non-empty string&quot;
+                });
+            }
+            //&lt;/debug&gt;
+
+            if (expression.indexOf('*') !== -1) {
+                expression = expression.replace(/\*/g, '(.*?)');
+                regex = new RegExp('^' + expression + '$');
+
+                for (name in nameToAliasesMap) {
+                    if (nameToAliasesMap.hasOwnProperty(name)) {
+                        aliases = nameToAliasesMap[name];
+
+                        if (name.search(regex) !== -1) {
+                            names.push(name);
+                        }
+                        else {
+                            for (i = 0, ln = aliases.length; i &lt; ln; i++) {
+                                alias = aliases[i];
+
+                                if (alias.search(regex) !== -1) {
+                                    names.push(name);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                possibleName = this.getNameByAlias(expression);
+
+                if (possibleName) {
+                    names.push(possibleName);
+                } else {
+                    possibleName = this.getNameByAlternate(expression);
+
+                    if (possibleName) {
+                        names.push(possibleName);
+                    } else {
+                        names.push(expression);
+                    }
+                }
+            }
+
+            return names;
+        }
+    };
+
+    var defaultPostprocessors = Manager.defaultPostprocessors;
+    //&lt;feature classSystem.alias&gt;
+
+<span id='Ext-Class-cfg-alias'>    /**
+</span>     * @cfg {String[]} alias
+     * @member Ext.Class
+     * List of short aliases for class names.  Most useful for defining xtypes for widgets:
+     *
+     *     Ext.define('MyApp.CoolPanel', {
+     *         extend: 'Ext.panel.Panel',
+     *         alias: ['widget.coolpanel'],
+     *         title: 'Yeah!'
+     *     });
+     *
+     *     // Using Ext.create
+     *     Ext.widget('widget.coolpanel');
+     *     // Using the shorthand for widgets and in xtypes
+     *     Ext.widget('panel', {
+     *         items: [
+     *             {xtype: 'coolpanel', html: 'Foo'},
+     *             {xtype: 'coolpanel', html: 'Bar'}
+     *         ]
+     *     });
+     */
+    Manager.registerPostprocessor('alias', function(name, cls, data) {
+        var aliases = data.alias,
+            i, ln;
+
+        delete data.alias;
+
+        for (i = 0, ln = aliases.length; i &lt; ln; i++) {
+            alias = aliases[i];
+
+            this.setAlias(cls, alias);
+        }
+    });
+
+<span id='Ext-Class-cfg-singleton'>    /**
+</span>     * @cfg {Boolean} singleton
+     * @member Ext.Class
+     * When set to true, the class will be instantiated as singleton.  For example:
+     *
+     *     Ext.define('Logger', {
+     *         singleton: true,
+     *         log: function(msg) {
+     *             console.log(msg);
+     *         }
+     *     });
+     *
+     *     Logger.log('Hello');
+     */
+    Manager.registerPostprocessor('singleton', function(name, cls, data, fn) {
+        fn.call(this, name, new cls(), data);
+        return false;
+    });
+
+<span id='Ext-Class-cfg-alternateClassName'>    /**
+</span>     * @cfg {String/String[]} alternateClassName
+     * @member Ext.Class
+     * Defines alternate names for this class.  For example:
+     *
+     *     Ext.define('Developer', {
+     *         alternateClassName: ['Coder', 'Hacker'],
+     *         code: function(msg) {
+     *             alert('Typing... ' + msg);
+     *         }
+     *     });
+     *
+     *     var joe = Ext.create('Developer');
+     *     joe.code('stackoverflow');
+     *
+     *     var rms = Ext.create('Hacker');
+     *     rms.code('hack hack');
+     */
+    Manager.registerPostprocessor('alternateClassName', function(name, cls, data) {
+        var alternates = data.alternateClassName,
+            i, ln, alternate;
+
+        if (!(alternates instanceof Array)) {
+            alternates = [alternates];
+        }
+
+        for (i = 0, ln = alternates.length; i &lt; ln; i++) {
+            alternate = alternates[i];
+
+            //&lt;debug error&gt;
+            if (typeof alternate !== 'string') {
+                Ext.Error.raise({
+                    sourceClass: &quot;Ext&quot;,
+                    sourceMethod: &quot;define&quot;,
+                    msg: &quot;Invalid alternate of: '&quot; + alternate + &quot;' for class: '&quot; + name + &quot;'; must be a valid string&quot;
+                });
+            }
+            //&lt;/debug&gt;
+
+            this.set(alternate, cls);
+        }
+    });
+
+    Manager.setDefaultPostprocessors(['alias', 'singleton', 'alternateClassName']);
+
+    Ext.apply(Ext, {
+<span id='Ext-method-create'>        /**
+</span>         * @method
+         * @member Ext
+         * @alias Ext.ClassManager#instantiate
+         */
+        create: alias(Manager, 'instantiate'),
+
+<span id='Ext-ClassManager-method-factory'>        /**
+</span>         * @private
+         * API to be stablized
+         *
+         * @param {Object} item
+         * @param {String} namespace
+         */
+        factory: function(item, namespace) {
+            if (item instanceof Array) {
+                var i, ln;
+
+                for (i = 0, ln = item.length; i &lt; ln; i++) {
+                    item[i] = Ext.factory(item[i], namespace);
+                }
+
+                return item;
+            }
+
+            var isString = (typeof item === 'string');
+
+            if (isString || (item instanceof Object &amp;&amp; item.constructor === Object)) {
+                var name, config = {};
+
+                if (isString) {
+                    name = item;
+                }
+                else {
+                    name = item.className;
+                    config = item;
+                    delete config.className;
+                }
+
+                if (namespace !== undefined &amp;&amp; name.indexOf(namespace) === -1) {
+                    name = namespace + '.' + Ext.String.capitalize(name);
+                }
+
+                return Ext.create(name, config);
+            }
+
+            if (typeof item === 'function') {
+                return Ext.create(item);
+            }
+
+            return item;
+        },
+
+<span id='Ext-method-widget'>        /**
+</span>         * Convenient shorthand to create a widget by its xtype, also see {@link Ext.ClassManager#instantiateByAlias}
+         *
+         *     var button = Ext.widget('button'); // Equivalent to Ext.create('widget.button')
+         *     var panel = Ext.widget('panel'); // Equivalent to Ext.create('widget.panel')
+         *
+         * @method
+         * @member Ext
+         * @param {String} name  xtype of the widget to create.
+         * @param {Object...} args  arguments for the widget constructor.
+         * @return {Object} widget instance
+         */
+        widget: function(name) {
+            var args = slice.call(arguments);
+            args[0] = 'widget.' + name;
+
+            return Manager.instantiateByAlias.apply(Manager, args);
+        },
+
+<span id='Ext-method-createByAlias'>        /**
+</span>         * @method
+         * @member Ext
+         * @alias Ext.ClassManager#instantiateByAlias
+         */
+        createByAlias: alias(Manager, 'instantiateByAlias'),
+
+<span id='Ext-Class-cfg-override'>        /**
+</span>         * @cfg {String} override
+         * @member Ext.Class
+         * 
+         * Defines an override applied to a class. Note that **overrides can only be created using
+         * {@link Ext#define}.** {@link Ext.ClassManager#create} only creates classes.
+         * 
+         * To define an override, include the override property. The content of an override is
+         * aggregated with the specified class in order to extend or modify that class. This can be
+         * as simple as setting default property values or it can extend and/or replace methods.
+         * This can also extend the statics of the class.
+         *
+         * One use for an override is to break a large class into manageable pieces.
+         *
+         *      // File: /src/app/Panel.js
+         *
+         *      Ext.define('My.app.Panel', {
+         *          extend: 'Ext.panel.Panel',
+         *          requires: [
+         *              'My.app.PanelPart2',
+         *              'My.app.PanelPart3'
+         *          ]
+         *
+         *          constructor: function (config) {
+         *              this.callSuper(arguments); // calls Ext.panel.Panel's constructor
+         *              //...
+         *          },
+         *
+         *          statics: {
+         *              method: function () {
+         *                  return 'abc';
+         *              }
+         *          }
+         *      });
+         *
+         *      // File: /src/app/PanelPart2.js
+         *      Ext.define('My.app.PanelPart2', {
+         *          override: 'My.app.Panel',
+         *
+         *          constructor: function (config) {
+         *              this.callSuper(arguments); // calls My.app.Panel's constructor
+         *              //...
+         *          }
+         *      });
+         *
+         * Another use of overrides is to provide optional parts of classes that can be
+         * independently required. In this case, the class may even be unaware of the
+         * override altogether.
+         *
+         *      Ext.define('My.ux.CoolTip', {
+         *          override: 'Ext.tip.ToolTip',
+         *
+         *          constructor: function (config) {
+         *              this.callSuper(arguments); // calls Ext.tip.ToolTip's constructor
+         *              //...
+         *          }
+         *      });
+         *
+         * The above override can now be required as normal.
+         *
+         *      Ext.define('My.app.App', {
+         *          requires: [
+         *              'My.ux.CoolTip'
+         *          ]
+         *      });
+         *
+         * Overrides can also contain statics:
+         *
+         *      Ext.define('My.app.BarMod', {
+         *          override: 'Ext.foo.Bar',
+         *
+         *          statics: {
+         *              method: function (x) {
+         *                  return this.callSuper([x * 2]); // call Ext.foo.Bar.method
+         *              }
+         *          }
+         *      });
+         *
+         * IMPORTANT: An override is only included in a build if the class it overrides is
+         * required. Otherwise, the override, like the target class, is not included.
+         */
+        
+<span id='Ext-method-define'>        /**
+</span>         * @method
+         *
+         * @member Ext
+         * @alias Ext.ClassManager#create
+         */
+        define: function (className, data, createdFn) {
+            if (!data.override) {
+                return Manager.create.apply(Manager, arguments);
+            }
+
+            var requires = data.requires,
+                uses = data.uses,
+                overrideName = className;
+
+            className = data.override;
+
+            // hoist any 'requires' or 'uses' from the body onto the faux class:
+            data = Ext.apply({}, data);
+            delete data.requires;
+            delete data.uses;
+            delete data.override;
+
+            // make sure className is in the requires list:
+            if (typeof requires == 'string') {
+                requires = [ className, requires ];
+            } else if (requires) {
+                requires = requires.slice(0);
+                requires.unshift(className);
+            } else {
+                requires = [ className ];
+            }
+
+// TODO - we need to rework this to allow the override to not require the target class
+//  and rather 'wait' for it in such a way that if the target class is not in the build,
+//  neither are any of its overrides.
+//
+//  Also, this should process the overrides for a class ASAP (ideally before any derived
+//  classes) if the target class 'requires' the overrides. Without some special handling, the
+//  overrides so required will be processed before the class and have to be bufferred even
+//  in a build.
+//
+// TODO - we should probably support the &quot;config&quot; processor on an override (to config new
+//  functionaliy like Aria) and maybe inheritableStatics (although static is now supported
+//  by callSuper). If inheritableStatics causes those statics to be included on derived class
+//  constructors, that probably means &quot;no&quot; to this since an override can come after other
+//  classes extend the target.
+            return Manager.create(overrideName, {
+                    requires: requires,
+                    uses: uses,
+                    isPartial: true,
+                    constructor: function () {
+                        //&lt;debug error&gt;
+                        throw new Error(&quot;Cannot create override '&quot; + overrideName + &quot;'&quot;);
+                        //&lt;/debug&gt;
+                    }
+                }, function () {
+                    var cls = Manager.get(className);
+                    if (cls.override) { // if (normal class)
+                        cls.override(data);
+                    } else { // else (singleton)
+                        cls.self.override(data);
+                    }
+
+                    if (createdFn) {
+                        // called once the override is applied and with the context of the
+                        // overridden class (the override itself is a meaningless, name-only
+                        // thing).
+                        createdFn.call(cls);
+                    }
+                });
+        },
+
+<span id='Ext-method-getClassName'>        /**
+</span>         * @method
+         * @member Ext
+         * @alias Ext.ClassManager#getName
+         */
+        getClassName: alias(Manager, 'getName'),
+
+<span id='Ext-ClassManager-method-getDisplayName'>        /**
+</span>         * Returns the displayName property or className or object.
+         * When all else fails, returns &quot;Anonymous&quot;.
+         * @param {Object} object
+         * @return {String}
+         */
+        getDisplayName: function(object) {
+            if (object.displayName) {
+                return object.displayName;
+            }
+
+            if (object.$name &amp;&amp; object.$class) {
+                return Ext.getClassName(object.$class) + '#' + object.$name;
+            }
+
+            if (object.$className) {
+                return object.$className;
+            }
+
+            return 'Anonymous';
+        },
+
+<span id='Ext-method-getClass'>        /**
+</span>         * @method
+         * @member Ext
+         * @alias Ext.ClassManager#getClass
+         */
+        getClass: alias(Manager, 'getClass'),
+
+<span id='Ext-method-namespace'>        /**
+</span>         * Creates namespaces to be used for scoping variables and classes so that they are not global.
+         * Specifying the last node of a namespace implicitly creates all other nodes. Usage:
+         *
+         *     Ext.namespace('Company', 'Company.data');
+         *
+         *     // equivalent and preferable to the above syntax
+         *     Ext.namespace('Company.data');
+         *
+         *     Company.Widget = function() { ... };
+         *
+         *     Company.data.CustomStore = function(config) { ... };
+         *
+         * @method
+         * @member Ext
+         * @param {String} namespace1
+         * @param {String} namespace2
+         * @param {String} etc
+         * @return {Object} The namespace object. (If multiple arguments are passed, this will be the last namespace created)
+         */
+        namespace: alias(Manager, 'createNamespaces')
+    });
+
+<span id='Ext-method-createWidget'>    /**
+</span>     * Old name for {@link Ext#widget}.
+     * @deprecated 4.0.0 Use {@link Ext#widget} instead.
+     * @method
+     * @member Ext
+     * @alias Ext#widget
+     */
+    Ext.createWidget = Ext.widget;
+
+<span id='Ext-method-ns'>    /**
+</span>     * Convenient alias for {@link Ext#namespace Ext.namespace}
+     * @method
+     * @member Ext
+     * @alias Ext#namespace
+     */
+    Ext.ns = Ext.namespace;
+
+    Class.registerPreprocessor('className', function(cls, data) {
+        if (data.$className) {
+            cls.$className = data.$className;
+            //&lt;debug&gt;
+            cls.displayName = cls.$className;
+            //&lt;/debug&gt;
+        }
+    }, true);
+
+    Class.setDefaultPreprocessorPosition('className', 'first');
+
+    Class.registerPreprocessor('xtype', function(cls, data) {
+        var xtypes = Ext.Array.from(data.xtype),
+            widgetPrefix = 'widget.',
+            aliases = Ext.Array.from(data.alias),
+            i, ln, xtype;
+
+        data.xtype = xtypes[0];
+        data.xtypes = xtypes;
+
+        aliases = data.alias = Ext.Array.from(data.alias);
+
+        for (i = 0,ln = xtypes.length; i &lt; ln; i++) {
+            xtype = xtypes[i];
+
+            //&lt;debug error&gt;
+            if (typeof xtype != 'string' || xtype.length &lt; 1) {
+                throw new Error(&quot;[Ext.define] Invalid xtype of: '&quot; + xtype + &quot;' for class: '&quot; + name + &quot;'; must be a valid non-empty string&quot;);
+            }
+            //&lt;/debug&gt;
+
+            aliases.push(widgetPrefix + xtype);
+        }
+
+        data.alias = aliases;
+    });
+
+    Class.setDefaultPreprocessorPosition('xtype', 'last');
+
+    Class.registerPreprocessor('alias', function(cls, data) {
+        var aliases = Ext.Array.from(data.alias),
+            xtypes = Ext.Array.from(data.xtypes),
+            widgetPrefix = 'widget.',
+            widgetPrefixLength = widgetPrefix.length,
+            i, ln, alias, xtype;
+
+        for (i = 0, ln = aliases.length; i &lt; ln; i++) {
+            alias = aliases[i];
+
+            //&lt;debug error&gt;
+            if (typeof alias != 'string') {
+                throw new Error(&quot;[Ext.define] Invalid alias of: '&quot; + alias + &quot;' for class: '&quot; + name + &quot;'; must be a valid string&quot;);
+            }
+            //&lt;/debug&gt;
+
+            if (alias.substring(0, widgetPrefixLength) === widgetPrefix) {
+                xtype = alias.substring(widgetPrefixLength);
+                Ext.Array.include(xtypes, xtype);
+
+                if (!cls.xtype) {
+                    cls.xtype = data.xtype = xtype;
+                }
+            }
+        }
+
+        data.alias = aliases;
+        data.xtypes = xtypes;
+    });
+
+    Class.setDefaultPreprocessorPosition('alias', 'last');
+
+})(Ext.Class, Ext.Function.alias);
+</pre>
+</body>
+</html>

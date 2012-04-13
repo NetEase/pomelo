@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-feature-RowWrap'>/**
+</span> * @class Ext.grid.feature.RowWrap
+ * @extends Ext.grid.feature.Feature
+ * @private
+ */
+Ext.define('Ext.grid.feature.RowWrap', {
+    extend: 'Ext.grid.feature.Feature',
+    alias: 'feature.rowwrap',
+
+    // turn off feature events.
+    hasFeatureEvent: false,
+    
+    mutateMetaRowTpl: function(metaRowTpl) {        
+        // Remove &quot;x-grid-row&quot; from the first row, note this could be wrong
+        // if some other feature unshifted things in front.
+        metaRowTpl[0] = metaRowTpl[0].replace(Ext.baseCSSPrefix + 'grid-row', '');
+        metaRowTpl[0] = metaRowTpl[0].replace(&quot;{[this.embedRowCls()]}&quot;, &quot;&quot;);
+        // 2
+        metaRowTpl.unshift('&lt;table class=&quot;' + Ext.baseCSSPrefix + 'grid-table ' + Ext.baseCSSPrefix + 'grid-table-resizer&quot; style=&quot;width: {[this.embedFullWidth()]}px;&quot;&gt;');
+        // 1
+        metaRowTpl.unshift('&lt;tr class=&quot;' + Ext.baseCSSPrefix + 'grid-row {[this.embedRowCls()]}&quot;&gt;&lt;td colspan=&quot;{[this.embedColSpan()]}&quot;&gt;&lt;div class=&quot;' + Ext.baseCSSPrefix + 'grid-rowwrap-div&quot;&gt;');
+        
+        // 3
+        metaRowTpl.push('&lt;/table&gt;');
+        // 4
+        metaRowTpl.push('&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;');
+    },
+    
+    embedColSpan: function() {
+        return '{colspan}';
+    },
+    
+    embedFullWidth: function() {
+        return '{fullWidth}';
+    },
+    
+    getAdditionalData: function(data, idx, record, orig) {
+        var headerCt = this.view.headerCt,
+            colspan  = headerCt.getColumnCount(),
+            fullWidth = headerCt.getFullWidth(),
+            items    = headerCt.query('gridcolumn'),
+            itemsLn  = items.length,
+            i = 0,
+            o = {
+                colspan: colspan,
+                fullWidth: fullWidth
+            },
+            id,
+            tdClsKey,
+            colResizerCls;
+
+        for (; i &lt; itemsLn; i++) {
+            id = items[i].id;
+            tdClsKey = id + '-tdCls';
+            colResizerCls = Ext.baseCSSPrefix + 'grid-col-resizer-'+id;
+            // give the inner td's the resizer class
+            // while maintaining anything a user may have injected via a custom
+            // renderer
+            o[tdClsKey] = colResizerCls + &quot; &quot; + (orig[tdClsKey] ? orig[tdClsKey] : '');
+            // TODO: Unhackify the initial rendering width's
+            o[id+'-tdAttr'] = &quot; style=\&quot;width: &quot; + (items[i].hidden ? 0 : items[i].getDesiredWidth()) + &quot;px;\&quot; &quot;/* + (i === 0 ? &quot; rowspan=\&quot;2\&quot;&quot; : &quot;&quot;)*/;
+            if (orig[id+'-tdAttr']) {
+                o[id+'-tdAttr'] += orig[id+'-tdAttr'];
+            }
+            
+        }
+
+        return o;
+    },
+    
+    getMetaRowTplFragments: function() {
+        return {
+            embedFullWidth: this.embedFullWidth,
+            embedColSpan: this.embedColSpan
+        };
+    }
+    
+});</pre>
+</body>
+</html>

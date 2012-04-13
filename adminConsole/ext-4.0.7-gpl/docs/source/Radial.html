@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-axis-Radial'>/**
+</span> * @class Ext.chart.axis.Radial
+ * @extends Ext.chart.axis.Abstract
+ * @ignore
+ */
+Ext.define('Ext.chart.axis.Radial', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.chart.axis.Abstract',
+
+    /* End Definitions */
+
+    position: 'radial',
+
+    alias: 'axis.radial',
+
+    drawAxis: function(init) {
+        var chart = this.chart,
+            surface = chart.surface,
+            bbox = chart.chartBBox,
+            store = chart.store,
+            l = store.getCount(),
+            centerX = bbox.x + (bbox.width / 2),
+            centerY = bbox.y + (bbox.height / 2),
+            rho = Math.min(bbox.width, bbox.height) /2,
+            sprites = [], sprite,
+            steps = this.steps,
+            i, j, pi2 = Math.PI * 2,
+            cos = Math.cos, sin = Math.sin;
+
+        if (this.sprites &amp;&amp; !chart.resizing) {
+            this.drawLabel();
+            return;
+        }
+
+        if (!this.sprites) {
+            //draw circles
+            for (i = 1; i &lt;= steps; i++) {
+                sprite = surface.add({
+                    type: 'circle',
+                    x: centerX,
+                    y: centerY,
+                    radius: Math.max(rho * i / steps, 0),
+                    stroke: '#ccc'
+                });
+                sprite.setAttributes({
+                    hidden: false
+                }, true);
+                sprites.push(sprite);
+            }
+            //draw lines
+            store.each(function(rec, i) {
+                sprite = surface.add({
+                    type: 'path',
+                    path: ['M', centerX, centerY, 'L', centerX + rho * cos(i / l * pi2), centerY + rho * sin(i / l * pi2), 'Z'],
+                    stroke: '#ccc'
+                });
+                sprite.setAttributes({
+                    hidden: false
+                }, true);
+                sprites.push(sprite);
+            });
+        } else {
+            sprites = this.sprites;
+            //draw circles
+            for (i = 0; i &lt; steps; i++) {
+                sprites[i].setAttributes({
+                    x: centerX,
+                    y: centerY,
+                    radius: Math.max(rho * (i + 1) / steps, 0),
+                    stroke: '#ccc'
+                }, true);
+            }
+            //draw lines
+            store.each(function(rec, j) {
+                sprites[i + j].setAttributes({
+                    path: ['M', centerX, centerY, 'L', centerX + rho * cos(j / l * pi2), centerY + rho * sin(j / l * pi2), 'Z'],
+                    stroke: '#ccc'
+                }, true);
+            });
+        }
+        this.sprites = sprites;
+
+        this.drawLabel();
+    },
+
+    drawLabel: function() {
+        var chart = this.chart,
+            surface = chart.surface,
+            bbox = chart.chartBBox,
+            store = chart.store,
+            centerX = bbox.x + (bbox.width / 2),
+            centerY = bbox.y + (bbox.height / 2),
+            rho = Math.min(bbox.width, bbox.height) /2,
+            max = Math.max, round = Math.round,
+            labelArray = [], label,
+            fields = [], nfields,
+            categories = [], xField,
+            aggregate = !this.maximum,
+            maxValue = this.maximum || 0,
+            steps = this.steps, i = 0, j, dx, dy,
+            pi2 = Math.PI * 2,
+            cos = Math.cos, sin = Math.sin,
+            display = this.label.display,
+            draw = display !== 'none',
+            margin = 10;
+
+        if (!draw) {
+            return;
+        }
+
+        //get all rendered fields
+        chart.series.each(function(series) {
+            fields.push(series.yField);
+            xField = series.xField;
+        });
+        
+        //get maxValue to interpolate
+        store.each(function(record, i) {
+            if (aggregate) {
+                for (i = 0, nfields = fields.length; i &lt; nfields; i++) {
+                    maxValue = max(+record.get(fields[i]), maxValue);
+                }
+            }
+            categories.push(record.get(xField));
+        });
+        if (!this.labelArray) {
+            if (display != 'categories') {
+                //draw scale
+                for (i = 1; i &lt;= steps; i++) {
+                    label = surface.add({
+                        type: 'text',
+                        text: round(i / steps * maxValue),
+                        x: centerX,
+                        y: centerY - rho * i / steps,
+                        'text-anchor': 'middle',
+                        'stroke-width': 0.1,
+                        stroke: '#333'
+                    });
+                    label.setAttributes({
+                        hidden: false
+                    }, true);
+                    labelArray.push(label);
+                }
+            }
+            if (display != 'scale') {
+                //draw text
+                for (j = 0, steps = categories.length; j &lt; steps; j++) {
+                    dx = cos(j / steps * pi2) * (rho + margin);
+                    dy = sin(j / steps * pi2) * (rho + margin);
+                    label = surface.add({
+                        type: 'text',
+                        text: categories[j],
+                        x: centerX + dx,
+                        y: centerY + dy,
+                        'text-anchor': dx * dx &lt;= 0.001? 'middle' : (dx &lt; 0? 'end' : 'start')
+                    });
+                    label.setAttributes({
+                        hidden: false
+                    }, true);
+                    labelArray.push(label);
+                }
+            }
+        }
+        else {
+            labelArray = this.labelArray;
+            if (display != 'categories') {
+                //draw values
+                for (i = 0; i &lt; steps; i++) {
+                    labelArray[i].setAttributes({
+                        text: round((i + 1) / steps * maxValue),
+                        x: centerX,
+                        y: centerY - rho * (i + 1) / steps,
+                        'text-anchor': 'middle',
+                        'stroke-width': 0.1,
+                        stroke: '#333'
+                    }, true);
+                }
+            }
+            if (display != 'scale') {
+                //draw text
+                for (j = 0, steps = categories.length; j &lt; steps; j++) {
+                    dx = cos(j / steps * pi2) * (rho + margin);
+                    dy = sin(j / steps * pi2) * (rho + margin);
+                    if (labelArray[i + j]) {
+                        labelArray[i + j].setAttributes({
+                            type: 'text',
+                            text: categories[j],
+                            x: centerX + dx,
+                            y: centerY + dy,
+                            'text-anchor': dx * dx &lt;= 0.001? 'middle' : (dx &lt; 0? 'end' : 'start')
+                        }, true);
+                    }
+                }
+            }
+        }
+        this.labelArray = labelArray;
+    }
+});</pre>
+</body>
+</html>

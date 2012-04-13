@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Ext JS 3 Desktop + Ext JS 4 Charts</title>
+
+    <link rel="stylesheet" type="text/css" href="http://dev.sencha.com/deploy/dev/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="css/desktop.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-sandbox.css">
+
+    <style>
+        #chart-win-shortcut img {
+            width:48px;
+            height:48px;
+            background-image: url(images/chart48x48.png);
+            filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/chart48x48.png', sizingMethod='scale');
+        }
+    </style>
+    <script type="text/javascript" src="http://dev.sencha.com/deploy/dev/adapter/ext/ext-base.js"></script><!-- ENDLIBS -->
+
+    <script type="text/javascript" src="http://dev.sencha.com/deploy/dev/ext-all.js"></script><!-- DESKTOP -->
+
+    <script type="text/javascript" src="js/StartMenu.js"></script>
+    <script type="text/javascript" src="js/TaskBar.js"></script>
+    <script type="text/javascript" src="js/Desktop.js"></script>
+    <script type="text/javascript" src="js/App.js"></script>
+    <script type="text/javascript" src="js/Module.js"></script>
+    <script type="text/javascript" src="sample.js"></script>
+
+    <script type="text/javascript" src="../../builds/ext-all-sandbox.js"></script>
+    <script type="text/javascript" src="sandbox.js"></script>
+</head>
+
+<body scroll="no">
+
+    <div id="x-desktop">
+        <a href="http://sencha.com" target="_blank" style="margin:5px; float:right;"><img src="images/powered.gif" /></a>
+
+        <dl id="x-shortcuts">
+            <dt id="grid-win-shortcut">
+                <a href="#"><img src="images/s.gif" />
+                <div>Grid Window</div></a>
+            </dt>
+            <dt id="acc-win-shortcut">
+                <a href="#"><img src="images/s.gif" />
+                <div>Accordion Window</div></a>
+            </dt>
+            <dt id="chart-win-shortcut">
+                <a href="#"><img src="images/s.gif" />
+                <div>Charts</div></a>
+            </dt>
+        </dl>
+    </div>
+
+    <div id="ux-taskbar">
+        <div id="ux-taskbar-start"></div>
+        <div id="ux-taskbuttons-panel"></div>
+        <div class="x-clear"></div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-tip-QuickTip'>/**
+</span> * @class Ext.tip.QuickTip
+ * @extends Ext.tip.ToolTip
+ * A specialized tooltip class for tooltips that can be specified in markup and automatically managed by the global
+ * {@link Ext.tip.QuickTipManager} instance.  See the QuickTipManager documentation for additional usage details and examples.
+ * @xtype quicktip
+ */
+Ext.define('Ext.tip.QuickTip', {
+    extend: 'Ext.tip.ToolTip',
+    alternateClassName: 'Ext.QuickTip',
+<span id='Ext-tip-QuickTip-cfg-target'>    /**
+</span>     * @cfg {String/HTMLElement/Ext.Element} target The target HTMLElement, Ext.Element or id to associate with this Quicktip (defaults to the document).
+     */
+<span id='Ext-tip-QuickTip-cfg-interceptTitles'>    /**
+</span>     * @cfg {Boolean} interceptTitles True to automatically use the element's DOM title value if available.
+     */
+    interceptTitles : false,
+
+    // Force creation of header Component
+    title: '&amp;#160;',
+
+    // private
+    tagConfig : {
+        namespace : &quot;data-&quot;,
+        attribute : &quot;qtip&quot;,
+        width : &quot;qwidth&quot;,
+        target : &quot;target&quot;,
+        title : &quot;qtitle&quot;,
+        hide : &quot;hide&quot;,
+        cls : &quot;qclass&quot;,
+        align : &quot;qalign&quot;,
+        anchor : &quot;anchor&quot;
+    },
+
+    // private
+    initComponent : function(){
+        var me = this;
+
+        me.target = me.target || Ext.getDoc();
+        me.targets = me.targets || {};
+        me.callParent();
+    },
+
+<span id='Ext-tip-QuickTip-method-register'>    /**
+</span>     * Configures a new quick tip instance and assigns it to a target element.  The following config values are
+     * supported (for example usage, see the {@link Ext.tip.QuickTipManager} class header):
+     * &lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+     * &lt;li&gt;autoHide&lt;/li&gt;
+     * &lt;li&gt;cls&lt;/li&gt;
+     * &lt;li&gt;dismissDelay (overrides the singleton value)&lt;/li&gt;
+     * &lt;li&gt;target (required)&lt;/li&gt;
+     * &lt;li&gt;text (required)&lt;/li&gt;
+     * &lt;li&gt;title&lt;/li&gt;
+     * &lt;li&gt;width&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;
+     * @param {Object} config The config object
+     */
+    register : function(config){
+        var configs = Ext.isArray(config) ? config : arguments,
+            i = 0,
+            len = configs.length,
+            target, j, targetLen;
+
+        for (; i &lt; len; i++) {
+            config = configs[i];
+            target = config.target;
+            if (target) {
+                if (Ext.isArray(target)) {
+                    for (j = 0, targetLen = target.length; j &lt; targetLen; j++) {
+                        this.targets[Ext.id(target[j])] = config;
+                    }
+                } else{
+                    this.targets[Ext.id(target)] = config;
+                }
+            }
+        }
+    },
+
+<span id='Ext-tip-QuickTip-method-unregister'>    /**
+</span>     * Removes this quick tip from its element and destroys it.
+     * @param {String/HTMLElement/Ext.Element} el The element from which the quick tip is to be removed or ID of the element.
+     */
+    unregister : function(el){
+        delete this.targets[Ext.id(el)];
+    },
+
+<span id='Ext-tip-QuickTip-method-cancelShow'>    /**
+</span>     * Hides a visible tip or cancels an impending show for a particular element.
+     * @param {String/HTMLElement/Ext.Element} el The element that is the target of the tip or ID of the element.
+     */
+    cancelShow: function(el){
+        var me = this,
+            activeTarget = me.activeTarget;
+
+        el = Ext.get(el).dom;
+        if (me.isVisible()) {
+            if (activeTarget &amp;&amp; activeTarget.el == el) {
+                me.hide();
+            }
+        } else if (activeTarget &amp;&amp; activeTarget.el == el) {
+            me.clearTimer('show');
+        }
+    },
+
+<span id='Ext-tip-QuickTip-method-getTipCfg'>    /**
+</span>     * @private
+     * Reads the tip text from the closest node to the event target which contains the attribute we
+     * are configured to look for. Returns an object containing the text from the attribute, and the target element from
+     * which the text was read.
+     */
+    getTipCfg: function(e) {
+        var t = e.getTarget(),
+            titleText = t.title,
+            cfg;
+
+        if (this.interceptTitles &amp;&amp; titleText &amp;&amp; Ext.isString(titleText)) {
+            t.qtip = titleText;
+            t.removeAttribute(&quot;title&quot;);
+            e.preventDefault();
+            return {
+                text: titleText
+            };
+        }
+        else {
+            cfg = this.tagConfig;
+            t = e.getTarget('[' + cfg.namespace + cfg.attribute + ']');
+            if (t) {
+                return {
+                    target: t,
+                    text: t.getAttribute(cfg.namespace + cfg.attribute)
+                };
+            }
+        }
+    },
+
+    // private
+    onTargetOver : function(e){
+        var me = this,
+            target = e.getTarget(),
+            elTarget,
+            cfg,
+            ns,
+            tipConfig,
+            autoHide;
+
+        if (me.disabled) {
+            return;
+        }
+
+        // TODO - this causes &quot;e&quot; to be recycled in IE6/7 (EXTJSIV-1608) so ToolTip#setTarget
+        // was changed to include freezeEvent. The issue seems to be a nested 'resize' event
+        // that smashed Ext.EventObject.
+        me.targetXY = e.getXY();
+
+        if(!target || target.nodeType !== 1 || target == document || target == document.body){
+            return;
+        }
+
+        if (me.activeTarget &amp;&amp; ((target == me.activeTarget.el) || Ext.fly(me.activeTarget.el).contains(target))) {
+            me.clearTimer('hide');
+            me.show();
+            return;
+        }
+
+        if (target) {
+            Ext.Object.each(me.targets, function(key, value) {
+                var targetEl = Ext.fly(value.target);
+                if (targetEl &amp;&amp; (targetEl.dom === target || targetEl.contains(target))) {
+                    elTarget = targetEl.dom;
+                    return false;
+                }
+            });
+            if (elTarget) {
+                me.activeTarget = me.targets[elTarget.id];
+                me.activeTarget.el = target;
+                me.anchor = me.activeTarget.anchor;
+                if (me.anchor) {
+                    me.anchorTarget = target;
+                }
+                me.delayShow();
+                return;
+            }
+        }
+
+        elTarget = Ext.get(target);
+        cfg = me.tagConfig;
+        ns = cfg.namespace;
+        tipConfig = me.getTipCfg(e);
+
+        if (tipConfig) {
+
+            // getTipCfg may look up the parentNode axis for a tip text attribute and will return the new target node.
+            // Change our target element to match that from which the tip text attribute was read.
+            if (tipConfig.target) {
+                target = tipConfig.target;
+                elTarget = Ext.get(target);
+            }
+            autoHide = elTarget.getAttribute(ns + cfg.hide);
+
+            me.activeTarget = {
+                el: target,
+                text: tipConfig.text,
+                width: +elTarget.getAttribute(ns + cfg.width) || null,
+                autoHide: autoHide != &quot;user&quot; &amp;&amp; autoHide !== 'false',
+                title: elTarget.getAttribute(ns + cfg.title),
+                cls: elTarget.getAttribute(ns + cfg.cls),
+                align: elTarget.getAttribute(ns + cfg.align)
+
+            };
+            me.anchor = elTarget.getAttribute(ns + cfg.anchor);
+            if (me.anchor) {
+                me.anchorTarget = target;
+            }
+            me.delayShow();
+        }
+    },
+
+    // private
+    onTargetOut : function(e){
+        var me = this;
+
+        // If moving within the current target, and it does not have a new tip, ignore the mouseout
+        if (me.activeTarget &amp;&amp; e.within(me.activeTarget.el) &amp;&amp; !me.getTipCfg(e)) {
+            return;
+        }
+
+        me.clearTimer('show');
+        if (me.autoHide !== false) {
+            me.delayHide();
+        }
+    },
+
+    // inherit docs
+    showAt : function(xy){
+        var me = this,
+            target = me.activeTarget;
+
+        if (target) {
+            if (!me.rendered) {
+                me.render(Ext.getBody());
+                me.activeTarget = target;
+            }
+            if (target.title) {
+                me.setTitle(target.title || '');
+                me.header.show();
+            } else {
+                me.header.hide();
+            }
+            me.body.update(target.text);
+            me.autoHide = target.autoHide;
+            me.dismissDelay = target.dismissDelay || me.dismissDelay;
+            if (me.lastCls) {
+                me.el.removeCls(me.lastCls);
+                delete me.lastCls;
+            }
+            if (target.cls) {
+                me.el.addCls(target.cls);
+                me.lastCls = target.cls;
+            }
+
+            me.setWidth(target.width);
+
+            if (me.anchor) {
+                me.constrainPosition = false;
+            } else if (target.align) { // TODO: this doesn't seem to work consistently
+                xy = me.el.getAlignToXY(target.el, target.align);
+                me.constrainPosition = false;
+            }else{
+                me.constrainPosition = true;
+            }
+        }
+        me.callParent([xy]);
+    },
+
+    // inherit docs
+    hide: function(){
+        delete this.activeTarget;
+        this.callParent();
+    }
+});
+</pre>
+</body>
+</html>

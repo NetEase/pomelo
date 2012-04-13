@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Grouped Header Grid Example</title>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="../shared/example.css" />
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<!-- page specific -->
+<style type="text/css">
+/* style rows on mouseover */
+.x-grid-row-over .x-grid-cell-inner {
+    font-weight: bold;
+}
+</style>
+<script type="text/javascript" src="group-header-grid.js"></script>
+</head>
+<body>
+    <h1>Grouped Header Example</h1>
+    <p>This example shows how to create a grid with column headers which are nested within category headers.</p>
+    <p>Category headers do not reference Model fields via a <code>dataIndex</code>, rather they contain
+    child header definitions (which may themselves either contain a <code>dataIndex</code> or more levels of headers).</p>
+    <p>The syntax is as simple as:<pre><code>{
+    header: 'Category Header',
+    headers: [{
+        header: 'First Sub Header',
+        dataIndex: 'subHeaderField1'
+    }, {
+        header: 'Second Sub Header',
+        dataIndex: 'subHeaderField2'
+    }]
+}</code></pre>
+    <p>Note that the js is not minified so it is readable. See <a href="group-header-grid.js">group-header-grid.js</a>.</p>
+    <div id="grid-example"></div>
+</body>
+</html>

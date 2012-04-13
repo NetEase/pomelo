@@ -1,0 +1,75 @@
+@mixin extjs-form {
+    /*misc*/
+    .#{$prefix}webkit {
+        * {
+            &:focus {
+                outline:none !important;
+            }
+        }
+    }
+    
+    //form items
+    .#{$prefix}form-item {
+        display: block;
+        zoom: 1;
+        position: relative;
+        margin-bottom: 5px;
+    }
+    
+    .#{$prefix}form-item-label {
+        float: left;
+        padding: 3px 0 0;
+        z-index: 2;
+        position: relative;
+        font-size: $form-label-font-size;
+        @include no-select;
+    }
+
+    .#{$prefix}form-item-label-top {
+        float: none;
+        clear: none;
+        padding: 0;
+        display: block;
+    }
+
+    .#{$prefix}form-item-label-right {
+        float: left;
+        text-align: right;
+    }
+
+    .#{$prefix}form-item-body {
+        position: relative;
+        float: left;
+    }
+
+    .#{$prefix}form-invalid-under {
+        padding: 2px 2px 2px 18px;
+        clear: left;
+
+        color: $form-error-msg-color;
+        font: $form-error-msg-font;
+        line-height: $form-error-msg-line-height;
+
+        background: no-repeat 0 2px;
+        background-image: theme-background-image($theme-name, $form-exclamation-icon);
+    }
+    
+    .#{$prefix}form-invalid-icon {
+        width: 18px;
+        height: 18px;
+        overflow: hidden;
+        text-indent: -9999px;
+        
+        position: absolute;
+        left: 0;
+        top: 0;
+        
+        background: no-repeat 2px 3px;
+        background-image: theme-background-image($theme-name, $form-exclamation-icon);
+
+        ul {
+            /* prevent inner elements from interfering with QuickTip hovering */
+            display: none;
+        }
+    }
+}

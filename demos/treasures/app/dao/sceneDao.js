@@ -53,6 +53,17 @@ sceneDao.addUser = function(scene, uid, roleId, name, position,cb){
 	});
 };
 
+sceneDao.getUser = function(areaId, uid, cb){
+  redis.get(uidKey(scene,uid),function(err, data){
+    if(!!data && !!data.uid && !!data.roleId && !!data.name && !err){
+      utils.invokeCallback(cb,null,data);
+    }else{
+      err = !!err?err:"User not exist";
+      utils.invokeCallback(cb,err);
+    }
+  });
+}
+
 /**
  * 删除场景的在线信息，但是不善出场景内的用户数据，因为用户仍然属于该场景
  * 
@@ -90,8 +101,8 @@ sceneDao.getUsers = function(scene,cb){
  * @param scene
  * @param cb
  */
-sceneDao.getOnlineUsers = function(scene, cb){
-  redis.get(usersOnlineKey(scene),cb);
+sceneDao.getOnlineUsers = function(areaId, cb){
+  redis.get(usersOnlineKey(areaId),cb);
 };
 
 /**
@@ -177,6 +188,27 @@ sceneDao.getSceneUserInfo = function(scene, uid, cb){
  */
 sceneDao.setUserInfo = function(scene, uid, field, value, cb){
 	redis.hset(uidKey(scene,uid),field,value,cb);
+};
+
+/**
+ * 设置用户的场景
+ * @param scene
+ * @param uid
+ * @param pos
+ * @param cb
+ */
+sceneDao.setUserArea = function(oldAreaId, uid, areaId, cb){
+  redis.get(uidKey(oldAreaId,uid),function(error,user){
+    if (!!user) {
+      user.areaId = areaId;
+      redis.del(usersOnlineKey(oldAreaId),uid);
+      redis.del(usersKey(oldAreaId),uid);
+      redis.del(uidKey(oldAreaId,uid));
+      redis.set(uidKey(areaId,uid),user, cb);
+    }else{
+      utils.invokeCallback(cb, "User not eaist");
+    }
+  });
 };
 
 /**

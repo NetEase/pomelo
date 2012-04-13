@@ -1,0 +1,149 @@
+@function inner-border-spread($width) {
+    $top: top($width);
+    $right: right($width);
+    $bottom: bottom($width);
+    $left: left($width);
+    
+    @return min(($top + $bottom) / 2, ($left + $right) / 2);
+}
+
+@function inner-border-hoff($width, $spread) {
+    $left: left($width); 
+    $right: right($width);
+
+    @if $right <= 0 {
+        @return $left - $spread;
+    }
+    @else {
+        @return $spread - $right;
+    }
+}
+
+@function inner-border-voff($width, $spread) {
+    $top: top($width);
+    $bottom: bottom($width);
+
+    @if $bottom <= 0 {
+        @return $top - $spread;
+    }
+    @else {
+        @return $spread - $bottom;
+    }
+}
+
+@function even($number) {
+    @return ceil($number / 2) == ($number / 2);
+}
+
+@function odd($number) {
+    @return ceil($number / 2) != ($number / 2);
+}
+
+@function inner-border-usesingle-width($width) {
+    $top: top($width);
+    $right: right($width);
+    $bottom: bottom($width);
+    $left: left($width);
+        
+    @if $top == 0 {
+        @if $left + $right == 0 {
+            @return true;
+        }
+        @if $bottom >= $left + $right {
+            @return true;
+        }
+    }
+    
+    @if $bottom == 0 {
+        @if $left + $right == 0 {
+            @return true;
+        }
+        @if $top >= $left + $right {
+            @return true;
+        }
+    }
+    
+    @if $left == 0 {
+        @if $top + $bottom == 0 {
+            @return true;
+        }
+        @if $right >= $top + $bottom {
+            @return true;
+        }
+    }
+    
+    @if $right == 0 {
+        @if $top + $bottom == 0 {
+            @return true;
+        }
+        @if $left >= $top + $bottom {
+            @return true;
+        }
+    }
+    
+    @if $top + $bottom == $left + $right and even($top) == even($bottom) and even($left) == even($right) {
+        @return true;
+    }
+    
+    @return false;
+}
+
+@function inner-border-usesingle-color($color) {
+    $top: top($color);
+    $right: right($color);
+    $bottom: bottom($color);
+    $left: left($color);
+    
+    @if $top == $right == $bottom == $left {
+        @return true;
+    }
+    
+    @return false;
+}
+
+@function inner-border-usesingle($width, $color) {
+    @if inner-border-usesingle-color($color) and inner-border-usesingle-width($width) {
+        @return true;
+    }
+    @return false;
+}
+
+@mixin inner-border($width: 1px, $color: #fff, $blur: 0px) {
+    @if inner-border-usesingle($width, $color) {
+        $spread: inner-border-spread($width);
+        $hoff: inner-border-hoff($width, $spread);
+        $voff: inner-border-voff($width, $spread);
+        @include single-box-shadow($color-top, $hoff, $voff, $blur, $spread, true);
+    }
+    @else {
+        $width-top: top($width);
+        $width-right: right($width);
+        $width-bottom: bottom($width);
+        $width-left: left($width);
+
+        $color-top: top($color);
+        $color-right: right($color);
+        $color-bottom: bottom($color);
+        $color-left: left($color);
+        
+        $shadow-top: false;
+        $shadow-right: false;
+        $shadow-bottom: false;
+        $shadow-left: false;
+        
+        @if $width-top > 0 {
+            $shadow-top: $color-top 0 $width-top $blur 0 inset;
+        }
+        @if $width-right > 0 {
+            $shadow-right: $color-right (-1 * $width-right) 0 $blur 0 inset;
+        }
+        @if $width-bottom > 0 {
+            $shadow-bottom: $color-bottom 0 (-1 * $width-bottom) $blur 0 inset;
+        }
+        @if $width-left > 0 {
+            $shadow-left: $color-left $width-left 0 $blur 0 inset;
+        }
+                
+        @include box-shadow($shadow-top, $shadow-bottom, $shadow-right, $shadow-left);
+    }
+}

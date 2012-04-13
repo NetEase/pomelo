@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-Tree'>/**
+</span> * @class Ext.data.Tree
+ *
+ * This class is used as a container for a series of nodes. The nodes themselves maintain
+ * the relationship between parent/child. The tree itself acts as a manager. It gives functionality
+ * to retrieve a node by its identifier: {@link #getNodeById}.
+ *
+ * The tree also relays events from any of it's child nodes, allowing them to be handled in a
+ * centralized fashion. In general this class is not used directly, rather used internally
+ * by other parts of the framework.
+ *
+ */
+Ext.define('Ext.data.Tree', {
+    alias: 'data.tree',
+
+    mixins: {
+        observable: &quot;Ext.util.Observable&quot;
+    },
+
+<span id='Ext-data-Tree-property-root'>    /**
+</span>     * @property {Ext.data.NodeInterface}
+     * The root node for this tree
+     */
+    root: null,
+
+<span id='Ext-data-Tree-method-constructor'>    /**
+</span>     * Creates new Tree object.
+     * @param {Ext.data.NodeInterface} root (optional) The root node
+     */
+    constructor: function(root) {
+        var me = this;
+
+        
+
+        me.mixins.observable.constructor.call(me);
+
+        if (root) {
+            me.setRootNode(root);
+        }
+    },
+
+<span id='Ext-data-Tree-method-getRootNode'>    /**
+</span>     * Returns the root node for this tree.
+     * @return {Ext.data.NodeInterface}
+     */
+    getRootNode : function() {
+        return this.root;
+    },
+
+<span id='Ext-data-Tree-method-setRootNode'>    /**
+</span>     * Sets the root node for this tree.
+     * @param {Ext.data.NodeInterface} node
+     * @return {Ext.data.NodeInterface} The root node
+     */
+    setRootNode : function(node) {
+        var me = this;
+
+        me.root = node;
+        Ext.data.NodeInterface.decorate(node);
+
+        if (me.fireEvent('beforeappend', null, node) !== false) {
+            node.set('root', true);
+            node.updateInfo();
+
+            me.relayEvents(node, [
+<span id='Ext-data-Tree-event-append'>                /**
+</span>                 * @event append
+                 * @alias Ext.data.NodeInterface#append
+                 */
+                &quot;append&quot;,
+
+<span id='Ext-data-Tree-event-remove'>                /**
+</span>                 * @event remove
+                 * @alias Ext.data.NodeInterface#remove
+                 */
+                &quot;remove&quot;,
+
+<span id='Ext-data-Tree-event-move'>                /**
+</span>                 * @event move
+                 * @alias Ext.data.NodeInterface#move
+                 */
+                &quot;move&quot;,
+
+<span id='Ext-data-Tree-event-insert'>                /**
+</span>                 * @event insert
+                 * @alias Ext.data.NodeInterface#insert
+                 */
+                &quot;insert&quot;,
+
+<span id='Ext-data-Tree-event-beforeappend'>                /**
+</span>                 * @event beforeappend
+                 * @alias Ext.data.NodeInterface#beforeappend
+                 */
+                &quot;beforeappend&quot;,
+
+<span id='Ext-data-Tree-event-beforeremove'>                /**
+</span>                 * @event beforeremove
+                 * @alias Ext.data.NodeInterface#beforeremove
+                 */
+                &quot;beforeremove&quot;,
+
+<span id='Ext-data-Tree-event-beforemove'>                /**
+</span>                 * @event beforemove
+                 * @alias Ext.data.NodeInterface#beforemove
+                 */
+                &quot;beforemove&quot;,
+
+<span id='Ext-data-Tree-event-beforeinsert'>                /**
+</span>                 * @event beforeinsert
+                 * @alias Ext.data.NodeInterface#beforeinsert
+                 */
+                &quot;beforeinsert&quot;,
+
+<span id='Ext-data-Tree-event-expand'>                 /**
+</span>                  * @event expand
+                  * @alias Ext.data.NodeInterface#expand
+                  */
+                 &quot;expand&quot;,
+
+<span id='Ext-data-Tree-event-collapse'>                 /**
+</span>                  * @event collapse
+                  * @alias Ext.data.NodeInterface#collapse
+                  */
+                 &quot;collapse&quot;,
+
+<span id='Ext-data-Tree-event-beforeexpand'>                 /**
+</span>                  * @event beforeexpand
+                  * @alias Ext.data.NodeInterface#beforeexpand
+                  */
+                 &quot;beforeexpand&quot;,
+
+<span id='Ext-data-Tree-event-beforecollapse'>                 /**
+</span>                  * @event beforecollapse
+                  * @alias Ext.data.NodeInterface#beforecollapse
+                  */
+                 &quot;beforecollapse&quot; ,
+
+<span id='Ext-data-Tree-event-rootchange'>                 /**
+</span>                  * @event rootchange
+                  * Fires whenever the root node is changed in the tree.
+                  * @param {Ext.data.Model} root The new root
+                  */
+                 &quot;rootchange&quot;
+            ]);
+
+            node.on({
+                scope: me,
+                insert: me.onNodeInsert,
+                append: me.onNodeAppend,
+                remove: me.onNodeRemove
+            });
+
+            me.nodeHash = {};
+            me.registerNode(node);
+            me.fireEvent('append', null, node);
+            me.fireEvent('rootchange', node);
+        }
+
+        return node;
+    },
+
+<span id='Ext-data-Tree-method-flatten'>    /**
+</span>     * Flattens all the nodes in the tree into an array.
+     * @private
+     * @return {Ext.data.NodeInterface[]} The flattened nodes.
+     */
+    flatten: function(){
+        var nodes = [],
+            hash = this.nodeHash,
+            key;
+
+        for (key in hash) {
+            if (hash.hasOwnProperty(key)) {
+                nodes.push(hash[key]);
+            }
+        }
+        return nodes;
+    },
+
+<span id='Ext-data-Tree-method-onNodeInsert'>    /**
+</span>     * Fired when a node is inserted into the root or one of it's children
+     * @private
+     * @param {Ext.data.NodeInterface} parent The parent node
+     * @param {Ext.data.NodeInterface} node The inserted node
+     */
+    onNodeInsert: function(parent, node) {
+        this.registerNode(node, true);
+    },
+
+<span id='Ext-data-Tree-method-onNodeAppend'>    /**
+</span>     * Fired when a node is appended into the root or one of it's children
+     * @private
+     * @param {Ext.data.NodeInterface} parent The parent node
+     * @param {Ext.data.NodeInterface} node The appended node
+     */
+    onNodeAppend: function(parent, node) {
+        this.registerNode(node, true);
+    },
+
+<span id='Ext-data-Tree-method-onNodeRemove'>    /**
+</span>     * Fired when a node is removed from the root or one of it's children
+     * @private
+     * @param {Ext.data.NodeInterface} parent The parent node
+     * @param {Ext.data.NodeInterface} node The removed node
+     */
+    onNodeRemove: function(parent, node) {
+        this.unregisterNode(node, true);
+    },
+
+<span id='Ext-data-Tree-method-getNodeById'>    /**
+</span>     * Gets a node in this tree by its id.
+     * @param {String} id
+     * @return {Ext.data.NodeInterface} The match node.
+     */
+    getNodeById : function(id) {
+        return this.nodeHash[id];
+    },
+
+<span id='Ext-data-Tree-method-registerNode'>    /**
+</span>     * Registers a node with the tree
+     * @private
+     * @param {Ext.data.NodeInterface} The node to register
+     * @param {Boolean} [includeChildren] True to unregister any child nodes
+     */
+    registerNode : function(node, includeChildren) {
+        this.nodeHash[node.getId() || node.internalId] = node;
+        if (includeChildren === true) {
+            node.eachChild(function(child){
+                this.registerNode(child, true);
+            }, this);
+        }
+    },
+
+<span id='Ext-data-Tree-method-unregisterNode'>    /**
+</span>     * Unregisters a node with the tree
+     * @private
+     * @param {Ext.data.NodeInterface} The node to unregister
+     * @param {Boolean} [includeChildren] True to unregister any child nodes
+     */
+    unregisterNode : function(node, includeChildren) {
+        delete this.nodeHash[node.getId() || node.internalId];
+        if (includeChildren === true) {
+            node.eachChild(function(child){
+                this.unregisterNode(child, true);
+            }, this);
+        }
+    },
+
+<span id='Ext-data-Tree-method-sort'>    /**
+</span>     * Sorts this tree
+     * @private
+     * @param {Function} sorterFn The function to use for sorting
+     * @param {Boolean} recursive True to perform recursive sorting
+     */
+    sort: function(sorterFn, recursive) {
+        this.getRootNode().sort(sorterFn, recursive);
+    },
+
+<span id='Ext-data-Tree-method-filter'>     /**
+</span>     * Filters this tree
+     * @private
+     * @param {Function} sorterFn The function to use for filtering
+     * @param {Boolean} recursive True to perform recursive filtering
+     */
+    filter: function(filters, recursive) {
+        this.getRootNode().filter(filters, recursive);
+    }
+});</pre>
+</body>
+</html>

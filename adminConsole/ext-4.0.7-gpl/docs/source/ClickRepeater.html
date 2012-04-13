@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-util-ClickRepeater'>/**
+</span> * @class Ext.util.ClickRepeater
+ * @extends Ext.util.Observable
+ *
+ * A wrapper class which can be applied to any element. Fires a &quot;click&quot; event while the
+ * mouse is pressed. The interval between firings may be specified in the config but
+ * defaults to 20 milliseconds.
+ *
+ * Optionally, a CSS class may be applied to the element during the time it is pressed.
+ *
+ */
+Ext.define('Ext.util.ClickRepeater', {
+    extend: 'Ext.util.Observable',
+
+<span id='Ext-util-ClickRepeater-method-constructor'>    /**
+</span>     * Creates new ClickRepeater.
+     * @param {String/HTMLElement/Ext.Element} el The element or its ID to listen on
+     * @param {Object} config (optional) Config object.
+     */
+    constructor : function(el, config){
+        this.el = Ext.get(el);
+        this.el.unselectable();
+
+        Ext.apply(this, config);
+
+        this.addEvents(
+<span id='Ext-util-ClickRepeater-event-mousedown'>        /**
+</span>         * @event mousedown
+         * Fires when the mouse button is depressed.
+         * @param {Ext.util.ClickRepeater} this
+         * @param {Ext.EventObject} e
+         */
+        &quot;mousedown&quot;,
+<span id='Ext-util-ClickRepeater-event-click'>        /**
+</span>         * @event click
+         * Fires on a specified interval during the time the element is pressed.
+         * @param {Ext.util.ClickRepeater} this
+         * @param {Ext.EventObject} e
+         */
+        &quot;click&quot;,
+<span id='Ext-util-ClickRepeater-event-mouseup'>        /**
+</span>         * @event mouseup
+         * Fires when the mouse key is released.
+         * @param {Ext.util.ClickRepeater} this
+         * @param {Ext.EventObject} e
+         */
+        &quot;mouseup&quot;
+        );
+
+        if(!this.disabled){
+            this.disabled = true;
+            this.enable();
+        }
+
+        // allow inline handler
+        if(this.handler){
+            this.on(&quot;click&quot;, this.handler,  this.scope || this);
+        }
+
+        this.callParent();
+    },
+
+<span id='Ext-util-ClickRepeater-cfg-el'>    /**
+</span>     * @cfg {String/HTMLElement/Ext.Element} el The element to act as a button.
+     */
+
+<span id='Ext-util-ClickRepeater-cfg-pressedCls'>    /**
+</span>     * @cfg {String} pressedCls A CSS class name to be applied to the element while pressed.
+     */
+
+<span id='Ext-util-ClickRepeater-cfg-accelerate'>    /**
+</span>     * @cfg {Boolean} accelerate True if autorepeating should start slowly and accelerate.
+     * &quot;interval&quot; and &quot;delay&quot; are ignored.
+     */
+
+<span id='Ext-util-ClickRepeater-cfg-interval'>    /**
+</span>     * @cfg {Number} interval The interval between firings of the &quot;click&quot; event. Default 20 ms.
+     */
+    interval : 20,
+
+<span id='Ext-util-ClickRepeater-cfg-delay'>    /**
+</span>     * @cfg {Number} delay The initial delay before the repeating event begins firing.
+     * Similar to an autorepeat key delay.
+     */
+    delay: 250,
+
+<span id='Ext-util-ClickRepeater-cfg-preventDefault'>    /**
+</span>     * @cfg {Boolean} preventDefault True to prevent the default click event
+     */
+    preventDefault : true,
+<span id='Ext-util-ClickRepeater-cfg-stopDefault'>    /**
+</span>     * @cfg {Boolean} stopDefault True to stop the default click event
+     */
+    stopDefault : false,
+
+    timer : 0,
+
+<span id='Ext-util-ClickRepeater-method-enable'>    /**
+</span>     * Enables the repeater and allows events to fire.
+     */
+    enable: function(){
+        if(this.disabled){
+            this.el.on('mousedown', this.handleMouseDown, this);
+            if (Ext.isIE){
+                this.el.on('dblclick', this.handleDblClick, this);
+            }
+            if(this.preventDefault || this.stopDefault){
+                this.el.on('click', this.eventOptions, this);
+            }
+        }
+        this.disabled = false;
+    },
+
+<span id='Ext-util-ClickRepeater-method-disable'>    /**
+</span>     * Disables the repeater and stops events from firing.
+     */
+    disable: function(/* private */ force){
+        if(force || !this.disabled){
+            clearTimeout(this.timer);
+            if(this.pressedCls){
+                this.el.removeCls(this.pressedCls);
+            }
+            Ext.getDoc().un('mouseup', this.handleMouseUp, this);
+            this.el.removeAllListeners();
+        }
+        this.disabled = true;
+    },
+
+<span id='Ext-util-ClickRepeater-method-setDisabled'>    /**
+</span>     * Convenience function for setting disabled/enabled by boolean.
+     * @param {Boolean} disabled
+     */
+    setDisabled: function(disabled){
+        this[disabled ? 'disable' : 'enable']();
+    },
+
+    eventOptions: function(e){
+        if(this.preventDefault){
+            e.preventDefault();
+        }
+        if(this.stopDefault){
+            e.stopEvent();
+        }
+    },
+
+    // private
+    destroy : function() {
+        this.disable(true);
+        Ext.destroy(this.el);
+        this.clearListeners();
+    },
+
+    handleDblClick : function(e){
+        clearTimeout(this.timer);
+        this.el.blur();
+
+        this.fireEvent(&quot;mousedown&quot;, this, e);
+        this.fireEvent(&quot;click&quot;, this, e);
+    },
+
+    // private
+    handleMouseDown : function(e){
+        clearTimeout(this.timer);
+        this.el.blur();
+        if(this.pressedCls){
+            this.el.addCls(this.pressedCls);
+        }
+        this.mousedownTime = new Date();
+
+        Ext.getDoc().on(&quot;mouseup&quot;, this.handleMouseUp, this);
+        this.el.on(&quot;mouseout&quot;, this.handleMouseOut, this);
+
+        this.fireEvent(&quot;mousedown&quot;, this, e);
+        this.fireEvent(&quot;click&quot;, this, e);
+
+        // Do not honor delay or interval if acceleration wanted.
+        if (this.accelerate) {
+            this.delay = 400;
+        }
+
+        // Re-wrap the event object in a non-shared object, so it doesn't lose its context if
+        // the global shared EventObject gets a new Event put into it before the timer fires.
+        e = new Ext.EventObjectImpl(e);
+
+        this.timer =  Ext.defer(this.click, this.delay || this.interval, this, [e]);
+    },
+
+    // private
+    click : function(e){
+        this.fireEvent(&quot;click&quot;, this, e);
+        this.timer =  Ext.defer(this.click, this.accelerate ?
+            this.easeOutExpo(Ext.Date.getElapsed(this.mousedownTime),
+                400,
+                -390,
+                12000) :
+            this.interval, this, [e]);
+    },
+
+    easeOutExpo : function (t, b, c, d) {
+        return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+    },
+
+    // private
+    handleMouseOut : function(){
+        clearTimeout(this.timer);
+        if(this.pressedCls){
+            this.el.removeCls(this.pressedCls);
+        }
+        this.el.on(&quot;mouseover&quot;, this.handleMouseReturn, this);
+    },
+
+    // private
+    handleMouseReturn : function(){
+        this.el.un(&quot;mouseover&quot;, this.handleMouseReturn, this);
+        if(this.pressedCls){
+            this.el.addCls(this.pressedCls);
+        }
+        this.click();
+    },
+
+    // private
+    handleMouseUp : function(e){
+        clearTimeout(this.timer);
+        this.el.un(&quot;mouseover&quot;, this.handleMouseReturn, this);
+        this.el.un(&quot;mouseout&quot;, this.handleMouseOut, this);
+        Ext.getDoc().un(&quot;mouseup&quot;, this.handleMouseUp, this);
+        if(this.pressedCls){
+            this.el.removeCls(this.pressedCls);
+        }
+        this.fireEvent(&quot;mouseup&quot;, this, e);
+    }
+});
+</pre>
+</body>
+</html>

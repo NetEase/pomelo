@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Registration Form</title>
+
+    <!-- ExtJS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+
+    <!-- Shared -->
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+
+    <!-- Example -->
+    <script type="text/javascript" src="registration.js"></script>
+    <style type="text/css">
+        /* Styling of global error indicator */
+        .form-error-state {
+            font-size: 11px;
+            padding-left: 20px;
+            height: 16px;
+            line-height: 18px;
+            background: no-repeat 0 0;
+            cursor: default;
+        }
+        .form-error-state-invalid {
+            color: #C30;
+            background-image: url(../../resources/themes/images/default/form/exclamation.gif);
+        }
+        .form-error-state-valid {
+            color: #090;
+            background-image: url(../../resources/themes/images/default/dd/drop-yes.gif);
+        }
+
+        /* Error details tooltip */
+        .errors-tip .error {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Registration Form</h1>
+
+    <p>This example shows a common site registration form. The form appears simple but it shows a few special things: </p>
+    <ul class="feature-list">
+        <li>The display of field errors has been customized. Fields have <code>msgTarget:'none'</code> so
+            the errors are not displayed with the individual fields; instead event listeners are attached
+            to the FormPanel to group up all error messages into a custom global error indicator, with a
+            persistent tooltip showing the error details.</li>
+        <li>The "Terms of Use" link has an event handler attached so it opens the page in a modal Ext window.</li>
+        <li>The password fields have custom validation attached to verify the user enters the same value in both.</li>
+        <li>The submit button has <code>formBind:true</code> so it is only enabled when the form becomes valid.</li>
+    </ul>
+
+    <p>The js is not minified so it is readable. See <a href="registration.js">registration.js</a>.</p>
+
+</body>
+</html>

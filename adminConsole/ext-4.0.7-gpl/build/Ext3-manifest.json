@@ -1,0 +1,3955 @@
+[
+    {
+        "className": "Ext.AbstractManager",
+        "functions": [
+            "create",
+            "get",
+            "isRegistered",
+            "onAvailable",
+            "register",
+            "registerType",
+            "unregister"
+        ]
+    },
+    {
+        "className": "Ext.Action",
+        "configs": [
+            "disabled",
+            "handler",
+            "hidden",
+            "iconCls",
+            "itemId",
+            "scope",
+            "text"
+        ],
+        "functions": [
+            "disable",
+            "each",
+            "enable",
+            "execute",
+            "getIconClass",
+            "getText",
+            "hide",
+            "isDisabled",
+            "isHidden",
+            "setDisabled",
+            "setHandler",
+            "setHidden",
+            "setIconClass",
+            "setText",
+            "show"
+        ]
+    },
+    {
+        "className": "Ext.Ajax",
+        "extend": "Ext.data.Connection",
+        "singleton": "true",
+        "functions": [
+            "serializeForm"
+        ]
+    },
+    {
+        "className": "Ext.BoxComponent",
+        "extend": "Ext.Component",
+        "configs": [
+            "anchor",
+            "autoHeight",
+            "autoScroll",
+            "autoWidth",
+            "boxMaxHeight",
+            "boxMaxWidth",
+            "boxMinHeight",
+            "boxMinWidth",
+            "flex",
+            "height",
+            "margins",
+            "pageX",
+            "pageY",
+            "region",
+            "tabTip",
+            "width",
+            "x",
+            "y"
+        ],
+        "functions": [
+            "getBox",
+            "getHeight",
+            "getOuterSize",
+            "getPosition",
+            "getResizeEl",
+            "getSize",
+            "getWidth",
+            "setAutoScroll",
+            "setHeight",
+            "setPagePosition",
+            "setPosition",
+            "setSize",
+            "setWidth",
+            "syncSize",
+            "updateBox"
+        ]
+    },
+    {
+        "className": "Ext.Button",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "allowDepress",
+            "arrowAlign",
+            "autoWidth",
+            "buttonSelector",
+            "clickEvent",
+            "cls",
+            "disabled",
+            "enableToggle",
+            "handleMouseEvents",
+            "handler",
+            "hidden",
+            "icon",
+            "iconAlign",
+            "iconCls",
+            "menu",
+            "menuAlign",
+            "minWidth",
+            "overflowText",
+            "pressed",
+            "repeat",
+            "scale",
+            "scope",
+            "tabIndex",
+            "template",
+            "text",
+            "toggleGroup",
+            "toggleHandler",
+            "tooltip",
+            "tooltipType",
+            "type"
+        ],
+        "functions": [
+            "getPressed",
+            "getTemplateArgs",
+            "getText",
+            "hasVisibleMenu",
+            "hideMenu",
+            "setHandler",
+            "setIcon",
+            "setIconClass",
+            "setText",
+            "setTooltip",
+            "showMenu",
+            "toggle"
+        ]
+    },
+    {
+        "className": "Ext.ButtonGroup",
+        "extend": "Ext.Panel",
+        "configs": [
+            "baseCls",
+            "columns",
+            "frame",
+            "layout"
+        ]
+    },
+    {
+        "className": "Ext.chart.Axis"
+    },
+    {
+        "className": "Ext.chart.BarChart",
+        "extend": "Ext.chart.CartesianChart"
+    },
+    {
+        "className": "Ext.chart.BarSeries",
+        "extend": "Ext.chart.CartesianSeries"
+    },
+    {
+        "className": "Ext.chart.CartesianChart",
+        "extend": "Ext.chart.Chart"
+    },
+    {
+        "className": "Ext.chart.CartesianSeries",
+        "extend": "Ext.chart.Series"
+    },
+    {
+        "className": "Ext.chart.CategoryAxis",
+        "extend": "Ext.chart.Axis"
+    },
+    {
+        "className": "Ext.chart.Chart",
+        "extend": "Ext.FlashComponent",
+        "configs": [
+            "chartStyle",
+            "disableCaching",
+            "extraStyle",
+            "seriesStyles",
+            "url"
+        ],
+        "functions": [
+            "bindStore",
+            "setSeriesStyles",
+            "setStyle",
+            "setStyles"
+        ]
+    },
+    {
+        "className": "Ext.chart.ColumnChart",
+        "extend": "Ext.chart.CartesianChart"
+    },
+    {
+        "className": "Ext.chart.ColumnSeries",
+        "extend": "Ext.chart.CartesianSeries"
+    },
+    {
+        "className": "Ext.chart.LineChart",
+        "extend": "Ext.chart.CartesianChart"
+    },
+    {
+        "className": "Ext.chart.LineSeries",
+        "extend": "Ext.chart.CartesianSeries"
+    },
+    {
+        "className": "Ext.chart.NumericAxis",
+        "extend": "Ext.chart.Axis"
+    },
+    {
+        "className": "Ext.chart.PieChart",
+        "extend": "Ext.chart.Chart"
+    },
+    {
+        "className": "Ext.chart.PieSeries",
+        "extend": "Ext.chart.Series"
+    },
+    {
+        "className": "Ext.chart.Series"
+    },
+    {
+        "className": "Ext.chart.StackedBarChart",
+        "extend": "Ext.chart.CartesianChart"
+    },
+    {
+        "className": "Ext.chart.StackedColumnChart",
+        "extend": "Ext.chart.CartesianChart"
+    },
+    {
+        "className": "Ext.chart.TimeAxis",
+        "extend": "Ext.chart.Axis"
+    },
+    {
+        "className": "Ext.ColorPalette",
+        "extend": "Ext.Component",
+        "configs": [
+            "allowReselect",
+            "clickEvent",
+            "handler",
+            "itemCls",
+            "scope",
+            "tpl",
+            "value"
+        ],
+        "functions": [
+            "select"
+        ]
+    },
+    {
+        "className": "Ext.Component",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "allowDomMove",
+            "applyTo",
+            "autoEl",
+            "autoShow",
+            "bubbleEvents",
+            "clearCls",
+            "cls",
+            "contentEl",
+            "ctCls",
+            "data",
+            "disabled",
+            "disabledClass",
+            "fieldLabel",
+            "hidden",
+            "hideLabel",
+            "hideMode",
+            "hideParent",
+            "html",
+            "id",
+            "itemCls",
+            "itemId",
+            "labelSeparator",
+            "labelStyle",
+            "overCls",
+            "plugins",
+            "ptype",
+            "ref",
+            "renderTo",
+            "stateEvents",
+            "stateId",
+            "stateful",
+            "style",
+            "tpl",
+            "tplWriteMode",
+            "xtype"
+        ],
+        "functions": [
+            "addClass",
+            "applyToMarkup",
+            "bubble",
+            "cloneConfig",
+            "destroy",
+            "disable",
+            "enable",
+            "findParentBy",
+            "findParentByType",
+            "focus",
+            "getBubbleTarget",
+            "getEl",
+            "getId",
+            "getItemId",
+            "getXType",
+            "getXTypes",
+            "hide",
+            "isVisible",
+            "isXType",
+            "mon",
+            "mun",
+            "nextSibling",
+            "previousSibling",
+            "removeClass",
+            "render",
+            "setDisabled",
+            "setVisible",
+            "show",
+            "update"
+        ]
+    },
+    {
+        "className": "Ext.ComponentManager",
+        "singleton": "true",
+        "functions": [
+            "create",
+            "createPlugin",
+            "get",
+            "isPluginRegistered",
+            "isRegistered",
+            "onAvailable",
+            "register",
+            "registerPlugin",
+            "registerType",
+            "unregister"
+        ]
+    },
+    {
+        "className": "Ext.CompositeElement",
+        "extend": "Ext.CompositeElementLite",
+        "functions": [
+            null
+        ]
+    },
+    {
+        "className": "Ext.CompositeElementLite",
+        "functions": [
+            "add",
+            "clear",
+            "contains",
+            "each",
+            "fill",
+            "filter",
+            "first",
+            "getCount",
+            "indexOf",
+            "item",
+            "last",
+            "removeElement",
+            "replaceElement"
+        ]
+    },
+    {
+        "className": "Ext.Container",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "activeItem",
+            "autoDestroy",
+            "bubbleEvents",
+            "bufferResize",
+            "defaultType",
+            "defaults",
+            "forceLayout",
+            "hideBorders",
+            "items",
+            "layout",
+            "layoutConfig",
+            "monitorResize",
+            "resizeEvent"
+        ],
+        "functions": [
+            "add",
+            "cascade",
+            "doLayout",
+            "find",
+            "findBy",
+            "findById",
+            "findByType",
+            "get",
+            "getComponent",
+            "getLayout",
+            "getLayoutTarget",
+            "insert",
+            "remove",
+            "removeAll"
+        ]
+    },
+    {
+        "className": "Ext.CycleButton",
+        "extend": "Ext.SplitButton",
+        "configs": [
+            "changeHandler",
+            "forceIcon",
+            "items",
+            "prependText",
+            "showText"
+        ],
+        "functions": [
+            "getActiveItem",
+            "setActiveItem",
+            "toggleSelected"
+        ]
+    },
+    {
+        "className": "Ext.data.Api",
+        "singleton": "true",
+        "functions": [
+            "Response",
+            "getVerb",
+            "hasUniqueUrl",
+            "isAction",
+            "isValid",
+            "prepare",
+            "restify"
+        ]
+    },
+    {
+        "className": "Ext.data.Api.Error",
+        "extend": "Ext.Error"
+    },
+    {
+        "className": "Ext.data.reader.Array",
+        "extend": "Ext.data.reader.Json",
+        "configs": [
+            "id",
+            "idIndex"
+        ],
+        "functions": [
+            "readRecords"
+        ]
+    },
+    {
+        "className": "Ext.data.ArrayStore",
+        "extend": "Ext.data.Store"
+    },
+    {
+        "className": "Ext.data.Connection",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "autoAbort",
+            "defaultHeaders",
+            "disableCaching",
+            "disableCachingParam",
+            "extraParams",
+            "method",
+            "timeout",
+            "url"
+        ],
+        "functions": [
+            "abort",
+            "isLoading",
+            "request"
+        ]
+    },
+    {
+        "className": "Ext.data.DataProxy",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "api",
+            "doRequest",
+            "onRead",
+            "onWrite",
+            "restful"
+        ],
+        "functions": [
+            "destroy",
+            "isApiAction",
+            "load",
+            "request",
+            "setApi"
+        ]
+    },
+    {
+        "className": "Ext.data.DataProxy.Error",
+        "extend": "Ext.Error"
+    },
+    {
+        "className": "Ext.data.DataReader",
+        "configs": [
+            "fields",
+            "messageProperty"
+        ],
+        "functions": [
+            "isData",
+            "realize",
+            "update"
+        ]
+    },
+    {
+        "className": "Ext.data.DataReader.Error",
+        "extend": "Ext.Error"
+    },
+    {
+        "className": "Ext.data.DataWriter",
+        "configs": [
+            "createRecord",
+            "destroyRecord",
+            "listful",
+            "updateRecord",
+            "writeAllFields"
+        ],
+        "functions": [
+            "apply",
+            "render",
+            "toArray",
+            "toHash"
+        ]
+    },
+    {
+        "className": "Ext.data.proxy.Direct",
+        "extend": "Ext.data.DataProxy",
+        "configs": [
+            "directFn",
+            "paramOrder",
+            "paramsAsHash"
+        ],
+        "functions": [
+            "doRequest",
+            "onRead",
+            "onWrite"
+        ]
+    },
+    {
+        "className": "Ext.data.DirectStore",
+        "extend": "Ext.data.Store"
+    },
+    {
+        "className": "Ext.data.Field",
+        "configs": [
+            "allowBlank",
+            "convert",
+            "dateFormat",
+            "defaultValue",
+            "mapping",
+            "name",
+            "sortDir",
+            "sortType",
+            "type",
+            "useNull"
+        ]
+    },
+    {
+        "className": "Ext.data.GroupingStore",
+        "extend": "Ext.data.Store",
+        "configs": [
+            "groupDir",
+            "groupField",
+            "groupOnSort",
+            "remoteGroup"
+        ],
+        "functions": [
+            "clearGrouping",
+            "groupBy"
+        ]
+    },
+    {
+        "className": "Ext.data.HttpProxy",
+        "extend": "Ext.data.DataProxy",
+        "functions": [
+            "doRequest",
+            "getConnection",
+            "onRead",
+            "onWrite",
+            "setUrl"
+        ]
+    },
+    {
+        "className": "Ext.data.reader.Json",
+        "extend": "Ext.data.DataReader",
+        "configs": [
+            "idProperty",
+            "root",
+            "successProperty",
+            "totalProperty"
+        ],
+        "functions": [
+            "read",
+            "readRecords",
+            "readResponse"
+        ]
+    },
+    {
+        "className": "Ext.data.reader.Json.Error"
+    },
+    {
+        "className": "Ext.data.JsonStore",
+        "extend": "Ext.data.Store"
+    },
+    {
+        "className": "Ext.data.writer.Json",
+        "extend": "Ext.data.DataWriter",
+        "configs": [
+            "encode",
+            "encodeDelete"
+        ],
+        "functions": [
+            "createRecord",
+            "destroyRecord",
+            "render",
+            "updateRecord"
+        ]
+    },
+    {
+        "className": "Ext.data.proxy.Memory",
+        "extend": "Ext.data.DataProxy",
+        "functions": [
+            "doRequest"
+        ]
+    },
+    {
+        "className": "Ext.data.Node",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "id",
+            "leaf"
+        ],
+        "functions": [
+            "appendChild",
+            "bubble",
+            "cascade",
+            "contains",
+            "destroy",
+            "eachChild",
+            "findChild",
+            "findChildBy",
+            "getDepth",
+            "getOwnerTree",
+            "getPath",
+            "hasChildNodes",
+            "indexOf",
+            "insertBefore",
+            "isAncestor",
+            "isExpandable",
+            "isFirst",
+            "isLast",
+            "isLeaf",
+            "item",
+            "remove",
+            "removeAll",
+            "removeChild",
+            "replaceChild",
+            "setId",
+            "sort"
+        ]
+    },
+    {
+        "className": "Ext.data.Record",
+        "functions": [
+            "Record.id",
+            "beginEdit",
+            "cancelEdit",
+            "commit",
+            "copy",
+            "create",
+            "endEdit",
+            "get",
+            "getChanges",
+            "isModified",
+            "isValid",
+            "markDirty",
+            "reject",
+            "set"
+        ]
+    },
+    {
+        "className": "Ext.data.Request",
+        "configs": [
+            "action",
+            "callback",
+            "params",
+            "reader",
+            "rs",
+            "scope"
+        ]
+    },
+    {
+        "className": "Ext.data.Response",
+        "configs": [
+            "action",
+            "data",
+            "message",
+            "raw",
+            "records",
+            "success"
+        ]
+    },
+    {
+        "className": "Ext.data.proxy.ScriptTag",
+        "extend": "Ext.data.DataProxy",
+        "configs": [
+            "callbackParam",
+            "nocache",
+            "timeout",
+            "url"
+        ],
+        "functions": [
+            "abort",
+            "doRequest",
+            "onRead",
+            "onWrite"
+        ]
+    },
+    {
+        "className": "Ext.data.SortTypes",
+        "singleton": "true",
+        "functions": [
+            "asDate",
+            "asFloat",
+            "asInt",
+            "asText",
+            "asUCString",
+            "asUCText",
+            "none"
+        ]
+    },
+    {
+        "className": "Ext.data.Store",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "autoDestroy",
+            "autoLoad",
+            "autoSave",
+            "baseParams",
+            "batch",
+            "data",
+            "defaultParamNames",
+            "paramNames",
+            "proxy",
+            "pruneModifiedRecords",
+            "reader",
+            "remoteSort",
+            "restful",
+            "sortInfo",
+            "storeId",
+            "url",
+            "writer"
+        ],
+        "functions": [
+            "add",
+            "addSorted",
+            "clearFilter",
+            "collect",
+            "commitChanges",
+            "destroy",
+            "each",
+            "filter",
+            "filterBy",
+            "find",
+            "findBy",
+            "findExact",
+            "getAt",
+            "getById",
+            "getCount",
+            "getModifiedRecords",
+            "getRange",
+            "getSortState",
+            "getTotalCount",
+            "indexOf",
+            "indexOfId",
+            "insert",
+            "isFiltered",
+            "load",
+            "loadData",
+            "multiSort",
+            "query",
+            "queryBy",
+            "rejectChanges",
+            "reload",
+            "remove",
+            "removeAll",
+            "removeAt",
+            "save",
+            "setBaseParam",
+            "setDefaultSort",
+            "singleSort",
+            "sort",
+            "sum"
+        ]
+    },
+    {
+        "className": "Ext.data.Store.Error",
+        "extend": "Ext.Error"
+    },
+    {
+        "className": "Ext.data.Tree",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "pathSeparator"
+        ],
+        "functions": [
+            "getNodeById",
+            "getRootNode",
+            "setRootNode"
+        ]
+    },
+    {
+        "className": "Ext.data.Types",
+        "singleton": "true"
+    },
+    {
+        "className": "Ext.data.reader.Xml",
+        "extend": "Ext.data.DataReader",
+        "configs": [
+            "idPath",
+            "record",
+            "record",
+            "successProperty",
+            "totalProperty"
+        ],
+        "functions": [
+            "read",
+            "readRecords",
+            "readResponse"
+        ]
+    },
+    {
+        "className": "Ext.data.XmlStore",
+        "extend": "Ext.data.Store"
+    },
+    {
+        "className": "Ext.data.writer.Xml",
+        "extend": "Ext.data.DataWriter",
+        "configs": [
+            "documentRoot",
+            "forceDocumentRoot",
+            "root",
+            "tpl",
+            "xmlEncoding",
+            "xmlVersion"
+        ],
+        "functions": [
+            "createRecord",
+            "destroyRecord",
+            "render",
+            "updateRecord"
+        ]
+    },
+    {
+        "className": "Ext.view.View",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "blockRefresh",
+            "deferEmptyText",
+            "emptyText",
+            "itemSelector",
+            "loadingText",
+            "multiSelect",
+            "overClass",
+            "selectedClass",
+            "simpleSelect",
+            "singleSelect",
+            "store",
+            "tpl",
+            "trackOver"
+        ],
+        "functions": [
+            "bindStore",
+            "clearSelections",
+            "collectData",
+            "deselect",
+            "findItemFromChild",
+            "getNode",
+            "getNodes",
+            "getRecord",
+            "getRecords",
+            "getSelectedIndexes",
+            "getSelectedNodes",
+            "getSelectedRecords",
+            "getSelectionCount",
+            "getStore",
+            "indexOf",
+            "isSelected",
+            "prepareData",
+            "refresh",
+            "refreshNode",
+            "select",
+            "selectRange",
+            "setStore"
+        ]
+    },
+    {
+        "className": "Ext.DatePicker",
+        "extend": "Ext.Component",
+        "configs": [
+            "cancelText",
+            "dayNames",
+            "disabledDates",
+            "disabledDatesRE",
+            "disabledDatesText",
+            "disabledDays",
+            "disabledDaysText",
+            "format",
+            "handler",
+            "maxDate",
+            "maxText",
+            "minDate",
+            "minText",
+            "monthNames",
+            "monthYearText",
+            "nextText",
+            "okText",
+            "prevText",
+            "scope",
+            "showToday",
+            "startDay",
+            "todayText",
+            "todayTip"
+        ],
+        "functions": [
+            "getValue",
+            "setDisabledDates",
+            "setDisabledDays",
+            "setMaxDate",
+            "setMinDate",
+            "setValue"
+        ]
+    },
+    {
+        "className": "Ext.dd.DD",
+        "extend": "Ext.dd.DragDrop",
+        "functions": [
+            "alignElWithMouse",
+            "applyConfig",
+            "autoOffset",
+            "b4Drag",
+            "b4MouseDown",
+            "cachePosition",
+            "setDelta",
+            "setDragElPos"
+        ]
+    },
+    {
+        "className": "Ext.dd.DDProxy",
+        "extend": "Ext.dd.DD",
+        "functions": [
+            "createFrame",
+            "initFrame"
+        ]
+    },
+    {
+        "className": "Ext.dd.DDTarget",
+        "extend": "Ext.dd.DragDrop"
+    },
+    {
+        "className": "Ext.dd.DragDrop",
+        "functions": [
+            "addInvalidHandleClass",
+            "addInvalidHandleId",
+            "addInvalidHandleType",
+            "addToGroup",
+            "applyConfig",
+            "clearConstraints",
+            "clearTicks",
+            "constrainTo",
+            "endDrag",
+            "getDragEl",
+            "getEl",
+            "init",
+            "initTarget",
+            "isLocked",
+            "isValidHandleChild",
+            "lock",
+            "onAvailable",
+            "onDrag",
+            "onDragDrop",
+            "onDragEnter",
+            "onDragOut",
+            "onDragOver",
+            "onInvalidDrop",
+            "onMouseDown",
+            "onMouseUp",
+            "removeFromGroup",
+            "removeInvalidHandleClass",
+            "removeInvalidHandleId",
+            "removeInvalidHandleType",
+            "resetConstraints",
+            "setDragElId",
+            "setHandleElId",
+            "setInitPosition",
+            "setOuterHandleElId",
+            "setPadding",
+            "setXConstraint",
+            "setYConstraint",
+            "startDrag",
+            "toString",
+            "unlock",
+            "unreg"
+        ]
+    },
+    {
+        "className": "Ext.dd.DragDropManager",
+        "singleton": "true",
+        "functions": [
+            "getBestMatch",
+            "getCss",
+            "getDDById",
+            "getElement",
+            "getLocation",
+            "getRelated",
+            "isDragDrop",
+            "isHandle",
+            "isLegalTarget",
+            "isLocked",
+            "isTypeOfDD",
+            "lock",
+            "refreshCache",
+            "regDragDrop",
+            "regHandle",
+            "startDrag",
+            "stopEvent",
+            "unlock",
+            "verifyEl"
+        ]
+    },
+    {
+        "className": "Ext.dd.DragSource",
+        "extend": "Ext.dd.DDProxy",
+        "configs": [
+            "ddGroup",
+            "dropAllowed",
+            "dropNotAllowed"
+        ],
+        "functions": [
+            "afterDragDrop",
+            "afterDragEnter",
+            "afterDragOut",
+            "afterDragOver",
+            "afterInvalidDrop",
+            "beforeDragDrop",
+            "beforeDragEnter",
+            "beforeDragOut",
+            "beforeDragOver",
+            "beforeInvalidDrop",
+            "getDragData",
+            "getProxy",
+            "hideProxy",
+            "onBeforeDrag",
+            "onStartDrag"
+        ]
+    },
+    {
+        "className": "Ext.dd.DragTracker",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "active",
+            "autoStart",
+            "tolerance"
+        ],
+        "functions": [
+            "getDragTarget",
+            "onBeforeStart",
+            "onDrag",
+            "onEnd",
+            "onStart"
+        ]
+    },
+    {
+        "className": "Ext.dd.DragZone",
+        "extend": "Ext.dd.DragSource",
+        "configs": [
+            "containerScroll",
+            "hlColor"
+        ],
+        "functions": [
+            "afterRepair",
+            "getDragData",
+            "getRepairXY",
+            "onInitDrag"
+        ]
+    },
+    {
+        "className": "Ext.dd.DropTarget",
+        "extend": "Ext.dd.DDTarget",
+        "configs": [
+            "ddGroup",
+            "dropAllowed",
+            "dropNotAllowed",
+            "overClass"
+        ],
+        "functions": [
+            "notifyDrop",
+            "notifyEnter",
+            "notifyOut",
+            "notifyOver"
+        ]
+    },
+    {
+        "className": "Ext.dd.DropZone",
+        "extend": "Ext.dd.DropTarget",
+        "functions": [
+            "getTargetFromEvent",
+            "notifyDrop",
+            "notifyEnter",
+            "notifyOut",
+            "notifyOver",
+            "onContainerDrop",
+            "onContainerOver",
+            "onNodeDrop",
+            "onNodeEnter",
+            "onNodeOut",
+            "onNodeOver"
+        ]
+    },
+    {
+        "className": "Ext.dd.PanelProxy",
+        "configs": [
+            "insertProxy"
+        ],
+        "functions": [
+            "getEl",
+            "getGhost",
+            "getProxy",
+            "hide",
+            "moveProxy",
+            "show"
+        ]
+    },
+    {
+        "className": "Ext.dd.Registry",
+        "singleton": "true",
+        "functions": [
+            "getHandle",
+            "getHandleFromEvent",
+            "getTarget",
+            "getTargetFromEvent",
+            "register",
+            "unregister"
+        ]
+    },
+    {
+        "className": "Ext.dd.ScrollManager",
+        "singleton": "true",
+        "functions": [
+            "refreshCache",
+            "register",
+            "unregister"
+        ]
+    },
+    {
+        "className": "Ext.dd.StatusProxy",
+        "configs": [
+            "dropAllowed",
+            "dropNotAllowed"
+        ],
+        "functions": [
+            "getEl",
+            "getGhost",
+            "hide",
+            "repair",
+            "reset",
+            "setStatus",
+            "show",
+            "stop",
+            "sync",
+            "update"
+        ]
+    },
+    {
+        "className": "Ext.Direct",
+        "extend": "Ext.util.Observable",
+        "singleton": "true",
+        "functions": [
+            "addProvider",
+            "getProvider"
+        ]
+    },
+    {
+        "className": "Ext.direct.JsonProvider",
+        "extend": "Ext.direct.Provider"
+    },
+    {
+        "className": "Ext.direct.PollingProvider",
+        "extend": "Ext.direct.JsonProvider",
+        "configs": [
+            "baseParams",
+            "interval",
+            "priority",
+            "url"
+        ],
+        "functions": [
+            "connect",
+            "disconnect"
+        ]
+    },
+    {
+        "className": "Ext.direct.Provider",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "id",
+            "priority",
+            "type"
+        ],
+        "functions": [
+            "isConnected"
+        ]
+    },
+    {
+        "className": "Ext.direct.RemotingProvider",
+        "extend": "Ext.direct.JsonProvider",
+        "configs": [
+            "actions",
+            "enableBuffer",
+            "enableUrlEncode",
+            "maxRetries",
+            "namespace",
+            "timeout",
+            "url"
+        ]
+    },
+    {
+        "className": "Ext.Direct.Transaction"
+    },
+    {
+        "className": "Ext.DomHelper",
+        "singleton": "true",
+        "functions": [
+            "append",
+            "applyStyles",
+            "createDom",
+            "createTemplate",
+            "insertAfter",
+            "insertBefore",
+            "insertFirst",
+            "insertHtml",
+            "markup",
+            "overwrite"
+        ]
+    },
+    {
+        "className": "Ext.DomQuery",
+        "singleton": "true",
+        "functions": [
+            "compile",
+            "filter",
+            "is",
+            "jsSelect",
+            "operators",
+            "selectNode",
+            "selectNumber",
+            "selectValue"
+        ]
+    },
+    {
+        "className": "Ext.Editor",
+        "extend": "Ext.Component",
+        "configs": [
+            "alignment",
+            "allowBlur",
+            "autoSize",
+            "cancelOnEsc",
+            "completeOnEnter",
+            "constrain",
+            "field",
+            "hideEl",
+            "ignoreNoChange",
+            "offsets",
+            "revertInvalid",
+            "shadow",
+            "swallowKeys",
+            "updateEl",
+            "value"
+        ],
+        "functions": [
+            "cancelEdit",
+            "completeEdit",
+            "getValue",
+            "realign",
+            "setSize",
+            "setValue",
+            "startEdit"
+        ]
+    },
+    {
+        "className": "Ext.Element",
+        "functions": [
+            "addClass",
+            "addClassOnClick",
+            "addClassOnFocus",
+            "addClassOnOver",
+            "addKeyListener",
+            "addKeyMap",
+            "addListener",
+            "alignTo",
+            "anchorTo",
+            "animate",
+            "appendChild",
+            "appendTo",
+            "applyStyles",
+            "blur",
+            "boxWrap",
+            "center",
+            "child",
+            "clean",
+            "clearOpacity",
+            "clearPositioning",
+            "clip",
+            "contains",
+            "createChild",
+            "createProxy",
+            "createShim",
+            "down",
+            "enableDisplayMode",
+            "findParent",
+            "findParentNode",
+            "first",
+            "fly",
+            "focus",
+            "get",
+            "getAlignToXY",
+            "getAnchorXY",
+            "getAttribute",
+            "getAttributeNS",
+            "getBorderWidth",
+            "getBottom",
+            "getBox",
+            "getCenterXY",
+            "getColor",
+            "getComputedHeight",
+            "getComputedWidth",
+            "getFrameWidth",
+            "getHeight",
+            "getLeft",
+            "getMargins",
+            "getOffsetsTo",
+            "getPadding",
+            "getPositioning",
+            "getRegion",
+            "getRight",
+            "getScroll",
+            "getSize",
+            "getStyle",
+            "getStyleSize",
+            "getStyles",
+            "getTextWidth",
+            "getTop",
+            "getUpdater",
+            "getValue",
+            "getViewSize",
+            "getWidth",
+            "getX",
+            "getXY",
+            "getY",
+            "handleError",
+            "hasClass",
+            "hide",
+            "hover",
+            "initDD",
+            "initDDProxy",
+            "initDDTarget",
+            "insertAfter",
+            "insertBefore",
+            "insertFirst",
+            "insertHtml",
+            "insertSibling",
+            "is",
+            "isBorderBox",
+            "isDisplayed",
+            "isMasked",
+            "isScrollable",
+            "isVisible",
+            "last",
+            "load",
+            "mask",
+            "move",
+            "moveTo",
+            "next",
+            "on",
+            "parent",
+            "position",
+            "prev",
+            "purgeAllListeners",
+            "query",
+            "radioClass",
+            "relayEvent",
+            "remove",
+            "removeAllListeners",
+            "removeAnchor",
+            "removeClass",
+            "removeListener",
+            "repaint",
+            "replace",
+            "replaceClass",
+            "replaceWith",
+            "scroll",
+            "scrollIntoView",
+            "scrollTo",
+            "select",
+            "set",
+            "setBottom",
+            "setBounds",
+            "setBox",
+            "setDisplayed",
+            "setHeight",
+            "setLeft",
+            "setLeftTop",
+            "setLocation",
+            "setOpacity",
+            "setPositioning",
+            "setRegion",
+            "setRight",
+            "setSize",
+            "setStyle",
+            "setTop",
+            "setVisibilityMode",
+            "setVisible",
+            "setWidth",
+            "setX",
+            "setXY",
+            "setY",
+            "show",
+            "swallowEvent",
+            "toggle",
+            "toggleClass",
+            "translatePoints",
+            "un",
+            "unclip",
+            "unmask",
+            "unselectable",
+            "up",
+            "update",
+            "wrap"
+        ]
+    },
+    {
+        "className": "Ext.Error",
+        "extend": "Error",
+        "functions": [
+            "getMessage",
+            "getName",
+            "toJson"
+        ]
+    },
+    {
+        "className": "Ext.EventManager",
+        "singleton": "true",
+        "functions": [
+            "addListener",
+            "function",
+            "hasModifier",
+            "on",
+            "onDocumentReady",
+            "onTextResize",
+            "onWindowResize",
+            "removeAll",
+            "removeListener",
+            "removeResizeListener",
+            "un"
+        ]
+    },
+    {
+        "className": "Ext.EventObject",
+        "singleton": "true",
+        "functions": [
+            "getCharCode",
+            "getKey",
+            "getPageX",
+            "getPageY",
+            "getRelatedTarget",
+            "getTarget",
+            "getWheelDelta",
+            "getXY",
+            "preventDefault",
+            "stopEvent",
+            "stopPropagation",
+            "within"
+        ]
+    },
+    {
+        "className": "Ext.FlashComponent",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "backgroundColor",
+            "expressInstall",
+            "flashParams",
+            "flashVars",
+            "flashVersion",
+            "url",
+            "wmode"
+        ]
+    },
+    {
+        "className": "Ext.FlashProxy",
+        "singleton": "true"
+    },
+    {
+        "className": "Ext.form.Action",
+        "configs": [
+            "failure",
+            "method",
+            "params",
+            "reset",
+            "scope",
+            "submitEmptyText",
+            "success",
+            "timeout",
+            "url",
+            "waitMsg",
+            "waitTitle"
+        ]
+    },
+    {
+        "className": "Ext.form.Action.DirectLoad",
+        "extend": "Ext.form.Action.Load"
+    },
+    {
+        "className": "Ext.form.Action.DirectSubmit",
+        "extend": "Ext.form.Action.Submit"
+    },
+    {
+        "className": "Ext.form.Action.Load",
+        "extend": "Ext.form.Action"
+    },
+    {
+        "className": "Ext.form.Action.Submit",
+        "extend": "Ext.form.Action",
+        "configs": [
+            "clientValidation",
+            "errorReader"
+        ]
+    },
+    {
+        "className": "Ext.form.BasicForm",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "api",
+            "baseParams",
+            "errorReader",
+            "fileUpload",
+            "method",
+            "paramOrder",
+            "paramsAsHash",
+            "reader",
+            "standardSubmit",
+            "timeout",
+            "trackResetOnLoad",
+            "url",
+            "waitTitle"
+        ],
+        "functions": [
+            "add",
+            "applyIfToFields",
+            "applyToFields",
+            "cleanDestroyed",
+            "clearInvalid",
+            "doAction",
+            "findField",
+            "getEl",
+            "getFieldValues",
+            "getValues",
+            "isDirty",
+            "isValid",
+            "load",
+            "loadRecord",
+            "markInvalid",
+            "remove",
+            "render",
+            "reset",
+            "setValues",
+            "submit",
+            "updateRecord"
+        ]
+    },
+    {
+        "className": "Ext.form.Checkbox",
+        "extend": "Ext.form.Field",
+        "configs": [
+            "autoCreate",
+            "boxLabel",
+            "checked",
+            "fieldClass",
+            "focusClass",
+            "handler",
+            "inputValue",
+            "scope"
+        ],
+        "functions": [
+            "getValue",
+            "setValue"
+        ]
+    },
+    {
+        "className": "Ext.form.CheckboxGroup",
+        "extend": "Ext.form.Field",
+        "configs": [
+            "allowBlank",
+            "blankText",
+            "columns",
+            "items",
+            "vertical"
+        ],
+        "functions": [
+            "getErrors",
+            "getValue",
+            "setValue"
+        ]
+    },
+    {
+        "className": "Ext.form.ComboBox",
+        "extend": "Ext.form.TriggerField",
+        "configs": [
+            "allQuery",
+            "autoCreate",
+            "autoSelect",
+            "clearFilterOnReset",
+            "displayField",
+            "forceSelection",
+            "handleHeight",
+            "hiddenId",
+            "hiddenName",
+            "hiddenValue",
+            "itemSelector",
+            "lazyInit",
+            "lazyRender",
+            "listAlign",
+            "listClass",
+            "listEmptyText",
+            "listWidth",
+            "loadingText",
+            "maxHeight",
+            "minChars",
+            "minHeight",
+            "minListWidth",
+            "mode",
+            "pageSize",
+            "queryDelay",
+            "queryParam",
+            "resizable",
+            "selectOnFocus",
+            "selectedClass",
+            "shadow",
+            "store",
+            "submitValue",
+            "title",
+            "tpl",
+            "transform",
+            "triggerAction",
+            "triggerClass",
+            "typeAhead",
+            "typeAheadDelay",
+            "valueField",
+            "valueNotFoundText"
+        ],
+        "functions": [
+            "clearValue",
+            "collapse",
+            "doQuery",
+            "expand",
+            "getListParent",
+            "getStore",
+            "getValue",
+            "isExpanded",
+            "select",
+            "selectByValue",
+            "setValue"
+        ]
+    },
+    {
+        "className": "Ext.form.CompositeField",
+        "extend": "Ext.form.Field",
+        "configs": [
+            "defaults",
+            "labelConnector"
+        ],
+        "functions": [
+            "buildCombinedErrorMessage",
+            "buildLabel",
+            "clearInvalidChildren",
+            "isDirty",
+            "onFieldClearInvalid",
+            "onFieldMarkInvalid",
+            "reset",
+            "sortErrors",
+            "validateValue"
+        ]
+    },
+    {
+        "className": "Ext.form.DateField",
+        "extend": "Ext.form.TriggerField",
+        "configs": [
+            "altFormats",
+            "autoCreate",
+            "disabledDates",
+            "disabledDatesText",
+            "disabledDays",
+            "disabledDaysText",
+            "format",
+            "invalidText",
+            "maxText",
+            "maxValue",
+            "minText",
+            "minValue",
+            "showToday",
+            "startDay",
+            "triggerClass"
+        ],
+        "functions": [
+            "getErrors",
+            "getValue",
+            "setDisabledDates",
+            "setDisabledDays",
+            "setMaxValue",
+            "setMinValue",
+            "setValue"
+        ]
+    },
+    {
+        "className": "Ext.form.DisplayField",
+        "extend": "Ext.form.Field",
+        "configs": [
+            "fieldClass",
+            "htmlEncode"
+        ]
+    },
+    {
+        "className": "Ext.form.Field",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "autoCreate",
+            "cls",
+            "disabled",
+            "fieldClass",
+            "focusClass",
+            "inputType",
+            "invalidClass",
+            "invalidText",
+            "msgFx",
+            "msgTarget",
+            "name",
+            "preventMark",
+            "readOnly",
+            "submitValue",
+            "tabIndex",
+            "validateOnBlur",
+            "validationDelay",
+            "validationEvent",
+            "value"
+        ],
+        "functions": [
+            "clearInvalid",
+            "getActiveError",
+            "getErrors",
+            "getName",
+            "getRawValue",
+            "getValue",
+            "isDirty",
+            "isValid",
+            "markInvalid",
+            "processValue",
+            "reset",
+            "setActiveError",
+            "setRawValue",
+            "setReadOnly",
+            "setValue",
+            "unsetActiveError",
+            "validate",
+            "validateValue"
+        ]
+    },
+    {
+        "className": "Ext.form.FieldSet",
+        "extend": "Ext.Panel",
+        "configs": [
+            "animCollapse",
+            "baseCls",
+            "checkboxName",
+            "checkboxToggle",
+            "collapsible",
+            "itemCls",
+            "labelWidth",
+            "layout"
+        ],
+        "functions": [
+            "onCheckClick"
+        ]
+    },
+    {
+        "className": "Ext.form.Panel",
+        "extend": "Ext.Panel",
+        "configs": [
+            "buttons",
+            "formId",
+            "hideLabels",
+            "itemCls",
+            "labelAlign",
+            "labelPad",
+            "labelSeparator",
+            "labelWidth",
+            "layout",
+            "minButtonWidth",
+            "monitorPoll",
+            "monitorValid"
+        ],
+        "functions": [
+            "getForm",
+            "load",
+            "startMonitoring",
+            "stopMonitoring"
+        ]
+    },
+    {
+        "className": "Ext.form.Hidden",
+        "extend": "Ext.form.Field"
+    },
+    {
+        "className": "Ext.form.HtmlEditor",
+        "extend": "Ext.form.Field",
+        "configs": [
+            "createLinkText",
+            "defaultLinkValue",
+            "defaultValue",
+            "enableAlignments",
+            "enableColors",
+            "enableFont",
+            "enableFontSize",
+            "enableFormat",
+            "enableLinks",
+            "enableLists",
+            "enableSourceEdit",
+            "fontFamilies"
+        ],
+        "functions": [
+            "cleanHtml",
+            "execCmd",
+            "getDocMarkup",
+            "getToolbar",
+            "insertAtCursor",
+            "pushValue",
+            "relayCmd",
+            "syncValue",
+            "toggleSourceEdit",
+            "updateToolbar"
+        ]
+    },
+    {
+        "className": "Ext.form.Label",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "forId",
+            "html",
+            "text"
+        ],
+        "functions": [
+            "setText"
+        ]
+    },
+    {
+        "className": "Ext.form.NumberField",
+        "extend": "Ext.form.TextField",
+        "configs": [
+            "allowDecimals",
+            "allowNegative",
+            "autoStripChars",
+            "baseChars",
+            "decimalPrecision",
+            "decimalSeparator",
+            "fieldClass",
+            "maxText",
+            "maxValue",
+            "minText",
+            "minValue",
+            "nanText"
+        ],
+        "functions": [
+            "getErrors",
+            "setMaxValue",
+            "setMinValue"
+        ]
+    },
+    {
+        "className": "Ext.form.Radio",
+        "extend": "Ext.form.Checkbox",
+        "functions": [
+            "getGroupValue",
+            "setValue"
+        ]
+    },
+    {
+        "className": "Ext.form.RadioGroup",
+        "extend": "Ext.form.CheckboxGroup",
+        "configs": [
+            "allowBlank",
+            "blankText",
+            "items"
+        ],
+        "functions": [
+            "getValue",
+            "onSetValue"
+        ]
+    },
+    {
+        "className": "Ext.form.SliderField",
+        "extend": "Ext.form.Field",
+        "configs": [
+            "tipText",
+            "useTips"
+        ],
+        "functions": [
+            "getValue",
+            "setMaxValue",
+            "setMinValue",
+            "setValue"
+        ]
+    },
+    {
+        "className": "Ext.form.TextArea",
+        "extend": "Ext.form.TextField",
+        "configs": [
+            "autoCreate",
+            "growMax",
+            "growMin",
+            "preventScrollbars"
+        ],
+        "functions": [
+            "autoSize"
+        ]
+    },
+    {
+        "className": "Ext.form.TextField",
+        "extend": "Ext.form.Field",
+        "configs": [
+            "allowBlank",
+            "blankText",
+            "disableKeyFilter",
+            "emptyClass",
+            "emptyText",
+            "enableKeyEvents",
+            "grow",
+            "growMax",
+            "growMin",
+            "maskRe",
+            "maxLength",
+            "maxLengthText",
+            "minLength",
+            "minLengthText",
+            "regex",
+            "regexText",
+            "selectOnFocus",
+            "stripCharsRe",
+            "validator",
+            "vtype",
+            "vtypeText"
+        ],
+        "functions": [
+            "autoSize",
+            "getErrors",
+            "reset",
+            "selectText"
+        ]
+    },
+    {
+        "className": "Ext.form.TimeField",
+        "extend": "Ext.form.ComboBox",
+        "configs": [
+            "altFormats",
+            "format",
+            "increment",
+            "invalidText",
+            "maxText",
+            "maxValue",
+            "minText",
+            "minValue"
+        ],
+        "functions": [
+            "setMaxValue",
+            "setMinValue"
+        ]
+    },
+    {
+        "className": "Ext.form.TriggerField",
+        "extend": "Ext.form.TextField",
+        "configs": [
+            "autoCreate",
+            "editable",
+            "hideTrigger",
+            "readOnly",
+            "triggerClass",
+            "triggerConfig",
+            "wrapFocusClass"
+        ],
+        "functions": [
+            "onTriggerClick",
+            "setEditable",
+            "setHideTrigger",
+            "setReadOnly"
+        ]
+    },
+    {
+        "className": "Ext.form.TwinTriggerField",
+        "extend": "Ext.form.TriggerField",
+        "configs": [
+            "trigger1Class",
+            "trigger2Class",
+            "triggerConfig"
+        ],
+        "functions": [
+            "onTrigger1Click",
+            "onTrigger2Click"
+        ]
+    },
+    {
+        "className": "Ext.form.VTypes",
+        "singleton": "true",
+        "functions": [
+            "alpha",
+            "alphanum",
+            "email",
+            "url"
+        ]
+    },
+    {
+        "className": "Ext.Fx",
+        "configs": [
+            "afterCls",
+            "afterStyle",
+            "block",
+            "callback",
+            "concurrent",
+            "duration",
+            "easing",
+            "endOpacity",
+            "remove",
+            "scope",
+            "stopFx",
+            "useDisplay"
+        ],
+        "functions": [
+            "fadeIn",
+            "fadeOut",
+            "frame",
+            "ghost",
+            "hasActiveFx",
+            "hasFxBlock",
+            "highlight",
+            "pause",
+            "puff",
+            "scale",
+            "sequenceFx",
+            "shift",
+            "slideIn",
+            "slideOut",
+            "stopFx",
+            "switchOff",
+            "syncFx"
+        ]
+    },
+    {
+        "className": "Ext.grid.AbstractSelectionModel",
+        "extend": "Ext.util.Observable",
+        "functions": [
+            "isLocked",
+            "lock",
+            "unlock"
+        ]
+    },
+    {
+        "className": "Ext.grid.ActionColumn",
+        "extend": "Ext.grid.Column",
+        "configs": [
+            "altText",
+            "getClass",
+            "handler",
+            "icon",
+            "iconCls",
+            "items",
+            "scope",
+            "stopSelection",
+            "tooltip"
+        ]
+    },
+    {
+        "className": "Ext.grid.BooleanColumn",
+        "extend": "Ext.grid.Column",
+        "configs": [
+            "falseText",
+            "trueText",
+            "undefinedText"
+        ]
+    },
+    {
+        "className": "Ext.selection.CellModel",
+        "extend": "Ext.grid.AbstractSelectionModel",
+        "functions": [
+            "clearSelections",
+            "getSelectedCell",
+            "hasSelection",
+            "select"
+        ]
+    },
+    {
+        "className": "Ext.grid.CheckboxSelectionModel",
+        "extend": "Ext.selection.RowModel",
+        "configs": [
+            "checkOnly",
+            "header",
+            "sortable",
+            "width"
+        ]
+    },
+    {
+        "className": "Ext.grid.Column",
+        "configs": [
+            "align",
+            "css",
+            "dataIndex",
+            "editable",
+            "editor",
+            "emptyGroupText",
+            "fixed",
+            "groupName",
+            "groupRenderer",
+            "groupable",
+            "header",
+            "hidden",
+            "hideable",
+            "id",
+            "menuDisabled",
+            "renderer",
+            "resizable",
+            "scope",
+            "sortable",
+            "tooltip",
+            "width",
+            "xtype"
+        ],
+        "functions": [
+            "getCellEditor",
+            "setEditor"
+        ]
+    },
+    {
+        "className": "Ext.grid.ColumnModel",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "columns",
+            "defaultSortable",
+            "defaultWidth",
+            "defaults"
+        ],
+        "functions": [
+            "destroy",
+            "findColumnIndex",
+            "getCellEditor",
+            "getColumnById",
+            "getColumnCount",
+            "getColumnHeader",
+            "getColumnId",
+            "getColumnTooltip",
+            "getColumnWidth",
+            "getColumnsBy",
+            "getDataIndex",
+            "getIndexById",
+            "getRenderer",
+            "getTotalWidth",
+            "isCellEditable",
+            "isFixed",
+            "isHidden",
+            "isMenuDisabled",
+            "isResizable",
+            "isSortable",
+            "moveColumn",
+            "setColumnHeader",
+            "setColumnTooltip",
+            "setColumnWidth",
+            "setConfig",
+            "setDataIndex",
+            "setEditable",
+            "setEditor",
+            "setHidden",
+            "setRenderer"
+        ]
+    },
+    {
+        "className": "Ext.grid.DateColumn",
+        "extend": "Ext.grid.Column",
+        "configs": [
+            "format"
+        ]
+    },
+    {
+        "className": "Ext.grid.EditorGridPanel",
+        "extend": "Ext.grid.Panel",
+        "configs": [
+            "autoEncode",
+            "clicksToEdit",
+            "forceValidation",
+            "selModel"
+        ],
+        "functions": [
+            "startEditing",
+            "stopEditing"
+        ]
+    },
+    {
+        "className": "Ext.grid.GridDragZone",
+        "extend": "Ext.dd.DragZone",
+        "functions": [
+            "afterRepair",
+            "getDragData",
+            "getRepairXY",
+            "onInitDrag"
+        ]
+    },
+    {
+        "className": "Ext.grid.Panel",
+        "extend": "Ext.Panel",
+        "configs": [
+            "autoExpandColumn",
+            "autoExpandMax",
+            "autoExpandMin",
+            "bubbleEvents",
+            "cm",
+            "colModel",
+            "columnLines",
+            "columns",
+            "ddGroup",
+            "ddText",
+            "deferRowRender",
+            "disableSelection",
+            "enableColumnHide",
+            "enableColumnMove",
+            "enableColumnResize",
+            "enableDragDrop",
+            "enableHdMenu",
+            "hideHeaders",
+            "loadMask",
+            "maxHeight",
+            "minColumnWidth",
+            "selModel",
+            "sm",
+            "stateEvents",
+            "store",
+            "stripeRows",
+            "trackMouseOver",
+            "view",
+            "viewConfig"
+        ],
+        "functions": [
+            "getColumnModel",
+            "getDragDropText",
+            "getGridEl",
+            "getSelectionModel",
+            "getStore",
+            "getView",
+            "reconfigure"
+        ]
+    },
+    {
+        "className": "Ext.grid.View",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "autoFill",
+            "cellSelector",
+            "cellSelectorDepth",
+            "columnsText",
+            "deferEmptyText",
+            "emptyText",
+            "enableRowBody",
+            "forceFit",
+            "headerMenuOpenCls",
+            "headersDisabled",
+            "markDirty",
+            "rowBodySelector",
+            "rowBodySelectorDepth",
+            "rowOverCls",
+            "rowSelector",
+            "rowSelectorDepth",
+            "scrollOffset",
+            "selectedRowClass",
+            "sortAscText",
+            "sortClasses",
+            "sortDescText"
+        ],
+        "functions": [
+            "findCellIndex",
+            "findRow",
+            "findRowBody",
+            "findRowIndex",
+            "focusCell",
+            "focusRow",
+            "getCell",
+            "getGridInnerWidth",
+            "getHeaderCell",
+            "getRow",
+            "getRowClass",
+            "handleHdMenuClickDefault",
+            "refresh",
+            "scrollToTop"
+        ]
+    },
+    {
+        "className": "Ext.grid.GroupingView",
+        "extend": "Ext.grid.View",
+        "configs": [
+            "cancelEditOnToggle",
+            "emptyGroupText",
+            "enableGrouping",
+            "enableGroupingMenu",
+            "enableNoGroups",
+            "groupByText",
+            "groupMode",
+            "groupRenderer",
+            "groupTextTpl",
+            "hideGroupedColumn",
+            "ignoreAdd",
+            "showGroupName",
+            "showGroupsText",
+            "startCollapsed"
+        ],
+        "functions": [
+            "collapseAllGroups",
+            "expandAllGroups",
+            "getGroupId",
+            "toggleAllGroups",
+            "toggleGroup",
+            "toggleRowIndex"
+        ]
+    },
+    {
+        "className": "Ext.grid.NumberColumn",
+        "extend": "Ext.grid.Column",
+        "configs": [
+            "format"
+        ]
+    },
+    {
+        "className": "Ext.grid.PivotAxis",
+        "extend": "Ext.Component",
+        "configs": [
+            "defaultHeaderWidth",
+            "orientation"
+        ],
+        "functions": [
+            "setDimensions"
+        ]
+    },
+    {
+        "className": "Ext.grid.PivotGrid",
+        "extend": "Ext.grid.Panel",
+        "configs": [
+            "aggregator",
+            "leftAxis",
+            "measure",
+            "renderer",
+            "topAxis"
+        ],
+        "functions": [
+            "getAggregator",
+            "getView",
+            "setAggregator",
+            "setLeftAxis",
+            "setMeasure",
+            "setTopAxis"
+        ]
+    },
+    {
+        "className": "Ext.grid.PivotGridView",
+        "extend": "Ext.grid.View",
+        "configs": [
+            "getCellCls",
+            "title"
+        ],
+        "functions": [
+            "getColumnHeaders",
+            "getRowHeaders",
+            "getTotalRowHeaderWidth",
+            "refresh",
+            "setTitle"
+        ]
+    },
+    {
+        "className": "Ext.grid.PropertyColumnModel",
+        "extend": "Ext.grid.ColumnModel"
+    },
+    {
+        "className": "Ext.grid.PropertyGrid",
+        "extend": "Ext.grid.EditorGridPanel",
+        "configs": [
+            "customEditors",
+            "customRenderers",
+            "propertyNames",
+            "source",
+            "source"
+        ],
+        "functions": [
+            "getSource",
+            "removeProperty",
+            "setProperty",
+            "setSource"
+        ]
+    },
+    {
+        "className": "Ext.grid.PropertyRecord"
+    },
+    {
+        "className": "Ext.grid.PropertyStore",
+        "extend": "Ext.util.Observable"
+    },
+    {
+        "className": "Ext.grid.RowNumberer",
+        "configs": [
+            "header",
+            "width"
+        ]
+    },
+    {
+        "className": "Ext.selection.RowModel",
+        "extend": "Ext.grid.AbstractSelectionModel",
+        "configs": [
+            "moveEditorOnEnter",
+            "singleSelect"
+        ],
+        "functions": [
+            "clearSelections",
+            "deselectRange",
+            "deselectRow",
+            "each",
+            "getCount",
+            "getSelected",
+            "getSelections",
+            "hasNext",
+            "hasPrevious",
+            "hasSelection",
+            "isIdSelected",
+            "isSelected",
+            "selectAll",
+            "selectFirstRow",
+            "selectLastRow",
+            "selectNext",
+            "selectPrevious",
+            "selectRange",
+            "selectRecords",
+            "selectRow",
+            "selectRows"
+        ]
+    },
+    {
+        "className": "Ext.grid.TemplateColumn",
+        "extend": "Ext.grid.Column",
+        "configs": [
+            "tpl"
+        ]
+    },
+    {
+        "className": "Ext.History",
+        "extend": "Ext.util.Observable",
+        "singleton": "true",
+        "functions": [
+            "add",
+            "back",
+            "forward",
+            "getToken",
+            "init"
+        ]
+    },
+    {
+        "className": "Ext.KeyMap",
+        "functions": [
+            "addBinding",
+            "disable",
+            "enable",
+            "isEnabled",
+            "on",
+            "setDisabled"
+        ]
+    },
+    {
+        "className": "Ext.KeyNav",
+        "configs": [
+            "defaultEventAction",
+            "disabled",
+            "forceKeyDown"
+        ],
+        "functions": [
+            "destroy",
+            "disable",
+            "enable",
+            "setDisabled"
+        ]
+    },
+    {
+        "className": "Ext.Layer",
+        "extend": "Ext.Element",
+        "configs": [
+            "cls",
+            "constrain",
+            "dh",
+            "shadow",
+            "shadowOffset",
+            "shim",
+            "useDisplay",
+            "zindex"
+        ],
+        "functions": [
+            "setZIndex"
+        ]
+    },
+    {
+        "className": "Ext.layout.AbsoluteLayout",
+        "extend": "Ext.layout.AnchorLayout"
+    },
+    {
+        "className": "Ext.layout.AccordionLayout",
+        "extend": "Ext.layout.FitLayout",
+        "configs": [
+            "activeOnTop",
+            "animate",
+            "autoWidth",
+            "collapseFirst",
+            "fill",
+            "hideCollapseTool",
+            "sequence",
+            "titleCollapse"
+        ],
+        "functions": [
+            "setActiveItem"
+        ]
+    },
+    {
+        "className": "Ext.layout.AnchorLayout",
+        "extend": "Ext.layout.container.ContainerLayout",
+        "configs": [
+            "anchor",
+            "defaultAnchor"
+        ]
+    },
+    {
+        "className": "Ext.layout.AutoLayout"
+    },
+    {
+        "className": "Ext.layout.BorderLayout",
+        "extend": "Ext.layout.container.ContainerLayout"
+    },
+    {
+        "className": "Ext.layout.BorderLayout.Region",
+        "configs": [
+            "animFloat",
+            "autoHide",
+            "cmargins",
+            "collapseMode",
+            "collapsible",
+            "floatable",
+            "margins",
+            "minHeight",
+            "minWidth",
+            "split"
+        ],
+        "functions": [
+            "getMargins",
+            "getMinHeight",
+            "getMinWidth",
+            "getSize",
+            "isVisible",
+            "setPanel",
+            "slideIn",
+            "slideOut"
+        ]
+    },
+    {
+        "className": "Ext.layout.BorderLayout.SplitRegion",
+        "extend": "Ext.layout.BorderLayout.Region",
+        "configs": [
+            "collapsibleSplitTip",
+            "splitTip",
+            "tickSize",
+            "useSplitTips"
+        ],
+        "functions": [
+            "getSplitBar"
+        ]
+    },
+    {
+        "className": "Ext.layout.BoxLayout",
+        "extend": "Ext.layout.container.ContainerLayout",
+        "configs": [
+            "defaultMargins",
+            "padding"
+        ],
+        "functions": [
+            "updateChildBoxes"
+        ]
+    },
+    {
+        "className": "Ext.layout.boxOverflow.HorizontalMenu",
+        "extend": "Ext.layout.boxOverflow.Menu"
+    },
+    {
+        "className": "Ext.layout.boxOverflow.HorizontalScroller",
+        "extend": "Ext.layout.boxOverflow.Scroller",
+        "functions": [
+            "getScrollPosition"
+        ]
+    },
+    {
+        "className": "Ext.layout.boxOverflow.Menu",
+        "extend": "Ext.layout.boxOverflow.None",
+        "configs": [
+            null
+        ]
+    },
+    {
+        "className": "Ext.layout.boxOverflow.None"
+    },
+    {
+        "className": "Ext.layout.boxOverflow.Scroller",
+        "extend": "Ext.layout.boxOverflow.None",
+        "configs": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        "functions": [
+            "scrollToItem"
+        ]
+    },
+    {
+        "className": "Ext.layout.boxOverflow.VerticalScroller",
+        "extend": "Ext.layout.boxOverflow.Scroller",
+        "functions": [
+            "getScrollPosition"
+        ]
+    },
+    {
+        "className": "Ext.layout.CardLayout",
+        "extend": "Ext.layout.FitLayout",
+        "configs": [
+            "deferredRender",
+            "layoutOnCardChange"
+        ],
+        "functions": [
+            "setActiveItem"
+        ]
+    },
+    {
+        "className": "Ext.layout.ColumnLayout",
+        "extend": "Ext.layout.container.ContainerLayout"
+    },
+    {
+        "className": "Ext.layout.container.ContainerLayout",
+        "configs": [
+            "extraCls",
+            "renderHidden"
+        ],
+        "functions": [
+            "parseMargins"
+        ]
+    },
+    {
+        "className": "Ext.layout.FitLayout",
+        "extend": "Ext.layout.container.ContainerLayout"
+    },
+    {
+        "className": "Ext.layout.FormLayout",
+        "extend": "Ext.layout.AnchorLayout",
+        "configs": [
+            "fieldTpl",
+            "labelSeparator",
+            "trackLabels"
+        ],
+        "functions": [
+            "getTemplateArgs"
+        ]
+    },
+    {
+        "className": "Ext.layout.HBoxLayout",
+        "extend": "Ext.layout.BoxLayout",
+        "configs": [
+            "align",
+            "flex",
+            "pack"
+        ]
+    },
+    {
+        "className": "Ext.layout.MenuLayout",
+        "extend": "Ext.layout.container.ContainerLayout"
+    },
+    {
+        "className": "Ext.layout.TableLayout",
+        "extend": "Ext.layout.container.ContainerLayout",
+        "configs": [
+            "columns",
+            "tableAttrs"
+        ]
+    },
+    {
+        "className": "Ext.layout.ToolbarLayout",
+        "extend": "Ext.layout.container.ContainerLayout"
+    },
+    {
+        "className": "Ext.layout.VBoxLayout",
+        "extend": "Ext.layout.BoxLayout",
+        "configs": [
+            "align",
+            "flex",
+            "pack"
+        ]
+    },
+    {
+        "className": "Ext.list.BooleanColumn",
+        "extend": "Ext.list.Column",
+        "configs": [
+            "falseText",
+            "trueText",
+            "undefinedText"
+        ]
+    },
+    {
+        "className": "Ext.list.Column",
+        "configs": [
+            "align",
+            "cls",
+            "dataIndex",
+            "header",
+            "tpl",
+            "width"
+        ]
+    },
+    {
+        "className": "Ext.list.ColumnResizer",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "minPct"
+        ]
+    },
+    {
+        "className": "Ext.list.DateColumn",
+        "extend": "Ext.list.Column"
+    },
+    {
+        "className": "Ext.list.ListView",
+        "extend": "Ext.view.View",
+        "configs": [
+            "columnResize",
+            "columnSort",
+            "columns",
+            "hideHeaders",
+            "internalTpl",
+            "itemSelector",
+            "overClass",
+            "reserveScrollOffset",
+            "scrollOffset",
+            "selectedClass"
+        ],
+        "functions": [
+            "collectData"
+        ]
+    },
+    {
+        "className": "Ext.list.NumberColumn",
+        "extend": "Ext.list.Column",
+        "configs": [
+            "format"
+        ]
+    },
+    {
+        "className": "Ext.list.Sorter",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "sortClasses"
+        ]
+    },
+    {
+        "className": "Ext.Loader",
+        "singleton": "true",
+        "functions": [
+            "load"
+        ]
+    },
+    {
+        "className": "Ext.LoadMask",
+        "configs": [
+            "msg",
+            "msgCls",
+            "removeMask",
+            "store"
+        ],
+        "functions": [
+            "disable",
+            "enable",
+            "hide",
+            "show"
+        ]
+    },
+    {
+        "className": "Ext.menu.BaseItem",
+        "extend": "Ext.Component",
+        "configs": [
+            "activeClass",
+            "canActivate",
+            "clickHideDelay",
+            "handler",
+            "hideOnClick",
+            "scope"
+        ],
+        "functions": [
+            "setHandler"
+        ]
+    },
+    {
+        "className": "Ext.menu.CheckItem",
+        "extend": "Ext.menu.Item",
+        "configs": [
+            "checked",
+            "group",
+            "groupClass",
+            "itemCls"
+        ],
+        "functions": [
+            "checkHandler",
+            "setChecked"
+        ]
+    },
+    {
+        "className": "Ext.menu.ColorPicker",
+        "extend": "Ext.menu.Menu",
+        "configs": [
+            "handler",
+            "hideOnClick",
+            "paletteId",
+            "scope"
+        ]
+    },
+    {
+        "className": "Ext.menu.DatePicker",
+        "extend": "Ext.menu.Menu",
+        "configs": [
+            "handler",
+            "hideOnClick",
+            "pickerId",
+            "scope"
+        ]
+    },
+    {
+        "className": "Ext.menu.Item",
+        "extend": "Ext.menu.BaseItem",
+        "configs": [
+            "altText",
+            "canActivate",
+            "href",
+            "hrefTarget",
+            "icon",
+            "iconCls",
+            "itemCls",
+            "menu",
+            "showDelay",
+            "text"
+        ],
+        "functions": [
+            "setIconClass",
+            "setText"
+        ]
+    },
+    {
+        "className": "Ext.menu.Menu",
+        "extend": "Ext.Container",
+        "configs": [
+            "allowOtherMenus",
+            "defaultAlign",
+            "defaultOffsets",
+            "defaults",
+            "enableScrolling",
+            "floating",
+            "ignoreParentClicks",
+            "items",
+            "layout",
+            "maxHeight",
+            "minWidth",
+            "plain",
+            "scrollIncrement",
+            "shadow",
+            "showSeparator",
+            "subMenuAlign",
+            "zIndex"
+        ],
+        "functions": [
+            "addElement",
+            "addItem",
+            "addMenuItem",
+            "addSeparator",
+            "addText",
+            "hide",
+            "show",
+            "showAt"
+        ]
+    },
+    {
+        "className": "Ext.menu.Manager",
+        "singleton": "true",
+        "functions": [
+            "get",
+            "hideAll"
+        ]
+    },
+    {
+        "className": "Ext.menu.Separator",
+        "extend": "Ext.menu.BaseItem",
+        "configs": [
+            "hideOnClick",
+            "itemCls"
+        ]
+    },
+    {
+        "className": "Ext.menu.TextItem",
+        "extend": "Ext.menu.BaseItem",
+        "configs": [
+            "hideOnClick",
+            "itemCls",
+            "text"
+        ]
+    },
+    {
+        "className": "Ext.MessageBox",
+        "singleton": "true",
+        "functions": [
+            "alert",
+            "confirm",
+            "getDialog",
+            "hide",
+            "isVisible",
+            "progress",
+            "prompt",
+            "setIcon",
+            "show",
+            "updateProgress",
+            "updateText",
+            "wait"
+        ]
+    },
+    {
+        "className": "Ext.PagingToolbar",
+        "extend": "Ext.Toolbar",
+        "configs": [
+            "afterPageText",
+            "beforePageText",
+            "displayInfo",
+            "displayMsg",
+            "emptyMsg",
+            "firstText",
+            "lastText",
+            "nextText",
+            "pageSize",
+            "prependButtons",
+            "prevText",
+            "refreshText",
+            "store"
+        ],
+        "functions": [
+            "bind",
+            "bindStore",
+            "changePage",
+            "doRefresh",
+            "moveFirst",
+            "moveLast",
+            "moveNext",
+            "movePrevious",
+            "unbind"
+        ]
+    },
+    {
+        "className": "Ext.Panel",
+        "extend": "Ext.Container",
+        "configs": [
+            "animCollapse",
+            "applyTo",
+            "autoHeight",
+            "autoLoad",
+            "baseCls",
+            "bbar",
+            "bbarCfg",
+            "bodyBorder",
+            "bodyCfg",
+            "bodyCssClass",
+            "bodyStyle",
+            "border",
+            "buttonAlign",
+            "buttons",
+            "bwrapCfg",
+            "closable",
+            "collapseFirst",
+            "collapsed",
+            "collapsedCls",
+            "collapsible",
+            "disabled",
+            "draggable",
+            "elements",
+            "fbar",
+            "floating",
+            "footer",
+            "footerCfg",
+            "frame",
+            "header",
+            "headerAsText",
+            "headerCfg",
+            "hideCollapseTool",
+            "iconCls",
+            "keys",
+            "maskDisabled",
+            "minButtonWidth",
+            "padding",
+            "preventBodyReset",
+            "resizeEvent",
+            "shadow",
+            "shadowOffset",
+            "shim",
+            "tbar",
+            "tbarCfg",
+            "title",
+            "titleCollapse",
+            "toolTemplate",
+            "tools",
+            "unstyled"
+        ],
+        "functions": [
+            "addButton",
+            "collapse",
+            "expand",
+            "getBottomToolbar",
+            "getFooterToolbar",
+            "getFrameHeight",
+            "getFrameWidth",
+            "getInnerHeight",
+            "getInnerWidth",
+            "getTool",
+            "getTopToolbar",
+            "getUpdater",
+            "load",
+            "setIconClass",
+            "setTitle",
+            "toggleCollapse"
+        ]
+    },
+    {
+        "className": "Ext.ProgressBar",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "animate",
+            "baseCls",
+            "id",
+            "text",
+            "textEl",
+            "value"
+        ],
+        "functions": [
+            "isWaiting",
+            "reset",
+            "setSize",
+            "syncProgressBar",
+            "updateProgress",
+            "updateText",
+            "wait"
+        ]
+    },
+    {
+        "className": "Ext.QuickTip",
+        "extend": "Ext.ToolTip",
+        "configs": [
+            "interceptTitles",
+            "target"
+        ],
+        "functions": [
+            "cancelShow",
+            "register",
+            "unregister"
+        ]
+    },
+    {
+        "className": "Ext.QuickTips",
+        "singleton": "true",
+        "functions": [
+            "disable",
+            "enable",
+            "getQuickTip",
+            "init",
+            "isEnabled",
+            "register",
+            "tips",
+            "unregister"
+        ]
+    },
+    {
+        "className": "Ext.Resizable",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "adjustments",
+            "animate",
+            "constrainTo",
+            "disableTrackOver",
+            "draggable",
+            "duration",
+            "dynamic",
+            "easing",
+            "enabled",
+            "handleCls",
+            "handles",
+            "height",
+            "heightIncrement",
+            "maxHeight",
+            "maxWidth",
+            "minHeight",
+            "minWidth",
+            "minX",
+            "minY",
+            "multiDirectional",
+            "pinned",
+            "preserveRatio",
+            "resizeChild",
+            "resizeRegion",
+            "transparent",
+            "width",
+            "widthIncrement",
+            "wrap"
+        ],
+        "functions": [
+            "destroy",
+            "getEl",
+            "getResizeChild",
+            "resizeElement",
+            "resizeTo"
+        ]
+    },
+    {
+        "className": "Ext.Shadow",
+        "configs": [
+            "mode",
+            "offset"
+        ],
+        "functions": [
+            "hide",
+            "isVisible",
+            "realign",
+            "setZIndex",
+            "show"
+        ]
+    },
+    {
+        "className": "Ext.slider.MultiSlider",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "animate",
+            "clickToChange",
+            "constrainThumbs",
+            "decimalPrecision.",
+            "increment",
+            "keyIncrement",
+            "maxValue",
+            "minValue",
+            "value",
+            "vertical"
+        ],
+        "functions": [
+            "addThumb",
+            "getValue",
+            "getValues",
+            "setMaxValue",
+            "setMinValue",
+            "setValue",
+            "syncThumb"
+        ]
+    },
+    {
+        "className": "Ext.slider.SingleSlider",
+        "extend": "Ext.slider.MultiSlider",
+        "functions": [
+            "getValue",
+            "setValue",
+            "syncThumb"
+        ]
+    },
+    {
+        "className": "Ext.slider.Thumb",
+        "configs": [
+            "constrain",
+            "slider"
+        ],
+        "functions": [
+            "disable",
+            "enable",
+            "initEvents",
+            "render"
+        ]
+    },
+    {
+        "className": "Ext.slider.Tip",
+        "extend": "Ext.Tip",
+        "functions": [
+            "getText"
+        ]
+    },
+    {
+        "className": "Ext.Spacer",
+        "extend": "Ext.BoxComponent"
+    },
+    {
+        "className": "Ext.SplitBar",
+        "extend": "Ext.util.Observable",
+        "functions": [
+            "destroy",
+            "getAdapter",
+            "getMaximumSize",
+            "getMinimumSize",
+            "setAdapter",
+            "setCurrentSize",
+            "setMaximumSize",
+            "setMinimumSize"
+        ]
+    },
+    {
+        "className": "Ext.SplitBar.AbsoluteLayoutAdapter",
+        "extend": "Ext.SplitBar.BasicLayoutAdapter"
+    },
+    {
+        "className": "Ext.SplitBar.BasicLayoutAdapter",
+        "functions": [
+            "getElementSize",
+            "setElementSize"
+        ]
+    },
+    {
+        "className": "Ext.SplitButton",
+        "extend": "Ext.Button",
+        "configs": [
+            "arrowHandler",
+            "arrowTooltip"
+        ],
+        "functions": [
+            "setArrowHandler"
+        ]
+    },
+    {
+        "className": "Ext.state.CookieProvider",
+        "extend": "Ext.state.Provider",
+        "configs": [
+            "domain",
+            "expires",
+            "path",
+            "secure"
+        ]
+    },
+    {
+        "className": "Ext.state.Manager",
+        "singleton": "true",
+        "functions": [
+            "clear",
+            "get",
+            "getProvider",
+            "set",
+            "setProvider"
+        ]
+    },
+    {
+        "className": "Ext.state.Provider",
+        "functions": [
+            "clear",
+            "decodeValue",
+            "encodeValue",
+            "get",
+            "set"
+        ]
+    },
+    {
+        "className": "Ext.StoreManager",
+        "extend": "Ext.util.MixedCollection",
+        "singleton": "true",
+        "functions": [
+            "lookup",
+            "register",
+            "unregister"
+        ]
+    },
+    {
+        "className": "Ext.TabPanel",
+        "extend": "Ext.Panel",
+        "configs": [
+            "activeTab",
+            "animScroll",
+            "autoTabSelector",
+            "autoTabs",
+            "baseCls",
+            "deferredRender",
+            "enableTabScroll",
+            "itemTpl",
+            "layoutConfig",
+            "layoutOnTabChange",
+            "minTabWidth",
+            "plain",
+            "resizeTabs",
+            "scrollDuration",
+            "scrollIncrement",
+            "scrollRepeatInterval",
+            "tabCls",
+            "tabMargin",
+            "tabPosition",
+            "tabWidth",
+            "wheelIncrement"
+        ],
+        "functions": [
+            "activate",
+            "beginUpdate",
+            "endUpdate",
+            "getActiveTab",
+            "getItem",
+            "getTabEl",
+            "getTemplateArgs",
+            "hideTabStripItem",
+            "readTabs",
+            "scrollToTab",
+            "setActiveTab",
+            "unhideTabStripItem"
+        ]
+    },
+    {
+        "className": "Ext.TaskManager",
+        "extend": "Ext.util.TaskRunner",
+        "singleton": "true"
+    },
+    {
+        "className": "Ext.Template",
+        "configs": [
+            "compiled",
+            "disableFormats",
+            "re"
+        ],
+        "functions": [
+            "Template.from",
+            "append",
+            "apply",
+            "applyTemplate",
+            "compile",
+            "insertAfter",
+            "insertBefore",
+            "insertFirst",
+            "overwrite",
+            "set"
+        ]
+    },
+    {
+        "className": "Ext.Tip",
+        "extend": "Ext.Panel",
+        "configs": [
+            "closable",
+            "defaultAlign",
+            "maxWidth",
+            "minWidth",
+            "shadow",
+            "width"
+        ],
+        "functions": [
+            "showAt",
+            "showBy"
+        ]
+    },
+    {
+        "className": "Ext.Toolbar",
+        "extend": "Ext.Container",
+        "configs": [
+            "buttonAlign",
+            "enableOverflow",
+            "layout"
+        ],
+        "functions": [
+            "add",
+            "addButton",
+            "addDom",
+            "addElement",
+            "addField",
+            "addFill",
+            "addItem",
+            "addSeparator",
+            "addSpacer",
+            "addText",
+            "insertButton"
+        ]
+    },
+    {
+        "className": "Ext.Toolbar.Fill",
+        "extend": "Ext.Toolbar.Spacer"
+    },
+    {
+        "className": "Ext.Toolbar.Item",
+        "extend": "Ext.BoxComponent",
+        "configs": [
+            "overflowText"
+        ]
+    },
+    {
+        "className": "Ext.Toolbar.Separator",
+        "extend": "Ext.Toolbar.Item"
+    },
+    {
+        "className": "Ext.Toolbar.Spacer",
+        "extend": "Ext.Toolbar.Item",
+        "configs": [
+            "width"
+        ]
+    },
+    {
+        "className": "Ext.Toolbar.TextItem",
+        "extend": "Ext.Toolbar.Item",
+        "configs": [
+            "text"
+        ],
+        "functions": [
+            "setText"
+        ]
+    },
+    {
+        "className": "Ext.ToolTip",
+        "extend": "Ext.Tip",
+        "configs": [
+            "anchorOffset",
+            "anchorToTarget",
+            "autoHide",
+            "delegate",
+            "dismissDelay",
+            "hideDelay",
+            "mouseOffset",
+            "showDelay",
+            "target",
+            "trackMouse"
+        ],
+        "functions": [
+            "hide",
+            "initTarget",
+            "show"
+        ]
+    },
+    {
+        "className": "Ext.tree.AsyncTreeNode",
+        "extend": "Ext.tree.TreeNode",
+        "configs": [
+            "loader"
+        ],
+        "functions": [
+            "isLoaded",
+            "isLoading",
+            "reload"
+        ]
+    },
+    {
+        "className": "Ext.tree.DefaultSelectionModel",
+        "extend": "Ext.util.Observable",
+        "functions": [
+            "clearSelections",
+            "getSelectedNode",
+            "isSelected",
+            "select",
+            "selectNext",
+            "selectPrevious",
+            "unselect"
+        ]
+    },
+    {
+        "className": "Ext.tree.MultiSelectionModel",
+        "extend": "Ext.util.Observable",
+        "functions": [
+            "clearSelections",
+            "getSelectedNodes",
+            "isSelected",
+            "select",
+            "unselect"
+        ]
+    },
+    {
+        "className": "Ext.tree.RootTreeNodeUI"
+    },
+    {
+        "className": "Ext.tree.TreeDragZone",
+        "extend": "Ext.dd.DragZone",
+        "configs": [
+            "ddGroup"
+        ]
+    },
+    {
+        "className": "Ext.tree.TreeDropZone",
+        "extend": "Ext.dd.DropZone",
+        "configs": [
+            "allowContainerDrop",
+            "allowParentInsert",
+            "appendOnly",
+            "ddGroup",
+            "expandDelay"
+        ]
+    },
+    {
+        "className": "Ext.tree.TreeEditor",
+        "extend": "Ext.Editor",
+        "configs": [
+            "alignment",
+            "cls",
+            "editDelay",
+            "hideEl",
+            "maxWidth",
+            "shim"
+        ],
+        "functions": [
+            "triggerEdit"
+        ]
+    },
+    {
+        "className": "Ext.tree.TreeFilter",
+        "functions": [
+            "clear",
+            "filter",
+            "filterBy"
+        ]
+    },
+    {
+        "className": "Ext.tree.TreeLoader",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "baseAttrs",
+            "baseParams",
+            "clearOnLoad",
+            "dataUrl",
+            "directFn",
+            "nodeParameter",
+            "paramOrder",
+            "paramsAsHash",
+            "preloadChildren",
+            "requestMethod",
+            "uiProviders",
+            "url"
+        ],
+        "functions": [
+            "createNode",
+            "load"
+        ]
+    },
+    {
+        "className": "Ext.tree.TreeNode",
+        "extend": "Ext.data.Node",
+        "configs": [
+            "allowChildren",
+            "allowDrag",
+            "allowDrop",
+            "checked",
+            "cls",
+            "disabled",
+            "draggable",
+            "editable",
+            "expandable",
+            "expanded",
+            "hidden",
+            "href",
+            "hrefTarget",
+            "icon",
+            "iconCls",
+            "isTarget",
+            "qtip",
+            "qtipCfg",
+            "singleClickExpand",
+            "text",
+            "uiProvider"
+        ],
+        "functions": [
+            "collapse",
+            "collapseChildNodes",
+            "disable",
+            "enable",
+            "ensureVisible",
+            "expand",
+            "expandChildNodes",
+            "getUI",
+            "isExpanded",
+            "isSelected",
+            "select",
+            "setCls",
+            "setHref",
+            "setIcon",
+            "setIconCls",
+            "setText",
+            "setTooltip",
+            "toggle",
+            "unselect"
+        ]
+    },
+    {
+        "className": "Ext.tree.TreeNodeUI",
+        "functions": [
+            "addClass",
+            "getAnchor",
+            "getEl",
+            "getIconEl",
+            "getTextEl",
+            "hide",
+            "isChecked",
+            "removeClass",
+            "show",
+            "toggleCheck"
+        ]
+    },
+    {
+        "className": "Ext.tree.Panel",
+        "extend": "Ext.Panel",
+        "configs": [
+            "animate",
+            "bubbleEvents",
+            "containerScroll",
+            "ddAppendOnly",
+            "ddGroup",
+            "ddScroll",
+            "dragConfig",
+            "dropConfig",
+            "enableDD",
+            "enableDrag",
+            "enableDrop",
+            "hlColor",
+            "hlDrop",
+            "lines",
+            "loader",
+            "pathSeparator",
+            "requestMethod",
+            "root",
+            "rootVisible",
+            "selModel",
+            "singleExpand",
+            "trackMouseOver",
+            "useArrows"
+        ],
+        "functions": [
+            "collapseAll",
+            "expandAll",
+            "expandPath",
+            "getChecked",
+            "getLoader",
+            "getNodeById",
+            "getRootNode",
+            "getSelectionModel",
+            "getTreeEl",
+            "selectPath",
+            "setRootNode"
+        ]
+    },
+    {
+        "className": "Ext.tree.TreeSorter",
+        "configs": [
+            "caseSensitive",
+            "dir",
+            "folderSort",
+            "leafAttr",
+            "property",
+            "sortType"
+        ]
+    },
+    {
+        "className": "Ext.Updater",
+        "extend": "Ext.util.Observable",
+        "functions": [
+            "Updater.updateElement",
+            "abort",
+            "formUpdate",
+            "getDefaultRenderer",
+            "getEl",
+            "getRenderer",
+            "isAutoRefreshing",
+            "isUpdating",
+            "refresh",
+            "setDefaultUrl",
+            "setRenderer",
+            "showLoading",
+            "startAutoRefresh",
+            "stopAutoRefresh",
+            "update"
+        ]
+    },
+    {
+        "className": "Ext.Updater.BasicRenderer",
+        "functions": [
+            "render"
+        ]
+    },
+    {
+        "className": "Ext.Updater.defaults"
+    },
+    {
+        "className": "Ext.util.ClickRepeater",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "accelerate",
+            "delay",
+            "el",
+            "interval",
+            "pressClass",
+            "preventDefault",
+            "stopDefault"
+        ],
+        "functions": [
+            "disable",
+            "enable",
+            "setDisabled"
+        ]
+    },
+    {
+        "className": "Ext.util.Cookies",
+        "singleton": "true",
+        "functions": [
+            "clear",
+            "get",
+            "set"
+        ]
+    },
+    {
+        "className": "Ext.util.CSS",
+        "singleton": "true",
+        "functions": [
+            "createStyleSheet",
+            "getRule",
+            "getRules",
+            "refreshCache",
+            "removeStyleSheet",
+            "swapStyleSheet",
+            "updateRule"
+        ]
+    },
+    {
+        "className": "Ext.util.DelayedTask",
+        "functions": [
+            "cancel",
+            "delay"
+        ]
+    },
+    {
+        "className": "Ext.util.Format",
+        "singleton": "true",
+        "functions": [
+            "capitalize",
+            "date",
+            "dateRenderer",
+            "defaultValue",
+            "ellipsis",
+            "fileSize",
+            "htmlDecode",
+            "htmlEncode",
+            "lowercase",
+            "math",
+            "nl2br",
+            "number",
+            "numberRenderer",
+            "plural",
+            "round",
+            "stripScripts",
+            "stripTags",
+            "substr",
+            "trim",
+            "undef",
+            "uppercase",
+            "usMoney"
+        ]
+    },
+    {
+        "className": "Ext.util.Functions",
+        "singleton": "true",
+        "functions": [
+            "createDelegate",
+            "createInterceptor",
+            "createSequence",
+            "defer"
+        ]
+    },
+    {
+        "className": "Ext.util.JSON",
+        "singleton": "true",
+        "functions": [
+            "decode",
+            "encode",
+            "encodeDate"
+        ]
+    },
+    {
+        "className": "Ext.util.MixedCollection",
+        "extend": "Ext.util.Observable",
+        "configs": [
+            "allowFunctions"
+        ],
+        "functions": [
+            "add",
+            "addAll",
+            "clear",
+            "clone",
+            "contains",
+            "containsKey",
+            "each",
+            "eachKey",
+            "filter",
+            "filterBy",
+            "find",
+            "findIndex",
+            "findIndexBy",
+            "first",
+            "get",
+            "getCount",
+            "getKey",
+            "getRange",
+            "indexOf",
+            "indexOfKey",
+            "insert",
+            "item",
+            "itemAt",
+            "key",
+            "keySort",
+            "last",
+            "remove",
+            "removeAt",
+            "removeKey",
+            "reorder",
+            "replace",
+            "sort"
+        ]
+    },
+    {
+        "className": "Ext.util.Observable",
+        "configs": [
+            "listeners"
+        ],
+        "functions": [
+            "Observable.capture",
+            "Observable.observeClass",
+            "Observable.releaseCapture",
+            "addEvents",
+            "addListener",
+            "enableBubble",
+            "fireEvent",
+            "hasListener",
+            "on",
+            "purgeListeners",
+            "relayEvents",
+            "removeListener",
+            "resumeEvents",
+            "suspendEvents",
+            "un"
+        ]
+    },
+    {
+        "className": "Ext.util.TaskRunner",
+        "functions": [
+            "start",
+            "stop",
+            "stopAll"
+        ]
+    },
+    {
+        "className": "Ext.util.TextMetrics",
+        "singleton": "true",
+        "functions": [
+            "bind",
+            "createInstance",
+            "getHeight",
+            "getSize",
+            "getWidth",
+            "measure",
+            "setFixedWidth"
+        ]
+    },
+    {
+        "className": "Ext.Viewport",
+        "extend": "Ext.Container"
+    },
+    {
+        "className": "Ext.Window",
+        "extend": "Ext.Panel",
+        "configs": [
+            "animateTarget",
+            "baseCls",
+            "closable",
+            "closeAction",
+            "collapsed",
+            "constrain",
+            "constrainHeader",
+            "defaultButton",
+            "draggable",
+            "expandOnShow",
+            "hidden",
+            "hideAnimDuration",
+            "initHidden",
+            "manager",
+            "maximizable",
+            "maximized",
+            "minHeight",
+            "minWidth",
+            "minimizable",
+            "modal",
+            "onEsc",
+            "plain",
+            "resizable",
+            "resizeHandles",
+            "showAnimDuration",
+            "x",
+            "y"
+        ],
+        "functions": [
+            "alignTo",
+            "anchorTo",
+            "center",
+            "clearAnchor",
+            "close",
+            "focus",
+            "hide",
+            "maximize",
+            "minimize",
+            "restore",
+            "setActive",
+            "setAnimateTarget",
+            "show",
+            "toBack",
+            "toFront",
+            "toggleMaximize"
+        ]
+    },
+    {
+        "className": "Ext.WindowGroup",
+        "functions": [
+            "bringToFront",
+            "each",
+            "get",
+            "getActive",
+            "getBy",
+            "hideAll",
+            "register",
+            "sendToBack",
+            "unregister"
+        ]
+    },
+    {
+        "className": "Ext.WindowManager",
+        "extend": "Ext.WindowGroup",
+        "singleton": "true"
+    },
+    {
+        "className": "Ext.XTemplate",
+        "extend": "Ext.Template",
+        "functions": [
+            "XTemplate.from",
+            "apply",
+            "applyTemplate",
+            "compile"
+        ]
+    }
+]

@@ -1,0 +1,219 @@
+$theme-name: 'access';
+
+body {
+    background: #000;
+}
+
+$base-color: #3f4757;
+$orange: #ed9200;
+$color: #fff;
+$font-size: 15px;
+$css-shadow-background-color: #000000;
+$include-shadow-images: false;
+
+//panel
+$panel-header-background-color: #3a4155;
+$panel-header-color: #fff;
+$panel-body-background-color: #232d38;
+$panel-body-color: #fff;
+//$panel-header-font-size: 14px;
+$panel-border-color: #18181a;
+$panel-header-inner-border: false;
+
+$border-layout-ct-background: #3f4757;
+
+//framed panel
+$panel-frame-border-radius: 3px;
+$frame-base-color: #232d38;
+$panel-frame-background-color: #3f4757;
+
+//window
+$window-background-color: #3f4757;
+$window-body-background-color: #1f2833;
+$window-body-color: #fff;
+$window-body-border-color: #18181a;
+$window-inner-border-color: #414b5c;
+$window-header-color: #fff;
+
+//loadmask
+$loadmask-msg-background-color: #3f4757;
+$loadmask-msg-border-color: #222233;
+$loadmask-msg-inner-border-color: #555566;
+$loadmask-msg-inner-background-color: #232d38;
+$loadmask-msg-inner-color: #fff;
+$loadmask-msg-inner-padding: 5px 10px;
+$loadmask-msg-inner-icon: null;
+
+//toolbar
+$toolbar-border-color: $window-body-border-color;
+$toolbar-background-color: #3a3e4f;
+$toolbar-text-color: #fff;
+
+$toolbar-separator-color: #1b1b29 !default;
+$toolbar-separator-highlight-color: #5d5d6e !default;
+
+//buttons
+$button-default-base-color: #2a3142;
+$button-default-base-color-over: $orange;
+$button-default-base-color-pressed: #da7b19;
+$button-default-color: #fff;
+
+$button-toolbar-border-color-over: #d97e27;
+$button-toolbar-border-color-pressed: #c86e19;
+$button-toolbar-background-color-over: $orange;
+$button-toolbar-background-color-pressed: #db7b1f;
+$button-toolbar-background-gradient: null;
+$button-toolbar-background-gradient-over: null;
+$button-toolbar-background-gradient-focus: null;
+$button-toolbar-background-gradient-pressed: null;
+$button-toolbar-background-gradient-disabled: null;
+$button-toolbar-color: #fff !default;
+$button-toolbar-color-over: #fff !default;
+$button-toolbar-color-pressed: #fff !default;
+
+//forms
+$form-field-height: 26px;
+$form-toolbar-field-height: 24px;
+//$form-field-font-size: 15px;
+$form-field-border-width: 2px;
+$form-field-border-color: #737b8c;
+$form-field-background-color: #34383f;
+$form-field-color: #fff;
+$form-checkbox-size: 19px;
+
+$form-field-focus-border-color: #ff9c33;
+
+$form-field-invalid-background-color: #15171A;
+$form-field-invalid-border-color: #C30;
+
+$form-trigger-width: 20px;
+$form-trigger-border-bottom-width: 2px;
+$form-trigger-border-bottom-color: $form-field-border-color;
+$form-trigger-border-bottom-color-over: $form-field-focus-border-color;
+$form-trigger-border-bottom-color-focus: $form-field-border-color;
+$form-trigger-border-bottom-color-focus-over: $form-field-focus-border-color;
+$form-trigger-border-bottom-color-pressed: #c76e12;
+
+//htmleditor
+$html-editor-border-color: #737b8c;
+
+//fieldsets
+$fieldset-header-color: #fff;
+$fieldset-border-color: #727c8c;
+
+//tabs
+$tab-base-color: #616f8c;
+$tab-base-color-over: lighten(#616f8c, 5);
+$tab-base-color-active: $orange;
+
+$tab-height: 27px;
+
+$tab-color: #fff;
+$tab-color-active: $tab-color;
+
+$tab-inner-border: false;
+$tab-border-color: #2e3746;
+$tab-border-color-active: #74400e;
+
+$tab-background-gradient: null;
+$tab-background-gradient-over: null;
+$tab-background-gradient-active: null;
+$tab-background-gradient-disabled: null;
+
+$tab-closable-icon: 'tabs/tab-close.gif';
+$tab-closable-background-position: top right;
+$tab-closable-width: 16px;
+
+$tabbar-strip-background-color: $orange;
+
+//grid
+$grid-header-background-color: #373c4b;
+$grid-header-over-background-color: #496085;
+$grid-header-background-gradient: 'glossy';
+$grid-header-over-background-gradient: 'glossy';
+$grid-header-color: #fff;
+
+$grid-row-wrap-border-color: #101010;
+
+$grid-row-cell-color: #fff;
+
+$grid-row-cell-background: #1f2933;
+
+$grid-row-cell-alt-background: #1a232b;
+
+$grid-row-cell-over-background-color: #7e552f;
+$grid-row-cell-over-border-color: #101010;
+
+$grid-row-cell-selected-background-color: #e48627;
+$grid-row-cell-selected-border-color: #101010;
+
+$grid-row-cell-over-background-gradient: 'flat';
+$grid-row-cell-focus-background-gradient: 'flat';
+
+//layout
+$accordion-header-color: #fff;
+$accordion-header-background-color: #5c6b82;
+
+//progress bar
+$progress-border-color: #18181a;
+$progress-background-color: #232d38;
+$progress-text-color-back: #aaa;
+$progress-bar-background-color: $orange;
+
+//btn group
+$btn-group-background-color: #393d4e;
+$btn-group-header-background-color: #676772;
+$btn-group-border-color: #606068;
+$btn-group-inner-border-color: #757478;
+$btn-group-header-color: #D2D2D2;
+
+//datepicker
+$datepicker-background-color: #21252e;
+$datepicker-border-color: #798294;
+$datepicker-today-item-border-color: #9999aa;
+
+$datepicker-header-background-color: #5c6980;
+
+$datepicker-th-background-color: #3a4051;
+$datepicker-th-color: #fff;
+$datepicker-th-border-bottom-color: #535b5c;
+
+$datepicker-td-height: 21px;
+
+$datepicker-item-color: #fff;
+$datepicker-item-hover-background-color: #7e5530;
+$datepicker-selected-item-border-color: #864900;
+$datepicker-selected-item-background-color: #e5872c;
+
+$datepicker-monthpicker-height: 172px;
+
+$datepicker-monthpicker-item-color: #fff;
+$datepicker-monthpicker-item-border: 0 none;
+$datepicker-monthpicker-item-selected-background-color: $datepicker-selected-item-background-color;
+
+// boundlist
+$boundlist-background-color: #404551;
+$boundlist-border-color: #222732;
+$boundlist-border-width: 2px;
+
+$boundlist-item-border-width: 0;
+$boundlist-item-over-background-color: #e5872c;
+$boundlist-item-selected-background-color: #e5872c; 
+
+//tips
+$tip-base-color: #5e6986;
+$tip-border-color: #122d5e;
+$tip-body-color: #000;
+
+//menu
+$menu-background-color: #414551;
+$menu-text-color: #fff;
+
+$menu-item-active-background-color: $orange;
+$menu-item-active-border-color: darken($orange, 5);
+
+$menu-separator-border-color: #222233;
+$menu-separator-background-color: #666666;
+
+@import 'compass';
+@import 'ext4/default/all';

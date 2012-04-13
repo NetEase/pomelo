@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Rest Proxy Example</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <link rel="stylesheet" type="text/css" href="restful.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script type="text/javascript" src="../shared/examples.js"></script>
+    <script type="text/javascript" src="restful.js"></script>
+</head>
+<body>
+    <h1>Rest Proxy Example</h1>
+<p>This example shows how to implement a Store using a REST proxy.
+
+<p>Note that the js is not minified so it is readable. See <a href="restful.js">restful.js</a></p>
+
+<p>Take note of the requests being generated in Firebug as you interact with the Grid.</p>
+
+<p>The Proxy in this example points to a single url <strong>app.php/users</strong>.  You may have to edit your web-server's configuration to allow the
+php back-end to be executable.  app.php implements a simple RESTful backend controller and simulates a database by storing records in the $_SESSION.</p>
+</body>
+</html>

@@ -1,0 +1,309 @@
+@mixin extjs-layout {
+    .#{$prefix}docked {
+        position: absolute;
+        z-index: 1;
+    }
+    
+    /**
+      * Dock Layouts
+      * @todo move this somewhere else?
+      */
+    .#{$prefix}docked-top {
+        border-bottom-width: 0 !important;
+    }
+
+    .#{$prefix}docked-bottom {
+        border-top-width: 0 !important;
+    }
+
+    .#{$prefix}docked-left {
+        border-right-width: 0 !important;
+    }
+
+    .#{$prefix}docked-right {
+        border-left-width: 0 !important;
+    }
+    
+    .#{$prefix}docked-noborder-top {
+        border-top-width: 0 !important;
+    }
+
+    .#{$prefix}docked-noborder-right {
+        border-right-width: 0 !important;
+    }
+    
+    .#{$prefix}docked-noborder-bottom {
+        border-bottom-width: 0 !important;
+    }
+    
+    .#{$prefix}docked-noborder-left {
+        border-left-width: 0 !important;
+    }
+    
+    .#{$prefix}box-inner {
+        overflow:hidden;
+
+        zoom:1;
+
+        position:relative;
+        left:0;
+        top:0;
+    }
+
+    .#{$prefix}box-item {
+        position:absolute !important;
+        left:0;
+        top:0;
+    }
+
+    .#{$prefix}box-layout-ct,
+    .#{$prefix}border-layout-ct {
+        overflow: hidden;
+        zoom: 1;
+    }
+
+    .#{$prefix}overflow-hidden {
+        overflow:hidden !important;
+    }
+
+    .#{$prefix}inline-children > * {
+        display: inline-block !important;
+    }
+
+    .#{$prefix}abs-layout-item {
+        position: absolute;
+    }
+
+    .#{$prefix}fit-item {
+        position: relative;
+    }
+
+    .#{$prefix}border-layout-ct {
+        background-color: $border-layout-ct-background;
+    }
+
+    .#{$prefix}border-region-slide-in {
+        z-index: 5;
+    }
+
+    .#{$prefix}region-collapsed-placeholder {
+        z-index: 4;
+    }
+
+    .#{$prefix}accordion-hd .#{$prefix}panel-header-text {
+        color: $accordion-header-color;
+        font-weight: normal;
+    }
+
+    .#{$prefix}accordion-hd {
+        .#{$prefix}tool-collapse-top,
+        .#{$prefix}tool-collapse-right,
+        .#{$prefix}tool-collapse-bottom,
+        .#{$prefix}tool-collapse-left {
+            background-position: 0 -255px;
+        }
+
+        .#{$prefix}tool-expand-top,
+        .#{$prefix}tool-expand-right,
+        .#{$prefix}tool-expand-bottom,
+        .#{$prefix}tool-expand-left {
+            background-position: 0 -240px;
+        }
+
+        .#{$prefix}tool-over {
+            .#{$prefix}tool-collapse-top,
+            .#{$prefix}tool-collapse-right,
+            .#{$prefix}tool-collapse-bottom,
+            .#{$prefix}tool-collapse-left {
+                background-position: -15px -255px;
+            }
+        }
+
+        .#{$prefix}tool-over {
+            .#{$prefix}tool-expand-top,
+            .#{$prefix}tool-expand-right,
+            .#{$prefix}tool-expand-bottom,
+            .#{$prefix}tool-expand-left {
+                background-position: -15px -240px;
+            }
+        }
+
+        background: $accordion-header-background-color !important;
+        @include single-box-shadow($accordion-header-background-color, 0, 0, 0, 0, true);
+    }
+
+    .#{$prefix}accordion-hd {
+        border-width: 1px 0 1px 0 !important;
+        padding: 4px 5px 5px 5px;
+        border-top-color: $panel-header-inner-border-color !important;
+    }
+    
+    .#{$prefix}accordion-body {
+        border-width: 0 !important;
+    }
+    
+    .#{$prefix}accordion-hd-sibling-expanded {
+        border-top-color: $panel-border-color !important;
+        @include single-box-shadow($panel-header-inner-border-color, 0, 1px, 0, 0, true);
+    }
+
+    .#{$prefix}accordion-hd-last-collapsed {
+        border-bottom-color: $accordion-header-background-color !important;
+    }
+
+    .#{$prefix}frame-tl,
+    .#{$prefix}frame-tr,
+    .#{$prefix}frame-tc,
+    .#{$prefix}frame-bl,
+    .#{$prefix}frame-br,
+    .#{$prefix}frame-bc {
+        overflow: hidden;
+        background-repeat: no-repeat;
+    }
+
+    .#{$prefix}frame-tc,
+    .#{$prefix}frame-bc {
+        background-repeat: repeat-x;
+    }
+
+    .#{$prefix}frame-mc {
+        position: relative;
+        background-repeat: repeat-x;
+        overflow: hidden;
+    }
+
+    // Classes for horizontal Box layout scroller.
+    // Uses the *TAB* scroller image because it's all we have.
+    // This will not work well in other cases
+    .#{$prefix}box-scroller-left {
+        float: left;
+        height: 100%;
+
+        z-index: 5;
+
+        .#{$prefix}toolbar-scroll-left,
+        .#{$prefix}tabbar-scroll-left {
+            width: 18px;
+            position: relative;
+            cursor: pointer;
+            height: $tab-height;
+            background: transparent no-repeat -18px 0;
+            background-image: theme-background-image($theme-name, 'tab-bar/scroll-left.gif');
+        }
+        .#{$prefix}toolbar-scroll-left-hover {
+            background-position: 0 0;
+        }
+        .#{$prefix}toolbar-scroll-left-disabled,
+        .#{$prefix}tabbar-scroll-left-disabled {
+            background-position: -18px 0;
+            @include opacity(.5);
+            
+            cursor:default;
+        }
+
+        .#{$prefix}toolbar-scroll-left {
+            background-image: theme-background-image($theme-name, 'toolbar/scroll-left.gif');
+            background-position: -14px 0;
+        }
+        .#{$prefix}toolbar-scroll-left-hover {
+            background-position: 0 0;
+        }
+        .#{$prefix}toolbar-scroll-left-disabled {
+            background-position: -14px 0;
+        }
+
+        .#{$prefix}toolbar-scroll-left {
+            width: 14px;
+            height: 22px;
+
+            border-bottom: 1px solid #8db2e3;
+        }
+    }
+
+    .#{$prefix}horizontal-box-overflow-body {
+        float: left;
+    }
+    .#{$prefix}box-scroller-right {
+        float: right;
+        height: 100%;
+
+        z-index: 5;
+
+        .#{$prefix}toolbar-scroll-right,
+        .#{$prefix}tabbar-scroll-right {
+            width: 18px;
+            position: relative;
+            cursor: pointer;
+            height: $tab-height;
+            background: transparent no-repeat 0 0;
+            background-image: theme-background-image($theme-name, 'tab-bar/scroll-right.gif');
+        }
+        .#{$prefix}toolbar-scroll-right-hover {
+            background-position: -18px 0;
+        }
+        .#{$prefix}toolbar-scroll-right-disabled,
+        .#{$prefix}tabbar-scroll-right-disabled {
+            background-position: 0 0;
+            @include opacity(.5);
+            
+            cursor:default;
+        }
+
+        .#{$prefix}toolbar-scroll-right {
+            background-image: theme-background-image($theme-name, 'toolbar/scroll-right.gif');
+        }
+        .#{$prefix}toolbar-scroll-right-hover {
+            background-position: -14px 0;
+        }
+        .#{$prefix}toolbar-scroll-right-disabled {
+            background-position: 0 0;
+        }
+
+        .#{$prefix}toolbar-scroll-right {
+            width: 14px;
+            height: 22px;
+
+            border-bottom: 1px solid #8db2e3;
+        }
+    }
+
+// Classes for vertical Box layout scroller
+    .#{$prefix}box-scroller-top {
+        .#{$prefix}box-scroller {
+            line-height: 0;
+            font-size: 0;
+        }
+        .#{$prefix}menu-scroll-top {
+            background: transparent no-repeat center center;
+            background-image: theme-background-image($theme-name, 'layout/mini-top.gif');
+            height: 8px;
+            cursor: pointer;
+        }
+    }
+    .#{$prefix}box-scroller-bottom {
+        .#{$prefix}box-scroller {
+            line-height: 0;
+            font-size: 0;
+        }
+        .#{$prefix}menu-scroll-bottom {
+            background: transparent no-repeat center center;
+            background-image: theme-background-image($theme-name, 'layout/mini-bottom.gif');
+            height: 8px;
+            cursor: pointer;
+        }
+    }
+
+    .#{$prefix}box-menu-right {
+        float: right;
+        padding-right: $toolbar-horizontal-spacing;
+    }
+
+    .#{$prefix}column {
+        float: left;
+    }
+    @if $include-ie {
+        .#{$prefix}ie6 .#{$prefix}column {
+            display: inline; /*prevent IE6 double-margin bug*/
+        }
+    }
+}

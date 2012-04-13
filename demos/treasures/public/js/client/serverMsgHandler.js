@@ -182,6 +182,7 @@ function onLogin(data){
 //    alert("登录调用成功！用户已经存在\n sessionId:" + sid + " code:" + data.code);
 //    loginUsername = "";
     clientManager.uid = userData.uid;
+    clientManager.areaId = userData.sceneId;
     sceneManager.enterScene({}, userData);
 
     clientManager.getCurrentScene();
@@ -206,6 +207,7 @@ function onRegister(data){
 //    loginUsername = "";
       
       clientManager.uid = userData.uid;
+      clientManager.areaId = userData.sceneId;
       sceneManager.enterScene({}, userData);
       
       

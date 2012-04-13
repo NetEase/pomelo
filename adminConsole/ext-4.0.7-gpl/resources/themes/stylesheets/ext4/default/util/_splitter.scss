@@ -1,0 +1,106 @@
+@mixin extjs-splitter {
+    .#{$prefix}splitter {
+        .#{$prefix}collapse-el {
+            position: absolute;
+
+            cursor: pointer;
+
+            background-color: transparent;
+            background-repeat: no-repeat !important;
+        }
+    }
+
+    .#{$prefix}layout-split-left,
+    .#{$prefix}layout-split-right {
+        top: 50%;
+
+        margin-top: -17px;
+
+        width: 5px;
+        height: 35px;
+    }
+
+    .#{$prefix}layout-split-top,
+    .#{$prefix}layout-split-bottom {
+        left: 50%;
+
+        width: 35px;
+        height: 5px;
+
+        margin-left: -17px;
+    }
+
+    .#{$prefix}layout-split-left {
+        background: no-repeat top right;
+        background-image: theme-background-image($theme-name, 'util/splitter/mini-left.gif');
+    }
+
+    .#{$prefix}layout-split-right {
+        background: no-repeat top left;
+        background-image: theme-background-image($theme-name, 'util/splitter/mini-right.gif');
+    }
+
+    .#{$prefix}layout-split-top {
+        background: no-repeat top left;
+        background-image: theme-background-image($theme-name, 'util/splitter/mini-top.gif');
+    }
+
+    .#{$prefix}layout-split-bottom {
+        background: no-repeat top left;
+        background-image: theme-background-image($theme-name, 'util/splitter/mini-bottom.gif');
+    }
+
+    .#{$prefix}splitter-collapsed {
+        .#{$prefix}layout-split-left {
+            background: no-repeat top left;
+            background-image: theme-background-image($theme-name, 'util/splitter/mini-right.gif');
+        }
+
+        .#{$prefix}layout-split-right {
+            background: no-repeat top right;
+            background-image: theme-background-image($theme-name, 'util/splitter/mini-left.gif');
+        }
+
+        .#{$prefix}layout-split-top {
+            background: no-repeat top left;
+            background-image: theme-background-image($theme-name, 'util/splitter/mini-bottom.gif');
+        }
+
+        .#{$prefix}layout-split-bottom {
+            background: no-repeat top left;
+            background-image: theme-background-image($theme-name, 'util/splitter/mini-top.gif');
+        }
+    }
+
+    .#{$prefix}splitter-horizontal {
+        cursor: e-resize;
+        cursor: row-resize;
+        font-size:1px;
+    }
+    .#{$prefix}splitter-vertical {
+        cursor: e-resize;
+        cursor: col-resize;
+        font-size:1px;
+    }
+    .#{$prefix}splitter-collapsed {
+        cursor: default;
+    }
+
+    .#{$prefix}splitter-active {
+        z-index: 4;
+        font-size:1px;
+        background-color: rgb(180, 180, 180);
+        @include opacity(0.8);
+    }
+    .#{$prefix}splitter-active {
+        .#{$prefix}collapse-el {
+            @include opacity(0.3);
+        }
+    }
+
+    .#{$prefix}proxy-el {
+        position: absolute;
+        background: rgb(180, 180, 180);
+        @include opacity(0.8);
+    }
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-fx-Queue'>/**
+</span> * @class Ext.fx.Queue
+ * Animation Queue mixin to handle chaining and queueing by target.
+ * @private
+ */
+
+Ext.define('Ext.fx.Queue', {
+
+    requires: ['Ext.util.HashMap'],
+
+    constructor: function() {
+        this.targets = Ext.create('Ext.util.HashMap');
+        this.fxQueue = {};
+    },
+
+    // @private
+    getFxDefaults: function(targetId) {
+        var target = this.targets.get(targetId);
+        if (target) {
+            return target.fxDefaults;
+        }
+        return {};
+    },
+
+    // @private
+    setFxDefaults: function(targetId, obj) {
+        var target = this.targets.get(targetId);
+        if (target) {
+            target.fxDefaults = Ext.apply(target.fxDefaults || {}, obj);
+        }
+    },
+
+    // @private
+    stopAnimation: function(targetId) {
+        var me = this,
+            queue = me.getFxQueue(targetId),
+            ln = queue.length;
+        while (ln) {
+            queue[ln - 1].end();
+            ln--;
+        }
+    },
+
+<span id='Ext-fx-Queue-method-getActiveAnimation'>    /**
+</span>     * @private
+     * Returns current animation object if the element has any effects actively running or queued, else returns false.
+     */
+    getActiveAnimation: function(targetId) {
+        var queue = this.getFxQueue(targetId);
+        return (queue &amp;&amp; !!queue.length) ? queue[0] : false;
+    },
+
+    // @private
+    hasFxBlock: function(targetId) {
+        var queue = this.getFxQueue(targetId);
+        return queue &amp;&amp; queue[0] &amp;&amp; queue[0].block;
+    },
+
+    // @private get fx queue for passed target, create if needed.
+    getFxQueue: function(targetId) {
+        if (!targetId) {
+            return false;
+        }
+        var me = this,
+            queue = me.fxQueue[targetId],
+            target = me.targets.get(targetId);
+
+        if (!target) {
+            return false;
+        }
+
+        if (!queue) {
+            me.fxQueue[targetId] = [];
+            // GarbageCollector will need to clean up Elements since they aren't currently observable
+            if (target.type != 'element') {
+                target.target.on('destroy', function() {
+                    me.fxQueue[targetId] = [];
+                });
+            }
+        }
+        return me.fxQueue[targetId];
+    },
+
+    // @private
+    queueFx: function(anim) {
+        var me = this,
+            target = anim.target,
+            queue, ln;
+
+        if (!target) {
+            return;
+        }
+
+        queue = me.getFxQueue(target.getId());
+        ln = queue.length;
+
+        if (ln) {
+            if (anim.concurrent) {
+                anim.paused = false;
+            }
+            else {
+                queue[ln - 1].on('afteranimate', function() {
+                    anim.paused = false;
+                });
+            }
+        }
+        else {
+            anim.paused = false;
+        }
+        anim.on('afteranimate', function() {
+            Ext.Array.remove(queue, anim);
+            if (anim.remove) {
+                if (target.type == 'element') {
+                    var el = Ext.get(target.id);
+                    if (el) {
+                        el.remove();
+                    }
+                }
+            }
+        }, this);
+        queue.push(anim);
+    }
+});</pre>
+</body>
+</html>

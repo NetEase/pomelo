@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-layout-container-boxOverflow-None'>/**
+</span> * @private
+ * Base class for Box Layout overflow handlers. These specialized classes are invoked when a Box Layout
+ * (either an HBox or a VBox) has child items that are either too wide (for HBox) or too tall (for VBox)
+ * for its container.
+ */
+Ext.define('Ext.layout.container.boxOverflow.None', {
+    
+    alternateClassName: 'Ext.layout.boxOverflow.None',
+    
+    constructor: function(layout, config) {
+        this.layout = layout;
+        Ext.apply(this, config || {});
+    },
+
+    handleOverflow: Ext.emptyFn,
+
+    clearOverflow: Ext.emptyFn,
+    
+    onRemove: Ext.emptyFn,
+
+<span id='Ext-layout-container-boxOverflow-None-method-getItem'>    /**
+</span>     * @private
+     * Normalizes an item reference, string id or numerical index into a reference to the item
+     * @param {Ext.Component/String/Number} item The item reference, id or index
+     * @return {Ext.Component} The item
+     */
+    getItem: function(item) {
+        return this.layout.owner.getComponent(item);
+    },
+    
+    onRemove: Ext.emptyFn
+});</pre>
+</body>
+</html>

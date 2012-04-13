@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-writer-Json'>/**
+</span> * @class Ext.data.writer.Json
+ * @extends Ext.data.writer.Writer
+
+This class is used to write {@link Ext.data.Model} data to the server in a JSON format.
+The {@link #allowSingle} configuration can be set to false to force the records to always be
+encoded in an array, even if there is only a single record being sent.
+
+ * @markdown
+ */
+Ext.define('Ext.data.writer.Json', {
+    extend: 'Ext.data.writer.Writer',
+    alternateClassName: 'Ext.data.JsonWriter',
+    alias: 'writer.json',
+    
+<span id='Ext-data-writer-Json-cfg-root'>    /**
+</span>     * @cfg {String} root The key under which the records in this Writer will be placed. Defaults to &lt;tt&gt;undefined&lt;/tt&gt;.
+     * Example generated request, using root: 'records':
+&lt;pre&gt;&lt;code&gt;
+{'records': [{name: 'my record'}, {name: 'another record'}]}
+&lt;/code&gt;&lt;/pre&gt;
+     */
+    root: undefined,
+    
+<span id='Ext-data-writer-Json-cfg-encode'>    /**
+</span>     * @cfg {Boolean} encode True to use Ext.encode() on the data before sending. Defaults to &lt;tt&gt;false&lt;/tt&gt;.
+     * The encode option should only be set to true when a {@link #root} is defined, because the values will be
+     * sent as part of the request parameters as opposed to a raw post. The root will be the name of the parameter
+     * sent to the server.
+     */
+    encode: false,
+    
+<span id='Ext-data-writer-Json-cfg-allowSingle'>    /**
+</span>     * @cfg {Boolean} allowSingle False to ensure that records are always wrapped in an array, even if there is only
+     * one record being sent. When there is more than one record, they will always be encoded into an array.
+     * Defaults to &lt;tt&gt;true&lt;/tt&gt;. Example:
+     * &lt;pre&gt;&lt;code&gt;
+// with allowSingle: true
+&quot;root&quot;: {
+    &quot;first&quot;: &quot;Mark&quot;,
+    &quot;last&quot;: &quot;Corrigan&quot;
+}
+
+// with allowSingle: false
+&quot;root&quot;: [{
+    &quot;first&quot;: &quot;Mark&quot;,
+    &quot;last&quot;: &quot;Corrigan&quot;
+}]
+     * &lt;/code&gt;&lt;/pre&gt;
+     */
+    allowSingle: true,
+    
+    //inherit docs
+    writeRecords: function(request, data) {
+        var root = this.root;
+        
+        if (this.allowSingle &amp;&amp; data.length == 1) {
+            // convert to single object format
+            data = data[0];
+        }
+        
+        if (this.encode) {
+            if (root) {
+                // sending as a param, need to encode
+                request.params[root] = Ext.encode(data);
+            } else {
+                //&lt;debug&gt;
+                Ext.Error.raise('Must specify a root when using encode');
+                //&lt;/debug&gt;
+            }
+        } else {
+            // send as jsonData
+            request.jsonData = request.jsonData || {};
+            if (root) {
+                request.jsonData[root] = data;
+            } else {
+                request.jsonData = data;
+            }
+        }
+        return request;
+    }
+});
+</pre>
+</body>
+</html>

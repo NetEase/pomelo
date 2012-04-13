@@ -16,7 +16,7 @@ if(!channel)
  */
 handler.generateTreasures = function(msg, session){
   var params = msg.params;
-  var sceneId = 0;
+  var sceneId = 1;
 	logger.debug('generateTreasures event info'+sceneId);
 	treasureService.generateTreasures(sceneId,function(err,data){
         var msg={"route":"area.treasureHandler.getTreasures","code":200,"result":data.treasures};

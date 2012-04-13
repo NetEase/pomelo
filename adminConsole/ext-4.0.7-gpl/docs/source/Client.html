@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-proxy-Client'>/**
+</span> * @author Ed Spencer
+ *
+ * Base class for any client-side storage. Used as a superclass for {@link Ext.data.proxy.Memory Memory} and
+ * {@link Ext.data.proxy.WebStorage Web Storage} proxies. Do not use directly, use one of the subclasses instead.
+ * @private
+ */
+Ext.define('Ext.data.proxy.Client', {
+    extend: 'Ext.data.proxy.Proxy',
+    alternateClassName: 'Ext.data.ClientProxy',
+
+<span id='Ext-data-proxy-Client-method-clear'>    /**
+</span>     * Abstract function that must be implemented by each ClientProxy subclass. This should purge all record data
+     * from the client side storage, as well as removing any supporting data (such as lists of record IDs)
+     */
+    clear: function() {
+        //&lt;debug&gt;
+        Ext.Error.raise(&quot;The Ext.data.proxy.Client subclass that you are using has not defined a 'clear' function. See src/data/ClientProxy.js for details.&quot;);
+        //&lt;/debug&gt;
+    }
+});</pre>
+</body>
+</html>

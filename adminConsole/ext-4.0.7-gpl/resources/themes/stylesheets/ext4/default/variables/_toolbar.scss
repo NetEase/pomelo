@@ -1,0 +1,30 @@
+$toolbar-font-size: ceil($font-size * .9) !default;
+
+$toolbar-background-color: adjust-color($base-color, $hue: -1.333deg, $saturation: -3.831%, $lightness: 4.51%) !default;
+$toolbar-background-gradient: color_stops(lighten($toolbar-background-color, 3), $toolbar-background-color) !default;
+$toolbar-inner-border-width: 1px 0px 0px !default;
+$toolbar-inner-border-color: lighten($toolbar-background-color, 5%) !default;
+
+//margins
+$toolbar-horizontal-spacing: 2px;
+$toolbar-vertical-spacing: 2px;
+$toolbar-footer-horizontal-spacing: 6px;
+$toolbar-footer-vertical-spacing: 2px;
+
+//border
+$toolbar-border-color: $panel-body-border-color !default;
+
+//spacer
+$toolbar-spacer-width: 2px !default;
+
+//separator
+$toolbar-separator-color: #98c8ff !default;
+$toolbar-separator-highlight-color: #fff !default;
+
+//text
+$toolbar-text-font-family: $font-family;
+$toolbar-text-font-size: ceil($font-size * .9) !default; //11px
+$toolbar-text-font-weight: normal !default;
+$toolbar-text-color: mix($mix-color, #000, 30) !default;
+$toolbar-text-padding: 3px 4px 0 4px !default;
+$toolbar-text-line-height: 16px !default;

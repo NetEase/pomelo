@@ -1,0 +1,1927 @@
+{
+    "projectName": "Ext JS 4 SDK",
+    "licenseText": "\nThis file is part of Ext JS 4\n\nCopyright (c) 2011 Sencha Inc\n\nContact:  http://www.sencha.com/contact\n\nGNU General Public License Usage\nThis file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.\n\nIf you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.\n",
+    "packages": [
+        {
+            "name": "Foundation",
+            "target": "pkgs/foundation.js",
+            "id": "foundation",
+            "files": [
+                {
+                    "path": "../../platform/core/src/",
+                    "name": "Ext.js"
+                },
+                {
+                    "path": "../../platform/core/src/version/",
+                    "name": "Version.js"
+                },
+                {
+                    "path": "../../platform/core/src/lang/",
+                    "name": "String.js"
+                },
+                {
+                    "path": "../../platform/core/src/lang/",
+                    "name": "Number.js"
+                },
+                {
+                    "path": "../../platform/core/src/lang/",
+                    "name": "Array.js"
+                },
+                {
+                    "path": "../../platform/core/src/lang/",
+                    "name": "Function.js"
+                },
+                {
+                    "path": "../../platform/core/src/lang/",
+                    "name": "Object.js"
+                },
+                {
+                    "path": "../../platform/core/src/lang/",
+                    "name": "Date.js"
+                },
+                {
+                    "path": "../../platform/core/src/class/",
+                    "name": "Base.js"
+                },
+                {
+                    "path": "../../platform/core/src/class/",
+                    "name": "Class.js"
+                },
+                {
+                    "path": "../../platform/core/src/class/",
+                    "name": "ClassManager.js"
+                },
+                {
+                    "path": "../../platform/core/src/class/",
+                    "name": "Loader.js"
+                },
+                {
+                    "path": "../../platform/core/src/lang/",
+                    "name": "Error.js"
+                }
+            ]
+        },
+        {
+            "name": "Extras",
+            "target": "pkgs/extras.js",
+            "id": "extras",
+            "files": [
+                {
+                    "path": "../../platform/core/src/misc/",
+                    "name": "JSON.js"
+                },
+                {
+                    "path": "../../platform/core/src/",
+                    "name": "Ext-more.js"
+                },
+                {
+                    "path": "../../platform/core/src/util/",
+                    "name": "Format.js"
+                },
+                {
+                    "path": "../../platform/core/src/util/",
+                    "name": "TaskManager.js"
+                },
+                {
+                    "path": "../../platform/core/src/",
+                    "name": "Support.js"
+                }
+            ]
+        },
+        {
+            "name": "DOM",
+            "target": "pkgs/dom.js",
+            "id": "dom",
+            "files": [
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "DomHelper.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "DomQuery.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.traversal.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.insertion.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.style.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.fx.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.anim.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.static.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "CompositeElementLite.js"
+                },
+                {
+                    "path": "../../platform/core/src/util/",
+                    "name": "DelayedTask.js"
+                },
+                {
+                    "path": "../../platform/core/src/util/",
+                    "name": "Event.js"
+                },
+                {
+                    "path": "../../platform/core/src/",
+                    "name": "EventManager.js"
+                },
+                {
+                    "path": "../../platform/core/src/",
+                    "name": "EventObject.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.static-more.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element-more.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.alignment.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.position.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.scroll.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.fx-more.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "Element.keys.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "CompositeElementLite-more.js"
+                },
+                {
+                    "path": "../../platform/core/src/dom/",
+                    "name": "CompositeElement.js"
+                }
+            ]
+        },
+        {
+            "name": "Classes",
+            "target": "pkgs/classes.js",
+            "id": "classes",
+            "files": [
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Observable.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "Animate.js"
+                },
+                {
+                    "path": "../../platform/src/state/",
+                    "name": "Provider.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "ComponentQuery.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "HashMap.js"
+                },
+                {
+                    "path": "../../platform/src/state/",
+                    "name": "Manager.js"
+                },
+                {
+                    "path": "../../platform/src/state/",
+                    "name": "Stateful.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "AbstractManager.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "ComponentManager.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "AbstractComponent.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "AbstractPlugin.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Connection.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "Ajax.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "ElementLoader.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "ComponentLoader.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Association.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "ModelManager.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "PluginManager.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "Template.js"
+                },
+                {
+                    "path": "../../platform/src/",
+                    "name": "XTemplate.js"
+                },
+                {
+                    "path": "../../platform/src/app/",
+                    "name": "Controller.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "IdGenerator.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "SortTypes.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Filter.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Sorter.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Operation.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "validations.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "ResultSet.js"
+                },
+                {
+                    "path": "../../platform/src/data/writer/",
+                    "name": "Writer.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "Floating.js"
+                },
+                {
+                    "path": "../../platform/src/layout/",
+                    "name": "Layout.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "ZIndexManager.js"
+                },
+                {
+                    "path": "../src/layout/container/boxOverflow/",
+                    "name": "None.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "KeyMap.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "ClickRepeater.js"
+                },
+                {
+                    "path": "../../platform/src/layout/component/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "TextMetrics.js"
+                },
+                {
+                    "path": "../src/layout/container/boxOverflow/",
+                    "name": "Scroller.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Offset.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "KeyNav.js"
+                },
+                {
+                    "path": "../../platform/src/fx/",
+                    "name": "Queue.js"
+                },
+                {
+                    "path": "../../platform/src/fx/target/",
+                    "name": "Target.js"
+                },
+                {
+                    "path": "../../platform/src/fx/target/",
+                    "name": "Sprite.js"
+                },
+                {
+                    "path": "../../platform/src/fx/target/",
+                    "name": "CompositeSprite.js"
+                },
+                {
+                    "path": "../../platform/src/fx/target/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "../../platform/src/fx/",
+                    "name": "CubicBezier.js"
+                },
+                {
+                    "path": "../../platform/src/draw/",
+                    "name": "Color.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "StatusProxy.js"
+                },
+                {
+                    "path": "../src/panel/",
+                    "name": "Proxy.js"
+                },
+                {
+                    "path": "../../platform/src/layout/component/",
+                    "name": "AbstractDock.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Memento.js"
+                },
+                {
+                    "path": "../../platform/src/app/",
+                    "name": "EventBus.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Types.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Field.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "AbstractMixedCollection.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Sortable.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "MixedCollection.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Errors.js"
+                },
+                {
+                    "path": "../../platform/src/data/reader/",
+                    "name": "Reader.js"
+                },
+                {
+                    "path": "../../platform/src/data/reader/",
+                    "name": "Json.js"
+                },
+                {
+                    "path": "../../platform/src/data/writer/",
+                    "name": "Json.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "Proxy.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "Server.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "Ajax.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Model.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "StoreManager.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "../../platform/src/layout/container/",
+                    "name": "AbstractContainer.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Container.js"
+                },
+                {
+                    "path": "../../platform/src/layout/container/",
+                    "name": "Auto.js"
+                },
+                {
+                    "path": "../../platform/src/container/",
+                    "name": "AbstractContainer.js"
+                },
+                {
+                    "path": "../src/container/",
+                    "name": "Container.js"
+                },
+                {
+                    "path": "../src/toolbar/",
+                    "name": "Fill.js"
+                },
+                {
+                    "path": "../src/toolbar/",
+                    "name": "Item.js"
+                },
+                {
+                    "path": "../src/toolbar/",
+                    "name": "Separator.js"
+                },
+                {
+                    "path": "../src/menu/",
+                    "name": "Manager.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "Button.js"
+                },
+                {
+                    "path": "../src/button/",
+                    "name": "Button.js"
+                },
+                {
+                    "path": "../src/layout/container/boxOverflow/",
+                    "name": "Menu.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Region.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DragDropManager.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Box.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "HBox.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "VBox.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "FocusManager.js"
+                },
+                {
+                    "path": "../src/toolbar/",
+                    "name": "Toolbar.js"
+                },
+                {
+                    "path": "../../platform/src/panel/",
+                    "name": "AbstractPanel.js"
+                },
+                {
+                    "path": "../src/panel/",
+                    "name": "Header.js"
+                },
+                {
+                    "path": "../../platform/src/fx/target/",
+                    "name": "Element.js"
+                },
+                {
+                    "path": "../../platform/src/fx/target/",
+                    "name": "CompositeElement.js"
+                },
+                {
+                    "path": "../../platform/src/fx/",
+                    "name": "Manager.js"
+                },
+                {
+                    "path": "../../platform/src/fx/",
+                    "name": "Animator.js"
+                },
+                {
+                    "path": "../../platform/src/fx/",
+                    "name": "Easing.js"
+                },
+                {
+                    "path": "../../platform/src/draw/",
+                    "name": "Draw.js"
+                },
+                {
+                    "path": "../../platform/src/fx/",
+                    "name": "PropertyHandler.js"
+                },
+                {
+                    "path": "../../platform/src/fx/",
+                    "name": "Anim.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DragDrop.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DD.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DDProxy.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DragSource.js"
+                },
+                {
+                    "path": "../src/panel/",
+                    "name": "DD.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "Dock.js"
+                },
+                {
+                    "path": "../src/panel/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "Tip.js"
+                },
+                {
+                    "path": "../src/tip/",
+                    "name": "Tip.js"
+                },
+                {
+                    "path": "../src/tip/",
+                    "name": "ToolTip.js"
+                },
+                {
+                    "path": "../src/tip/",
+                    "name": "QuickTip.js"
+                },
+                {
+                    "path": "../src/tip/",
+                    "name": "QuickTipManager.js"
+                },
+                {
+                    "path": "../../platform/src/app/",
+                    "name": "Application.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Callout.js"
+                },
+                {
+                    "path": "../../platform/src/draw/",
+                    "name": "CompositeSprite.js"
+                },
+                {
+                    "path": "../../platform/src/layout/component/",
+                    "name": "Auto.js"
+                },
+                {
+                    "path": "../../platform/src/chart/theme/",
+                    "name": "Theme.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Mask.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Navigation.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Shape.js"
+                },
+                {
+                    "path": "../../platform/src/draw/",
+                    "name": "Surface.js"
+                },
+                {
+                    "path": "../../platform/src/layout/component/",
+                    "name": "Draw.js"
+                },
+                {
+                    "path": "../../platform/src/draw/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "LegendItem.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Legend.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Chart.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Highlight.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Label.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "MaskLayer.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "TipSurface.js"
+                },
+                {
+                    "path": "../../platform/src/chart/",
+                    "name": "Tip.js"
+                },
+                {
+                    "path": "../../platform/src/chart/axis/",
+                    "name": "Abstract.js"
+                },
+                {
+                    "path": "../../platform/src/chart/axis/",
+                    "name": "Axis.js"
+                },
+                {
+                    "path": "../../platform/src/chart/axis/",
+                    "name": "Category.js"
+                },
+                {
+                    "path": "../../platform/src/chart/axis/",
+                    "name": "Gauge.js"
+                },
+                {
+                    "path": "../../platform/src/chart/axis/",
+                    "name": "Numeric.js"
+                },
+                {
+                    "path": "../../platform/src/chart/axis/",
+                    "name": "Radial.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "AbstractStore.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Grouper.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Store.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "JsonStore.js"
+                },
+                {
+                    "path": "../../platform/src/chart/axis/",
+                    "name": "Time.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Series.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Cartesian.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Area.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Bar.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Column.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Gauge.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Line.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Pie.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Radar.js"
+                },
+                {
+                    "path": "../../platform/src/chart/series/",
+                    "name": "Scatter.js"
+                },
+                {
+                    "path": "../../platform/src/chart/theme/",
+                    "name": "Base.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "ArrayStore.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Batch.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "BelongsToAssociation.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "BufferStore.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "Manager.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "Direct.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "DirectStore.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Inflector.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "HasManyAssociation.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "JsonP.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "JsonPStore.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "NodeInterface.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "NodeStore.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Request.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "SequentialIdGenerator.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "Tree.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "TreeStore.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "UuidGenerator.js"
+                },
+                {
+                    "path": "../../platform/src/data/",
+                    "name": "XmlStore.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "Client.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "JsonP.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "WebStorage.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "LocalStorage.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "Memory.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "Rest.js"
+                },
+                {
+                    "path": "../../platform/src/data/proxy/",
+                    "name": "SessionStorage.js"
+                },
+                {
+                    "path": "../../platform/src/data/reader/",
+                    "name": "Array.js"
+                },
+                {
+                    "path": "../../platform/src/data/reader/",
+                    "name": "Xml.js"
+                },
+                {
+                    "path": "../../platform/src/data/writer/",
+                    "name": "Xml.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "Event.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "RemotingEvent.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "ExceptionEvent.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "Provider.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "JsonProvider.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "PollingProvider.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "RemotingMethod.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "Transaction.js"
+                },
+                {
+                    "path": "../../platform/src/direct/",
+                    "name": "RemotingProvider.js"
+                },
+                {
+                    "path": "../../platform/src/draw/",
+                    "name": "Matrix.js"
+                },
+                {
+                    "path": "../../platform/src/draw/",
+                    "name": "SpriteDD.js"
+                },
+                {
+                    "path": "../../platform/src/draw/",
+                    "name": "Sprite.js"
+                },
+                {
+                    "path": "../../platform/src/draw/engine/",
+                    "name": "Svg.js"
+                },
+                {
+                    "path": "../../platform/src/draw/engine/",
+                    "name": "Vml.js"
+                },
+                {
+                    "path": "../../platform/src/fx/target/",
+                    "name": "ElementCSS.js"
+                },
+                {
+                    "path": "../../platform/src/fx/target/",
+                    "name": "CompositeElementCSS.js"
+                },
+                {
+                    "path": "../../platform/src/layout/container/",
+                    "name": "AbstractFit.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Fit.js"
+                },
+                {
+                    "path": "../../platform/src/layout/container/",
+                    "name": "AbstractCard.js"
+                },
+                {
+                    "path": "../../platform/src/selection/",
+                    "name": "Model.js"
+                },
+                {
+                    "path": "../../platform/src/selection/",
+                    "name": "DataViewModel.js"
+                },
+                {
+                    "path": "../../platform/src/state/",
+                    "name": "CookieProvider.js"
+                },
+                {
+                    "path": "../../platform/src/state/",
+                    "name": "LocalStorageProvider.js"
+                },
+                {
+                    "path": "../../platform/src/util/",
+                    "name": "Point.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "LoadMask.js"
+                },
+                {
+                    "path": "../../platform/src/view/",
+                    "name": "AbstractView.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "Action.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "Editor.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "Editor.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "Img.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "Layer.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "ProgressBar.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "ProgressBar.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "ShadowPool.js"
+                },
+                {
+                    "path": "../src/",
+                    "name": "Shadow.js"
+                },
+                {
+                    "path": "../src/button/",
+                    "name": "Split.js"
+                },
+                {
+                    "path": "../src/button/",
+                    "name": "Cycle.js"
+                },
+                {
+                    "path": "../src/container/",
+                    "name": "ButtonGroup.js"
+                },
+                {
+                    "path": "../src/container/",
+                    "name": "Viewport.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DDTarget.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DragTracker.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DragZone.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "ScrollManager.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DropTarget.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "Registry.js"
+                },
+                {
+                    "path": "../src/dd/",
+                    "name": "DropZone.js"
+                },
+                {
+                    "path": "../src/flash/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "../src/form/action/",
+                    "name": "Action.js"
+                },
+                {
+                    "path": "../src/form/action/",
+                    "name": "Submit.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "ComponentDragger.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "Labelable.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Field.js"
+                },
+                {
+                    "path": "../src/layout/component/field/",
+                    "name": "Field.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "VTypes.js"
+                },
+                {
+                    "path": "../src/layout/component/field/",
+                    "name": "Text.js"
+                },
+                {
+                    "path": "../src/layout/component/field/",
+                    "name": "TextArea.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Anchor.js"
+                },
+                {
+                    "path": "../src/form/action/",
+                    "name": "Load.js"
+                },
+                {
+                    "path": "../src/window/",
+                    "name": "Window.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Base.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Text.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "TextArea.js"
+                },
+                {
+                    "path": "../src/window/",
+                    "name": "MessageBox.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "Basic.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "FieldAncestor.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "CheckboxGroup.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "FieldContainer.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "CheckboxGroup.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "CheckboxManager.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "FieldSet.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "Label.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "RadioGroup.js"
+                },
+                {
+                    "path": "../src/form/",
+                    "name": "RadioManager.js"
+                },
+                {
+                    "path": "../src/form/action/",
+                    "name": "DirectLoad.js"
+                },
+                {
+                    "path": "../src/form/action/",
+                    "name": "DirectSubmit.js"
+                },
+                {
+                    "path": "../src/form/action/",
+                    "name": "StandardSubmit.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Checkbox.js"
+                },
+                {
+                    "path": "../src/layout/component/field/",
+                    "name": "Trigger.js"
+                },
+                {
+                    "path": "../src/view/",
+                    "name": "View.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "BoundList.js"
+                },
+                {
+                    "path": "../src/toolbar/",
+                    "name": "TextItem.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Trigger.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Picker.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Spinner.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Number.js"
+                },
+                {
+                    "path": "../src/toolbar/",
+                    "name": "Paging.js"
+                },
+                {
+                    "path": "../src/view/",
+                    "name": "BoundList.js"
+                },
+                {
+                    "path": "../src/view/",
+                    "name": "BoundListKeyNav.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "ComboBox.js"
+                },
+                {
+                    "path": "../src/picker/",
+                    "name": "Month.js"
+                },
+                {
+                    "path": "../src/picker/",
+                    "name": "Date.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Date.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Display.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "File.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Hidden.js"
+                },
+                {
+                    "path": "../src/picker/",
+                    "name": "Color.js"
+                },
+                {
+                    "path": "../src/layout/component/field/",
+                    "name": "HtmlEditor.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "HtmlEditor.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Radio.js"
+                },
+                {
+                    "path": "../src/picker/",
+                    "name": "Time.js"
+                },
+                {
+                    "path": "../src/form/field/",
+                    "name": "Time.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "CellEditor.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "ColumnLayout.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "LockingView.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "Lockable.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "Scroller.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "PagingScroller.js"
+                },
+                {
+                    "path": "../src/panel/",
+                    "name": "Table.js"
+                },
+                {
+                    "path": "../src/view/",
+                    "name": "Table.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "View.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "RowEditor.js"
+                },
+                {
+                    "path": "../src/grid/header/",
+                    "name": "Container.js"
+                },
+                {
+                    "path": "../src/grid/column/",
+                    "name": "Column.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "RowNumberer.js"
+                },
+                {
+                    "path": "../src/view/",
+                    "name": "DropZone.js"
+                },
+                {
+                    "path": "../src/grid/",
+                    "name": "ViewDropZone.js"
+                },
+                {
+                    "path": "../src/grid/column/",
+                    "name": "Action.js"
+                },
+                {
+                    "path": "../src/grid/column/",
+                    "name": "Boolean.js"
+                },
+                {
+                    "path": "../src/grid/column/",
+                    "name": "Date.js"
+                },
+                {
+                    "path": "../src/grid/column/",
+                    "name": "Number.js"
+                },
+                {
+                    "path": "../src/grid/column/",
+                    "name": "Template.js"
+                },
+                {
+                    "path": "../src/grid/feature/",
+                    "name": "Feature.js"
+                },
+                {
+                    "path": "../src/grid/feature/",
+                    "name": "AbstractSummary.js"
+                },
+                {
+                    "path": "../src/grid/feature/",
+                    "name": "Chunking.js"
+                },
+                {
+                    "path": "../src/grid/feature/",
+                    "name": "Grouping.js"
+                },
+                {
+                    "path": "../src/grid/feature/",
+                    "name": "GroupingSummary.js"
+                },
+                {
+                    "path": "../src/grid/feature/",
+                    "name": "RowBody.js"
+                },
+                {
+                    "path": "../src/grid/feature/",
+                    "name": "RowWrap.js"
+                },
+                {
+                    "path": "../src/grid/feature/",
+                    "name": "Summary.js"
+                },
+                {
+                    "path": "../src/grid/header/",
+                    "name": "DragZone.js"
+                },
+                {
+                    "path": "../src/grid/header/",
+                    "name": "DropZone.js"
+                },
+                {
+                    "path": "../src/grid/plugin/",
+                    "name": "Editing.js"
+                },
+                {
+                    "path": "../src/grid/plugin/",
+                    "name": "CellEditing.js"
+                },
+                {
+                    "path": "../src/grid/plugin/",
+                    "name": "DragDrop.js"
+                },
+                {
+                    "path": "../src/grid/plugin/",
+                    "name": "HeaderReorderer.js"
+                },
+                {
+                    "path": "../src/grid/plugin/",
+                    "name": "HeaderResizer.js"
+                },
+                {
+                    "path": "../src/grid/plugin/",
+                    "name": "RowEditing.js"
+                },
+                {
+                    "path": "../src/grid/property/",
+                    "name": "Grid.js"
+                },
+                {
+                    "path": "../src/grid/property/",
+                    "name": "HeaderContainer.js"
+                },
+                {
+                    "path": "../src/grid/property/",
+                    "name": "Property.js"
+                },
+                {
+                    "path": "../src/grid/property/",
+                    "name": "Store.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "Body.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "FieldSet.js"
+                },
+                {
+                    "path": "../src/layout/component/",
+                    "name": "Tab.js"
+                },
+                {
+                    "path": "../src/layout/component/field/",
+                    "name": "File.js"
+                },
+                {
+                    "path": "../src/layout/component/field/",
+                    "name": "Slider.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Absolute.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Accordion.js"
+                },
+                {
+                    "path": "../src/resizer/",
+                    "name": "Splitter.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Border.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Card.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Column.js"
+                },
+                {
+                    "path": "../src/layout/container/",
+                    "name": "Table.js"
+                },
+                {
+                    "path": "../src/menu/",
+                    "name": "Item.js"
+                },
+                {
+                    "path": "../src/menu/",
+                    "name": "CheckItem.js"
+                },
+                {
+                    "path": "../src/menu/",
+                    "name": "KeyNav.js"
+                },
+                {
+                    "path": "../src/menu/",
+                    "name": "Separator.js"
+                },
+                {
+                    "path": "../src/menu/",
+                    "name": "Menu.js"
+                },
+                {
+                    "path": "../src/menu/",
+                    "name": "ColorPicker.js"
+                },
+                {
+                    "path": "../src/menu/",
+                    "name": "DatePicker.js"
+                },
+                {
+                    "path": "../src/panel/",
+                    "name": "Tool.js"
+                },
+                {
+                    "path": "../src/resizer/",
+                    "name": "Handle.js"
+                },
+                {
+                    "path": "../src/resizer/",
+                    "name": "Resizer.js"
+                },
+                {
+                    "path": "../src/resizer/",
+                    "name": "ResizeTracker.js"
+                },
+                {
+                    "path": "../src/resizer/",
+                    "name": "SplitterTracker.js"
+                },
+                {
+                    "path": "../src/selection/",
+                    "name": "CellModel.js"
+                },
+                {
+                    "path": "../src/selection/",
+                    "name": "RowModel.js"
+                },
+                {
+                    "path": "../src/selection/",
+                    "name": "CheckboxModel.js"
+                },
+                {
+                    "path": "../src/selection/",
+                    "name": "TreeModel.js"
+                },
+                {
+                    "path": "../src/slider/",
+                    "name": "Thumb.js"
+                },
+                {
+                    "path": "../src/slider/",
+                    "name": "Tip.js"
+                },
+                {
+                    "path": "../src/slider/",
+                    "name": "Multi.js"
+                },
+                {
+                    "path": "../src/slider/",
+                    "name": "Single.js"
+                },
+                {
+                    "path": "../src/tab/",
+                    "name": "Tab.js"
+                },
+                {
+                    "path": "../src/tab/",
+                    "name": "Bar.js"
+                },
+                {
+                    "path": "../src/tab/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "../src/toolbar/",
+                    "name": "Spacer.js"
+                },
+                {
+                    "path": "../src/tree/",
+                    "name": "Column.js"
+                },
+                {
+                    "path": "../src/tree/",
+                    "name": "View.js"
+                },
+                {
+                    "path": "../src/tree/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "../src/view/",
+                    "name": "DragZone.js"
+                },
+                {
+                    "path": "../src/tree/",
+                    "name": "ViewDragZone.js"
+                },
+                {
+                    "path": "../src/tree/",
+                    "name": "ViewDropZone.js"
+                },
+                {
+                    "path": "../src/tree/plugin/",
+                    "name": "TreeViewDragDrop.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "Cookies.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "CSS.js"
+                },
+                {
+                    "path": "../src/util/",
+                    "name": "History.js"
+                },
+                {
+                    "path": "../src/view/",
+                    "name": "TableChunker.js"
+                }
+            ]
+        },
+        {
+            "name": "Manifest",
+            "target": "pkgs/manifest.js",
+            "id": "manifest",
+            "files": [
+                {
+                    "path": "../bootstrap/",
+                    "name": "data-release.js"
+                }
+            ]
+        }
+    ],
+    "builds": [
+        {
+            "name": "All Dev",
+            "target": "ext-all-dev.js",
+            "options": {
+                "debug": true
+            },
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "classes",
+                "misc"
+            ]
+        },
+        {
+            "name": "All Debug",
+            "target": "ext-all-debug.js",
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "classes",
+                "misc"
+            ]
+        },
+        {
+            "name": "All",
+            "target": "ext-all.js",
+            "compress": true,
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "classes",
+                "misc"
+            ]
+        },
+        {
+            "name": "Sandboxed All Dev",
+            "target": "builds/ext-all-sandbox-dev.js",
+            "options": {
+                "debug": true
+            },
+            "namespaceRewrites": [
+                {
+                    "from": "Ext",
+                    "to": "Ext4"
+                }
+            ],
+            "settings": {
+                "baseCSSPrefix": "x4-",
+                "scopeResetCSS": true
+            },
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "classes",
+                "misc"
+            ]
+        },
+        {
+            "name": "Sandboxed All Debug",
+            "target": "builds/ext-all-sandbox-debug.js",
+            "namespaceRewrites": [
+                {
+                    "from": "Ext",
+                    "to": "Ext4"
+                }
+            ],
+            "settings": {
+                "baseCSSPrefix": "x4-",
+                "scopeResetCSS": true
+            },
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "classes",
+                "misc"
+            ]
+        },
+        {
+            "name": "Sandboxed All",
+            "target": "builds/ext-all-sandbox.js",
+            "compress": true,
+            "namespaceRewrites": [
+                {
+                    "from": "Ext",
+                    "to": "Ext4"
+                }
+            ],
+            "settings": {
+                "baseCSSPrefix": "x4-",
+                "scopeResetCSS": true
+            },
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "classes",
+                "misc"
+            ]
+        },
+        {
+            "name": "Foundation Dev",
+            "target": "builds/ext-foundation-dev.js",
+            "options": {
+                "debug": true
+            },
+            "packages": [
+                "foundation"
+            ]
+        },
+        {
+            "name": "Foundation Debug",
+            "target": "builds/ext-foundation-debug.js",
+            "packages": [
+                "foundation"
+            ]
+        },
+        {
+            "name": "Foundation",
+            "target": "builds/ext-foundation.js",
+            "compress": true,
+            "packages": [
+                "foundation"
+            ]
+        },
+        {
+            "name": "Core Dev",
+            "target": "builds/ext-core-dev.js",
+            "options": {
+                "debug": true
+            },
+            "packages": [
+                "foundation",
+                "extras",
+                "dom"
+            ]
+        },
+        {
+            "name": "Core Debug",
+            "target": "builds/ext-core-debug.js",
+            "packages": [
+                "foundation",
+                "extras",
+                "dom"
+            ]
+        },
+        {
+            "name": "Core",
+            "target": "builds/ext-core.js",
+            "compress": true,
+            "packages": [
+                "foundation",
+                "extras",
+                "dom"
+            ]
+        },
+        {
+            "name": "Bootstrap Dev",
+            "target": "ext-dev.js",
+            "options": {
+                "debug": true
+            },
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "manifest"
+            ]
+        },
+        {
+            "name": "Bootstrap Debug",
+            "target": "ext-debug.js",
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "manifest"
+            ]
+        },
+        {
+            "name": "Bootstrap",
+            "target": "ext.js",
+            "compress": true,
+            "packages": [
+                "foundation",
+                "extras",
+                "dom",
+                "manifest"
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "src": "../resources/",
+            "dest": "resources"
+        },
+        {
+            "src": "../src/",
+            "dest": "src"
+        },
+        {
+            "src": "../../platform/src/",
+            "dest": "src"
+        },
+        {
+            "src": "../../platform/core/",
+            "dest": "src/core"
+        },
+        {
+            "src": "../test/",
+            "dest": "test"
+        },
+        {
+            "src": "../index.html",
+            "dest": "index.html"
+        },
+        {
+            "src": "../release-notes.html",
+            "dest": "release-notes.html"
+        },
+        {
+            "src": "../welcome/",
+            "dest": "welcome"
+        },
+        {
+            "src": "../bootstrap-release.js",
+            "dest": "bootstrap.js"
+        },
+        {
+            "src": "../examples/",
+            "dest": "examples"
+        },
+        {
+            "src": "../examples/newindex.html",
+            "dest": "examples/index.html"
+        },
+        {
+            "src": "../locale/",
+            "dest": "locale"
+        }
+    ]
+}

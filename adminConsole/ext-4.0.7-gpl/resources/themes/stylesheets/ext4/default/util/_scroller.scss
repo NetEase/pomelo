@@ -1,0 +1,55 @@
+@mixin extjs-scroller {
+    .#{$prefix}horizontal-scroller-present .#{$prefix}grid-body {
+        border-bottom-width: 0px;
+    }
+        
+    .#{$prefix}vertical-scroller-present .#{$prefix}grid-body {
+        border-right-width: 0px;
+    }
+
+    .#{$prefix}scroller {
+        overflow: hidden;
+    }
+    
+    .#{$prefix}scroller-vertical {
+        border: 1px solid $panel-border-color;
+        border-top-color: $grid-header-background-color;
+    }
+    
+    .#{$prefix}scroller-horizontal {
+        border: 1px solid $panel-border-color;
+    }
+
+    .#{$prefix}vertical-scroller-present .#{$prefix}scroller-horizontal {
+        border-right-width: 0px;
+    }
+    
+    .#{$prefix}scroller-ct {
+        overflow: hidden;
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        border: none;
+        left: 0px;
+        top: 0px;
+
+        /*
+        In IE9 (only), the border-box style causes the scroller-ct to be 0px in the
+        perpendicular dimension and breaks the scroll as well as offsets it by the left
+        offset that we use to try and keep some size on this element. This works on all
+        browsers (including IE9).
+        */
+        box-sizing: content-box !important;
+        -ms-box-sizing: content-box !important;
+        -moz-box-sizing: content-box !important;
+        -webkit-box-sizing: content-box !important;
+    }
+    
+    .#{$prefix}scroller-vertical .#{$prefix}scroller-ct {
+        overflow-y: scroll;
+    }
+    
+    .#{$prefix}scroller-horizontal .#{$prefix}scroller-ct {
+        overflow-x: scroll;
+    }
+}

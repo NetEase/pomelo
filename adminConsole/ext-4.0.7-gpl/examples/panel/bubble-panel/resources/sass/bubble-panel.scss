@@ -1,0 +1,43 @@
+@import 'compass';
+@import 'ext4/default/all';
+
+$relative-image-path-for-uis: "../images";
+
+body {
+    margin: 40px 20px;
+    
+    background: #4e79b2;
+}
+
+@include extjs-panel-ui(
+    'bubble',
+    
+    $ui-header-font-size: 12px,
+    $ui-header-font-weight: bold,
+    $ui-header-color: #0D2A59,
+    $ui-header-background-color: #fff,
+    $ui-header-background-gradient: null,
+    
+    $ui-border-color: #fff,
+    $ui-border-radius: 4px,
+    $ui-body-background-color: #fff,
+    $ui-body-font-size: 14px
+);
+
+#button {
+    margin: 0 0 40px 0;
+}
+
+.x-panel-bubble {
+    @include box-shadow(0 0 5px rgba(0, 0, 0, .7));
+}
+
+#bubble-markup {
+    padding: 5px 5px 0 5px;
+    
+    p {
+        margin-bottom: 10px;
+        
+        line-height: 20px;
+    }
+}

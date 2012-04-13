@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-CompositeElementLite'>/**
+</span> * @class Ext.CompositeElementLite
+ */
+Ext.apply(Ext.CompositeElementLite.prototype, {
+    addElements : function(els, root){
+        if(!els){
+            return this;
+        }
+        if(typeof els == &quot;string&quot;){
+            els = Ext.Element.selectorFunction(els, root);
+        }
+        var yels = this.elements;
+        Ext.each(els, function(e) {
+            yels.push(Ext.get(e));
+        });
+        return this;
+    },
+
+<span id='Ext-CompositeElementLite-method-first'>    /**
+</span>     * Returns the first Element
+     * @return {Ext.Element}
+     */
+    first : function(){
+        return this.item(0);
+    },
+
+<span id='Ext-CompositeElementLite-method-last'>    /**
+</span>     * Returns the last Element
+     * @return {Ext.Element}
+     */
+    last : function(){
+        return this.item(this.getCount()-1);
+    },
+
+<span id='Ext-CompositeElementLite-method-contains'>    /**
+</span>     * Returns true if this composite contains the passed element
+     * @param el {String/HTMLElement/Ext.Element/Number} The id of an element, or an Ext.Element, or an HtmlElement to find within the composite collection.
+     * @return Boolean
+     */
+    contains : function(el){
+        return this.indexOf(el) != -1;
+    },
+
+<span id='Ext-CompositeElementLite-method-removeElement'>    /**
+</span>    * Removes the specified element(s).
+    * @param {String/HTMLElement/Ext.Element/Number} el The id of an element, the Element itself, the index of the element in this composite
+    * or an array of any of those.
+    * @param {Boolean} removeDom (optional) True to also remove the element from the document
+    * @return {Ext.CompositeElement} this
+    */
+    removeElement : function(keys, removeDom){
+        var me = this,
+            els = this.elements,
+            el;
+        Ext.each(keys, function(val){
+            if ((el = (els[val] || els[val = me.indexOf(val)]))) {
+                if(removeDom){
+                    if(el.dom){
+                        el.remove();
+                    }else{
+                        Ext.removeNode(el);
+                    }
+                }
+                Ext.Array.erase(els, val, 1);
+            }
+        });
+        return this;
+    }
+});
+</pre>
+</body>
+</html>

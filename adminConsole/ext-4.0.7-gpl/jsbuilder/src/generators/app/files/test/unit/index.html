@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Sencha - Jasmine Test Runner</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/sencha-jasmine/sencha-jasmine.css" />
+    
+    <script type="text/javascript" src="../../lib/touch/ext-touch-debug.js"></script>
+    
+    <script type="text/javascript" src="../../lib/jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="../../lib/jasmine/jasmine-html.js"></script>
+    <script type="text/javascript" src="../../lib/sencha-jasmine/sencha-jasmine.js"></script>
+    <script type="text/javascript" src="../../lib/sencha-jasmine/matchers/Model.js"></script>
+    <script type="text/javascript" src="../../lib/sencha-jasmine/matchers/Controller.js"></script>
+    
+    <script type="text/javascript" src="SpecOptions.js"></script>
+</head>
+<body>
+    
+    <!-- include source files here... -->
+    <div id="sourceFiles">
+        <script type="text/javascript" src="../../app/app.js"></script>
+        
+        <div id="app-models">
+                  
+        </div>
+        
+        <div id="app-controllers">
+            
+        </div>
+        
+        <div id="app-views">
+            
+        </div>
+        
+        <div id="app-stores">
+            
+        </div>
+    </div>
+    
+    <!-- include fixture files here -->
+    <div id="fixtures">
+        
+    </div>
+    
+    <!-- include spec files here... -->
+    <div id="specFiles">
+        <script type="text/javascript" src="app.js"></script>
+        
+        <div id="spec-models">
+            
+        </div>
+        
+        <div id="spec-controllers">
+            
+        </div>
+        
+        <div id="spec-views">
+            
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+      jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+      jasmine.getEnv().execute();
+    </script>
+    
+</body>
+</html>

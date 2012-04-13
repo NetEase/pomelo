@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-layout-component-field-File'>/**
+</span> * @private
+ * @class Ext.layout.component.field.File
+ * @extends Ext.layout.component.field.Field
+ * Layout class for {@link Ext.form.field.File} fields. Adjusts the input field size to accommodate
+ * the file picker trigger button.
+ * @private
+ */
+
+Ext.define('Ext.layout.component.field.File', {
+    alias: ['layout.filefield'],
+    extend: 'Ext.layout.component.field.Field',
+
+    type: 'filefield',
+
+    sizeBodyContents: function(width, height) {
+        var me = this,
+            owner = me.owner;
+
+        if (!owner.buttonOnly) {
+            // Decrease the field's width by the width of the button and the configured buttonMargin.
+            // Both the text field and the button are floated left in CSS so they'll stack up side by side.
+            me.setElementSize(owner.inputEl, Ext.isNumber(width) ? width - owner.button.getWidth() - owner.buttonMargin : width);
+        }
+    }
+});</pre>
+</body>
+</html>

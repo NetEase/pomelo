@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Writer Example</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../shared/example.css" />
+    <link rel="stylesheet" type="text/css" href="writer.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script type="text/javascript" src="../shared/examples.js"></script>
+
+    <script type="text/javascript" src="writer.js"></script>
+</head>
+<body>
+<h1>Ext.data.writer.Writer Example</h1>
+<p>This example shows how to implement a Writer for your Store.  A Writer-enabled Store frees you from having to manually compose Ajax requests
+to perform CRUD actions on a Store.</p>
+<p>Note that the js is not minified so it is readable. See <a href="writer.js">writer.js</a>.
+
+<p>The AjaxProxy plugged into the store in this example uses the <em>api</em> configuration instead of an <em>url</em>.
+A simple MVC-like php backend has been created for this example which simulates a database by storing records in $_SESSION.  See the file /remote/app/controllers/users.php.  You may have to configure
+your web-server to allow scripts to be executed in the /examples directory.</p>
+
+<p>Take note of the requests being generated in Firebug as you interact with the Grid and Form.</p>
+
+<p>An <b>Error has been simulated</b> on the server-side:  Attempting to update a record having <b>ODD</b>-numbered id will generate this errror.
+Responses from the update action will have successProperty === false along with a message.  This error can be handled by
+listening to the <b>"exception"</b> event upon your proxy.</p>
+</body>
+</html>

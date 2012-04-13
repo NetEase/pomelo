@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-Number'>/**
+</span> * @class Ext.Number
+ *
+ * A collection of useful static methods to deal with numbers
+ * @singleton
+ */
+
+(function() {
+
+var isToFixedBroken = (0.9).toFixed() !== '1';
+
+Ext.Number = {
+<span id='Ext-Number-method-constrain'>    /**
+</span>     * Checks whether or not the passed number is within a desired range.  If the number is already within the
+     * range it is returned, otherwise the min or max value is returned depending on which side of the range is
+     * exceeded. Note that this method returns the constrained value but does not change the current number.
+     * @param {Number} number The number to check
+     * @param {Number} min The minimum number in the range
+     * @param {Number} max The maximum number in the range
+     * @return {Number} The constrained value if outside the range, otherwise the current value
+     */
+    constrain: function(number, min, max) {
+        number = parseFloat(number);
+
+        if (!isNaN(min)) {
+            number = Math.max(number, min);
+        }
+        if (!isNaN(max)) {
+            number = Math.min(number, max);
+        }
+        return number;
+    },
+
+<span id='Ext-Number-method-snap'>    /**
+</span>     * Snaps the passed number between stopping points based upon a passed increment value.
+     * @param {Number} value The unsnapped value.
+     * @param {Number} increment The increment by which the value must move.
+     * @param {Number} minValue The minimum value to which the returned value must be constrained. Overrides the increment..
+     * @param {Number} maxValue The maximum value to which the returned value must be constrained. Overrides the increment..
+     * @return {Number} The value of the nearest snap target.
+     */
+    snap : function(value, increment, minValue, maxValue) {
+        var newValue = value,
+            m;
+
+        if (!(increment &amp;&amp; value)) {
+            return value;
+        }
+        m = value % increment;
+        if (m !== 0) {
+            newValue -= m;
+            if (m * 2 &gt;= increment) {
+                newValue += increment;
+            } else if (m * 2 &lt; -increment) {
+                newValue -= increment;
+            }
+        }
+        return Ext.Number.constrain(newValue, minValue,  maxValue);
+    },
+
+<span id='Ext-Number-method-toFixed'>    /**
+</span>     * Formats a number using fixed-point notation
+     * @param {Number} value The number to format
+     * @param {Number} precision The number of digits to show after the decimal point
+     */
+    toFixed: function(value, precision) {
+        if (isToFixedBroken) {
+            precision = precision || 0;
+            var pow = Math.pow(10, precision);
+            return (Math.round(value * pow) / pow).toFixed(precision);
+        }
+
+        return value.toFixed(precision);
+    },
+
+<span id='Ext-Number-method-from'>    /**
+</span>     * Validate that a value is numeric and convert it to a number if necessary. Returns the specified default value if
+     * it is not.
+
+Ext.Number.from('1.23', 1); // returns 1.23
+Ext.Number.from('abc', 1); // returns 1
+
+     * @param {Object} value
+     * @param {Number} defaultValue The value to return if the original value is non-numeric
+     * @return {Number} value, if numeric, defaultValue otherwise
+     */
+    from: function(value, defaultValue) {
+        if (isFinite(value)) {
+            value = parseFloat(value);
+        }
+
+        return !isNaN(value) ? value : defaultValue;
+    }
+};
+
+})();
+
+<span id='Ext-method-num'>/**
+</span> * @deprecated 4.0.0 Please use {@link Ext.Number#from} instead.
+ * @member Ext
+ * @method num
+ * @alias Ext.Number#from
+ */
+Ext.num = function() {
+    return Ext.Number.from.apply(this, arguments);
+};</pre>
+</body>
+</html>

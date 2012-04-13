@@ -1,0 +1,50 @@
+@mixin extjs-messagebox {
+    .#{$prefix}message-box .#{$prefix}window-body {
+        background-color: $window-background-color;
+        border: none;
+    }
+
+    .#{$prefix}message-box .ext-mb-textarea {
+        margin-top: 4px;
+    }
+
+    .#{$prefix}message-box .#{$prefix}progress-wrap {
+        margin-top: 4px;
+    }
+
+    .#{$prefix}message-box .ext-mb-icon {
+        width: 47px;
+        height: 32px;
+    }
+
+    .#{$prefix}message-box .ext-mb-info,
+    .#{$prefix}message-box .ext-mb-warning,
+    .#{$prefix}message-box .ext-mb-question,
+    .#{$prefix}message-box .ext-mb-error {
+        background: transparent no-repeat top left;
+    }
+
+    .ext-gecko2 .ext-mb-fix-cursor {
+        overflow: auto;
+    }
+
+    .#{$prefix}message-box .#{$prefix}msg-box-wait {
+        background-image: theme-background-image($theme-name, 'shared/blue-loading.gif');
+    }
+
+    .#{$prefix}message-box .ext-mb-info {
+        background-image: theme-background-image($theme-name, 'shared/icon-info.gif');
+    }
+
+    .#{$prefix}message-box .ext-mb-warning {
+        background-image: theme-background-image($theme-name, 'shared/icon-warning.gif');
+    }
+
+    .#{$prefix}message-box .ext-mb-question {
+        background-image: theme-background-image($theme-name, 'shared/icon-question.gif');
+    }
+
+    .#{$prefix}message-box .ext-mb-error {
+        background-image: theme-background-image($theme-name, 'shared/icon-error.gif');
+    }
+}

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * This is a derivative of the similarly named class in the YUI Library.
+ * The original license:
+ * Copyright (c) 2006, Yahoo! Inc. All rights reserved.
+ * Code licensed under the BSD License:
+ * http://developer.yahoo.net/yui/license.txt
+ */
+
+
+<span id='Ext-dd-DDTarget'>/**
+</span> * @class Ext.dd.DDTarget
+ * @extends Ext.dd.DragDrop
+ * A DragDrop implementation that does not move, but can be a drop
+ * target.  You would get the same result by simply omitting implementation
+ * for the event callbacks, but this way we reduce the processing cost of the
+ * event listener and the callbacks.
+ */
+Ext.define('Ext.dd.DDTarget', {
+    extend: 'Ext.dd.DragDrop',
+
+<span id='Ext-dd-DDTarget-method-constructor'>    /**
+</span>     * Creates new DDTarget.
+     * @param {String} id the id of the element that is a drop target
+     * @param {String} sGroup the group of related DragDrop objects
+     * @param {Object} config an object containing configurable attributes.
+     * Valid properties for DDTarget in addition to those in DragDrop: none.
+     */
+    constructor: function(id, sGroup, config) {
+        if (id) {
+            this.initTarget(id, sGroup, config);
+        }
+    },
+
+<span id='Ext-dd-DDTarget-method-getDragEl'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    getDragEl: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-isValidHandleChild'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    isValidHandleChild: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-startDrag'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    startDrag: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-endDrag'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    endDrag: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-onDrag'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    onDrag: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-onDragDrop'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    onDragDrop: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-onDragEnter'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    onDragEnter: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-onDragOut'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    onDragOut: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-onDragOver'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    onDragOver: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-onInvalidDrop'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    onInvalidDrop: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-onMouseDown'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    onMouseDown: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-onMouseUp'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    onMouseUp: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-setXConstraint'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    setXConstraint: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-setYConstraint'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    setYConstraint: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-resetConstraints'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    resetConstraints: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-clearConstraints'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    clearConstraints: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-clearTicks'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    clearTicks: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-setInitPosition'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    setInitPosition: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-setDragElId'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    setDragElId: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-setHandleElId'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    setHandleElId: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-setOuterHandleElId'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    setOuterHandleElId: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-addInvalidHandleClass'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    addInvalidHandleClass: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-addInvalidHandleId'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    addInvalidHandleId: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-addInvalidHandleType'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    addInvalidHandleType: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-removeInvalidHandleClass'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    removeInvalidHandleClass: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-removeInvalidHandleId'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    removeInvalidHandleId: Ext.emptyFn,
+<span id='Ext-dd-DDTarget-method-removeInvalidHandleType'>    /**
+</span>     * @hide
+     * Overridden and disabled. A DDTarget does not support being dragged.
+     * @method
+     */
+    removeInvalidHandleType: Ext.emptyFn,
+
+    toString: function() {
+        return (&quot;DDTarget &quot; + this.id);
+    }
+});</pre>
+</body>
+</html>
