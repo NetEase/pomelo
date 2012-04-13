@@ -1,5 +1,5 @@
 {
   "area":[
-    [{"period":180000},"area.treasureService.generateTreasures", {"name":"3分执行一次"}]
+    [{"period":60000},"area.treasureService.generateTreasures", {"areaId":1, "name":"1分执行一次"}]
   ]
 }

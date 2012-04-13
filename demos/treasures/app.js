@@ -6,7 +6,7 @@ var routeService = require('./app/service/routeService');
 var app = appTemplate.init();
 app.set('name','抢宝');
 app.set('dirname', __dirname);
-//app.set('calculator', routeService.calculator);
+app.set('calculator', routeService.calculator);
 appTemplate.defaultConfig(app);
 
 app.configure(function(){
@@ -22,9 +22,9 @@ appTemplate.done(app);
 
 
 
-if (app.serverType==='master') {
+//if (app.serverType==='master') {
 	startWebServer();
-}
+//}
 
 
 function startWebServer(){
