@@ -1,9 +1,0 @@
-@mixin extjs-viewport {
-    .#{$prefix}viewport, .#{$prefix}viewport body {
-        margin: 0;
-        padding: 0;
-        border: 0 none;
-        overflow: hidden;
-        height: 100%;
-    }
-}

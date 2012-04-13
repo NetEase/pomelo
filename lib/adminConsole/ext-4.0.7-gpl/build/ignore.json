@@ -1,9 +1,0 @@
-[
-    "legacy",
-    "scaffold/",
-    "data/ideas.js",
-    "/broken",
-    "ViewManager.js",
-    "grid/CellModel.js",
-    "ContentLoader.js"
-]

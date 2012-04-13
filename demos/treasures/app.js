@@ -1,4 +1,5 @@
 
+
 var pomelo = require('../../lib/pomelo');
 var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
@@ -21,11 +22,10 @@ appTemplate.done(app);
 
 
 
-//if (app.serverType==='master') {
+if (app.serverType==='master') {
 	startWebServer();
-	console.log("!!!********************************************!!!!");
-//}
-//var app_console = require('../../lib/adminConsole/appCon');
+}
+
 
 function startWebServer(){
     var app_express = require('./app_express');
