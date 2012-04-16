@@ -14,10 +14,10 @@ if(!channel)
  * 生成新的宝物配置
  * 宝物位置可能重叠，未区分位置
  */
-handler.generateTreasures = function(msg, session){
-  var params = msg.params;
-  var sceneId = 1;
-	logger.debug('generateTreasures event info'+sceneId);
+handler.generateTreasures = function(params, session){
+  //logger.error('generateTreasures event info'+ JSON.stringify(params));
+  var sceneId = params.sceneId;
+	
 	treasureService.generateTreasures(sceneId,function(err,data){
         var msg={"route":"area.treasureHandler.getTreasures","code":200,"result":data.treasures};
         channel.pushMessage(msg);

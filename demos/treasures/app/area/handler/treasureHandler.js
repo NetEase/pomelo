@@ -22,8 +22,7 @@ handler.pickItem = function (msg, session){
   var uid = session.uid;
   var treasureId = params.treasureId;
   //var sceneId = session.sceneId;
-  var sceneId = 0;
-  treasureService.pickItem(uid,treasureId,sceneId,function(err,result){
+  treasureService.pickItem(uid,treasureId,msg.areaId,function(err,result){
   	logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + result);
   	var result ={route:msg.route, code:200 ,success:result,treasureId:treasureId};
     if (err){
@@ -37,7 +36,7 @@ handler.pickItem = function (msg, session){
 };
 
 handler.getTreasures = function(msg, session){
-  treasureService.getAllTreasureInfo(0, function(err, result){
+  treasureService.getAllTreasureInfo(msg.areaId, function(err, result){
     if (err){
       session.response({route: msg.route, code:500});
     }
