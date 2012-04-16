@@ -61,6 +61,7 @@ var gkPanel=Ext.create('Ext.panel.Panel',{
  */
 socket.on('connect',function(){
 	socket.emit('announce_web_client');
+	socket.emit('webmessage');
     socket.on('gkMessage',function(msg){//获取“概述gkPanel”信息
 //    console.log(JSON.stringify(msg));
     var nodeSize=msg.nodeSize||0;

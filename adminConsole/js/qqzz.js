@@ -26,11 +26,11 @@ var reqGrid=Ext.create('Ext.grid.Panel', {
     store: reqStore,
     columns:[
 		{header:'source',dataIndex:'source',width:150},
-		{header:'request route',dataIndex:'request route',width:100},
-		{header:'request params',dataIndex:'request params',width:200},
-		{header:'createTime',dataIndex:'createTime',width:200},
-		{header:'doneTime',dataIndex:'doneTime',width:200},
-		{header:'cost(ms)',dataIndex:'cost(ms)',width:800}
+		{header:'request route',dataIndex:'request route',width:230},
+		{header:'request params',dataIndex:'request params',width:400}
+//		{header:'createTime',dataIndex:'createTime',width:200},
+//		{header:'doneTime',dataIndex:'doneTime',width:200},
+//		{header:'cost(ms)',dataIndex:'cost(ms)',width:800}
 //		{header:'state',dataIndex:'state'}
 		]
 });
@@ -39,10 +39,43 @@ var viewport=new Ext.Viewport({
 	    items:[reqGrid]
 	});
 });
-socket.on('connect',function(){
-	socket.emit('announce_web_client');
-	 socket.on('history_response',function(msg){
-  	  var req=msg;
-//      alert('msg'+msg);
-  });
-});
+	socket.on('connect',function(){
+		socket.emit('announce_web_client');
+		socket.emit('webmessage',{id:'area-server-1',method:'getMessage'});
+		socket.on('webmessage',function(msg){
+	  	var dataMap=msg.body;
+	  	var dataGrid=[];
+	    for(var i in dataMap){
+	    	var content=JSON.stringify(dataMap[i]);
+	    	var data={'source':'area','request route':i,'request params':content};
+	       dataGrid.push(data)
+	       }
+	      
+	   var store=Ext.getCmp('reqGridId').getStore();
+       store.loadData(dataGrid);
+	  });
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
