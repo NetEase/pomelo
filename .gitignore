@@ -6,4 +6,5 @@ node_modules/*
 .settings/
 **/*.svn
 *.svn
-
+*.sublime-project
+*.sublime-workspace
