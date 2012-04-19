@@ -9,7 +9,6 @@ var channelManager = app.get('channelManager');
 var channel = channelManager.getChannel('pomelo');
 if(!channel)
   channel = channelManager.createChannel('pomelo');
-  
 
 /**
  * 生成新的宝物配置
