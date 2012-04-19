@@ -33,6 +33,6 @@ app.on('error', function(err) {
 	console.log('=================errr:' + err);
 });
 app.listen(7001);
-console.log('express server listening on 7001');
+console.log('[AdminConsoleStart] visit http://0.0.0.0:7001');
 
 
