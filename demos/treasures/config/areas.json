@@ -1,7 +1,19 @@
 {
   "areas" : {
     "1": {
-      "name" : "捡宝一号地区"
+      "name" : "捡宝一号地区",
+      "map":{
+        "width": 2000,
+        "height": 1200
+      },
+      "cell":{
+        "width": 100,
+        "height": 100 
+      },
+      "tower":{
+        "width": 1000,
+        "height": 600
+      }
     },
     "2": {
       "name" : "捡宝二号地区"
@@ -15,8 +27,8 @@
     "area-server-1": [1, 2 ,3]
   },
   "production": {
-    "area-server-1": [1, 2],
-    "area-server-2": [3]
+    "area-server-1": [1],
+    "area-server-2": [2,3]
   },
   "localpro": {
     "area-server-1": [1, 2 ,3]

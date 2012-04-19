@@ -1,24 +1,34 @@
 var utils = require('../../../../../lib/util/utils');
-var app = require('../../../../../lib/pomelo').getApp();
+var pomelo = require('../../../../../lib/pomelo');
+var Area = require('../../meta/area');
+var Tower = require('../../meta/tower');
 
 var exp = module.exports;
 var areas = {};
+var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
-
-exp.init = function(){
-  areas = app.get('areas');
+exp.init = function(config){
+  var app = pomelo.getApp();
+  var areaList = config[app.get('env')][app.get('serverId')];
+  
+  if(!areaList)
+    return;
+    
+  for(var key in areaList){
+    var areaId = areaList[key];
+    
+    var area = config['areas'][areaId];
+    area.id = areaId;
+    areas[areaId] = Area.create(area);
+  }
 }
 
 /**
  * Return the area id list
  * @returns {Array} The area id list
  */
-exp.getAreaList = function(){
-  var ids = [];
-  for (var key in areas) {
-    ids.push(key);
-  }
-  return ids;
+exp.getArea = function(areaId){
+  return areas[areaId];
 }
 
 // exp.registerArea = function(id, cb){
