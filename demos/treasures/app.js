@@ -2,10 +2,11 @@ var pomelo = require('../../lib/pomelo');
 var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
 var routeService = require('./app/service/routeService');
+var areaManager = require('./app/area/remote/areaManager');
 
 var app = appTemplate.init();
-app.set('name', '抢宝');
-app.set('dirname',  __dirname);
+app.set('name','抢宝');
+app.set('dirname', __dirname);
 app.set('calculator', routeService.calculator);
 appTemplate.defaultConfig(app);
 
@@ -20,11 +21,13 @@ app.configure('production|localpro|development', 'connector', function(){
 
 appTemplate.done(app);
 
+if(app.get('serverType')=='area'){
+  areaManager.init(require('./config/areas.json'));
+}
 
-
-//if (app.serverType==='master') {
+if (app.serverType==='master') {
 	startWebServer();
-//}
+}
 
 
 function startWebServer(){
