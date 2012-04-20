@@ -100,8 +100,8 @@ describe('applicationTest', function(){
     it('gen handler should be ok!', function(done){
         app.genHandler('area',  __dirname + '/config/area/handler');
         should.exist(app.get('handlerMap'));
-        //console.log('appTest genHandler: ' + JSON.stringify(app.get('handlerMap')));
-        should.exist(app.get('handlerMap').area);
+        console.log('appTest genHandler: ' + JSON.stringify(app.get('handlerMap')));
+        should.exist(app.get('handlerMap').area, 'handler.area should exists!');
 
         var userHandler = app.get('handlerMap').area.userHandler;
 
