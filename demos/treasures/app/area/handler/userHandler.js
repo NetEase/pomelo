@@ -8,14 +8,9 @@ var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 var Move= require('../../meta/move');
 
 var app = require('../../../../../lib/pomelo').getApp();
-var channelManager = app.get('channelManager');
-var channel = channelManager.getChannel('pomelo');
-if(!channel)
-  channel = channelManager.createChannel('pomelo');
-  
 var schedule = require('pomelo-schedule');
 var pomelo = require('../../../../../lib/pomelo');
-
+var areaManager = require('../remote/areaManager');
 var initX = 100;
 var initY = 100;
 
@@ -43,16 +38,20 @@ handler.removeUser = function(msg, session) {
  */
 handler.addUser = function(msg, session) {
   var uid = session.uid;
+  var area = areaManager.getArea(msg.areaId);
+    
 	logger.debug('user login :'+uid+","+this.name);
 	userService.getUserById(uid, function(err, data){
 		sceneDao.addUser(data.sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
 			if(!!err) {
 				session.response({route: msg.route, code: 500});
 			} else {
-			  channel.pushMessage({route:'onUserJoin', user: data});
-			  channel.add(uid);
+			  area.channel.pushMessage({route:'onUserJoin', user: data});
+			  
+			  //加入全局channel
+        area.addUser(data);
 			  logger.debug('[onaddUser] updateRankList');
-			  updateRankList(uid);
+			  updateRankList(msg.areaId, uid);
 			  session.response({route: msg.route, code: 200});			  
 			}
 		});
@@ -78,31 +77,28 @@ handler.addUser = function(msg, session) {
  * @param msg
  */
 handler.move = function (msg, session){
-    var params = msg.params;
+  var areaId = msg.areaId;
+  var params = msg.params;
 	var uid = params.uid;
 	var startx = params.path[0].x;
 	var starty = params.path[0].y;
 	var path = params.path;
 	var speed = params.speed;
 	var time = params.time;
-	logger.debug('in scene server move:');
-	logger.debug(uid+","+startx+","+starty+","+speed+","+path);
-	//先结束上次的移动
-	if(!!moveJob[uid])
-		schedule.cancelJob(moveJob[uid]);
 	
-	//更新用户的位置信息数据
-	sceneDao.setUserPos(0, uid, {x: path[1].x, y: path[1].y});
-	var period = 100; //算出时间？TODO
+	//channel.pushMessage({route: 'onMove', uid: uid, path: path, time: time});
+	
+	areaManager.getArea(areaId).pushMessageByPath(path, {route: 'onMove', uid: uid, path: path, time: time});
 	var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 
-	
-	schedule.scheduleJob({period: period, count: 1}, handler.moveCalc, {move: move, channel: channel, route:'onMove'});
-      console.log('[move]  msg: ' + JSON.stringify(msg));
+  console.log('[move]  msg: ' + JSON.stringify(msg));
 	session.response({route: msg.route, body: move, code: 200});
 };
 
 handler.moveCalc = function(data){
+  //更新用户的位置信息数据
+  sceneDao.setUserPos(areaId, uid, {x: path[1].x, y: path[1].y});
+  
   var move = data.move;
   var channel = data.channel;
   
@@ -113,7 +109,7 @@ handler.moveCalc = function(data){
   var time = move.time;
   logger.debug(startx+","+starty+","+time+","+target.x+","+target.y);
   delete moveJob[move.uid];
-  channel.pushMessage({route: data.route, uid: move.uid, path: [{x: startx, y: starty},{x: target.x, y: target.y}], time: time});
+  
 };
 
 /**
@@ -133,7 +129,9 @@ handler.getOnlineUsers = function(msg, session){
 /**
  * 排名推送
  */
-function updateRankList(uid){
+function updateRankList(areaId, uid){
+  var area = areaManager.getArea(areaId);
+  
 	rankService.getTopN(ServerConstant.top,function(err,data){
 	  if(err){
 	   logger.error('updateRankList failed!');
@@ -142,7 +140,7 @@ function updateRankList(uid){
 	  //session.socket.emit('message',msg);
 	  var uids=[];
 	  uids.push(uid);
-	  channel.pushMessageByUids(msg,uids,function(){});
+	  area.pushMessageByUids(msg,uids,function(){});
 	  logger.info('logining,updateRankList success!');
 	});
 }
