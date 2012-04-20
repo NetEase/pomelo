@@ -30,7 +30,7 @@ Ext.onReady(function(){
 	var westpanel=Ext.create('Ext.tree.Panel',{
 		title:'菜单',
 		region:'west',
-		width:200,
+		width:150,
 		store:treeStore,
 		enableDD:true,
 		rootVisible: false,

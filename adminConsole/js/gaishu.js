@@ -2,13 +2,19 @@ Ext.onReady(function(){
 
 	Ext.BLANK_IMAGE_URL ='../ext-4.0.7-gpl/resources/themes/images/default/tree/s.gif'; 
 	/**
-	 * 详细信息store
+	 * system monitor data store
+	 * without the data 'networkInterfaces' 
 	 */
-var gridStore = Ext.create('Ext.data.Store', {
-	id:'gridStore',
+var sysStore = Ext.create('Ext.data.Store', {
+	id:'sysStore',
 	autoLoad:false,
 	pageSize:5,
-    fields:['nodeId','nodeType','hostName','freeMen/totalMem','loadAvg','cpu','state'],
+    fields:['Time','hostname',
+            'cpu_user','cpu_nice','cpu_system','cpu_iowait','cpu_steal','cpu_idle',
+            'tps','kb_read','kb_wrtn','kb_read_per','kb_wrtn_per',
+            'totalmem','freemem','free/total',
+            'm_1','m_5','m_15',
+            ],
 //    groupField: 'department',
     proxy: {
         type: 'memory',
@@ -19,30 +25,54 @@ var gridStore = Ext.create('Ext.data.Store', {
     }
 });
 /**
- * 详细信息gridPanel
+ * system's detailed  information
  */
-var gridPanel=Ext.create('Ext.grid.Panel', {
+var sysPanel=Ext.create('Ext.grid.Panel', {
 	id:'gridPanelId',
-    title: '详细信息',
+    title: 'more information',
 	region:'center',
-    store: gridStore,
+    store: sysStore,
+    autoScroll:true,
     columns:[
-		{header:'nodeId',dataIndex:'nodeId',width:150},
-		{header:'nodeType',dataIndex:'nodeType',width:100},
-		{header:'hostName',dataIndex:'hostName',width:200},
-		{header:'freeMen/totalMem',dataIndex:'freeMen/totalMem',width:200},
-		{header:'loadAvg',dataIndex:'loadAvg',width:200},
-		{header:'cpu',dataIndex:'cpu',width:800}
-//		{header:'state',dataIndex:'state'}
+		    {text:'Time',width:120,sortable:false,dataIndex:'Time'},
+		    {text:'cpu',
+		     columns:[
+		       {text:'user',width:60,sortable:true,dataIndex:'cpu_user'},
+		       {text:'nice',width:60,sortable:true,dataIndex:'cpu_nice'},
+		       {text:'system',width:60,sortable:true,dataIndex:'cpu_system'},
+		       {text:'iowait',width:60,sortable:true,dataIndex:'cpu_iowait'},
+		       {text:'steal',width:60,sortable:true,dataIndex:'cpu_steal'},
+		       {text:'idle',width:60,sortable:true,dataIndex:'cpu_idle'}
+		     ]},
+		    {text:'disk',
+		     columns:[
+		       {text:'tps',width:70,sortable:true,dataIndex:'tps'},
+		       {text:'kb_read',width:70,sortable:true,dataIndex:'kb_read'},
+		       {text:'kb_wrtn',width:70,sortable:true,dataIndex:'kb_wrtn'},
+		       {text:'kb_read/s',width:70,sortable:true,dataIndex:'kb_read_per'},
+		       {text:'kb_wrtn/s',width:70,sortable:true,dataIndex:'kb_wrtn_per'}
+		     ]},
+		    {text:'mem',
+		     columns:[
+		       {text:'totalmem',width:70,sortable:true,dataIndex:'totalmem'},
+		       {text:'freemem',width:70,sortable:true,dataIndex:'freemem'},
+		       {text:'free/total',width:70,sortable:true,dataIndex:'free/total'}
+		     ]},
+		    {text:'loadavg',
+		     columns:[
+		       {text:'1m',width:60,sortable:true,dataIndex:'m_1'},
+		       {text:'5m',width:60,sortable:true,dataIndex:'m_5'},
+		       {text:'15m',width:60,sortable:true,dataIndex:'m_15'}
+		     ]}
 		]
 });
 /**
- * 概况信息panel
+ *the whole information of system
  */
 
 var gkPanel=Ext.create('Ext.panel.Panel',{
 	id:'gkPanel',
-    title:'概况信息',
+    title:'whole information',
     region:'north',
     height:170,
     contentEl:overview
@@ -53,7 +83,7 @@ var gkPanel=Ext.create('Ext.panel.Panel',{
  */
 	var viewport=new Ext.Viewport({
 	    layout:'border',
-	    items:[gkPanel,gridPanel]
+	    items:[gkPanel,sysPanel]
 	});
 });
 /**
@@ -62,26 +92,25 @@ var gkPanel=Ext.create('Ext.panel.Panel',{
 socket.on('connect',function(){
 	socket.emit('announce_web_client');
 	socket.emit('webmessage');
-    socket.on('gkMessage',function(msg){//获取“概述gkPanel”信息
-//    console.log(JSON.stringify(msg));
-    var nodeSize=msg.nodeSize||0;
-    var requestSize=msg.requestSize||0;
-    var messageSize=msg.messageSize||0;
-    var startTime=msg.startTime||0;
-    contentUpdate(nodeSize,requestSize,messageSize,startTime);
-});
-   socket.on('gkGrid',function(msg){//获取“概述gkPanel”信息
-   var store=Ext.getCmp('gridPanelId').getStore();
-   store.loadData(msg.nodes);
+    socket.emit('sysMessage',{method:'getSystem'});
+    socket.on('sysMessage',function(msg){
+    	
+    var system=msg.wholeMsg.system;
+    var cpu=msg.wholeMsg.cpu;
+    var start_time=msg.wholeMsg.start_time;
+    contentUpdate(system,cpu,start_time);
+    
+   	var store=Ext.getCmp('gridPanelId').getStore();
+    store.loadData(msg.nodes);
+   });
    
-});
 });
 /*
  * 当服务端推送新数据时，更新“概况信息”gkPanel的内容
  */
-var contentUpdate=function(nodeSize,requestSize,messageSize,startTime){
-    document.getElementById("nodeSize").innerHTML=nodeSize;
-    document.getElementById("requestSize").innerHTML=requestSize;
-    document.getElementById("messageSize").innerHTML=messageSize;
-    document.getElementById("startTime").innerHTML=startTime;
+var contentUpdate=function(system,cpu,start_time){
+    document.getElementById("system").innerHTML=system;
+    document.getElementById("cpu").innerHTML=cpu;
+//    document.getElementById("io").innerHTML=io;
+    document.getElementById("start_time").innerHTML=start_time;
 }
