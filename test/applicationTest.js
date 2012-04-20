@@ -4,7 +4,7 @@ var filterManager = require('../lib/filterManager');
 
 describe('applicationTest', function(){
     var app = pomelo.createApp();
-    
+
     before(function(done){
         filterManager.clear();
         done();
@@ -20,45 +20,45 @@ describe('applicationTest', function(){
             test.should.be.ok;
             done();
         });
-        
+
         it('set json should be ok!', function(done){
             app.set('servers', __dirname+'/config/servers.json');
-            
+
             var servers = app.get('servers');
-            
+
             should.exist(servers);
-            
+
             servers.should.have.property('development');
             servers.should.have.property('production');
             servers.should.have.property('localpro');
-            
+
             done();
-        });        
+        });
     });
-    
+
     it('enable should be ok!', function(done){
         app.enable('openStack');
         var result = app.enabled('openStack');
         result.should.be.ok;
-        
+
         app.disable('openStack');
         result = app.enabled('openStack');
         result.should.not.be.ok;
-        
+
         done();
     });
-    
+
     it('enable service should be ok!', function(done){
     	app.enable('schedulerService');
         var result = app.enabled('schedulerService');
         result.should.be.ok;
-        
+
         app.disable('schedulerService');
         result = app.enabled('schedulerService');
         result.should.not.be.ok;
         done();
     });
-    
+
     it('use call should be ok!', function(done){
         filterManager.stackLen().should.equal(0);
     	app.use(function(msg, session){return 1;});
@@ -66,10 +66,10 @@ describe('applicationTest', function(){
         filterManager.stackLen().should.equal(2);
         done();
     });
-    
+
     it('configure call should be work !', function(done){
         app.set('env', 'development');
-        
+
         var callCount = 0;
         var devResult = false;
         app.configure('development', function(){
@@ -83,70 +83,76 @@ describe('applicationTest', function(){
         app.configure('localpro', function(){
             callCount += 5;
         });
-        
+
         devResult.should.be.ok;
-        
+
         app.configure('development|production', function(){
             callCount += 7;
             devResult = false;
         });
-        
+
         devResult.should.not.ok;
         callCount.should.equal(8);
-        
+
         done();
     });
-    
+
     it('gen handler should be ok!', function(done){
         app.genHandler('area',  __dirname + '/config/area/handler');
         should.exist(app.get('handlerMap'));
         //console.log('appTest genHandler: ' + JSON.stringify(app.get('handlerMap')));
-        should.exist(app.get('handlerMap')['area']);
-        
-        var userHandler = app.get('handlerMap')['area'].userHandler;
-        
+        should.exist(app.get('handlerMap').area);
+
+        var userHandler = app.get('handlerMap').area.userHandler;
+
         var result = userHandler.move();
-        
+
         result.should.be.ok;
-        
+
         done();
     });
-    
+
     it('gen remote should be ok!', function(done){
         app.genRemote('area',  __dirname + '/config/area/remote');
         should.exist(app.get('remoteMap'));
-        should.exist(app.get('remoteMap').user.area);
-        
+        should.exist(app.get('remoteMap').user.area.userService);
+
         var userService = app.get('remoteMap').user.area.userService;
         var result = userService.userLeave();
         result.should.not.be.ok;
-        
+
         done();
     });
-    
+
     it('gen proxy should be ok!', function(done){
         app.genProxy('area',  __dirname + '/config/area/remote');
         should.exist(app.get('proxyMap'));
-        should.exist(app.get('proxyMap').user.area);
-        
+        //should.exist(app.get('proxyMap').user.area.treasureService, 'tresureService should exists');
+        should.exist(app.get('proxyMap').user.area.userService, 'user service should exist');
+
+        console.log('proxymap: ' + JSON.stringify(app.get('proxyMap')));
+
         var userService = app.get('proxyMap').user.area.userService;
-        
+
         app.set('mailRouter', {
             route: function(params, callback){
-                return false;	
-            }	
+                return false;
+            }
         });
         userService.userLeave();
         done();
     });
-    
+
     it('find server should be ok!', function(done){
         app.set('env', 'production');
         app.set('servers', __dirname+'/config/servers.json');
+
+        //console.log('app.servers: '+JSON.stringify(app.get('servers')));
+
         var server = app.findServer('logic', 'logic-server-2');
         should.exist(server);
         server.id.should.equal('logic-server-2');
-        
+
         try {
             app.findServer('wrong', 'haha');
         }
@@ -155,5 +161,5 @@ describe('applicationTest', function(){
         }
         done();
     });
-    
+
 });
