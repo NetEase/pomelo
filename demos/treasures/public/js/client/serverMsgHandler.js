@@ -265,6 +265,8 @@ function onGenTimeRefresh(data){
  */
 function onUserMove(data){
   console.log("User move :" + JSON.stringify(data));
+  if(data.uid == clientManager.uid)
+    return;
   sceneManager.getRolesManager().moveRole(data);
 }
 
