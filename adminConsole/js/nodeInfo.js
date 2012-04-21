@@ -6,7 +6,7 @@ Ext.onReady(function(){
        id:'nodeStore',
        autoLoad:false,
        pageSize:5,
-       fields:['time','serverId','serverType','pid','cpuAvg','memAvg','vsz','rss'],
+       fields:['time','serverId','serverType','pid','cpuAvg','memAvg','vsz','rss','usr','sys','gue'],
        proxy:{
        	type:'memory',
        	reader:{
@@ -31,7 +31,14 @@ Ext.onReady(function(){
            {text:'cpu%',width:60,sortable:true,dataIndex:'cpuAvg'},
            {text:'mem%',width:60,sortable:true,dataIndex:'memAvg'},
            {text:'vsz',width:80,sortable:true,dataIndex:'vsz'},
-           {text:'rss',width:80,sortable:true,dataIndex:'rss'}
+           {text:'rss',width:80,sortable:true,dataIndex:'rss'},
+           {text:'cpu(i/o)',
+             columns:[
+               {text:'usr',width:60,sortable:true,dataIndex:'usr'},
+               {text:'sys',width:60,sortable:true,dataIndex:'sys'},
+               {text:'gue',width:60,sortable:true,dataIndex:'gue'}
+             ]
+           }
         ]
 	});
 
