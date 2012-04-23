@@ -29,7 +29,6 @@
 
 
 	EventEmitter.prototype.emit = function() {
-		console.log('EventEmitter.emit invoked!');
 		var type = arguments[0];
 		// If there is no 'error' event listener then throw.
 		if (type === 'error') {

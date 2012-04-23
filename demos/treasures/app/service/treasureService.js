@@ -6,6 +6,7 @@ var trConfig = require('../config/treasureConfig');
 var rs = require('./rankService');
 var serverConstant = require('../config/serverConstant');
 var treasureDao = require('../dao/treasureDao');
+var areaManager = require('../area/remote/areaManager');
 
 var trservice = module.exports;
 var allTreasureInfo = trConfig.TREASURE_DATA;
@@ -18,14 +19,18 @@ var lastGenTime = new Date().getTime();
 var leftTime = serverConstant.treasurePeriod;
 
 trservice.generateTreasures = function (sceneId,cb){
+  var mapConfig = areaManager.getArea(sceneId).mapConfig;
+  
+  //logger.error(mapConfig);
+  
 	logger.debug("in treasure service:"+sceneId);
 	treasureDao.removeTreasures(sceneId,function(err,data){
 		var num = trConfig.TREASURE_NUM;
 		var tmpLTreasure = {};
 		var newIdList = utils.genRandomNum(num, allTreasureId.length);
 		for (var i = 0; i < num; i++){
-			var posX = Math.floor(Math.random() * 2001),
-				posY = Math.floor(Math.random() * 1201),
+			var posX = Math.floor(Math.random() * mapConfig.width),
+				posY = Math.floor(Math.random() * mapConfig.height),
 				trId = allTreasureId[newIdList[i]];
 			tmpLTreasure[trId] = treasure.create({
 			  id: trId,
@@ -45,8 +50,8 @@ trservice.generateTreasures = function (sceneId,cb){
 	});
 };
 
-trservice.pickItem = function (userId, treasureId, sceneId, cb){
-	treasureDao.getTreasure(sceneId,treasureId,function(err,data){
+trservice.pickItem = function (userId, treasureId, areaId, cb){
+	treasureDao.getTreasure(areaId,treasureId,function(err,data){
 		console.log(' pickItem === ' + JSON.stringify(data));
 		if(data == undefined){
 			var tipInfo = 'Treasure ' + treasureId + ' has been picked up by another player';
@@ -59,7 +64,7 @@ trservice.pickItem = function (userId, treasureId, sceneId, cb){
 		    if(err !== null){
 		      utils.invokeCallback(cb, new WGError({code: -1, msg: 'Pick up tresure error'}),res);
 		    }  else {
-		      treasureDao.removeTreasure(sceneId,treasure.id,function(err,data){
+		      treasureDao.removeTreasure(areaId,treasure.id,function(err,data){
 		    	  logger.debug(userId + ' picked up ' +  'treasure ' + treasureId);
 			      utils.invokeCallback(cb, null,res);
 		      });

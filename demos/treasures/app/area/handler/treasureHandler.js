@@ -5,11 +5,12 @@ var rankService=require('../../service/rankService');
 var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
-var app = require('../../../../../lib/pomelo').getApp();
-var channelManager = app.get('channelManager');
-var channel = channelManager.getChannel('pomelo');
-if(!channel)
-  channel = channelManager.createChannel('pomelo');
+var pomelo = require('../../../../../lib/pomelo');
+var areaManager = require('../remote/areaManager');
+// var channelManager = app.get('channelManager');
+// var channel = channelManager.getChannel('pomelo');
+// if(!channel)
+  // channel = channelManager.createChannel('pomelo');
 
 /**
  * 用户抢宝
@@ -21,17 +22,19 @@ handler.pickItem = function (msg, session){
   var params = msg.params;
   var uid = session.uid;
   var treasureId = params.treasureId;
+  var area = areaManager.getArea(msg.areaId);
+  
   //var sceneId = session.sceneId;
-  treasureService.pickItem(uid,treasureId,msg.areaId,function(err,result){
+  treasureService.pickItem(uid, treasureId, msg.areaId, function(err,result){
   	logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + result);
   	var result ={route:msg.route, code:200 ,success:result,treasureId:treasureId};
     if (err){
         session.response({route: msg.route, code:500});
       }
     else{
-         channel.pushMessage(result);
-         updateRankList();
-      }
+      area.channel.pushMessage(result);
+      //updateRankList();
+    }
   });
 };
 

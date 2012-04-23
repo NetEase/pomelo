@@ -42,7 +42,7 @@ sceneDao.addUser = function(scene, uid, roleId, name, position,cb){
 		  //var multi = redis.multi();
 		  //logger.debug('===== update add user:'+scene+","+uid);
 		  //redis.set(usersOnlineKey(scene), uid);
-		  var user = {uid:uid,x:position.x,"y":position.y,"roleId":roleId, "name":name};
+		  var user = {uid:uid,x:position.x,"y":position.y,"roleId":roleId, "sceneId":scene , "name":name};
 		  redis.set(uidKey(scene,uid),user);
 		  redis.sadd(usersKey(scene), user);
 		  redis.sadd(usersOnlineKey(scene), user);
@@ -54,7 +54,7 @@ sceneDao.addUser = function(scene, uid, roleId, name, position,cb){
 };
 
 sceneDao.getUser = function(areaId, uid, cb){
-  redis.get(uidKey(scene,uid),function(err, data){
+  redis.get(uidKey(areaId,uid),function(err, data){
     if(!!data && !!data.uid && !!data.roleId && !!data.name && !err){
       utils.invokeCallback(cb,null,data);
     }else{

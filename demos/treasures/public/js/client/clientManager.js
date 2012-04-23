@@ -103,7 +103,7 @@ function getCurrentScene(){
  * 获取所有宝物信息
  */
 function getTreasures(){
-  pomelo.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: pomelo.uid}});
+  pomelo.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: pomelo.uid, areaId: pomelo.areaId}});
 }
 
 /**
@@ -114,7 +114,7 @@ function addUser(){
 }
 
 function getOnlineUsers(){
-  pomelo.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: pomelo.uid}});
+  pomelo.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: pomelo.uid, areaId: pomelo.areaId}});
 }
 
 /**
@@ -130,8 +130,7 @@ function getOnlineUsers(){
  */
 function move(startX, startY, endX, endY, time){
   path = [{x:startX, y:startY},{x:endX, y:endY}];
-  pomelo.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: pomelo.uid}});
-
+  pomelo.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: pomelo.uid, areaId: pomelo.areaId}});
 }
 
 /**
@@ -145,7 +144,7 @@ function move(startX, startY, endX, endY, time){
  * }
  */
 function pickTreasure(treasureId){
-    pomelo.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId}});
+    pomelo.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId, areaId: pomelo.areaId}});
 }
 
 
