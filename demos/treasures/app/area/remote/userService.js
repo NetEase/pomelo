@@ -24,8 +24,11 @@ exp.userLeave = function(msg, cb) {
   var i = 0;
   logger.error(msg);
   sceneDao.removeUser(areaId, uid);
-  area.removeUser(uid);
-	arae.channel.pushMessage({route:'onUserLeave', code: 200, uid: uid});
+  userService.getUserById(uid, function(err, data){
+    area.removeUser(data);
+  });
+  
+	area.channel.pushMessage({route:'onUserLeave', code: 200, uid: uid});
 	console.log('[userLeave] uid:' + uid);
 	utils.invokeCallback(cb);
 }

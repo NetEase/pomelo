@@ -142,13 +142,13 @@ pro.addUser = function(userInfo){
   return true;
 }
 
-pro.removeUser = function(uid, x, y){
-  this.channel.leave(uid);  
+pro.removeUser = function(user){
+  this.channel.leave(user.uid);  
   
   
-  var tower = this.towers[Math.floor(x/this.towerConfig.width)][Math.floor(y/this.towerConfig.height)];
+  var tower = this.towers[Math.floor(user.x/this.towerConfig.width)][Math.floor(user.y/this.towerConfig.height)];
   
-  tower.removeUser(uid, userInfo.sceneId);  
+  tower.removeUser(user.uid, user.areaId);  
 }
 
 /**

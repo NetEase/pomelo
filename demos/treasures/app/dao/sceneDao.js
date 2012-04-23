@@ -54,7 +54,7 @@ sceneDao.addUser = function(scene, uid, roleId, name, position,cb){
 };
 
 sceneDao.getUser = function(areaId, uid, cb){
-  redis.get(uidKey(scene,uid),function(err, data){
+  redis.get(uidKey(areaId,uid),function(err, data){
     if(!!data && !!data.uid && !!data.roleId && !!data.name && !err){
       utils.invokeCallback(cb,null,data);
     }else{

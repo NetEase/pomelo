@@ -17,7 +17,7 @@ pro.addUser = function(uid, serverId){
 }
 
 pro.removeUser = function(uid, serverId){
-  return this.channle.leave(uid);
+  return this.channel.leave(uid);
 }
 
 pro.pushMessage = function(msg, cb){
