@@ -28,9 +28,9 @@ describe('applicationTest', function(){
 
             should.exist(servers);
 
-            servers.should.have.property('development');
-            servers.should.have.property('production');
-            servers.should.have.property('localpro');
+            servers.should.have.property('connector');
+            servers.should.have.property('area');
+            servers.should.have.property('logic');
 
             done();
         });
