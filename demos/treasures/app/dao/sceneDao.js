@@ -42,7 +42,7 @@ sceneDao.addUser = function(scene, uid, roleId, name, position,cb){
 		  //var multi = redis.multi();
 		  //logger.debug('===== update add user:'+scene+","+uid);
 		  //redis.set(usersOnlineKey(scene), uid);
-		  var user = {uid:uid,x:position.x,"y":position.y,"roleId":roleId, "name":name};
+		  var user = {uid:uid,x:position.x,"y":position.y,"roleId":roleId, "sceneId":scene , "name":name};
 		  redis.set(uidKey(scene,uid),user);
 		  redis.sadd(usersKey(scene), user);
 		  redis.sadd(usersOnlineKey(scene), user);

@@ -3,11 +3,15 @@ var utils = require('../../../../../lib/util/utils');
 var userService = require('../../service/userService');
 var sceneDao = require('../../dao/sceneDao');
 
-var app = require('../../../../../lib/pomelo').getApp();
-var channelManager = app.get('channelManager');
-var channel = channelManager.getChannel('pomelo');
-if(!channel)
-  channel = channelManager.createChannel('pomelo');
+var pomelo = require('../../../../../lib/pomelo');
+var areaManager = require('./areaManager');
+
+var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
+
+// var channelManager = app.get('channelManager');
+// var channel = channelManager.getChannel('pomelo');
+// if(!channel)
+  // channel = channelManager.createChannel('pomelo');
 
 /**
  * 用户退出,在场景在移除用户并通知客户端
@@ -16,9 +20,12 @@ exp.userLeave = function(msg, cb) {
   var uid = msg.uid;
   var areaId = msg.areaId;
   
-	sceneDao.removeUser(areaId, uid);
-	channel.leave(uid);
-	channel.pushMessage({route:'onUserLeave', code: 200, uid: uid});
+  var area = areaManager.getArea(areaId);
+  var i = 0;
+  logger.error(msg);
+  sceneDao.removeUser(areaId, uid);
+  area.removeUser(uid);
+	arae.channel.pushMessage({route:'onUserLeave', code: 200, uid: uid});
 	console.log('[userLeave] uid:' + uid);
 	utils.invokeCallback(cb);
 }
@@ -31,7 +38,7 @@ exp.removeUser = function(msg, cb){
   var areaId = msg.areaId;
   
   sceneDao.removeUser(areaId, uid);
-  channel.leave(uid);
+  areaManager.getArea(areaId).channel.leave(uid);
   utils.invokeCallback(cb);
 }
 

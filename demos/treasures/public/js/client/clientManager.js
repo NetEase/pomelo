@@ -103,7 +103,7 @@ function getCurrentScene(){
  * 获取所有宝物信息
  */
 function getTreasures(){
-  socketClient.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: uid}});
+  socketClient.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: uid, areaId: areaId}});
 }
 
 /**
@@ -114,7 +114,7 @@ function addUser(){
 }
 
 function getOnlineUsers(){
-  socketClient.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: uid}});
+  socketClient.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: uid, areaId: areaId}});
 }
 
 /**
@@ -130,7 +130,7 @@ function getOnlineUsers(){
  */
 function move(startX, startY, endX, endY, time){
   path = [{x:startX, y:startY},{x:endX, y:endY}];
-  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: self.uid}});
+  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: self.uid, areaId: areaId}});
   
 }
 
@@ -145,7 +145,7 @@ function move(startX, startY, endX, endY, time){
  * }
  */
 function pickTreasure(treasureId){
-    socketClient.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId}});
+    socketClient.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId, areaId: areaId}});
 }
 
 

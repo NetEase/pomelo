@@ -25,7 +25,7 @@ var moveJob = {};
 handler.removeUser = function(msg, session) {
     var uid = msg.params.uid;
     logger.debug('user logout :'+uid);
-    sceneDao.removeOnline(this.name,uid);
+    sceneDao.removeOnline(msg.areaId, uid);
     //delete this.uidList[uid];
     session.response({route: msg.route, code: 200})
 };
@@ -40,7 +40,7 @@ handler.addUser = function(msg, session) {
   var uid = session.uid;
   var area = areaManager.getArea(msg.areaId);
     
-	logger.debug('user login :'+uid+","+this.name);
+	logger.debug('user login :'+uid+","+ msg.areaId);
 	userService.getUserById(uid, function(err, data){
 		sceneDao.addUser(data.sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
 			if(!!err) {
@@ -91,32 +91,37 @@ handler.move = function (msg, session){
 	areaManager.getArea(areaId).pushMessageByPath(path, {route: 'onMove', uid: uid, path: path, time: time});
 	var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 
+  if(!!moveJob[uid]){
+    schedule.cancelJob(moveJob[uid]);
+    delete moveJob[move.uid];
+  }
+  console.error(time);
+  moveJob[uid] = schedule.scheduleJob({start:Date.now() + time, count: 1}, handler.moveCalc, {areaId: areaId, uid:uid, path: path});
+  
   console.log('[move]  msg: ' + JSON.stringify(msg));
 	session.response({route: msg.route, body: move, code: 200});
 };
 
 handler.moveCalc = function(data){
-  //更新用户的位置信息数据
-  sceneDao.setUserPos(areaId, uid, {x: path[1].x, y: path[1].y});
-  
-  var move = data.move;
-  var channel = data.channel;
+  var path = data.path;
   
   logger.debug('invoke move:');
-  var startx = move.startx;
-  var starty = move.starty;
-  var target = move.path[1];
-  var time = move.time;
-  logger.debug(startx+","+starty+","+time+","+target.x+","+target.y);
-  delete moveJob[move.uid];
-  
+  //更新用户的位置信息数据
+  sceneDao.setUserPos(data.areaId, data.uid, {x: path[1].x, y: path[1].y}, function(err){
+    if(!!err){
+      logger.error('set user position failed! [uid]:' + data.uid);
+    }else{
+      logger.error('set user position success! [areaId]:' + data.areaId + '[uid]:' + data.uid + " [x]:" + path[1].x + " [y]:" + path[1].y);
+    }
+  });
+  delete moveJob[data.uid];
 };
 
 /**
  * 获取所有在线用户
  */
 handler.getOnlineUsers = function(msg, session){
-  sceneDao.getOnlineUserInfos(0, function(err, result){
+  sceneDao.getOnlineUserInfos(msg.areaId, function(err, result){
     console.log("users :" + JSON.stringify(result));
     if (err){
       session.response({route: msg.route, code:500});

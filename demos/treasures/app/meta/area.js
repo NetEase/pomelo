@@ -1,7 +1,7 @@
 var Tower = require('./tower');
 var pomelo = require('../../../../lib/pomelo');
 var utils = require('../../../../lib/util/utils');
-
+// /var sceneDao = require('../dao/sceneDao');
 var exports = module.exports;
 var logger = require('../../../../lib/pomelo').log.getLogger(__filename);
 
@@ -14,7 +14,8 @@ var Area = function(param) {
 	
 	this.towerConfig = param.tower;
 	
-	this.towers = {};
+	this.towers = {}
+	
 	this.init();
 }
 
@@ -133,12 +134,21 @@ pro.addUser = function(userInfo){
   var tower = this.towers[Math.floor(userInfo.x/this.towerConfig.width)][Math.floor(userInfo.y/this.towerConfig.height)];
   
   if(!tower){
-    console.error("!!!!!!!!!!!!!!!!!!!!!!!!!!!! get tower error");
+    logger.error("!!!!!!!!!!!!!!!!!!!!!!!!!!!! get tower error");
     return false;
   }
   tower.addUser(uid, userInfo.sceneId);
   
   return true;
+}
+
+pro.removeUser = function(uid, x, y){
+  this.channel.leave(uid);  
+  
+  
+  var tower = this.towers[Math.floor(x/this.towerConfig.width)][Math.floor(y/this.towerConfig.height)];
+  
+  tower.removeUser(uid, userInfo.sceneId);  
 }
 
 /**
