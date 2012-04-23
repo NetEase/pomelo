@@ -9,13 +9,11 @@ __resources__["/clientManager.js"] = {meta: {mimetype: "application/javascript"}
 //var clientManager = require('Manager');
 var heroSelectView = require('heroSelectView');//选角色管理
 
-var socketClient = require('client');
+var pomelo = window.pomelo;
+var serverMsgHandler = require('serverMsgHandler');
 
 var loginUsername = "";
 var loginName = "";
-var sid = 0;
-var uid = 0;
-var areaId = 1;
 
 
 //暴露的接口和对象
@@ -28,15 +26,17 @@ exports.getCurrentScene = getCurrentScene;
 
 var self = this;
 
-self.uid = exports.uid = uid;
-
-
 
 function init(){
   //初始化socketClient
-  socketClient.init();
+  pomelo.init({socketUrl:'ws://localhost:3050', log:true});
+  serverMsgHandler.init();
 }
 
+// pomelo.on('connector.loginHandler.login', function(data){
+//  	console.log('clientManager.onLogin data '+ data);
+// });
+// //
 /**
  * 登录逻辑，对应的推送消息格式:
  *     msg = {
@@ -50,7 +50,7 @@ function init(){
 function login(){
   var username = document.getElementById('loginUser').value;
   var pwd = document.getElementById('loginPwd').value;
-  
+
   if (!username) {
       alert("请输入用户名");
       return;
@@ -60,7 +60,7 @@ function login(){
   if(localStorage){
     localStorage.setItem('username', username);
   }
-  socketClient.pushMessage({route:"connector.loginHandler.login", params:{username: username, password: pwd}});
+  pomelo.pushMessage({route:"connector.loginHandler.login", params:{username: username, password: pwd}});
 }
 
 /**
@@ -78,7 +78,7 @@ function register(){
   var roleId = heroSelectView.roleId();
   var name = document.getElementById('gameUserName').value;
   var pwd = "pwd";
-  
+
   if (!loginUsername || !name) {
     alert("角色名不能为空");
   }
@@ -86,7 +86,7 @@ function register(){
     alert('干嘛蛋疼取这么长的名字。。。');
   }
   else {
-    socketClient.pushMessage({route:"connector.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
+    pomelo.pushMessage({route:"connector.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
   }
 }
 
@@ -103,18 +103,18 @@ function getCurrentScene(){
  * 获取所有宝物信息
  */
 function getTreasures(){
-  socketClient.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: uid}});
+  pomelo.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: pomelo.uid, areaId: pomelo.areaId}});
 }
 
 /**
  * 获取所有人物信息
  */
 function addUser(){
-  socketClient.pushMessage({route:"area.userHandler.addUser"});
+  pomelo.pushMessage({route:"area.userHandler.addUser"});
 }
 
 function getOnlineUsers(){
-  socketClient.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: uid}});
+  pomelo.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: pomelo.uid, areaId: pomelo.areaId}});
 }
 
 /**
@@ -130,8 +130,7 @@ function getOnlineUsers(){
  */
 function move(startX, startY, endX, endY, time){
   path = [{x:startX, y:startY},{x:endX, y:endY}];
-  socketClient.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: self.uid}});
-  
+  pomelo.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: pomelo.uid, areaId: pomelo.areaId}});
 }
 
 /**
@@ -145,7 +144,7 @@ function move(startX, startY, endX, endY, time){
  * }
  */
 function pickTreasure(treasureId){
-    socketClient.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId}});
+    pomelo.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId, areaId: pomelo.areaId}});
 }
 
 

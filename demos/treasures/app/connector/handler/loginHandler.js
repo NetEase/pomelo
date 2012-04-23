@@ -13,7 +13,7 @@ exp.login = function(msg, session) {
 			session({route: msg.route, code: 500});
 			return;
 		}
-		
+
 		logger.debug('[login] login success, uid:' + uinfo.uid);
 		afterLogin(msg, session, uinfo);
 	});
@@ -27,17 +27,19 @@ exp.register = function(msg, session) {
 			session.response({route: msg.route, code: 500, error:err});
 			return;
 		}
-		
+
 		logger.debug('[register] register success, uid:' + uinfo.uid);
 		afterLogin(msg, session, uinfo);
 	});
 };
 
 var afterLogin = function(msg, session, uinfo) {
-	logger.error('uinfo: %j', uinfo);
+	//logger.error('uinfo: %j', uinfo);
 	session.userLogined(uinfo.uid);
+	session.set('areaId' ,uinfo.sceneId);
+	console.log('areaId:' + session.areaId);
 	session.on('closing', onUserLeave);
-	
+
 	session.response({route: msg.route, code: 200, userData: uinfo});
 };
 
@@ -45,8 +47,8 @@ var onUserLeave = function(session) {
 	if(!session || !session.uid) {
 		return;
 	}
-	
-	pomelo.getApp().get('proxyMap').user.area.userService.userLeave(session.uid, function(err) {
+
+	pomelo.getApp().get('proxyMap').user.area.userService.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
 		//TODO: logout logic
 		//TODO: remember to call session.closed() to finish logout flow finally
 		session.closed();
