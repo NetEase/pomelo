@@ -25,7 +25,12 @@ app.configure('production|localpro|development', 'connector', function(){
 
 appTemplate.done(app);
 
-if (app.serverType==='master') {
+
+if(app.get('serverType')=='area'){
+  areaManager.init(require('./config/areas.json'));
+}
+
+if (app.serverType==='master' || app.serverType==='all') {
 	startWebServer();
 }
 
@@ -34,8 +39,10 @@ function startWebServer(){
     var app_express = require('./app_express');
     var master_app=require('../../lib/master/app_express');
     var app_console = require('../../adminConsole/appCon');
+    console.log('[AppWebServerStart] listen, visit http://0.0.0.0:3001/index.html');
 }
 
 process.on('uncaughtException', function(err) {
-	console.error(' Caught exception: ' + err.stack);
+	console.log(' Caught exception: ' + err.stack);
 });
+
