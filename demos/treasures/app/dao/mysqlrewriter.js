@@ -1,3 +1,5 @@
+var logger = require('../../../../lib/util/log/log').getLogger(__filename);
+
 /**
  * Initialize a new AOF MysqlRewriter with the given `db`.
  * 
@@ -53,13 +55,13 @@ MysqlRewriter.prototype.write = function(val){
   {
  	//var val = vals[id];
 	//console.error(' ' + JSON.stringify(val)+ '  ' + val.x+ '  ' +val.y + '  ' +val.uid);
-    var sql = 'update Hero set x = ? ,y = ? ,sceneId = ? ,where id = ?';
+    var sql = 'update Hero set x = ? ,y = ? ,sceneId = ? where id = ?';
     var args = [val.x, val.y, val.sceneId, val.uid];
     this.client.update(sql, args, function(err, res){
       if(err !== null){
-        //console.error(sql + ' ' + JSON.stringify(val));
+        logger.error('write mysql failed!　' + sql + ' ' + JSON.stringify(val));
      } else {
-    	 //console.error('flash dbok ' + sql + ' ' + JSON.stringify(val));
+    	  logger.info('write mysql success! flash dbok ' + sql + ' ' + JSON.stringify(val));
     }
     });
   }
