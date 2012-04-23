@@ -5,13 +5,14 @@ var routeService = require('./app/service/routeService');
 var areaManager = require('./app/area/remote/areaManager');
 
 var app = appTemplate.init();
+app.set('name','抢宝');
+app.set('dirname', __dirname);
+app.set('calculator', routeService.calculator);
+
 if(app.get('serverType')=='area'){
   areaManager.init(require('./config/areas.json'));
 }
 
-app.set('name','抢宝');
-app.set('dirname', __dirname);
-app.set('calculator', routeService.calculator);
 appTemplate.defaultConfig(app);
 
 app.configure(function(){
@@ -25,15 +26,9 @@ app.configure('production|localpro|development', 'connector', function(){
 
 appTemplate.done(app);
 
-
-if(app.get('serverType')=='area'){
-  areaManager.init(require('./config/areas.json'));
-}
-
 if (app.serverType==='master' || app.serverType==='all') {
 	startWebServer();
 }
-
 
 function startWebServer(){
     var app_express = require('./app_express');
