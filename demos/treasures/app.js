@@ -38,6 +38,6 @@ function startWebServer(){
 }
 
 process.on('uncaughtException', function(err) {
-	console.log(' Caught exception: ' + err.stack);
+	console.error(' Caught exception: ' + err.stack);
 });
 
