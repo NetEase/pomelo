@@ -1,21 +1,30 @@
 {
   "appenders": [
     { 
-	    "type": "file", 
-	    "filename": "./logs/node-log.log", 
-	    "fileSize": 1048576, 
-	    "layout": { 
-       	 	"type": "messagePassThrough" 
-      	} 
-	    ,"backups": 5
+      "type": "file", 
+      "filename": "./logs/node-log.log", 
+      "fileSize": 1048576, 
+      "layout": { 
+          "type": "messagePassThrough" 
+        } 
+      ,"backups": 5
     }, 
     {
-    	"type": "console"
+      "type": "console"
+    },
+    { 
+      "type": "file", 
+      "filename": "./logs/monitor-log.log", 
+      "fileSize": 1048576, 
+      "layout": { 
+          "type": "messagePassThrough" 
+        } 
+      ,"backups": 5,
+      "category":"monitor-log"
     }
   ],
   
   "levels": {
-    "tests":  "DEBUG",
-    "treasureDao": "INFO
+    "tests":  "DEBUG"
   }
 }

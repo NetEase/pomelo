@@ -1,0 +1,13 @@
+[2012-04-23 18:36:23.890] [INFO] monitor-log - [monitorMessage] {"route":"connector.loginHandler.login","params":{"username":"lwj2","password":"123"}}
+[2012-04-23 18:36:24.022] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.addUser","areaId":1}
+[2012-04-23 18:36:24.023] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.getOnlineUsers","params":{"uid":10304,"areaId":1},"areaId":1}
+[2012-04-23 18:36:24.024] [INFO] monitor-log - [monitorMessage] {"route":"area.treasureHandler.getTreasures","params":{"uid":10304,"areaId":1},"areaId":1}
+[2012-04-23 18:36:57.389] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.move","params":{"path":[{"x":506,"y":363},{"x":275,"y":237}],"time":5262.5849161795,"uid":10304,"areaId":1},"areaId":1}
+[2012-04-23 18:36:59.751] [INFO] monitor-log - [monitorMessage] {"route":"connector.loginHandler.login","params":{"username":"lwj2","password":"123"}}
+[2012-04-23 18:36:59.883] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.addUser","areaId":1}
+[2012-04-23 18:36:59.889] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.getOnlineUsers","params":{"uid":10304,"areaId":1},"areaId":1}
+[2012-04-23 18:36:59.890] [INFO] monitor-log - [monitorMessage] {"route":"area.treasureHandler.getTreasures","params":{"uid":10304,"areaId":1},"areaId":1}
+[2012-04-23 18:37:00.427] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.move","params":{"path":[{"x":100,"y":100},{"x":545,"y":265}],"time":9492.101980067428,"uid":10304,"areaId":1},"areaId":1}
+[2012-04-23 18:37:00.629] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.move","params":{"path":[{"x":123.4405404058269,"y":108.69143633025043},{"x":558.0643242434961,"y":270.21486179815025}],"time":9273.352154474827,"uid":10304,"areaId":1},"areaId":1}
+[2012-04-23 18:37:00.732] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.move","params":{"path":[{"x":132.81414720081835,"y":112.17504016147033},{"x":562.7511276409919,"y":271.95666371376024}],"time":9173.352154474826,"uid":10304,"areaId":1},"areaId":1}
+[2012-04-23 18:37:00.835] [INFO] monitor-log - [monitorMessage] {"route":"area.userHandler.move","params":{"path":[{"x":142.1877539958098,"y":115.65864399269026},{"x":567.4379310384876,"y":273.69846562937016}],"time":9073.352154474826,"uid":10304,"areaId":1},"areaId":1}
