@@ -20,6 +20,7 @@ app.configure(function(){
 });
 
 app.configure('production|localpro|development', 'connector', function(){
+  app.use(pomelo.timeAdjustFilter);
   app.use(pomelo.serialFilter);
   app.use(authFilter);
 });

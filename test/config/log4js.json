@@ -1,0 +1,29 @@
+{
+  "appenders": [
+    {
+	    "type": "file",
+	    "filename": "./logs/node-log.log",
+	    "fileSize": 1048576,
+	    "layout": {
+       	 	"type": "messagePassThrough"
+      	}
+	    ,"backups": 5
+    },
+    {
+    	"type": "console"
+    },
+    {
+	    "type": "file",
+	    "filename": "./logs/monitor-log.log",
+	    "fileSize": 1048576,
+	    "layout": {
+       	 	"type": "messagePassThrough"
+      	}
+	    ,"backups": 5,
+	    "category": "monitor"
+    }
+  ],
+  "levels": {
+    "tests":  "DEBUG"
+  }
+}
