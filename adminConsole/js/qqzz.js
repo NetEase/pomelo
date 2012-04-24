@@ -6,7 +6,7 @@ Ext.onReady(function(){
 	id:'reqStoreId',
 	autoLoad:false,
 	pageSize:5,
-    fields:['source','route','params','createTime','doneTime','cost(ms)'],
+    fields:['source','route','params','createTime','doneTime','cost(ms)','timeout'],
 //    groupField: 'department',
     proxy: {
         type: 'memory',
@@ -27,7 +27,8 @@ var reqGrid=Ext.create('Ext.grid.Panel', {
     columns:[
 		// {header:'source',dataIndex:'source',width:150},
 		{xtype:'rownumberer',width:50,sortable:false},
-		{text:'request route',dataIndex:'route',width:230},
+		{text:'request route',dataIndex:'route',width:200},
+		{text:'timeout',dataIndex:'timeout',width:50},
 		{text:'request params',dataIndex:'params',width:900}
 //		{header:'createTime',dataIndex:'createTime',width:200},
 //		{header:'doneTime',dataIndex:'doneTime',width:200},
