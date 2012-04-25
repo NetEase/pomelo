@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!--css样式文件-->
         <link href="css/client.css" rel="stylesheet" type="text/css">
-				
+
 				<!--colorbox js start-->
 				<script src="./js/lib/colorbox/colorbox_header.js"></script>
         <script src="./js/lib/colorbox/Box2dWeb-2.1.a.3.js"></script>
@@ -37,21 +37,22 @@
         <script src="./js/lib/colorbox/sound.js"></script>
         <script src="./js/lib/colorbox/colorbox_module.js"></script>
 		<!--colorbox js end-->
-				
+
 		<!--js文件，控制逻辑-->
 		<script src="./js/client/mapView.js"></script>
+        <script src="js/client/serverMsgHandler.js" type="text/javascript"></script>
+        <script src="js/lib/events.js" type="text/javascript"></script>
+        <script src="js/lib/pomeloclient.js" type="text/javascript"></script>
         <script src="./js/client/roleView.js"></script>
         <script src="js/client/treasureView.js" type="text/javascript"></script>
         <script src="js/client/vo/voData.js" type="text/javascript"></script>
         <script src="js/lib/socket.io.js" type="text/javascript"></script>
         <script src="js/client/clientManager.js" type="text/javascript"></script>
-        <script src="js/client/client.js" type="text/javascript"></script>
         <script src="js/client/switchManager.js" type="text/javascript"></script>
         <script src="js/client/heroSelectView.js" type="text/javascript"></script>
         <script src="js/client/sceneManager.js" type="text/javascript"></script>
         <script src="js/client/rankManager.js" type="text/javascript"></script>
         <script src="js/client/tickViewManager.js" type="text/javascript"></script>
-        <script src="js/client/serverMsgHandler.js" type="text/javascript"></script>
 
         <script src="./js/client/main.js"></script>
     </head>
@@ -93,18 +94,18 @@
                 <input id="heroSelectBtn" type='button' value="选择英雄" onclick=""/>
             </div>
         </div>
-				
+
         <div id="canvasPanel" class="m-gameview m-switch-model-hiden">
 		</div>
-		
+
 		<div id="rank-view" class='m-switch-model-hiden'>
 		</div>
-		
+
 		<div id="tick-view" class='m-switch-model-hiden'>
 			宝物刷新倒计时：<span id='tick-label'></span>
 		</div>
-		
-		
+
+
     </body>
 
 </html>

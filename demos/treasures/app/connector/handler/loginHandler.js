@@ -13,7 +13,7 @@ exp.login = function(msg, session) {
 			session({route: msg.route, code: 500});
 			return;
 		}
-		
+
 		logger.debug('[login] login success, uid:' + uinfo.uid);
 		afterLogin(msg, session, uinfo);
 	});
@@ -27,7 +27,7 @@ exp.register = function(msg, session) {
 			session.response({route: msg.route, code: 500, error:err});
 			return;
 		}
-		
+
 		logger.debug('[register] register success, uid:' + uinfo.uid);
 		afterLogin(msg, session, uinfo);
 	});
@@ -41,6 +41,8 @@ var afterLogin = function(msg, session, uinfo) {
 			return;
 		}
 
+		session.set('areaId' ,uinfo.sceneId);
+		session.set('username', uinfo.username);
 		session.userLogined(uinfo.uid);
 		session.on('closing', onUserLeave);
 	
@@ -54,7 +56,7 @@ var onUserLeave = function(session) {
 	}
 	
 	var proxy = pomelo.getApp().get('proxyMap');
-	proxy.user.area.userService.userLeave(session.uid, function(err) {
+	proxy.user.area.userService.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
 		//TODO: logout logic
 		//TODO: remember to call session.closed() to finish logout flow finally
 		proxy.user.status.statusService.removeStatus(session.uid, function(err) {

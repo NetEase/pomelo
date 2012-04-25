@@ -20,7 +20,7 @@ var sysStore = Ext.create('Ext.data.Store', {
         type: 'memory',
         reader: {
             type: 'json',
-            root: 'nodes'
+            root: 'sysItems'
         }
     }
 });
@@ -35,7 +35,7 @@ var sysPanel=Ext.create('Ext.grid.Panel', {
     autoScroll:true,
     columns:[
 		    {text:'Time',width:120,sortable:false,dataIndex:'Time'},
-		    {text:'cpu',
+		    {text:'CPU(I/O)',
 		     columns:[
 		       {text:'user',width:60,sortable:true,dataIndex:'cpu_user'},
 		       {text:'nice',width:60,sortable:true,dataIndex:'cpu_nice'},
@@ -44,7 +44,7 @@ var sysPanel=Ext.create('Ext.grid.Panel', {
 		       {text:'steal',width:60,sortable:true,dataIndex:'cpu_steal'},
 		       {text:'idle',width:60,sortable:true,dataIndex:'cpu_idle'}
 		     ]},
-		    {text:'disk',
+		    {text:'DISK(I/O)',
 		     columns:[
 		       {text:'tps',width:70,sortable:true,dataIndex:'tps'},
 		       {text:'kb_read',width:70,sortable:true,dataIndex:'kb_read'},
@@ -79,7 +79,7 @@ var gkPanel=Ext.create('Ext.panel.Panel',{
 });
 
 /**
- * 页面整体布局
+ * the overall layout
  */
 	var viewport=new Ext.Viewport({
 	    layout:'border',
@@ -87,7 +87,7 @@ var gkPanel=Ext.create('Ext.panel.Panel',{
 	});
 });
 /**
- * WebSocket通道,获取数据
+ * client's WebSocket,pull data
  */
 socket.on('connect',function(){
 	socket.emit('announce_web_client');
@@ -100,13 +100,14 @@ socket.on('connect',function(){
     var start_time=msg.wholeMsg.start_time;
     contentUpdate(system,cpu,start_time);
     
+    //update the data of sysPanel
    	var store=Ext.getCmp('gridPanelId').getStore();
-    store.loadData(msg.nodes);
+    store.loadData(msg.sysItems);
    });
    
 });
 /*
- * 当服务端推送新数据时，更新“概况信息”gkPanel的内容
+ * update the data of gkPanel
  */
 var contentUpdate=function(system,cpu,start_time){
     document.getElementById("system").innerHTML=system;

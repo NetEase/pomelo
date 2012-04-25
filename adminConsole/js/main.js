@@ -11,7 +11,8 @@ Ext.onReady(function(){
 	    root:{
 	      expanded:true,
 	      children:[
-	      {id:'gaishu',text:'概述',leaf:true},
+	      {id:'systemInfo',text:'systemInfo',leaf:true},
+	      {id:'nodeInfo',text:'nodeInfo',leaf:true},
 	      {id:'romote',text:'romote',leaf:true},
 	      {id:'qq',text:'请求',expanded:true,children:[
 	          {id:'qqzz',text:'请求追踪',leaf:true},

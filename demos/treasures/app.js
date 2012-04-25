@@ -8,6 +8,11 @@ var app = appTemplate.init();
 app.set('name','抢宝');
 app.set('dirname', __dirname);
 app.set('calculator', routeService.calculator);
+
+if(app.get('serverType')=='area'){
+  areaManager.init(require('./config/areas.json'));
+}
+
 appTemplate.defaultConfig(app);
 
 app.configure(function(){
@@ -15,20 +20,16 @@ app.configure(function(){
 });
 
 app.configure('production|localpro|development', 'connector', function(){
+  app.use(pomelo.timeAdjustFilter);
   app.use(pomelo.serialFilter);
   app.use(authFilter);
 });
 
 appTemplate.done(app);
 
-if(app.get('serverType')=='area'){
-  areaManager.init(require('./config/areas.json'));
-}
-
 if (app.serverType==='master' || app.serverType==='all') {
 	startWebServer();
 }
-
 
 function startWebServer(){
     var app_express = require('./app_express');
@@ -38,6 +39,6 @@ function startWebServer(){
 }
 
 process.on('uncaughtException', function(err) {
-	console.log(' Caught exception: ' + err.stack);
+	console.error(' Caught exception: ' + err.stack);
 });
 
