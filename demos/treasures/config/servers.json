@@ -12,6 +12,9 @@
 	  ], 
 	  "area": [
 	  	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050}
+	  ], 
+	  "status": [
+	  	{"id": "status-server-1", "host": "127.0.0.1", "port": 9050}
 	  ]
     },
 	"production": 
@@ -30,12 +33,16 @@
 	  "area": [
 	  	{"id": "area-server-1", "host": "172.17.2.236", "port": 8050},
 	  	{"id": "area-server-2", "host": "172.17.2.236", "port": 8051}
+	  ], 
+	  "status": [
+	  	{"id": "status-server-1", "host": "172.17.2.235", "port": 9050}
 	  ]
     },
     "localpro":
     {
      "connector": [
-  		{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050, "wsPort":3050}
+  		{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050, "wsPort":3050}, 
+  		{"id": "connector-server-1", "host": "127.0.0.1", "port": 4060, "wsPort":3060}
 	  ], 
 	  "login": [
 	  	{"id": "login-server-1", "host": "127.0.0.1", "port": 4060}
@@ -45,6 +52,9 @@
 	  ], 
 	  "area": [
 	  	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050}
+	  ], 
+	  "status": [
+	  	{"id": "status-server-1", "host": "127.0.0.1", "port": 9050}
 	  ]
     }
 

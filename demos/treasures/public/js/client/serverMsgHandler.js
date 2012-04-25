@@ -154,7 +154,13 @@ var msgHandlerMap = {
   
   'area.onRankListChange': onRankListChange,
   
-  'onGenTimeRefresh': onGenTimeRefresh
+  'onGenTimeRefresh': onGenTimeRefresh, 
+
+  /**
+   * kicked offline by another login for the same account
+   * data:{body:{}}
+   */
+  'kick': onKick
   
 };
 
@@ -280,7 +286,12 @@ function onUserLeave(data){
   sceneManager.getRolesManager().deleteRole(data.uid);
 }
 
+function onKick(data) {
+  console.log('kicked offline');
+  switchManager.selectView("loginPanel");
+}
+
 //暴露的接口和对象
 exports.msgHandlerMap = msgHandlerMap;
-
+  
 }};
