@@ -54,6 +54,9 @@
     if(msg.route.indexOf('area.') == 0){
       msg.areaId = pomelo.areaId;
     }
+
+    if(!msg.params)
+    	msg.params = {};
     msg.params.timestamp = Date.now();
     return msg;
   }
