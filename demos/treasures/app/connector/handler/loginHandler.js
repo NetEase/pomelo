@@ -34,23 +34,36 @@ exp.register = function(msg, session) {
 };
 
 var afterLogin = function(msg, session, uinfo) {
-	//logger.error('uinfo: %j', uinfo);
-	session.userLogined(uinfo.uid);
-	session.set('areaId' ,uinfo.sceneId);
-	console.log('areaId:' + session.areaId);
-	session.on('closing', onUserLeave);
+	var app = pomelo.getApp();
+	app.get('proxyMap').user.status.statusService.addStatus(uinfo.uid,  app.get('serverId'), function(err) {
+		if(!!err) {
+			session.response({route: msg.route, code: 500});
+			return;
+		}
 
-	session.response({route: msg.route, code: 200, userData: uinfo});
+		session.set('areaId' ,uinfo.sceneId);
+		session.set('username', uinfo.username);
+		session.userLogined(uinfo.uid);
+		session.on('closing', onUserLeave);
+	
+		session.response({route: msg.route, code: 200, userData: uinfo});
+	});
 };
 
 var onUserLeave = function(session) {
 	if(!session || !session.uid) {
 		return;
 	}
-
-	pomelo.getApp().get('proxyMap').user.area.userService.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
+	
+	var proxy = pomelo.getApp().get('proxyMap');
+	proxy.user.area.userService.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
 		//TODO: logout logic
 		//TODO: remember to call session.closed() to finish logout flow finally
-		session.closed();
+		proxy.user.status.statusService.removeStatus(session.uid, function(err) {
+			if(!!err) {
+				logger.error('fail to remove status for ' + uid + ', err:' + err.stack);
+			}
+			session.closed();
+		});
 	});
 };
