@@ -7,12 +7,26 @@
 		};
 	}
 
-	var root = window;
 
-	var eventEmitter = new root.EventEmitter();
+	var root = this;
+
+	var EventEmitter;
+	if (typeof module !== 'undefined' && module.exports) {
+		EventEmitter = require('events');
+	}
+	else {
+		EventEmitter = root.EventEmitter;
+	}
+	var eventEmitter = new EventEmitter();
 	var pomelo = Object.create(eventEmitter); // object extend from object
 
-	root.pomelo = pomelo;
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = pomelo;
+	}
+	else {
+		root = window;
+		root.pomelo = pomelo;
+	}
 
 
   pomelo.init = function(params){

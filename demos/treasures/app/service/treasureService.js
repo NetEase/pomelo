@@ -42,7 +42,7 @@ trservice.generateTreasures = function (sceneId,cb){
 			});
 		}
 		treasureDao.createTreasureList(sceneId,tmpLTreasure,function(err,data){
-			logger.debug('createTreasureList ok,  data: ' + JSON.stringify(data));
+			//logger.debug('createTreasureList ok,  data: ' + data);
 		});
 		lastGenTime = new Date().getTime();
 		//logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ');
