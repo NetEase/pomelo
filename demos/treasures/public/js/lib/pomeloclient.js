@@ -8,14 +8,14 @@
 	}
 
 
-	var root = this;
+	var root = window;
 
 	var EventEmitter;
 	if (typeof module !== 'undefined' && module.exports) {
 		EventEmitter = require('events');
 	}
 	else {
-		EventEmitter = root.EventEmitter;
+		EventEmitter = window.EventEmitter;
 	}
 	var eventEmitter = new EventEmitter();
 	var pomelo = Object.create(eventEmitter); // object extend from object
@@ -24,7 +24,6 @@
 		module.exports = pomelo;
 	}
 	else {
-		root = window;
 		root.pomelo = pomelo;
 	}
 
@@ -68,7 +67,7 @@
     if(msg.route.indexOf('area.') == 0){
       msg.areaId = pomelo.areaId;
     }
-  
+
     if (!msg.params){
     	msg.params = {};
 		}
