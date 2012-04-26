@@ -134,5 +134,10 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			sceneManager.getRolesManager().deleteRole(data.uid);
 		});
 
+	    pomelo.on('onKick', function(data) {
+	      console.log('kicked offline');
+	      switchManager.selectView("loginPanel");
+	    });
+
 	}
 }};
