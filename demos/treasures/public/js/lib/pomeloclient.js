@@ -9,23 +9,9 @@
 
 
 	var root = window;
-
-	var EventEmitter;
-	if (typeof module !== 'undefined' && module.exports) {
-		EventEmitter = require('events');
-	}
-	else {
-		EventEmitter = window.EventEmitter;
-	}
-	var eventEmitter = new EventEmitter();
+	var eventEmitter = new root.EventEmitter();
 	var pomelo = Object.create(eventEmitter); // object extend from object
-
-	if (typeof module !== 'undefined' && module.exports) {
-		module.exports = pomelo;
-	}
-	else {
-		root.pomelo = pomelo;
-	}
+	root.pomelo = pomelo;
 
 
   pomelo.init = function(params){

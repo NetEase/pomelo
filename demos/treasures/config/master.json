@@ -2,12 +2,8 @@
 	"development":{
 		"id": "master-server-1", "host": "127.0.0.1", "port": 3005
     },
-	"production": 
+	"production":
     {
       "id": "master-server-1", "host": "172.17.2.237", "port": 3005
-    },
-    "localpro":
-    {
-      "id": "master-server-1", "host": "127.0.0.1", "port": 3005
     }
 }
