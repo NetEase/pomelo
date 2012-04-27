@@ -36,10 +36,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			if (userData.uid <= 0) {
 				switchManager.selectView("heroSelectPanel");
 			}else{
-				pomelo.uid = userData.uid;
-				pomelo.areaId = userData.sceneId;
-				sceneManager.enterScene({}, userData);
-				clientManager.getCurrentScene();
+				afterLogin(data);
 			}
 		});
 
@@ -59,12 +56,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			}else{
 				//    alert("登录调用成功！用户已经存在\n sessionId:" + data.sid + " code:" + data.code);
 
-				pomelo.uid = userData.uid;
-				pomelo.areaId = userData.sceneId;
-				sceneManager.enterScene({}, userData);
-
-
-				clientManager.getCurrentScene();
+				afterLogin(data);
 			}
 		});
 
@@ -109,6 +101,11 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			sceneManager.getRolesManager().showRoles(users);
 		});
 
+    pomelo.on('area.userHandler.transferUser', function(data){
+       var target = data.target;
+        
+    });
+    
 		pomelo.on('onGenTimeRefresh', function(data){
 			tickViewManager.refresh(data.body.leftTime);
 		});
@@ -132,6 +129,37 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			console.log("用户离开: " + JSON.stringify(data.uid));
 			sceneManager.getRolesManager().deleteRole(data.uid);
 		});
+		
+		pomelo.on('area.userHandler.transferUser', function(data){
+		  if(data.code == 500){
+		    console.log("用户更换场景失败！" + JSON.stringify(data));
+		    return;
+		  }
+		  console.log("用户更换场景: " + JSON.stringify(data.msg));  
+		  var target = data.msg.target;
+      pomelo.areaId = target;
+      
+      var area = pomelo.areas[target];
+      var userData = pomelo.userData;
+      
+      sceneManager.changeArea(area);
+      clientManager.getOnlineUsers();
+      clientManager.getTreasures();
+		})
+		
+		function afterLogin(data){
+		  var userData = data.userData;
+		  var areaId = userData.sceneId;
+		  var areas = data.areaData;
 
+		  console.log(data);
+		  console.log(areas[areaId]['map']);
+		  pomelo.areas = areas;
+		  pomelo.uid = userData.uid;
+      pomelo.areaId = areaId;
+      pomelo.userData = userData;
+      sceneManager.enterScene(areas[areaId], userData);
+      clientManager.getCurrentScene();
+		}
 	}
 }};

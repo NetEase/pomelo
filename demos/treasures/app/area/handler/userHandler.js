@@ -2,6 +2,7 @@ var handler = module.exports;
 
 var sceneDao = require('../../dao/sceneDao');
 var userService = require('../../service/userService');
+var userRemote = require('../remote/userService');
 var rankService=require('../../service/rankService');
 var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
@@ -50,7 +51,6 @@ handler.addUser = function(msg, session) {
 			  
 			  //加入全局channel
         area.addUser(data);
-			  logger.debug('[onaddUser] updateRankList');
 			  updateRankList(msg.areaId, uid);
 			  session.response({route: msg.route, code: 200});			  
 			}
@@ -150,14 +150,17 @@ function updateRankList(areaId, uid){
 	});
 }
 
-function transferUser(msg, session){
-  pomelo.getApp().get('proxyMap').user.area.areaManager.userTransfer(session.uid, function(err) {
+handler.transferUser = function(msg, session){
+  msg.uid = session.uid;
+  pomelo.getApp().get('proxyMap').user.area.areaManager.transferUser(msg, function(err) {
     //TODO: logout logic
     //TODO: remember to call session.closed() to finish logout flow finally
     if(!!err){
-      session({route:msg.route, code: 500});
+      session.response({route:msg.route, code: 500});
     }else{
-      session({route:msg.route, code: 200});
+      logger.error("transfer user success!!" + JSON.stringify(msg));
+      userRemote.addUser({uid:msg.uid, areaId: msg.target});
+      session.response({route:msg.route, code: 200, msg: msg});
     }
   });
 }

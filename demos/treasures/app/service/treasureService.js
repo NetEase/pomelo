@@ -18,28 +18,36 @@ var lastGenTime = new Date().getTime();
  */
 var leftTime = serverConstant.treasurePeriod;
 
-trservice.generateTreasures = function (sceneId,cb){
+trservice.generateTreasures = function (params, cb){
+  var sceneId = params.areaId;
+  var times = params.times;
+  var multi = params.multi;
+  
   var mapConfig = areaManager.getArea(sceneId).mapConfig;
   
   //logger.error(mapConfig);
   
-	logger.debug("in treasure service:"+sceneId);
+	logger.error("in treasure service:"+ JSON.stringify(params));
 	treasureDao.removeTreasures(sceneId,function(err,data){
 		var num = trConfig.TREASURE_NUM;
 		var tmpLTreasure = {};
 		var newIdList = utils.genRandomNum(num, allTreasureId.length);
-		for (var i = 0; i < num; i++){
-			var posX = Math.floor(Math.random() * mapConfig.width),
-				posY = Math.floor(Math.random() * mapConfig.height),
-				trId = allTreasureId[newIdList[i]];
-			tmpLTreasure[trId] = treasure.create({
-			  id: trId,
-				imgId: trId,
-				name: allTreasureInfo[trId]['name'],
-				score: allTreasureInfo[trId]['score'],
-				posX: posX,
-				posY: posY
-			});
+		for(var i = 0; i < num; i++){
+		  //控制宝物生成的倍数
+		  for(var j = 0; j < times; j++){
+		    //宝物不会出现在地图边缘
+  			var posX = Math.floor(Math.random() * (mapConfig.width-200)) +100;
+  			var	posY = Math.floor(Math.random() * (mapConfig.height-200)) +100;
+  			var	trId = allTreasureId[newIdList[i]];
+  			tmpLTreasure[trId] = treasure.create({
+  			  id: trId,
+  				imgId: trId,
+  				name: allTreasureInfo[trId]['name'],
+  				score: allTreasureInfo[trId]['score'] * multi,
+  				posX: posX,
+  				posY: posY
+  			});
+  		}
 		}
 		treasureDao.createTreasureList(sceneId,tmpLTreasure,function(err,data){
 			logger.debug('createTreasureList ok' + data);

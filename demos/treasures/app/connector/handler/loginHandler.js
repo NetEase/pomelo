@@ -2,8 +2,9 @@ var pomelo = require('../../../../../lib/pomelo');
 var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 
 var exp = module.exports;
+var areas = require('../../../config/areas.json')['areas'];
+
 exp.login = function(msg, session) {
-	debugger;
 	var username = msg.params.username;
 	var pwd = msg.params.password;
 	//TODO: add parameters validating logic
@@ -37,10 +38,10 @@ var afterLogin = function(msg, session, uinfo) {
 	//logger.error('uinfo: %j', uinfo);
 	session.userLogined(uinfo.uid);
 	session.set('areaId' ,uinfo.sceneId);
-	console.log('areaId:' + session.areaId);
 	session.on('closing', onUserLeave);
-
-	session.response({route: msg.route, code: 200, userData: uinfo});
+  
+  logger.error(areas);
+	session.response({route: msg.route, code: 200, userData: uinfo, areaData: areas});
 };
 
 var onUserLeave = function(session) {

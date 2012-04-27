@@ -102,10 +102,14 @@ var TreeScene = Scene.extend({
   {
     this._timeStamper.stepForward(dt);
 
+/*
     this._root.traverse(function (node) 
                         { 
                           node.update(t,dt); 
                         });
+                        */
+                       
+    this._root.update(t, dt);
   },
   
   addNode:function(node, path)

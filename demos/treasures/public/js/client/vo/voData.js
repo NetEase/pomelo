@@ -9,11 +9,15 @@ __resources__["/voData.js"] = {
          * @param {Object} data
          */
         function MapVO(data){
-            this.id = data.sceneId;
-            this.picId = 1001;
-            this.name = "捡宝";
-            this.startX = data.x > 100 ? Number(data.x) - 100 : 0;
-            this.startY = data.y > 100 ? Number(data.y) - 100 : 0;
+          var map = data.map;
+          
+          this.id = data.id;
+          this.picId = map.id;
+          this.name = "捡宝";
+          this.width = map.width?map.width:2000;
+          this.height = map.height?map.height:1200;
+          
+          this.teleporters = data.teleporters;
         }
         
         /**

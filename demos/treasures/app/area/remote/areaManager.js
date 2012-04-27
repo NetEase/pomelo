@@ -69,8 +69,9 @@ exp.removeArea = function(id, cb){
 
 exp.transferUser = function(msg, cb){
   var uid = msg.uid;
-  var areaId = msg.userId;
-  var oldAreaId = msg.oldAreaId;
+  var areaId = msg.target;
+  var oldAreaId = msg.areaId;
+  var app = pomelo.getApp();
   var areas = app.get('areas');
   
   var oldServerId = areas[oldAreaId].server;
@@ -79,14 +80,14 @@ exp.transferUser = function(msg, cb){
   var proxy =  pomelo.getApp().get('proxyMap');
   
   //If the target and the start are in the same server, use the in server transfer
-  if(server == oldServer){
+  if(serverId == oldServerId){
    proxy.user.area.userService.transferUser(msg, function(err) {
       if(!!err){
         utils.invokeCallback(cb, err);
       }else{
         utils.invokeCallback(cb, null);
         //通知connector
-        proxy.sys.connnector.sessionService.changeArea(msg, function(err){
+        proxy.sys.connector.sessionService.changeArea(msg, function(err){
           if(!!err){
             utils.invokeCallback(cb, err);
           }else{

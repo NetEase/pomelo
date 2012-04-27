@@ -200,13 +200,15 @@ sceneDao.setUserInfo = function(scene, uid, field, value, cb){
 sceneDao.setUserArea = function(oldAreaId, uid, areaId, cb){
   redis.get(uidKey(oldAreaId,uid),function(error,user){
     if (!!user) {
-      user.areaId = areaId;
+      user.sceneId = areaId;
       redis.del(usersOnlineKey(oldAreaId),uid);
       redis.del(usersKey(oldAreaId),uid);
       redis.del(uidKey(oldAreaId,uid));
-      redis.set(uidKey(areaId,uid),user, cb);
+      
+      redis.sadd(usersKey(areaId), user);
+      redis.set(uidKey(areaId, uid),user, cb);
     }else{
-      utils.invokeCallback(cb, "User not eaist");
+      utils.invokeCallback(cb, "User not exist!");
     }
   });
 };

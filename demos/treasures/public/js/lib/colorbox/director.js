@@ -146,7 +146,7 @@ var Director = BObject.extend({
 
     if (this._level)
     {
-      this._level.step(this._timeStamper.now(), dt);
+      this._level.step(t, dt);
       this._displayList.length = 0;
       this._level.logic().getScene().filt(this._displayList, function(node){return !!node.model();});
       this._defaultView.redraw(this._displayList);

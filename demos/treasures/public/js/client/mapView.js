@@ -26,6 +26,7 @@ __resources__["/mapView.js"] = {
             this.mapImage = null;
             this.curMapNode = null;
             this.curMoveMotion = null;
+            this.teleporters = {};
             
             /**
              * 加载地图数据
@@ -33,22 +34,75 @@ __resources__["/mapView.js"] = {
              * @param {Object}
              *            scene 显示容器
              */
-            this.loadMap = function(){
-                this.mapImage = helper.loadImage("images/background" + this.mapVO.picId + ".png");
+            this.loadMap = function(mapPos){
+                this.mapImage = helper.loadImage("images/background/" + this.mapVO.picId + ".png");
                 var imgModel = new model.ImageModel({
                     image: this.mapImage
                 });
                 var imgNode = scene.createNode({
                     model: imgModel
                 });
+                
+                //计算得到地图位置
+                console.log(mapPos);
+                mapPos.x *= -1;
+                mapPos.y *= -1;
+            //    mapPos = this.transPos(mapPos);
+                
+                console.log(mapPos);
                 // 控制地图的位置和层级，放在最下面
-                imgNode.exec('translate', -this.mapVO.startX, -this.mapVO.startY, -1);
+                imgNode.exec('translate', mapPos.x, mapPos.y, -1);
                 this.scene.addNode(imgNode);
                 
                 // 返回地图节点
                 this.curMapNode = imgNode;
+                
+                //加载地图上的物体
+                this.loadStructures();
             }
             
+            /**
+             * 装载地图上的建筑物
+             */
+            this.loadStructures = function(){
+              //转载传送点
+              var teleporters = this.mapVO.teleporters;
+              var telImage = helper.loadImage("images/map/teleporter.png");
+              var imgModel = new model.ImageModel({
+                    image: telImage
+              });
+                
+              for(var key in teleporters){
+                var tel = teleporters[key];
+                var imgNode = scene.createNode({
+                  model: imgModel
+                });  
+                imgNode.exec('translate', tel.x, tel.y, 0);
+                
+                tel.node = imgNode;
+                this.teleporters[tel.id] = tel;
+                
+                this.scene.addNode(imgNode, this.curMapNode);
+                
+                //添加传送点的名字显示
+                var nameModel = new model.TextModel({
+                    text: tel.name,
+                    fill: {
+                        r: 0x2f,
+                        g: 0x20,
+                        b: 0x2f
+                    },
+                    height: 24,
+                });
+                var nameNode = scene.createNode({
+                    model: nameModel
+                });
+                nameNode.exec('translate', 20, 0, 0);
+                this.scene.addNode(nameNode, imgNode);
+              }
+              
+              //装载其他建筑物
+            }
             /**
              * 移动地图到指定位置
              *
@@ -67,39 +121,62 @@ __resources__["/mapView.js"] = {
                     
                     // 取得当前的节点坐标
                     var pos = this.position();
-                    var targetX = pos.x + xDist;
-                    var targetY = pos.y + yDist;
+                    var target = {};
+                    target.x = pos.x + xDist;
+                    target.y = pos.y + yDist;
                     
                     // 判断是否移出了地图边界
-                    if (targetX > 0) {
-                        targetX = 0;
-                    }
-                    else 
-                        if (1000 - targetX > this.mapImage.width) {
-                            targetX = 1000 - this.mapImage.width;
-                        }
-                    if (targetY > 0) {
-                        targetY = 0;
-                    }
-                    else 
-                        if (600 - targetY > this.mapImage.height) {
-                            targetY = 600 - this.mapImage.height;
-                        }
+            //        target = this.transPos(target);
+           //         start = this.transStart(pos);
                     
                     // 移动地图
-                    var dis = Math.sqrt((targetX - pos.x) * (targetX - pos.x) +
-                    (targetY - pos.y) * (targetY - pos.y));
+                    var dis = Math.sqrt((target.x - pos.x) * (target.x - pos.x) +
+                    (target.y - pos.y) * (target.y - pos.y));
                     var timeNum = dis / curRoleSpeed * 1000;
                     // 重新添加move
                     this.curMoveMotion = new animate.MoveTo([0, {
                         x: pos.x,
                         y: pos.y
                     }, 'linear'], [timeNum, {
-                        x: targetX,
-                        y: targetY
+                        x: target.x,
+                        y: target.y
                     }, 'linear']);
+                    var closure = this;
+                    this.curMoveMotion.onFrameEnd = function(t, dt){
+                        // 如果走动完成，则移除move
+                        if (closure.curMoveMotion.isDone()) {
+                            console.log("timeNum : " + timeNum + ", t : " + t + ", map move stop");
+                        }
+                    }
+                    
                     this.curMapNode.exec('addAnimation', this.curMoveMotion);
                 }
+            }
+            
+            this.checkHitTeleporter = function(point){
+              var x = point.x;
+              var y = point.y;
+              
+              for(var key in this.teleporters){
+                var tel = this.teleporters[key];
+                var image = this.teleporters[key].node.model().get('image');
+                var p1 = {
+                  x: tel.x,
+                  y: tel.y + 100
+                }
+                
+                var p2 = {
+                  x: tel.x + image.width,
+                  y: tel.y + image.height
+                }
+                
+                //console.log(key +  "   " + JSON.stringify(p1) + " ," + JSON.stringify(p2) + " , {" + x + " , " + y + " }");
+                if(x >= p1.x && x <= p2.x && y >= p1.y && y <= p2.y){
+                  return tel.target;
+                }
+              }
+              
+              return -1;
             }
             
             /**
@@ -133,6 +210,22 @@ __resources__["/mapView.js"] = {
                     };
                 }
             }
+            
+            this.transPos = function(pos){
+              if(pos.x > 0) {
+                pos.x = 0;
+              }else if(1000 - pos.x > this.mapVO.width) {
+                pos.x = 1000 - this.mapVO.width;
+              }
+              if(pos.y > 0) {
+                pos.y = 0;
+              }else if (600 - pos.y > this.mapVO.height) {
+                pos.y = 600 - this.mapVO.height;
+              }
+              
+              return pos;
+            }
+            
         }
         
         exports.GameMap = GameMap;

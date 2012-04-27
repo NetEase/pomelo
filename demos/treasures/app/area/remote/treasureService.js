@@ -14,8 +14,7 @@ handler.generateTreasures = function(params){
   var areaId = params.areaId;
 	var area = areaManager.getArea(areaId);
 	
-	logger.error(pomelo.getApp().get('serverType'));
-	treasureService.generateTreasures(areaId,function(err,data){
+	treasureService.generateTreasures(params,function(err,data){
     var msg={"route":"area.treasureHandler.getTreasures","code":200,"result":data.treasures};
     area.channel.pushMessage(msg);
 	});

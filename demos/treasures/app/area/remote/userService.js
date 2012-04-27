@@ -5,6 +5,8 @@ var sceneDao = require('../../dao/sceneDao');
 
 var pomelo = require('../../../../../lib/pomelo');
 var areaManager = require('./areaManager');
+var initX = 100;
+var initY = 100;
 
 var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 
@@ -48,19 +50,17 @@ exp.removeUser = function(msg, cb){
 /**
  * 在场景中加入用户
  */
-exp.addUser = function(msg, cb){
+exp.addUser = function(msg){
   var uid = msg.uid;
   var areaId = msg.areaId;
+  var area = areaManager.getArea(msg.areaId);
   
   userService.getUserById(uid, function(err, data){
     sceneDao.addUser(areaId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
       if(!!err) {
         session.response({route: msg.route, code: 500});
       } else {
-  //      channel.pushMessage({route:'onUserJoin', user: data});
-        channel.add(uid);
-  //      logger.debug('[onaddUser] updateRankList');
-  //      updateRankList(uid);      
+        area.addUser(data);
       }
     });
   });
@@ -84,12 +84,13 @@ exp.showUser = function(msg, cb){
  */
 exp.transferUser = function(msg, cb){
   var uid = msg.uid;
-  var areaId = msg.userId;
-  var oldAreaId = msg.oldAreaId;
+  var areaId = msg.target;
+  var oldAreaId = msg.areaId;
 
+  logger.error("transfer user : " + JSON.stringify(msg));
   sceneDao.setUserArea(oldAreaId, uid, areaId, function(err){
     if(!!err){
-      logger.error("Transfer user error!");
+      logger.error("Transfer user error! error: " + err);
       utils.invokeCallback(cb, err);
     }else{
       utils.invokeCallback(cb);

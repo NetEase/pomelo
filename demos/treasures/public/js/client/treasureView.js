@@ -46,6 +46,7 @@ __resources__["/treasureView.js"] = {
                         var imgNode = scene.createNode({
                             model: imgModel
                         });
+                      
                         // 控制宝物的位置
                         imgNode.exec('translate', vo.x, vo.y, 0);
                         this.scene.addNode(imgNode, this.mapParent);
