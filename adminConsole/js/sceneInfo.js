@@ -36,13 +36,24 @@ var viewport=new Ext.Viewport({
 	    items:[sceneGrid]
 	});
 });
+var sceneInfo=[];
+var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
 		socket.emit('sceneInfo',{sceneId:'1'});
+		setInterval(function(){
+			sceneInfo=[];
+			socket.emit('sceneInfo',{sceneId:'1'});
+		},STATUS_INTERVAL)
 		socket.on('sceneInfo',function(msg){ 
-		// alert('msg:'+msg); 
+		if(msg==null){
+			return;
+		} 
+		for(var i=0;i<msg.length;i++){
+			sceneInfo.push(msg[i]);
+		}
 	   var store=Ext.getCmp('sceneGridId').getStore();
-       store.loadData(msg);
+       store.loadData(sceneInfo);
 	  });
 	});
 	

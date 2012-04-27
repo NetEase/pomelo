@@ -24,7 +24,7 @@ var userGrid=Ext.create('Ext.grid.Panel', {
     store: userStore,
     columns:[
 		{xtype:'rownumberer',width:50,sortable:false},
-		{text:'serverId',width:150,dataIndex:'serverid'},
+		{text:'serverId',width:150,dataIndex:'serverId'},
 		{text:'userName',dataIndex:'username',width:200},
 		{text:'uid',dataIndex:'uid',width:50},
 		{text:'address',dataIndex:'address',width:200},
@@ -40,16 +40,32 @@ var viewport=new Ext.Viewport({
 	    },userGrid]
 	});
 });
+var onlineUserList=[];
+var totalConnCount=0;
+var loginedCount=0;
+var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
 		socket.emit('onlineUser',{});
+		setInterval(function(){
+			onlineUserList=[];
+			totalConnCount=0;
+			loginedCount=0;
+			socket.emit('onlineUser',{});
+		},STATUS_INTERVAL);
 		socket.on('onlineUser',function(msg){  
        var body=msg.body;
-       var totalConnCount=body.totalConnCount;
-       var loginedCount=body.loginedCount;
+       totalConnCount+=body.totalConnCount;
+       loginedCount+=body.loginedCount;
+       var loginedList=body.loginedList
+
+       for(var i=0;i<loginedList.length;i++){
+       	loginedList[i].serverId=body.serverId;
+       	onlineUserList.push(loginedList[i]);
+       }
 	   var store=Ext.getCmp('userGridId').getStore();
 	   contentUpdate(totalConnCount,loginedCount)
-       store.loadData(body.loginedList);
+       store.loadData(onlineUserList);
 	  });
 	});
 	function contentUpdate(totalConnCount,loginedCount){

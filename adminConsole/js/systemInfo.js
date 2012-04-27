@@ -34,7 +34,9 @@ var sysPanel=Ext.create('Ext.grid.Panel', {
     store: sysStore,
     autoScroll:true,
     columns:[
+    		{xtype:'rownumberer',width:40,sortable:false},
 		    {text:'Time',width:120,sortable:false,dataIndex:'Time'},
+		    {text:'hostname',width:100,sortable:true,dataIndex:'hostname'},
 		    {text:'CPU(I/O)',
 		     columns:[
 		       {text:'user',width:60,sortable:true,dataIndex:'cpu_user'},
@@ -66,43 +68,33 @@ var sysPanel=Ext.create('Ext.grid.Panel', {
 		     ]}
 		]
 });
-/**
- *the whole information of system
- */
-
-var gkPanel=Ext.create('Ext.panel.Panel',{
-	id:'gkPanel',
-    title:'whole information',
-    region:'north',
-    height:170,
-    contentEl:overview
-});
 
 /**
  * the overall layout
  */
 	var viewport=new Ext.Viewport({
 	    layout:'border',
-	    items:[gkPanel,sysPanel]
+	    items:[sysPanel]
 	});
 });
 /**
  * client's WebSocket,pull data
  */
+ var systemInfo=[];
+ var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 socket.on('connect',function(){
 	socket.emit('announce_web_client');
 	socket.emit('webmessage');
-    socket.emit('sysMessage',{method:'getSystem'});
-    socket.on('sysMessage',function(msg){
-    	
-    var system=msg.wholeMsg.system;
-    var cpu=msg.wholeMsg.cpu;
-    var start_time=msg.wholeMsg.start_time;
-    contentUpdate(system,cpu,start_time);
+	socket.emit('systemInfo',{method:'getSystem'});
+	setInterval(function(){
+		systemInfo=[];
+		socket.emit('systemInfo',{method:'getSystem'});
+	},STATUS_INTERVAL);
     
-    //update the data of sysPanel
+    socket.on('systemInfo',function(msg){
+    systemInfo.push(msg);
    	var store=Ext.getCmp('gridPanelId').getStore();
-    store.loadData(msg.sysItems);
+    store.loadData(systemInfo);
    });
    
 });

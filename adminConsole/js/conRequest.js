@@ -57,6 +57,7 @@ var viewport=new Ext.Viewport({
 	    items:[conGrid]
 	});
 });
+   
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
 		socket.emit('con-log',{number:'100',logfile:'con-log'});
