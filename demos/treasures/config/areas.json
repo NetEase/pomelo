@@ -10,7 +10,7 @@
       },
       "cell":{
         "width": 100,
-        "height": 100 
+        "height": 100
       },
       "tower":{
         "width": 500,
@@ -85,7 +85,7 @@
         {"id": 3, "x": 320, "y": 750, "target": 3, "name": "地区3传送点"}]
     }
   },
-  
+
   "development": {
     "area-server-1": [1, 2 ,3]
   },

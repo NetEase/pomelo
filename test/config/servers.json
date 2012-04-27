@@ -1,50 +1,35 @@
 {
-	"development": 
-    { 
+	"development":
+    {
       "connector": [
   		{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050, "wsPort":3050}
-	  ], 
+	  ],
 	  "login": [
 	  	{"id": "login-server-1", "host": "127.0.0.1", "port": 4060}
-	  ], 
+	  ],
 	  "logic": [
 	  	{"id": "logic-server-1", "host": "127.0.0.1", "port": 6050}
-	  ], 
+	  ],
 	  "area": [
 	  	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050}
 	  ]
     },
-	"production": 
-    { 
+	"production":
+    {
 	  "connector": [
 	  	{"id": "connector-server-1", "host": "172.17.2.237", "port": 4050, "wsPort":3050}
-	  ], 
+	  ],
 	  "login": [
 	  	{"id": "login-server-1", "host": "172.17.2.235", "port": 4060},
 	  	{"id": "login-server-2", "host": "172.17.2.235", "port": 4061}
-	  ], 
+	  ],
 	  "logic": [
 	  	{"id": "logic-server-1", "host": "172.17.2.236", "port": 6050},
 	  	{"id": "logic-server-2", "host": "172.17.2.236", "port": 6051}
-	  ], 
+	  ],
 	  "area": [
 	  	{"id": "area-server-1", "host": "172.17.2.236", "port": 8050},
 	  	{"id": "area-server-2", "host": "172.17.2.236", "port": 8051}
-	  ]
-    },
-    "localpro":
-    {
-     "connector": [
-  		{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050, "wsPort":3050}
-	  ], 
-	  "login": [
-	  	{"id": "login-server-1", "host": "127.0.0.1", "port": 4060}
-	  ], 
-	  "logic": [
-	  	{"id": "logic-server-1", "host": "127.0.0.1", "port": 6050}
-	  ], 
-	  "area": [
-	  	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050}
 	  ]
     }
 }

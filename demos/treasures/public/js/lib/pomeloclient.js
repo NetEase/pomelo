@@ -7,11 +7,10 @@
 		};
 	}
 
-	var root = window;
 
+	var root = window;
 	var eventEmitter = new root.EventEmitter();
 	var pomelo = Object.create(eventEmitter); // object extend from object
-
 	root.pomelo = pomelo;
 
 
@@ -54,7 +53,12 @@
     if(msg.route.indexOf('area.') == 0){
       msg.areaId = pomelo.areaId;
     }
-    msg.timestamp = (new Date()).valueOf();
+
+    if (!msg.params){
+    	msg.params = {};
+		}
+
+    msg.params.timestamp = Date.now();
     return msg;
   }
 

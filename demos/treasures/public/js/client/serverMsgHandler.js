@@ -86,6 +86,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 		});
 
 		pomelo.on('area.treasureHandler.getTreasures', function(data){
+			//console.log('onGetTreasures: '+ JSON.stringify(data));
 			var treasures = data.result;
 			sceneManager.getTreasureManager().showTreasures(treasures);
 		});
@@ -129,6 +130,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			console.log("用户离开: " + JSON.stringify(data.uid));
 			sceneManager.getRolesManager().deleteRole(data.uid);
 		});
+<<<<<<< HEAD
 		
 		pomelo.on('area.userHandler.transferUser', function(data){
 		  if(data.code == 500){
@@ -161,5 +163,13 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
       sceneManager.enterScene(areas[areaId], userData);
       clientManager.getCurrentScene();
 		}
+=======
+
+	    pomelo.on('onKick', function(data) {
+	      console.log('kicked offline');
+	      switchManager.selectView("loginPanel");
+	    });
+
+>>>>>>> b24eeba65b1297755154f092df1cd3e3b533bc48
 	}
 }};

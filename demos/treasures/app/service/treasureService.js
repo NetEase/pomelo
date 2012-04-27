@@ -24,10 +24,8 @@ trservice.generateTreasures = function (params, cb){
   var multi = params.multi;
   
   var mapConfig = areaManager.getArea(sceneId).mapConfig;
-  
+
   //logger.error(mapConfig);
-  
-	logger.error("in treasure service:"+ JSON.stringify(params));
 	treasureDao.removeTreasures(sceneId,function(err,data){
 		var num = trConfig.TREASURE_NUM;
 		var tmpLTreasure = {};
@@ -50,10 +48,10 @@ trservice.generateTreasures = function (params, cb){
   		}
 		}
 		treasureDao.createTreasureList(sceneId,tmpLTreasure,function(err,data){
-			logger.debug('createTreasureList ok' + data);
+			logger.debug('[generateTreasures] createTreasureList ok,  treasure size: ' + num);
 		});
-		lastGenTime = new Date().getTime(); 
-		logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ');
+		lastGenTime = new Date().getTime();
+		//logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ');
 		utils.invokeCallback(cb, null, {treasures:tmpLTreasure,leftTime:leftTime});
 	});
 };
@@ -65,7 +63,7 @@ trservice.pickItem = function (userId, treasureId, areaId, cb){
 			var tipInfo = 'Treasure ' + treasureId + ' has been picked up by another player';
 			utils.invokeCallback(cb, new WGError({code: -1, msg: tipInfo}),false);
 		}	else {
-			
+
 			var treasure = data;
 			//TODO 位置验证接口
 		  rs.updateUserScore(userId, treasure.score, function (err, res){

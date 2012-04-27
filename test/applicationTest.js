@@ -80,7 +80,7 @@ describe('applicationTest', function(){
             callCount +=3;
             devResult = false;
         });
-        app.configure('localpro', function(){
+        app.configure('production', function(){
             callCount += 5;
         });
 

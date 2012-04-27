@@ -40,7 +40,6 @@ handler.removeUser = function(msg, session) {
 handler.addUser = function(msg, session) {
   var uid = session.uid;
   var area = areaManager.getArea(msg.areaId);
-    
 	logger.debug('user login :'+uid+","+ msg.areaId);
 	userService.getUserById(uid, function(err, data){
 		sceneDao.addUser(data.sceneId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
