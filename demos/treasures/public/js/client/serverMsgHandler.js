@@ -14,6 +14,11 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 	var rankManager = require('rankManager');//积分（排名）管理
 	var tickViewManager = require('tickViewManager');
 	var clientManager = require('clientManager'); //切换管理
+	var status;
+
+	var STATUS_INITED = 'inited';
+	var STATUS_LOGINED = 'logined';
+	var STATUS_DISCONNECT = 'disconnect';
 
 	exports.init = init;
 
@@ -41,6 +46,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 				sceneManager.enterScene({}, userData);
 				clientManager.getCurrentScene();
 			}
+			status = STATUS_LOGINED;
 		});
 
 		pomelo.on('connector.loginHandler.register', function(data){
@@ -66,6 +72,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 
 				clientManager.getCurrentScene();
 			}
+			status = STATUS_LOGINED;
 		});
 
 		pomelo.on('onGenerateTreasures', function(data){
@@ -134,10 +141,20 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			sceneManager.getRolesManager().deleteRole(data.uid);
 		});
 
-	    pomelo.on('onKick', function(data) {
-	      console.log('kicked offline');
+	    pomelo.on('onKick', function() {
+	      console.log('You have been kicked offline for the same account logined in other place.');
 	      switchManager.selectView("loginPanel");
+	      status = STATUS_INITED;
 	    });
 
+	    pomelo.on('disconnect', function(reason) {
+	    	if(reason === 'booted' && status !== STATUS_INITED) {
+	    		// alert('link has disconnected, try to relogin.');
+	    		switchManager.selectView("loginPanel");
+	    		status = STATUS_INITED;
+	    	}
+	    });
+
+	    status = STATUS_INITED;
 	}
 }};

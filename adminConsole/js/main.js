@@ -1,6 +1,6 @@
 /**
  * @author lwj
- * Admin Console 主页面
+ * Admin Console 
  */
 var centerPanel='';
 Ext.onReady(function(){
@@ -14,22 +14,22 @@ Ext.onReady(function(){
 	      {id:'systemInfo',text:'systemInfo',leaf:true},
 	      {id:'nodeInfo',text:'nodeInfo',leaf:true},
 	      {id:'romote',text:'romote',leaf:true},
-	      {id:'qq',text:'请求',expanded:true,children:[
-	          {id:'qqzz',text:'请求追踪',leaf:true},
-	          {id:'qqtj',text:'请求统计',leaf:true}
+	      {id:'qq',text:'request',expanded:true,children:[
+	          {id:'conRequest',text:'conRequest',leaf:true},
+	          {id:'rpcRequest',text:'rpcRequest',leaf:true}
 	      ]},
-	       {id:'zxyh',text:'在线用户',leaf:true},
-	       {id:'cjsj',text:'场景数据',leaf:true},
-	       {id:'yxjb',text:'运行脚本',leaf:true},
-	       {id:'fsqq',text:'发送请求',leaf:true},
-	       {id:'wizard',text:'Wizard',leaf:true},
-	       {id:'zdcs',text:'自动测试',leaf:true}      
+	       {id:'onlineUser',text:'onlineUser',leaf:true},
+	       {id:'sceneInfo',text:'sceneInfo',leaf:true},
+	       {id:'runScript',text:'runScript',leaf:true},
+	       {id:'requesting',text:'requesting',leaf:true},
+	       {id:'Wizard',text:'Wizard',leaf:true},
+	       {id:'autoTest',text:'autoTest',leaf:true}      
 	      ]
 	    }
 	});
-	//二级目录菜单----------------------------------------------------
+	//admin consle menu----------------------------------------------------
 	var westpanel=Ext.create('Ext.tree.Panel',{
-		title:'菜单',
+		title:'Menu',
 		region:'west',
 		width:150,
 		store:treeStore,
@@ -48,31 +48,27 @@ Ext.onReady(function(){
 	}) ;
 
 	
-	//中间主Panel----------------------------------------------------
+	//center Panel----------------------------------------------------
 	 centerPanel=new Ext.create('Ext.tab.Panel',{
 		region:'center',
 		deferredRender:false,
 		border:false,
-		activeTab:0,
-		items:[{title:'概况',autoShow:true}]
+		activeTab:0
 	});
 var viewport=new Ext.Viewport({
                 layout:'border',
                 items:[{
                     region:'north',
                     height:40,
-                    html:'<body bgcolor="yellow"><div style="font-size:18px;height:40px;line-height:40px;background:#808080;color:white">Admin Console</div></body>'
+                    html:'<body bgcolor="yellow"><div style="font-size:18px;height:40px;line-height:'+
+                     '40px;background:#808080;color:white">Admin Console</div></body>'
                 },westpanel,centerPanel]
             });
 
 	
 });
   /**
-   * 动态加载panel
-   * @param {} title panle标题
-   * @param {} url 要加载的内容
-   * @param {} id tabPanel的id 
-   * @return {}
+   * auto addPanel
    */
   function   addIframe(title, url, id) {
   	    tabPanel=centerPanel;
