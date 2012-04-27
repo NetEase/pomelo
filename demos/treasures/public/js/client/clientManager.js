@@ -31,7 +31,7 @@ var self = this;
 
 function init(){
   //初始化socketClient
-  pomelo.init({socketUrl:'ws://localhost:3050', log:true});
+  // pomelo.init({socketUrl:'ws://localhost:3050', log:true});
   serverMsgHandler.init();
 }
 
@@ -62,7 +62,9 @@ function login(){
   if(localStorage){
     localStorage.setItem('username', username);
   }
-  pomelo.pushMessage({route:"connector.loginHandler.login", params:{username: username, password: pwd}});
+  pomelo.init({socketUrl: window.__front_address__, log: true}, function() {
+    pomelo.pushMessage({route:"connector.loginHandler.login", params:{username: username, password: pwd}});
+  });
 }
 
 /**

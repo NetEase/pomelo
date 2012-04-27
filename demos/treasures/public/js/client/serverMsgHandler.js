@@ -14,6 +14,11 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 	var rankManager = require('rankManager');//积分（排名）管理
 	var tickViewManager = require('tickViewManager');
 	var clientManager = require('clientManager'); //切换管理
+	var status;
+
+	var STATUS_INITED = 'inited';
+	var STATUS_LOGINED = 'logined';
+	var STATUS_DISCONNECT = 'disconnect';
 
 	exports.init = init;
 
@@ -38,6 +43,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			}else{
 				afterLogin(data);
 			}
+			status = STATUS_LOGINED;
 		});
 
 		pomelo.on('connector.loginHandler.register', function(data){
@@ -58,6 +64,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 
 				afterLogin(data);
 			}
+			status = STATUS_LOGINED;
 		});
 
 		pomelo.on('onGenerateTreasures', function(data){
@@ -130,7 +137,6 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			console.log("用户离开: " + JSON.stringify(data.uid));
 			sceneManager.getRolesManager().deleteRole(data.uid);
 		});
-<<<<<<< HEAD
 		
 		pomelo.on('area.userHandler.transferUser', function(data){
 		  if(data.code == 500){
@@ -163,13 +169,21 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
       sceneManager.enterScene(areas[areaId], userData);
       clientManager.getCurrentScene();
 		}
-=======
 
-	    pomelo.on('onKick', function(data) {
-	      console.log('kicked offline');
-	      switchManager.selectView("loginPanel");
-	    });
+    pomelo.on('onKick', function() {
+      console.log('You have been kicked offline for the same account logined in other place.');
+      switchManager.selectView("loginPanel");
+      status = STATUS_INITED;
+    });
+    
+    pomelo.on('disconnect', function(reason) {
+    	if(reason === 'booted' && status !== STATUS_INITED) {
+    		// alert('link has disconnected, try to relogin.');
+    		switchManager.selectView("loginPanel");
+    		status = STATUS_INITED;
+    	}
+    });
 
->>>>>>> b24eeba65b1297755154f092df1cd3e3b533bc48
+	    status = STATUS_INITED;
 	}
 }};

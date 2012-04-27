@@ -2,7 +2,8 @@
 	"development":
     {
       "connector": [
-  		{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050, "wsPort":3050}
+  		{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050, "wsPort":3050}, 
+  		{"id": "connector-server-2", "host": "127.0.0.1", "port": 4051, "wsPort":3051}
 	  ],
 	  "login": [
 	  	{"id": "login-server-1", "host": "127.0.0.1", "port": 4060}

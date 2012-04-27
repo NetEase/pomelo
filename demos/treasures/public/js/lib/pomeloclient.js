@@ -12,15 +12,19 @@
 	var eventEmitter = new root.EventEmitter();
 	var pomelo = Object.create(eventEmitter); // object extend from object
 	root.pomelo = pomelo;
+	var socket = null;
 
+  pomelo.init = function(params, cb){
+	  pomelo.params = params;
 
-  pomelo.init = function(params){
-		pomelo.params = params;
-
-	  socket = io.connect(params.socketUrl);
-
-	  socket.on('connect', function(data){
+	  socket = io.connect(params.socketUrl, {'force new connection': true, reconnect: true});
+	  socket.on('connect', function(){
 	    console.log('[pomeloclient.init] websocket connected!');
+	    cb(socket);
+	  });
+
+	  socket.on('reconnect', function() {
+	  	console.log('reconnect');
 	  });
 
 	  socket.on('message', function(data){
@@ -33,8 +37,13 @@
 	      console.log('[pomeloclient.onmessage]Message type error! data: ' + JSON.stringify(data));
 	    }
 	    pomelo.emit(route, data);
-		});
-	}
+	  });
+
+	  socket.on('disconnect', function(reason) {
+	  	console.log('disconnect reason:' + reason);
+	  	pomelo.emit('disconnect', reason);
+	  })
+	};
 
 
 	pomelo.pushMessage = function(msg){
@@ -47,7 +56,7 @@
 		}else {
 			console.log('[pomeloclient.pushMessage] Error message type!');
 		}
-	}
+	};
 
   function filter(msg){
     if(msg.route.indexOf('area.') == 0){
@@ -60,6 +69,6 @@
 
     msg.params.timestamp = Date.now();
     return msg;
-  }
+  };
 
 })();
