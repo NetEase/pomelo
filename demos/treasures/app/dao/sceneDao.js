@@ -162,7 +162,7 @@ sceneDao.getUserInfos = function(scene, cb){
 	//sortUserInfo(scene, usersKey(scene), cb);
 	var key = usersKey(scene);
 	redis.get(key, function(err,data){
-		console.error(' getUserInfos data!!!!!!!!!!' + JSON.stringify(data));
+		console.error(' sceneDao data ' + JSON.stringify(data));
 		//var reslt = getUserInfo(data);
 		utils.invokeCallback(cb,null,data);
 	});

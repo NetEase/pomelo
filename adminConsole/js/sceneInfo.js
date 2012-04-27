@@ -24,11 +24,11 @@ var sceneGrid=Ext.create('Ext.grid.Panel', {
     store: sceneStore,
     columns:[
 		{xtype:'rownumberer',width:50,sortable:false},
-		{text:'sceneId',width:50,dataIndex:'sceneId'},
-		{text:'uid',dataIndex:'uid',width:200},
-		{text:'name',dataIndex:'name',width:200},
-		{text:'roleId',dataIndex:'roleId',width:200},
-		{text:'position',dataIndex:'position',width:100}
+		{text:'sceneId',width:100,dataIndex:'sceneId'},
+		{text:'uid',dataIndex:'uid',width:100},
+		{text:'name',dataIndex:'name',width:100},
+		{text:'roleId',dataIndex:'roleId',width:100},
+		{text:'position',dataIndex:'position',width:400}
 		]
 });
 var viewport=new Ext.Viewport({

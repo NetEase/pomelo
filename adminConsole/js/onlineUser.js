@@ -6,7 +6,7 @@ Ext.onReady(function(){
 	id:'userStoreId',
 	autoLoad:false,
 	pageSize:5,
-    fields:['serverId','source','route','params','createTime','doneTime','cost(ms)','time'],
+    fields:['serverId','username','loginTime','uid','address'],
     proxy: {
         type: 'memory',
         reader: {
@@ -24,25 +24,38 @@ var userGrid=Ext.create('Ext.grid.Panel', {
     store: userStore,
     columns:[
 		{xtype:'rownumberer',width:50,sortable:false},
-		{text:'serverId',width:150,dataIndex:'serverId'},
-		{text:'request route',dataIndex:'route',width:200},
-		{text:'time',dataIndex:'time',width:50},
-		{text:'request params',dataIndex:'params',width:700}
+		{text:'serverId',width:150,dataIndex:'serverid'},
+		{text:'userName',dataIndex:'username',width:200},
+		{text:'uid',dataIndex:'uid',width:50},
+		{text:'address',dataIndex:'address',width:200},
+		{text:'loginTime',dataIndex:'loginTime',width:200}
 		]
 });
 var viewport=new Ext.Viewport({
 	    layout:'border',
-	    items:[userGrid]
+	    items:[{
+        	region:'north',
+        	height:30,
+        	contentEl:onlineUsersInfo
+	    },userGrid]
 	});
 });
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
-		socket.emit('',{});
-		socket.on('',function(msg){  
+		socket.emit('onlineUser',{});
+		socket.on('onlineUser',function(msg){  
+       var body=msg.body;
+       var totalConnCount=body.totalConnCount;
+       var loginedCount=body.loginedCount;
 	   var store=Ext.getCmp('userGridId').getStore();
-       store.loadData(msg);
+	   contentUpdate(totalConnCount,loginedCount)
+       store.loadData(body.loginedList);
 	  });
 	});
+	function contentUpdate(totalConnCount,loginedCount){
+		document.getElementById("totalConnCount").innerHTML=totalConnCount;
+		document.getElementById("loginedCount").innerHTML=loginedCount;
+	}
 	
 	
 	
