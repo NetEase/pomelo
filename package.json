@@ -15,7 +15,7 @@
   , "pomelo-schedule": ">=0.3.1"
   , "pomelo-monitor": ">=0.1.2"
   , "mail-box": "0.0.3"
-  , "mail-router": ">=0.0.2"
+  , "mail-router": ">=0.0.4"
   , "data-sync": ">=0.0.3"
   , "mime": "1.2.5"
   , "coffee-script":">=1.2.0"
@@ -30,6 +30,7 @@
   , "should": ">=0.0.1" 
   , "mocha": ">=0.0.1" 
   , "socket.io-client" : ">=0.9.4"
+  , "crc" : ">=0.0.1"
   }, 
   "devDependencies": {
   	"flow": ">=0.2.2"

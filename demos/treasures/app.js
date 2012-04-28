@@ -7,7 +7,7 @@ var areaManager = require('./app/area/remote/areaManager');
 var app = appTemplate.init();
 app.set('name','抢宝');
 app.set('dirname', __dirname);
-app.set('calculator', routeService.calculator);
+// app.set('calculator', routeService.calculator);
 
 if(app.get('serverType')=='area'){
   areaManager.init(require('./config/areas.json'));
