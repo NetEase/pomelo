@@ -36,19 +36,22 @@ var rpcGrid=Ext.create('Ext.grid.Panel', {
 //		{header:'state',dataIndex:'state'}
 		],
 	tbar:[
-	 'number: ',{
+	 'time: ',{
 	 	xtype:'numberfield',
-	 	name:'numberField',
-	 	id:'numberFieldId',
+	 	name:'timeField',
+	 	id:'timeFieldId',
 	 	anchor: '100%',
-	 	value: 100,
-    	maxValue: 500,
+	 	value: 2,
+    	maxValue: 10,
     	minValue: 0,
 	 	width:100
-	 },' ',{
+	 },'minutes ',{
 	 	xtype:'button',
 	 	text:'refresh',
 	 	handler:refresh
+	 },{
+	 	xtype:'button',
+	 	text:'count',
 	 }
 	]
 });
@@ -57,14 +60,26 @@ var viewport=new Ext.Viewport({
 	    items:[rpcGrid]
 	});
 });
+   var flag=true;
+   var conLogData=[];
+   var n=0;
 	socket.on('connect',function(){
+		var time=Ext.getCmp('timeFieldId').getValue() ;
 		socket.emit('announce_web_client');
-		socket.emit('rpc-log',{number:'100',logfile:'rpc-log'});
-		socket.on('rpc-log',function(msg){
-	  	
-	      
+		socket.emit('rpc-log',{time:time,logfile:'rpc-log'});
+		socket.on('rpc-log',function(msg){ 
+		var data=msg.dataArray;
+		var isNew=msg.isNew;
+		if(isNew=='no'&&flag){
+			flag=false;
+			alert('近'+time+'分钟内无日志，显示最近的50条日志！');
+		} 
+		for(var i=0;i<data.length;i++){
+			conLogData[n]=data[i];
+			n++;
+		}
 	   var store=Ext.getCmp('rpcGridId').getStore();
-       store.loadData(msg);
+       store.loadData(conLogData);
 	  });
 	});
 //refresh conGrid's data
