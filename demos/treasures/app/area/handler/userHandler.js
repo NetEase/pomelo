@@ -121,7 +121,6 @@ handler.moveCalc = function(data){
  */
 handler.getOnlineUsers = function(msg, session){
   sceneDao.getOnlineUserInfos(msg.areaId, function(err, result){
-    console.log("users :" + JSON.stringify(result));
     if (err){
       session.response({route: msg.route, code:500});
     }

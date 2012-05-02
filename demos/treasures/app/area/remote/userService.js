@@ -22,7 +22,6 @@ exp.userLeave = function(msg, cb) {
   
   var area = areaManager.getArea(areaId);
   var i = 0;
-  logger.error(msg);
   sceneDao.removeUser(areaId, uid);
   userService.getUserById(uid, function(err, data){
     area.removeUser(data);

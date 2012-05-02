@@ -47,7 +47,7 @@ pro.init = function(){
 }
 
 pro.pushMessageByUids = function(uids, msg, cb){
-  this.channel.pushMessageByUids(msg, uids, cb);
+  pomelo.getApp().get('channelManager').pushMessageByUids(msg, uids, cb);
 }
 
 pro.pushMessageByPath = function(path, msg, cb){
@@ -134,7 +134,6 @@ pro.addUser = function(userInfo){
   var tower = this.towers[Math.floor(userInfo.x/this.towerConfig.width)][Math.floor(userInfo.y/this.towerConfig.height)];
   
   if(!tower){
-    logger.error("!!!!!!!!!!!!!!!!!!!!!!!!!!!! get tower error");
     return false;
   }
   tower.addUser(uid, userInfo.sceneId);
