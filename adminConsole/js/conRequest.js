@@ -1,3 +1,4 @@
+Ext.require('Ext.chart.*');
 Ext.onReady(function(){
 
 	Ext.BLANK_IMAGE_URL ='../ext-4.0.7-gpl/resources/themes/images/default/tree/s.gif'; 
@@ -52,12 +53,64 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 		 },{
 		 	xtype:'button',
 		 	text:'count',
+		 	handler:count
 		 }
 		]
 });
+
+// //图表的数据来源  
+// function generateData(){  
+//     var data = [];  
+//     for(var i = 0; i < 12; ++i){  
+//         data.push([i, (Math.floor(Math.random() *  11) + 1) * 100]);  
+//     }  
+//     return data;  
+// }
+
+// var store = new Ext.data.ArrayStore({  
+//         fields: ['month', 'hits'],  
+//         data: generateData()  
+//     });
+// var panelTest=Ext.create('Ext.panel.Panel',{
+//     region:'south',
+//     // width: 700,  
+//     height: 400,  
+//     title: 'Column Chart with Reload - Hits per Month',  
+//     // tbar: [{  
+//     //     text: 'Load new data set',  
+//     //     handler: function(){  
+//     //         store.loadData(generateData());  
+//     //     }  
+//     // }],  
+    // items: {  
+    //     xtype: 'columnchart',  
+    //     store: store,  
+    //     yField: 'hits',  
+    //     // url: '../../resources/charts.swf',  
+    //     xField: 'month',  
+    //     xAxis: new Ext.chart.CategoryAxis({  
+    //         title: 'Month'  
+    //     }),  
+    //     yAxis: new Ext.chart.NumericAxis({  
+    //         title: 'Hits'  
+    //     }),  
+    //     extraStyle: {  
+    //        xAxis: {  
+    //             labelRotation: -90  
+    //         }  
+    //     }  
+    // }
+
+// });
+
+
 var viewport=new Ext.Viewport({
 	    layout:'border',
-	    items:[conGrid]
+	    items:[{
+	     region:'south',
+         height:30,
+         contentEl:countId
+	    },conGrid]
 	});
 });
    var flag=true;
@@ -93,6 +146,24 @@ function refresh(){
     store.loadData(msg);
 	 });
 
+}
+function count(){
+	if(conLogData.length<1){
+		return;
+	}
+	var maxTime=conLogData[0].timeUsed;
+	var minTime=conLogData[0].timeUsed;
+	var totalTime=0;
+    for(var i=1;i<conLogData.length;i++){
+    	var data=conLogData[i].timeUsed;
+    	if(data<=minTime){minTime=data};
+    	if(data>=maxTime){maxTime=data};
+    	totalTime+=data;
+    }
+	document.getElementById("totalCountId").innerHTML=conLogData.length;
+	document.getElementById("maxTimeId").innerHTML=maxTime;
+	document.getElementById("minTimeId").innerHTML=minTime;
+	document.getElementById("avgTimeId").innerHTML=totalTime/conLogData.length;
 }
 	
 	

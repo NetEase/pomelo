@@ -52,12 +52,17 @@ var rpcGrid=Ext.create('Ext.grid.Panel', {
 	 },{
 	 	xtype:'button',
 	 	text:'count',
+	 	handler:count
 	 }
 	]
 });
 var viewport=new Ext.Viewport({
 	    layout:'border',
-	    items:[rpcGrid]
+	    items:[{
+	     region:'south',
+         height:30,
+         contentEl:countId
+	    },rpcGrid]
 	});
 });
    var flag=true;
@@ -93,6 +98,25 @@ function refresh(){
 	var store=Ext.getCmp('rpcGridId').getStore();
     store.loadData(msg);
 	  });
+}
+
+function count(){
+	if(conLogData.length<1){
+		return;
+	}
+	var maxTime=conLogData[0].timeUsed;
+	var minTime=conLogData[0].timeUsed;
+	var totalTime=0;
+    for(var i=1;i<conLogData.length;i++){
+    	var data=conLogData[i].timeUsed;
+    	if(data<=minTime){minTime=data};
+    	if(data>=maxTime){maxTime=data};
+    	totalTime+=data;
+    }
+	document.getElementById("totalCountId").innerHTML=conLogData.length;
+	document.getElementById("maxTimeId").innerHTML=maxTime;
+	document.getElementById("minTimeId").innerHTML=minTime;
+	document.getElementById("avgTimeId").innerHTML=totalTime/conLogData.length;
 }
 	
 	
