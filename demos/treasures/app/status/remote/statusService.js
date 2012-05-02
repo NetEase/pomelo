@@ -24,8 +24,9 @@ exp.addStatus = function(uid, sid, cb) {
 	var oldSid = uidMap[uid];
 
 	function addNewStatus(err) {
-		if(!err)
+		if(!err) {
 			uidMap[uid] = sid;
+		}
 		utils.invokeCallback(cb, err);
 	}
 

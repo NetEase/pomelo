@@ -10,7 +10,7 @@ exp.login = function(msg, session) {
 	pomelo.getApp().get('proxyMap').user.login.loginService.checkPassport(username, pwd, function(err, uinfo) {
 		if(!!err) {
 			logger.error('[login] fail to invoke remote loginService for ' + err.stack);
-			session({route: msg.route, code: 500});
+			session.response({route: msg.route, code: 500});
 			return;
 		}
 
@@ -50,7 +50,7 @@ var afterLogin = function(msg, session, uinfo) {
 	});
 };
 
-var onUserLeave = function(session) {
+var onUserLeave = function(session, reason) {
 	if(!session || !session.uid) {
 		return;
 	}
@@ -59,6 +59,9 @@ var onUserLeave = function(session) {
 	proxy.user.area.userService.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
 		//TODO: logout logic
 		//TODO: remember to call session.closed() to finish logout flow finally
+		if(reason !== 'kick') {
+			return;
+		}
 		proxy.user.status.statusService.removeStatus(session.uid, function(err) {
 			if(!!err) {
 				logger.error('fail to remove status for ' + uid + ', err:' + err.stack);

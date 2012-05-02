@@ -1,4 +1,7 @@
 var app = require('../../../../lib/pomelo').getApp();
+var utils = require('../util/utils');
+var crc = require('crc');
+
 var exp = module.exports;
 
 exp.calculator = function(opts, cb){
