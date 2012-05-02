@@ -1,34 +1,35 @@
 {
   "appenders": [
-    { 
-      "type": "file", 
-      "filename": "./logs/node-log.log", 
-      "fileSize": 1048576, 
-      "layout": { 
-          "type": "messagePassThrough" 
-        } 
+    {
+      "type": "file",
+      "filename": "./logs/node-log-[serverId].log",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "messagePassThrough"
+        }
       ,"backups": 5
-    }, 
+    },
     {
       "type": "console"
     },
-    { 
-      "type": "file", 
-      "filename": "./logs/con-log.log", 
-      "fileSize": 1048576, 
-      "layout": { 
-          "type": "messagePassThrough" 
-        } 
+    {
+      "type": "file",
+      "filename": "./logs/con-log-[serverId].log",
+      "serverType": "connector",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "messagePassThrough"
+        }
       ,"backups": 5,
       "category":"con-log"
     },
-     { 
-      "type": "file", 
-      "filename": "./logs/rpc-log.log", 
-      "fileSize": 1048576, 
-      "layout": { 
-          "type": "messagePassThrough" 
-        } 
+    {
+      "type": "file",
+      "filename": "./logs/rpc-log-[serverId].log",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "messagePassThrough"
+        }
       ,"backups": 5,
       "category":"rpc-log"
     }
