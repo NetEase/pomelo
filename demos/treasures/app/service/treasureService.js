@@ -58,7 +58,7 @@ trservice.generateTreasures = function (params, cb){
 trservice.pickItem = function (userId, treasureId, areaId, cb){
 	var data = treasureDao.getTreasure(areaId,treasureId)
 	console.log(' pickItem === ' + JSON.stringify(data));
-	if(dataareaIdundefined){
+	if(!data){
 		var tipInfo = 'Treasure ' + treasureId + ' has been picked up by another player';
 		utils.invokeCallback(cb, new WGError({code: -1, msg: tipInfo}),false);
 	}	else {
