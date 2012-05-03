@@ -6,7 +6,7 @@ var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
 var pomelo = require('../../../../../lib/pomelo');
-var areaManager = require('../remote/areaManager');
+var areaManager = require('../../service/area/areaManager');
 // var channelManager = app.get('channelManager');
 // var channel = channelManager.getChannel('pomelo');
 // if(!channel)
@@ -29,9 +29,8 @@ handler.pickItem = function (msg, session){
   	logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + result);
   	var result ={route:msg.route, code:200 ,success:result,treasureId:treasureId};
     if (err){
-        session.response({route: msg.route, code:500});
-      }
-    else{
+      session.response({route: msg.route, code:500});
+    }else{
       area.channel.pushMessage(result);
       //updateRankList();
     }
@@ -39,14 +38,9 @@ handler.pickItem = function (msg, session){
 };
 
 handler.getTreasures = function(msg, session){
-  treasureService.getAllTreasureInfo(msg.areaId, function(err, result){
-    if (err){
-      session.response({route: msg.route, code:500});
-    }
-    else{
-      session.response({route: msg.route, code: 200, result: result});
-    }
-  });
+  var result = treasureService.getAllTreasureInfo(msg.areaId);
+
+  session.response({route: msg.route, code: 200, result: result});
 }
 
 /**

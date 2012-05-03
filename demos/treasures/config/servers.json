@@ -12,7 +12,8 @@
 	  	{"id": "logic-server-1", "host": "127.0.0.1", "port": 6050}
 	  ],
 	  "area": [
-	  	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050}
+	  	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050},
+	  	{"id": "area-server-2", "host": "127.0.0.1", "port": 8051}
 	  ],
 	  "status": [
 	  	{"id": "status-server-1", "host": "127.0.0.1", "port": 9050}

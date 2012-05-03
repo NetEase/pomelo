@@ -43,6 +43,8 @@ __resources__["/voData.js"] = {
             this.score = data.score;
             this.x = Number(data.posX);
             this.y = Number(data.posY);
+            
+            console.log("treasures :" + this.id  + " {x: " + this.x  + ", y: " + this.y + "}")
         }
         
         /**

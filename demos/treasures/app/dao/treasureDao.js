@@ -30,17 +30,17 @@ function tidKeyPattern(scene){
  * @param treasure
  * @param cb
  */
-treasureDao.createTreasure = function(sceneId, treasure, cb){
+treasureDao.createTreasure = function(sceneId, treasure){
   logger.debug("in treasure dao: create");
   //logger.debug(treasure);
   //var multi = redis.multi();
   redis.set(treasuresKey(sceneId),treasure.id);
   redis.hmset(tidKey(sceneId,treasure.id),"id",treasure.id,"imgId",treasure.imgId,"name",treasure.name,"score",treasure.score+"","posX",treasure.posX+"","posY",treasure.posY+"");
-  utils.invokeCallback(cb,null,null);
+  return true;
   //multi.exec(cb);
 };
 
-treasureDao.createTreasureList = function(sceneId, treasures, cb){
+treasureDao.createTreasureList = function(sceneId, treasures){
 	logger.debug("in treasure dao: create list");
 	//logger.debug(treasures);
 	//var multi = redis.multi();
@@ -50,7 +50,8 @@ treasureDao.createTreasureList = function(sceneId, treasures, cb){
 		var treasure = treasures[t];
 		redis.set(tidKey(sceneId,treasure.id),treasure);
 	}
-	utils.invokeCallback(cb,null,treasures);
+	
+	return true;
 	//multi.exec(cb);
 };
 /**
@@ -60,8 +61,8 @@ treasureDao.createTreasureList = function(sceneId, treasures, cb){
  * @param tid
  * @param cb
  */
-treasureDao.getTreasure = function(sceneId, tid, cb){
-  redis.get(tidKey(sceneId,tid),cb);
+treasureDao.getTreasure = function(sceneId, tid){
+  return redis.get(tidKey(sceneId,tid));
 };
 
 function getTreasureInfo(data){
@@ -95,14 +96,10 @@ function getTreasureInfo(data){
  * @param sceneId
  * @param cb
  */
-treasureDao.getTreasures = function(sceneId, cb){
+treasureDao.getTreasures = function(sceneId){
 	logger.debug("in treasure dao: get treasures sceneId:" + sceneId + ' ' + treasuresKey(sceneId));
 	var pattern = tidKeyPattern(sceneId);
-	redis.get(treasuresKey(sceneId),function(err,data){
-		//logger.debug(data);
-		//var reslt = getTreasureInfo(data);
-		utils.invokeCallback(cb,null,data);
-	});
+	return redis.get(treasuresKey(sceneId));
 };
 /**
  * 删除某个宝贝的数据
@@ -126,16 +123,16 @@ treasureDao.removeTreasure = function(sceneId, tid, cb){
  */
 treasureDao.removeTreasures = function(sceneId, cb){
 	 //logger.debug("in treasure dao: remove all treasure");
-	 redis.get(treasuresKey(sceneId),function(err, data){
-	   var keys = [];
-	   //logger.debug(data);
-	   for(var key in data){
-		   keys.push(tidKey(sceneId,data[key]));
-	   }
-	   //logger.debug("keys is:");
-	   //logger.debug(keys);
-	   redis.del(keys,function(err,data){
-		  redis.del(treasuresKey(sceneId),cb); 
-	   });
-	 });
+	 var data = redis.get(treasuresKey(sceneId));
+
+   var keys = [];
+   //logger.debug(data);
+   for(var key in data){
+	   keys.push(tidKey(sceneId,data[key]));
+   }
+
+   redis.del(keys);
+	 redis.del(treasuresKey(sceneId));
+    
+   return true; 
 };

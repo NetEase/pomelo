@@ -1,7 +1,14 @@
-var app = require('../../../../lib/pomelo').getApp();
+var pomelo = require('../../../../lib/pomelo');
+var utils = require('../../../../lib/util/utils');
+var crc = require('crc');
+var logger = require('../../../../lib/pomelo').log.getLogger(__filename);
+
 var exp = module.exports;
 
 exp.calculator = function(opts, cb){
+  var app = pomelo.getApp();
+  // logger.error('serverId :' + app.get('serverId') + "areaId :" + JSON.stringify(opts));
+  // logger.error("arae Info : " + JSON.stringify(app.get('areas')[opts.areaId]));
   if(opts.type == 'area'){
     var areas = app.get('areas');
     
@@ -9,6 +16,7 @@ exp.calculator = function(opts, cb){
       utils.invokeCallback(cb, new Error('empty server configs.'));
       return;
     }
+    
     var server = areas[opts.areaId].server;
 
     if(!server) {

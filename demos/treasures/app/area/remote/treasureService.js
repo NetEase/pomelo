@@ -1,8 +1,7 @@
 var handler = module.exports;
-var areaManager = require('../remote/areaManager');
 var treasureService = require('../../service/treasureService');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
-
+var areaService = require('../../service/areaService');
 var pomelo = require('../../../../../lib/pomelo');
 
 /**
@@ -10,13 +9,11 @@ var pomelo = require('../../../../../lib/pomelo');
  * 宝物位置可能重叠，未区分位置
  */
 handler.generateTreasures = function(params){
-  //logger.error('generateTreasures event info'+ JSON.stringify(params));
-  var areaId = params.areaId;
-	var area = areaManager.getArea(areaId);
+  logger.error('generateTreasures event info'+ JSON.stringify(params));
 	
 	treasureService.generateTreasures(params,function(err,data){
     var msg={"route":"area.treasureHandler.getTreasures","code":200,"result":data.treasures};
-    area.channel.pushMessage(msg);
+    areaService.pushMessage(params.areaId, msg);
 	});
 };
 /** 

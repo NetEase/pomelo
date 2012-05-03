@@ -47,7 +47,7 @@ var afterLogin = function(msg, session, uinfo) {
 		session.userLogined(uinfo.uid);
 		session.on('closing', onUserLeave);
 	
-		session.response({route: msg.route, code: 200, userData: uinfo, areaData: areas});
+		session.response({route: msg.route, code: 200, userData: uinfo, areaData: app.get('areas')});
 	});
 };
 

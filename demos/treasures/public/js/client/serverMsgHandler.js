@@ -108,11 +108,6 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			}
 			sceneManager.getRolesManager().showRoles(users);
 		});
-
-    pomelo.on('area.userHandler.transferUser', function(data){
-       var target = data.target;
-        
-    });
     
 		pomelo.on('onGenTimeRefresh', function(data){
 			tickViewManager.refresh(data.body.leftTime);
@@ -143,7 +138,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 		    console.log("用户更换场景失败！" + JSON.stringify(data));
 		    return;
 		  }
-		  console.log("用户更换场景: " + JSON.stringify(data.msg));  
+		  console.log("用户更换场景成功: " + JSON.stringify(data.msg));  
 		  var target = data.msg.target;
       pomelo.areaId = target;
       
