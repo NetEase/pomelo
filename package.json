@@ -1,11 +1,10 @@
 {
-  "name": "pomelo-core", 
+  "name": "pomelo-core",
   "version": "0.1.0",
-  "private": false, 
+  "private": false,
   "dependencies": {
   "express": "2.5.2"
   , "connect": ">=0.0.1"
-  , "jade": ">= 0.0.1"
   , "log4js": ">= 0.4.1"
   , "socket.io": ">=0.9.4"
   , "generic-pool": ">=1.0.9"
@@ -15,9 +14,8 @@
   , "pomelo-schedule": ">=0.3.1"
   , "pomelo-monitor": ">=0.1.2"
   , "mail-box": "0.0.3"
-  , "mail-router": ">=0.0.3"
+  , "mail-router": ">=0.0.4"
   , "data-sync": ">=0.0.3"
-  , "mime": "1.2.5"
   , "coffee-script":">=1.2.0"
   , "debug": "*"
   , "module-loader": ">=0.0.1"
@@ -25,14 +23,14 @@
   , "rpc-gateway": "0.0.3"
   , "async": ">=0.0.1"
   , "seq-queue": ">=0.0.4"
-  , "commander" : ">=0.5.2"
   , "underscore" : ">=1.3.1"
-  , "should": ">=0.0.1" 
-  , "mocha": ">=0.0.1" 
   , "socket.io-client" : ">=0.9.4"
-  , "crc": ">=0.0.1"
+  , "crc" : ">=0.0.1"
   }, 
   "devDependencies": {
   	"flow": ">=0.2.2"
+    , "should": ">=0.0.1"
+    , "mocha": ">=0.0.1"
   }
 }
+

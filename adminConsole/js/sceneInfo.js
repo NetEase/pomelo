@@ -24,11 +24,11 @@ var sceneGrid=Ext.create('Ext.grid.Panel', {
     store: sceneStore,
     columns:[
 		{xtype:'rownumberer',width:50,sortable:false},
-		{text:'sceneId',width:50,dataIndex:'sceneId'},
-		{text:'uid',dataIndex:'uid',width:200},
-		{text:'name',dataIndex:'name',width:200},
-		{text:'roleId',dataIndex:'roleId',width:200},
-		{text:'position',dataIndex:'position',width:100}
+		{text:'sceneId',width:100,dataIndex:'sceneId'},
+		{text:'uid',dataIndex:'uid',width:100},
+		{text:'name',dataIndex:'name',width:100},
+		{text:'roleId',dataIndex:'roleId',width:100},
+		{text:'position',dataIndex:'position',width:400}
 		]
 });
 var viewport=new Ext.Viewport({
@@ -36,13 +36,24 @@ var viewport=new Ext.Viewport({
 	    items:[sceneGrid]
 	});
 });
+var sceneInfo=[];
+var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
 		socket.emit('sceneInfo',{sceneId:'1'});
+		setInterval(function(){
+			sceneInfo=[];
+			socket.emit('sceneInfo',{sceneId:'1'});
+		},STATUS_INTERVAL)
 		socket.on('sceneInfo',function(msg){ 
-		// alert('msg:'+msg); 
+		if(msg==null){
+			return;
+		} 
+		for(var i=0;i<msg.length;i++){
+			sceneInfo.push(msg[i]);
+		}
 	   var store=Ext.getCmp('sceneGridId').getStore();
-       store.loadData(msg);
+       store.loadData(sceneInfo);
 	  });
 	});
 	

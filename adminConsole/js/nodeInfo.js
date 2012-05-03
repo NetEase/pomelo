@@ -24,6 +24,7 @@ Ext.onReady(function(){
         autoScroll:true,
         height:300,
         columns:[
+           {xtype:'rownumberer',width:40,sortable:false},
            {text:'time',width:150,sortable:true,dataIndex:'time'},
            {text:'serverId',width:150,sortable:true,dataIndex:'serverId'},
            {text:'serverType',width:80,sortable:true,dataIndex:'serverType'},
@@ -55,16 +56,22 @@ Ext.onReady(function(){
 	});
 
 });
-
+var processInfo=[];
+var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 socket.on('connect',function(){
      socket.emit('announce_web_client');
      socket.emit('webmessage');
-     socket.emit('sysMessage',{method:'getProcess'});
-     socket.on('sysMessage',function(msg){
+     socket.emit('processInfo',{method:'getProcess'});
+     setInterval(function(){
+      processInfo=[];
+      socket.emit('processInfo',{method:'getProcess'});
+     },STATUS_INTERVAL)
+     socket.on('processInfo',function(msg){
+     processInfo.push(msg.nodeItems); 
 
       //update the data of nodesPanel
     var store=Ext.getCmp('nodesPanel').getStore();
-    store.loadData(msg.nodeItems);
+    store.loadData(processInfo);
 
      });
 });

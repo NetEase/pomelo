@@ -6,7 +6,7 @@ Ext.onReady(function(){
 	id:'userStoreId',
 	autoLoad:false,
 	pageSize:5,
-    fields:['serverId','source','route','params','createTime','doneTime','cost(ms)','time'],
+    fields:['serverId','username','loginTime','uid','address'],
     proxy: {
         type: 'memory',
         reader: {
@@ -25,24 +25,53 @@ var userGrid=Ext.create('Ext.grid.Panel', {
     columns:[
 		{xtype:'rownumberer',width:50,sortable:false},
 		{text:'serverId',width:150,dataIndex:'serverId'},
-		{text:'request route',dataIndex:'route',width:200},
-		{text:'time',dataIndex:'time',width:50},
-		{text:'request params',dataIndex:'params',width:700}
+		{text:'userName',dataIndex:'username',width:200},
+		{text:'uid',dataIndex:'uid',width:50},
+		{text:'address',dataIndex:'address',width:200},
+		{text:'loginTime',dataIndex:'loginTime',width:200}
 		]
 });
 var viewport=new Ext.Viewport({
 	    layout:'border',
-	    items:[userGrid]
+	    items:[{
+        	region:'north',
+        	height:30,
+        	contentEl:onlineUsersInfo
+	    },userGrid]
 	});
 });
+var onlineUserList=[];
+var totalConnCount=0;
+var loginedCount=0;
+var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
-		socket.emit('',{});
-		socket.on('',function(msg){  
+		socket.emit('onlineUser',{});
+		setInterval(function(){
+			onlineUserList=[];
+			totalConnCount=0;
+			loginedCount=0;
+			socket.emit('onlineUser',{});
+		},STATUS_INTERVAL);
+		socket.on('onlineUser',function(msg){  
+       var body=msg.body;
+       totalConnCount+=body.totalConnCount;
+       loginedCount+=body.loginedCount;
+       var loginedList=body.loginedList
+
+       for(var i=0;i<loginedList.length;i++){
+       	loginedList[i].serverId=body.serverId;
+       	onlineUserList.push(loginedList[i]);
+       }
 	   var store=Ext.getCmp('userGridId').getStore();
-       store.loadData(msg);
+	   contentUpdate(totalConnCount,loginedCount)
+       store.loadData(onlineUserList);
 	  });
 	});
+	function contentUpdate(totalConnCount,loginedCount){
+		document.getElementById("totalConnCount").innerHTML=totalConnCount;
+		document.getElementById("loginedCount").innerHTML=loginedCount;
+	}
 	
 	
 	

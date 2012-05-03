@@ -109,7 +109,7 @@ exp.transferUser = function(msg, cb){
         oldArea.removeUser(areaId, uid);
         proxy.sys.connector.sessionService.changeArea(msg, function(err){
           if(!!err){
-            oldArea.setUser(areaId, user);
+            oldArea.setUser(user);
             utils.invokeCallback(cb, err);
             logger.error('Change area for session service failed! ' + err);
           }else{

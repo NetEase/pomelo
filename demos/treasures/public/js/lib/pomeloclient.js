@@ -17,7 +17,10 @@
   pomelo.init = function(params, cb){
 	  pomelo.params = params;
 
-	  socket = io.connect(params.socketUrl, {'force new connection': true, reconnect: true});
+	  // socket = io.connect(params.socketUrl, {'force new connection': true, reconnect: true});
+
+	  var url=window.location.hostname;
+	  socket = io.connect('http://'+url+':3050', {'force new connection': true, reconnect: true});
 	  socket.on('connect', function(){
 	    console.log('[pomeloclient.init] websocket connected!');
 	    cb(socket);

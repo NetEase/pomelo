@@ -26,7 +26,6 @@ trservice.generateTreasures = function (params, cb){
   
   var mapConfig = areaService.getMapConfig(areaId);
 
-  logger.error(mapConfig);
 	treasureDao.removeTreasures(areaId);
 	var num = trConfig.TREASURE_NUM;
 	var tmpLTreasure = {};
