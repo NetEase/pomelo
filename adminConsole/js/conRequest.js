@@ -46,11 +46,17 @@ var conGrid=Ext.create('Ext.grid.Panel', {
         	maxValue: 10,
         	minValue: 0,
 		 	width:100
-		 },'minutes ',{
+		 },'minutes',' ',
+		 // {
+		 // 	xtype:'button',
+		 // 	text:'latest 100logs',
+		 // 	handler:getLatest
+		 // },' ',
+		 {
 		 	xtype:'button',
 		 	text:'refresh',
 		 	handler:refresh
-		 },{
+		 },' ',{
 		 	xtype:'button',
 		 	text:'count',
 		 	handler:count
@@ -113,7 +119,6 @@ var viewport=new Ext.Viewport({
 	    },conGrid]
 	});
 });
-   var flag=true;
    var conLogData=[];
    var n=0;
 	socket.on('connect',function(){
@@ -121,31 +126,32 @@ var viewport=new Ext.Viewport({
 		socket.emit('announce_web_client');
 		socket.emit('con-log',{time:time,logfile:'con-log'});
 		socket.on('con-log',function(msg){ 
-		var data=msg.dataArray;
-		var isNew=msg.isNew;
-		if(isNew=='no'&&flag){
-			flag=false;
-			alert('近'+time+'分钟内无日志，显示最近的50条日志！');
-		} 
+		var data=msg.dataArray; 
 		for(var i=0;i<data.length;i++){
 			conLogData[n]=data[i];
 			n++;
 		}
+		// alert('data length:'+data.length+';conLogData length:'+conLogData.length);
 	   var store=Ext.getCmp('conGridId').getStore();
        store.loadData(conLogData);
+       
 	  });
 	});
 
 //refresh conGrid's data
 function refresh(){
+	conLogData=[];
+	n=0;
 	var time=Ext.getCmp('timeFieldId').getValue() ;
 	socket.emit('announce_web_client');
 	socket.emit('con-log',{time:time,logfile:'con-log'});
-	socket.on('con-log',function(msg){  
-	var store=Ext.getCmp('conGridId').getStore();
-    store.loadData(msg);
-	 });
 
+}
+function getLatest(){
+	conLogData=[];
+	n=0;
+	socket.emit('announce_web_client');
+	socket.emit('con-log',{number:100,flag:'yes',time:0,logfile:'con-log'});
 }
 function count(){
 	if(conLogData.length<1){
