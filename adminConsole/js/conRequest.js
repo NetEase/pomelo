@@ -43,7 +43,7 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 		 	id:'timeFieldId',
 		 	anchor: '100%',
 		 	value: 2,
-        	maxValue: 10,
+        	maxValue: 24*60,
         	minValue: 0,
 		 	width:100
 		 },'minutes',' ',
@@ -63,53 +63,6 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 		 }
 		]
 });
-
-// //图表的数据来源  
-// function generateData(){  
-//     var data = [];  
-//     for(var i = 0; i < 12; ++i){  
-//         data.push([i, (Math.floor(Math.random() *  11) + 1) * 100]);  
-//     }  
-//     return data;  
-// }
-
-// var store = new Ext.data.ArrayStore({  
-//         fields: ['month', 'hits'],  
-//         data: generateData()  
-//     });
-// var panelTest=Ext.create('Ext.panel.Panel',{
-//     region:'south',
-//     // width: 700,  
-//     height: 400,  
-//     title: 'Column Chart with Reload - Hits per Month',  
-//     // tbar: [{  
-//     //     text: 'Load new data set',  
-//     //     handler: function(){  
-//     //         store.loadData(generateData());  
-//     //     }  
-//     // }],  
-    // items: {  
-    //     xtype: 'columnchart',  
-    //     store: store,  
-    //     yField: 'hits',  
-    //     // url: '../../resources/charts.swf',  
-    //     xField: 'month',  
-    //     xAxis: new Ext.chart.CategoryAxis({  
-    //         title: 'Month'  
-    //     }),  
-    //     yAxis: new Ext.chart.NumericAxis({  
-    //         title: 'Hits'  
-    //     }),  
-    //     extraStyle: {  
-    //        xAxis: {  
-    //             labelRotation: -90  
-    //         }  
-    //     }  
-    // }
-
-// });
-
-
 var viewport=new Ext.Viewport({
 	    layout:'border',
 	    items:[{
@@ -124,6 +77,8 @@ var viewport=new Ext.Viewport({
 	socket.on('connect',function(){
 		var time=Ext.getCmp('timeFieldId').getValue() ;
 		socket.emit('announce_web_client');
+		// socket.emit('webmessage');	
+		// socket.emit('announce_web_client');
 		socket.emit('con-log',{time:time,logfile:'con-log'});
 		socket.on('con-log',function(msg){ 
 		var data=msg.dataArray; 
@@ -143,7 +98,7 @@ function refresh(){
 	conLogData=[];
 	n=0;
 	var time=Ext.getCmp('timeFieldId').getValue() ;
-	socket.emit('announce_web_client');
+	// socket.emit('announce_web_client');
 	socket.emit('con-log',{time:time,logfile:'con-log'});
 
 }

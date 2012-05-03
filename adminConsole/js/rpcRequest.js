@@ -42,7 +42,7 @@ var rpcGrid=Ext.create('Ext.grid.Panel', {
 	 	id:'timeFieldId',
 	 	anchor: '100%',
 	 	value: 2,
-    	maxValue: 10,
+    	maxValue: 24*60,
     	minValue: 0,
 	 	width:100
 	 },'minutes ',{
@@ -71,6 +71,7 @@ var viewport=new Ext.Viewport({
 	socket.on('connect',function(){
 		var time=Ext.getCmp('timeFieldId').getValue() ;
 		socket.emit('announce_web_client');
+		socket.emit('webmessage');	
 		socket.emit('rpc-log',{time:time,logfile:'rpc-log'});
 		socket.on('rpc-log',function(msg){ 
 		var data=msg.dataArray;
@@ -84,10 +85,9 @@ var viewport=new Ext.Viewport({
 	});
 //refresh conGrid's data
 function refresh(){
-   conLogData=[];
+    conLogData=[];
 	n=0;
 	var time=Ext.getCmp('timeFieldId').getValue() ;
-	socket.emit('announce_web_client');
 	socket.emit('rpc-log',{time:time,logfile:'rpc-log'});
 }
 
