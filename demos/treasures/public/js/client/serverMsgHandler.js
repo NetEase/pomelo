@@ -125,6 +125,9 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 
 		pomelo.on('onUserJoin',  function(data){
 			console.log("新用户加入: " + JSON.stringify(data.user));
+			if(data.user.uid == pomelo.uid){
+			  return;
+			}
 			sceneManager.getRolesManager().addRole(data.user);
 		});
 

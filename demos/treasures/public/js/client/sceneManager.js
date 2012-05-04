@@ -89,10 +89,10 @@ __resources__["/sceneManager.js"] = {
                 gd.step(Date.now(), next - time);
                 time = next;
                 // // 判断是否有角色移动完成，地图正在移动的情形，停止移动
-                // if (gameMap.isMove() && (!role.isMove())) {
-                    // //console.log("地图移动未完成!!");
-                    // gameMap.stopMove();
-                // }
+                if (gameMap.isMove() && (!role.isMove())) {
+                    //console.log("地图移动未完成!!");
+                    gameMap.stopMove();
+                }
             }
             setInterval(loop, 100);
         }
