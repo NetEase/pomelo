@@ -60,7 +60,8 @@ var onUserLeave = function(session, reason) {
 	proxy.user.area.userService.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
 		//TODO: logout logic
 		//TODO: remember to call session.closed() to finish logout flow finally
-		if(reason !== 'kick') {
+		if(reason === 'kick') {
+			session.closed();
 			return;
 		}
 		proxy.user.status.statusService.removeStatus(session.uid, function(err) {

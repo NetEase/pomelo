@@ -20,7 +20,7 @@ app.configure('production|development', 'area', function(){
 });
 
 app.configure('production|development', 'connector', function(){
-  app.use(pomelo.timeAdjustFilter);
+  //app.use(pomelo.timeAdjustFilter);
   app.use(pomelo.serialFilter);
   app.use(authFilter);
 });
