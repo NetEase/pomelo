@@ -16,7 +16,7 @@ exp.transferUser = function(msg, cb){
       utils.invokeCallback(cb);
     }
   })
-}
+};
 
 exp.pushMessageToAll = function(msg, cb){
   areaService.pushMessageToAll(msg, function(err){
@@ -28,4 +28,4 @@ exp.pushMessageToAll = function(msg, cb){
       utils.invokeCallback(cb, err);
     }
   });
-}
+};

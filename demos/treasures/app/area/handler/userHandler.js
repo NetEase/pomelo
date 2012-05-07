@@ -1,7 +1,6 @@
 var handler = module.exports;
 
 var userService = require('../../service/userService');
-var userRemoteService = require('../remote/userService');
 var rankService=require('../../service/rankService');
 var areaService = require('../../service/areaService');
 var ServerConstant=require('../../config/serverConstant');

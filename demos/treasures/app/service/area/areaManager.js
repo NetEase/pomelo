@@ -91,7 +91,7 @@ exp.transferUser = function(msg, cb){
     return;   
   }else{
     var newMsg = {
-      service : 'user.area.userService',
+      service : 'user.area.userRemote',
       method : 'addUser',
       args: [{areaId:areaId, uid: uid}]
     }
@@ -107,7 +107,7 @@ exp.transferUser = function(msg, cb){
         utils.invokeCallback(cb, err);
       }else{
         oldArea.removeUser(areaId, uid);
-        proxy.sys.connector.sessionService.changeArea(msg, function(err){
+        proxy.sys.connector.sessionRemote.changeArea(msg, function(err){
           if(!!err){
             oldArea.setUser(user);
             utils.invokeCallback(cb, err);

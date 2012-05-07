@@ -1,4 +1,4 @@
-var statusService = require('../../demos/treasure/app/status/remote/statusService');
+var statusService = require('../../demos/treasure/app/status/remote/statusRemote');
 var should = require('should');
 
 describe('statusServiceTest', function(){
