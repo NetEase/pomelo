@@ -67,6 +67,9 @@ socket.on('connect',function(){
       socket.emit('processInfo',{method:'getProcess'});
      },STATUS_INTERVAL)
      socket.on('processInfo',function(msg){
+    if(processInfo.length==msg.serverSize){
+      processInfo=[];
+    }
      processInfo.push(msg.nodeItems); 
 
       //update the data of nodesPanel

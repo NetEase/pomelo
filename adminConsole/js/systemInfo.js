@@ -92,7 +92,11 @@ socket.on('connect',function(){
 	},STATUS_INTERVAL);
     
     socket.on('systemInfo',function(msg){
-    systemInfo.push(msg);
+    // alert(msg.serverSize);
+    if(systemInfo.length==msg.serverSize){
+    	systemInfo=[];
+    }
+    systemInfo.push(msg.data);
    	var store=Ext.getCmp('gridPanelId').getStore();
     store.loadData(systemInfo);
    });
