@@ -10,9 +10,9 @@
 	"production":
     {
      "host" : "app47v2.photo.163.org",
-     "port" : "3306",
-     "database" : "pomelo",
-     "username" : "root",
-     "password" : "123456"
+      "port" : "3306",
+      "database" : "Pomelo",
+      "username" : "xy",
+      "password" : "dev"
     }
 }

@@ -40,4 +40,3 @@ function startWebServer(){
 process.on('uncaughtException', function(err) {
 	console.error(' Caught exception: ' + err.stack);
 });
-

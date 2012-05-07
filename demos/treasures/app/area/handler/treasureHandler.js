@@ -6,11 +6,7 @@ var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
 var pomelo = require('../../../../../lib/pomelo');
-var areaManager = require('../../service/area/areaManager');
-// var channelManager = app.get('channelManager');
-// var channel = channelManager.getChannel('pomelo');
-// if(!channel)
-  // channel = channelManager.createChannel('pomelo');
+var areaService = require('../../service/areaService');
 
 /**
  * 用户抢宝
@@ -22,7 +18,6 @@ handler.pickItem = function (msg, session){
   var params = msg.params;
   var uid = session.uid;
   var treasureId = params.treasureId;
-  var area = areaManager.getArea(msg.areaId);
   
   //var sceneId = session.sceneId;
   treasureService.pickItem(uid, treasureId, msg.areaId, function(err,result){
@@ -31,8 +26,8 @@ handler.pickItem = function (msg, session){
     if (err){
       session.response({route: msg.route, code:500});
     }else{
-      area.channel.pushMessage(result);
-      //updateRankList();
+      session.response(result);
+      updateRankList();
     }
   });
 };
@@ -59,7 +54,7 @@ function updateRankList(){
 	   logger.error('updateRankList failed!');
 	  }
 	  var msg={'route':'area.onRankListChange','rankList':data};
-	  channel.pushMessage(msg);
+	  areaService.pushMessageToAll(msg);
 	  logger.info('pickItem,updateRankList success!!');
 	});
 }
