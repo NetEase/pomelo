@@ -27,7 +27,6 @@ var createRedisPool = function(app){
  * 创建mysql的连接池
  */
 var createMysqlPool = function(app){
- 
 	return _poolModule.Pool({
     		name     : 'mysql',
     		create   : function(callback) {

@@ -1,10 +1,11 @@
 var exp = module.exports;
 var utils = require('../../../../../lib/util/utils');
 var userService = require('../../service/userService');
-var sceneDao = require('../../dao/sceneDao');
+var areaService = require('../../service/areaService');
 
 var pomelo = require('../../../../../lib/pomelo');
-var areaManager = require('./areaManager');
+var initX = 100;
+var initY = 100;
 
 var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 
@@ -20,28 +21,12 @@ exp.userLeave = function(msg, cb) {
   var uid = msg.uid;
   var areaId = msg.areaId;
   
-  var area = areaManager.getArea(areaId);
   var i = 0;
-  sceneDao.removeUser(areaId, uid);
-  userService.getUserById(uid, function(err, data){
-    area.removeUser(data);
-  });
   
-	area.channel.pushMessage({route:'onUserLeave', code: 200, uid: uid});
+  areaService.removeUser(areaId, uid);
+	areaService.pushMessage(areaId, {route:'onUserLeave', code: 200, uid: uid});
 	console.log('[userLeave] uid:' + uid);
 	utils.invokeCallback(cb);
-}
-
-/**
- * 在场景中移除用户,不通知客户端
- */
-exp.removeUser = function(msg, cb){
-  var uid = msg.uid;
-  var areaId = msg.areaId;
-  
-  sceneDao.removeUser(areaId, uid);
-  areaManager.getArea(areaId).channel.leave(uid);
-  utils.invokeCallback(cb);
 }
 
 /**
@@ -51,47 +36,20 @@ exp.addUser = function(msg, cb){
   var uid = msg.uid;
   var areaId = msg.areaId;
   
-  userService.getUserById(uid, function(err, data){
-    sceneDao.addUser(areaId, uid, data.roleId, data.name, {x: initX,y: initY}, function(err,uid) {
-      if(!!err) {
-        session.response({route: msg.route, code: 500});
-      } else {
-  //      channel.pushMessage({route:'onUserJoin', user: data});
-        channel.add(uid);
-  //      logger.debug('[onaddUser] updateRankList');
-  //      updateRankList(uid);      
-      }
-    });
-  });
-}
-
-exp.showUser = function(msg, cb){
-  var uid = msg.uid;
-  var areaId = msg.areaId;
-  
-  sceneDao.getUser(areaId, uid, function(err, user){
+  logger.error('serverId ' + pomelo.getApp().get('serverId') + ', areaId :' + areaId);
+  userService.getUserById(uid, function(err, user){
     if(!!err){
-      utils.invokeCallback(cb,err);
-    }else{
-      utils.invokeCallback(cb, null, user);
-    }
-  });
-}
-
-/**
- * 当两个场景属于同一服务器时,采用转移的方式
- */
-exp.transferUser = function(msg, cb){
-  var uid = msg.uid;
-  var areaId = msg.userId;
-  var oldAreaId = msg.oldAreaId;
-
-  sceneDao.setUserArea(oldAreaId, uid, areaId, function(err){
-    if(!!err){
-      logger.error("Transfer user error!");
       utils.invokeCallback(cb, err);
     }else{
-      utils.invokeCallback(cb);
+      user.x = initX;
+      user.y = initY;
+      user.areaId = areaId;
+      
+      if(areaService.addUser(areaId, user)){
+        utils.invokeCallback(cb);
+      }else{
+        utils.invokeCallback(cb, 'User not exist!');
+      }
     }
- });
+  });
 }

@@ -2,8 +2,9 @@ var pomelo = require('../../../../../lib/pomelo');
 var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 
 var exp = module.exports;
+var areas = require('../../../config/areas.json')['areas'];
+
 exp.login = function(msg, session) {
-	debugger;
 	var username = msg.params.username;
 	var pwd = msg.params.password;
 	//TODO: add parameters validating logic
@@ -46,7 +47,7 @@ var afterLogin = function(msg, session, uinfo) {
 		session.userLogined(uinfo.uid);
 		session.on('closing', onUserLeave);
 	
-		session.response({route: msg.route, code: 200, userData: uinfo});
+		session.response({route: msg.route, code: 200, userData: uinfo, areaData: app.get('areas')});
 	});
 };
 
@@ -59,7 +60,8 @@ var onUserLeave = function(session, reason) {
 	proxy.user.area.userService.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
 		//TODO: logout logic
 		//TODO: remember to call session.closed() to finish logout flow finally
-		if(reason !== 'kick') {
+		if(reason === 'kick') {
+			session.closed();
 			return;
 		}
 		proxy.user.status.statusService.removeStatus(session.uid, function(err) {

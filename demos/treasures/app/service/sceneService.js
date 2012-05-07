@@ -1,5 +1,5 @@
 var SceneService=module.exports;
-var sceneDao=require('../dao/sceneDao');
+//var sceneDao=require('../dao/sceneDao');
 var app = require('../../../../lib/pomelo').getApp();
 
 
@@ -9,7 +9,7 @@ var app = require('../../../../lib/pomelo').getApp();
 
 
 SceneService.getInfo=function(sceneId,cb){
-	sceneDao.getUserInfos(sceneId,cb);
+	//sceneDao.getUserInfos(sceneId,cb);
 
 }
 

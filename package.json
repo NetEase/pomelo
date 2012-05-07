@@ -11,11 +11,11 @@
   , "mysql": ">=0.9.5"
   , "redis": ">=0.7.1"
   , "seq-queue": ">=0.0.1"
-  , "pomelo-schedule": ">=0.3.1"
+  , "pomelo-schedule": ">=0.3.3"
   , "pomelo-monitor": ">=0.1.2"
-  , "mail-box": "0.0.3"
+  , "mail-box": "0.0.4"
   , "mail-router": ">=0.0.4"
-  , "data-sync": ">=0.0.3"
+  , "data-sync": ">=0.0.5"
   , "coffee-script":">=1.2.0"
   , "debug": "*"
   , "module-loader": ">=0.0.1"
@@ -33,3 +33,4 @@
     , "mocha": ">=0.0.1"
   }
 }
+

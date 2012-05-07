@@ -19,10 +19,12 @@ MysqlRewriter.prototype.sync = function(server){
 	this.client = server.client;
 	var db = server.use();
 	for(var key in db){
-		if (key.indexOf('_u_')==-1) continue;
+		if (key.indexOf('_users')==-1) continue;
 		var obj = db[key];
 		if (server.changed(obj)){
-			this.write(obj.val);
+		  for(id in obj.val){
+			  this.write(obj.val[id]);
+			}
 		} else {
 			if (Date.now() - obj.flushtime  > 60 * 1000 * 60 *24){
 				//TODO 一天的数据自动清理

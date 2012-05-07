@@ -15,7 +15,6 @@ var serverMsgHandler = require('serverMsgHandler');
 var loginUsername = "";
 var loginName = "";
 
-
 //暴露的接口和对象
 exports.init = init;
 exports.login = login;
@@ -23,6 +22,9 @@ exports.register = register;
 exports.pickTreasure = pickTreasure;
 exports.move = move;
 exports.getCurrentScene = getCurrentScene;
+exports.transferUser = transferUser;
+exports.getOnlineUsers = getOnlineUsers;
+exports.getTreasures = getTreasures;
 
 var self = this;
 
@@ -146,8 +148,10 @@ function move(startX, startY, endX, endY, time){
  * }
  */
 function pickTreasure(treasureId){
-    pomelo.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId, areaId: pomelo.areaId}});
+  pomelo.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId, areaId: pomelo.areaId}});
 }
 
-
+function transferUser(target){
+  pomelo.pushMessage({route:"area.userHandler.transferUser", target:target});
+}
 }};

@@ -1,6 +1,4 @@
-var utils = require('../../util/utils');
-var pomelo = require('../../../../../lib/pomelo');
-var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
+var statusService = require('../../../../../lib/common/service/statusService');
 
 var exp = module.exports;
 
@@ -19,24 +17,7 @@ var uidMap = {};
  * @param sid server id
  * @param cb(err)
  */
-exp.addStatus = function(uid, sid, cb) {
-	logger.debug('add satus:' + uid + ', ' + sid);
-	var oldSid = uidMap[uid];
-
-	function addNewStatus(err) {
-		if(!err) {
-			uidMap[uid] = sid;
-		}
-		utils.invokeCallback(cb, err);
-	}
-
-	if(!!oldSid) {
-		kick(uid, oldSid, addNewStatus);
-	} else {
-		addNewStatus();
-	}
-
-};
+exp.addStatus = statusService.addStatus;
 
 /**
  * remove status record by uid
@@ -44,11 +25,7 @@ exp.addStatus = function(uid, sid, cb) {
  * @param uid user id
  * @param cb(err)
  */
-exp.removeStatus = function(uid, cb) {
-	delete uidMap[uid];
-
-	utils.invokeCallback(cb);
-};
+exp.removeStatus = statusService.removeStatus;
 
 /**
  * query status by uid
@@ -56,9 +33,7 @@ exp.removeStatus = function(uid, cb) {
  * @param {String} uid user id
  * @param {Function} cb(err, sid) sid: server id corresponsed with the uid or null/undefined for none
  */
-exp.queryStatus = function(uid, cb) {
-	utils.invokeCallback(cb, null, uidMap[uid]);
-};
+exp.queryStatus = statusService.queryStatus;
 
 /**
  * query status by uids
@@ -66,37 +41,4 @@ exp.queryStatus = function(uid, cb) {
  * @param {Array} uids list of uid
  * @param {Function} cb(err, result, missing) result:{sid:[uid]}, missing:[missingUid]
  */
-exp.queryStatusBatch = function(uids, cb) {
-	var result = {};
-	var missing = [];
-
-	var sid, list;
-	for(var i=0, l=uids.length; i<l; i++) {
-		sid = uidMap[uids[i]];
-		if(!sid) {
-			missing.push(uids[i]);
-			continue;
-		}
-
-		list = result[sid];
-		if(!list) {
-			list = [];
-			result[sid] = list;
-		}
-		list.push(uids[i]);
-	}
-
-	utils.invokeCallback(cb, null, result, missing);
-};
-
-var kick = function(uid, sid, cb) {
-	logger.debug('try to kick off uid:' + uid + ', sid:' + sid);
-	var app = pomelo.getApp();
-	var mailbox = app.get('mailBox');
-	mailbox.dispatch(sid, {service: 'sys.connector.sessionService', method: 'kick', args: [uid]}, null, function(err) {
-		if(!!err) {
-			logger.error('fail to kick user, uid:' + uid + ', sid:' + sid + ', err:' + err.stack);
-		}
-		utils.invokeCallback(cb, err);
-	});
-};
+exp.queryStatusBatch = statusService.queryStatusBatch;

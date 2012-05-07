@@ -41,10 +41,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			if (userData.uid <= 0) {
 				switchManager.selectView("heroSelectPanel");
 			}else{
-				pomelo.uid = userData.uid;
-				pomelo.areaId = userData.sceneId;
-				sceneManager.enterScene({}, userData);
-				clientManager.getCurrentScene();
+				afterLogin(data);
 			}
 			status = STATUS_LOGINED;
 		});
@@ -65,12 +62,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			}else{
 				//    alert("登录调用成功！用户已经存在\n sessionId:" + data.sid + " code:" + data.code);
 
-				pomelo.uid = userData.uid;
-				pomelo.areaId = userData.sceneId;
-				sceneManager.enterScene({}, userData);
-
-
-				clientManager.getCurrentScene();
+				afterLogin(data);
 			}
 			status = STATUS_LOGINED;
 		});
@@ -116,7 +108,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			}
 			sceneManager.getRolesManager().showRoles(users);
 		});
-
+    
 		pomelo.on('onGenTimeRefresh', function(data){
 			tickViewManager.refresh(data.body.leftTime);
 		});
@@ -133,6 +125,9 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 
 		pomelo.on('onUserJoin',  function(data){
 			console.log("新用户加入: " + JSON.stringify(data.user));
+			if(data.user.uid == pomelo.uid){
+			  return;
+			}
 			sceneManager.getRolesManager().addRole(data.user);
 		});
 
@@ -140,20 +135,52 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 			console.log("用户离开: " + JSON.stringify(data.uid));
 			sceneManager.getRolesManager().deleteRole(data.uid);
 		});
+		
+		pomelo.on('area.userHandler.transferUser', function(data){
+		  if(data.code == 500){
+		    console.log("用户更换场景失败！" + JSON.stringify(data));
+		    return;
+		  }
+		  console.log("用户更换场景成功: " + JSON.stringify(data.msg));  
+		  var target = data.msg.target;
+      pomelo.areaId = target;
+      
+      var area = pomelo.areas[target];
+      var userData = pomelo.userData;
+      
+      sceneManager.changeArea(area);
+      clientManager.getOnlineUsers();
+      clientManager.getTreasures();
+		})
+		
+		function afterLogin(data){
+		  var userData = data.userData;
+		  var areaId = userData.sceneId;
+		  var areas = data.areaData;
 
-	    pomelo.on('onKick', function() {
-	      console.log('You have been kicked offline for the same account logined in other place.');
-	      switchManager.selectView("loginPanel");
-	      status = STATUS_INITED;
-	    });
+		  console.log(data);
+		  console.log(areas[areaId]['map']);
+		  pomelo.areas = areas;
+		  pomelo.uid = userData.uid;
+      pomelo.areaId = areaId;
+      pomelo.userData = userData;
+      sceneManager.enterScene(areas[areaId], userData);
+      clientManager.getCurrentScene();
+		}
 
-	    pomelo.on('disconnect', function(reason) {
-	    	if(reason === 'booted' && status !== STATUS_INITED) {
-	    		// alert('link has disconnected, try to relogin.');
-	    		switchManager.selectView("loginPanel");
-	    		status = STATUS_INITED;
-	    	}
-	    });
+    pomelo.on('onKick', function() {
+      console.log('You have been kicked offline for the same account logined in other place.');
+      switchManager.selectView("loginPanel");
+      status = STATUS_INITED;
+    });
+    
+    pomelo.on('disconnect', function(reason) {
+    	if(reason === 'booted' && status !== STATUS_INITED) {
+    		// alert('link has disconnected, try to relogin.');
+    		switchManager.selectView("loginPanel");
+    		status = STATUS_INITED;
+    	}
+    });
 
 	    status = STATUS_INITED;
 	}

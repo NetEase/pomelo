@@ -1,9 +1,15 @@
 var Tower = require('./tower');
-var pomelo = require('../../../../lib/pomelo');
-var utils = require('../../../../lib/util/utils');
+var pomelo = require('../../../../../lib/pomelo');
+var utils = require('../../../../../lib/util/utils');
+var dataService = require('../syncService.js');
+
 // /var sceneDao = require('../dao/sceneDao');
 var exports = module.exports;
-var logger = require('../../../../lib/pomelo').log.getLogger(__filename);
+var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
+
+function areaUsersKey(areaId){
+  return areaId+"_users";
+}
 
 var Area = function(param) {
 	this.id = param.id;
@@ -17,6 +23,8 @@ var Area = function(param) {
 	this.towers = {}
 	
 	this.init();
+	
+	this.users = dataService.getDataSet(areaUsersKey(this.id));
 }
 
 var pro = Area.prototype;
@@ -44,6 +52,10 @@ pro.init = function(){
    for(var j = 0; j < Math.ceil(map.height/tower.height); j++)
     this.towers[i][j] = Tower.create(); 
  }   
+}
+
+pro.pushMessage = function(msg, cb){
+  this.channel.pushMessage(msg,cb);  
 }
 
 pro.pushMessageByUids = function(uids, msg, cb){
@@ -129,9 +141,17 @@ pro.getTowersByPath = function(path){
 pro.addUser = function(userInfo){
   var uid = userInfo.uid;
   
+  this.users[uid] = userInfo;
   this.channel.add(uid);
   
-  var tower = this.towers[Math.floor(userInfo.x/this.towerConfig.width)][Math.floor(userInfo.y/this.towerConfig.height)];
+  var i = Math.floor(userInfo.x/this.towerConfig.width);
+  var j = Math.floor(userInfo.y/this.towerConfig.height)
+  
+  // logger.error(this.towerConfig);
+  // logger.error(userInfo);
+  // logger.error(this.towers);
+  logger.error('the number is i : ' + i + ', j : ' + j)
+  var tower = this.towers[i][j];
   
   if(!tower){
     return false;
@@ -141,13 +161,39 @@ pro.addUser = function(userInfo){
   return true;
 }
 
-pro.removeUser = function(user){
-  this.channel.leave(user.uid);  
+pro.setUser = function(user){
+  this.addUser(user);
+  // var oldUser = this.users[uid];
+  // if(!oldUser){
+    // return this.addUser(user);
+  // }
+//   
+  // var tower = this.towers[Math.floor(user.x/this.towerConfig.width)][Math.floor(user.y/this.towerConfig.height)];
   
+}
+
+pro.removeUser = function(uid){
+  var user = this.users[uid];
+  
+  if(!user)
+    return true;
+    
+  delete this.users[uid];
+  this.channel.leave(uid);  
   
   var tower = this.towers[Math.floor(user.x/this.towerConfig.width)][Math.floor(user.y/this.towerConfig.height)];
   
   tower.removeUser(user.uid, user.areaId);  
+  
+  return true;
+}
+
+pro.getUsers = function(){
+  return this.users;  
+}
+
+pro.getUser = function(uid){
+  return !!this.users[uid]?this.users[uid]:null;  
 }
 
 /**

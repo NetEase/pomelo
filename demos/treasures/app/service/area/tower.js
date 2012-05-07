@@ -1,5 +1,5 @@
-var pomelo = require('../../../../lib/pomelo');
-var utils = require('../../../../lib/util/utils');
+var pomelo = require('../../../../../lib/pomelo');
+var utils = require('../../../../../lib/util/utils');
 
 var prefix = "tower_";
 var id = 0;

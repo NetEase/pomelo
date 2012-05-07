@@ -1,6 +1,6 @@
 var client = require('./sql');
-client.init();
-
+//client.init();
+setTimeout(client.init, 1000);
 var sqlclient = module.exports;
 
 sqlclient.insert = client.query;

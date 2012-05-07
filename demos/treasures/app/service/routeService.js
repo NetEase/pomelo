@@ -1,10 +1,15 @@
-var app = require('../../../../lib/pomelo').getApp();
-var utils = require('../util/utils');
+var pomelo = require('../../../../lib/pomelo');
+var utils = require('../../../../lib/util/utils');
 var crc = require('crc');
+var logger = require('../../../../lib/pomelo').log.getLogger(__filename);
+
 
 var exp = module.exports;
 
 exp.calculator = function(opts, cb){
+  var app = pomelo.getApp();
+  // logger.error('serverId :' + app.get('serverId') + "areaId :" + JSON.stringify(opts));
+  // logger.error("arae Info : " + JSON.stringify(app.get('areas')[opts.areaId]));
   if(opts.type == 'area'){
     var areas = app.get('areas');
     
@@ -12,6 +17,7 @@ exp.calculator = function(opts, cb){
       utils.invokeCallback(cb, new Error('empty server configs.'));
       return;
     }
+    
     var server = areas[opts.areaId].server;
 
     if(!server) {
@@ -31,8 +37,8 @@ exp.calculator = function(opts, cb){
       utils.invokeCallback(cb, new Error('can not find server info for type:' + opts.type));
       return;
     }
-  
-    utils.invokeCallback(cb, null, list[crc.crc32(opts.uid) % list.length].id);    
+
+    utils.invokeCallback(cb, null, list[crc.crc32(opts.uid.toString()) % list.length].id);    
   }
   
 }

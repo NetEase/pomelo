@@ -8,6 +8,7 @@ __resources__["/roleView.js"] = {
         var model = require("model");
         var animate = require("animate");
         var FrameSeqComponent = require('component').FrameSeqComponent;
+        var clientManager = require("clientManager");
         
         var RoleVO = require("voData").RoleVO;
         var MoveVO = require("voData").MoveVO;
@@ -24,11 +25,12 @@ __resources__["/roleView.js"] = {
          * @param {Object}
          *            speed 角色走动速度，每一秒的距离
          */
-        function Role(roleData, scene, mapParent, speed){
+        function Role(roleData, scene, gameMap, speed){
             // 保存形象数据
             this.roleVO = new RoleVO(roleData);
             this.scene = scene;
-            this.mapParent = mapParent;
+            this.gameMap = gameMap;
+            this.mapParent = gameMap.curMapNode;
             this.speed = speed;
             this.isStand = true;
             this.roleImgs = null;
@@ -89,7 +91,7 @@ __resources__["/roleView.js"] = {
                 // 构建序列帧节点
                 var clipAni = new FrameSeqComponent({
                     image: img,
-                    interval: 200,
+                    interval: 80,
                     times: Infinity,
                     w: 57,
                     h: 86,
@@ -189,6 +191,13 @@ __resources__["/roleView.js"] = {
                         if (closure.curMoveMotion.isDone()) {
                             closure.stopMove();
                             closure.loadRole("stand", direction);
+                        }
+
+                        var target = closure.gameMap.checkHitTeleporter(closure.position());
+                        if(target > 0){
+                          closure.stopMove();
+                          closure.loadRole("stand", direction);
+                          clientManager.transferUser(target);
                         }
                     }
                     this.curRoleNode.exec('addAnimation', this.curMoveMotion);
@@ -410,6 +419,10 @@ __resources__["/roleView.js"] = {
                     this.rolesMap[id] = null;
                     delete this.rolesMap[id];
                 }
+            }
+            
+            this.getRole = function(id){
+              return this.rolesMap[id];
             }
             
         }
