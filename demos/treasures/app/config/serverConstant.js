@@ -1,7 +1,7 @@
 /**
  * 用户初始数据
  */
-var ServerConstant = module.exports
+var ServerConstant = module.exports;
 
 ServerConstant.sceneId = 1;
 ServerConstant.level = 1 ;

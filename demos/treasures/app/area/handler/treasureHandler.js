@@ -13,22 +13,22 @@ var areaService = require('../../service/areaService');
  * @param userId
  * @param treasureId
  * @param sceneId
- */ 
+ */
 handler.pickItem = function (msg, session){
   var params = msg.params;
   var uid = session.uid;
   var treasureId = params.treasureId;
-  
+
   //var sceneId = session.sceneId;
-  treasureService.pickItem(uid, treasureId, msg.areaId, function(err,result){
-  	logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + result);
-  	var result ={route:msg.route, code:200 ,success:result,treasureId:treasureId};
-    if (err){
-      session.response({route: msg.route, code:500});
-    }else{
-      session.response(result);
-      updateRankList();
-    }
+  treasureService.pickItem(uid, treasureId, msg.areaId, function(err,success){
+			logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + success);
+			var result = {route: msg.route, code: 200, success: success, treasureId: treasureId};
+			if (err){
+				session.response({route: msg.route, code:500});
+			}else{
+				session.response(result);
+				updateRankList();
+			}
   });
 };
 
@@ -36,19 +36,19 @@ handler.getTreasures = function(msg, session){
   var result = treasureService.getAllTreasureInfo(msg.areaId);
 
   session.response({route: msg.route, code: 200, result: result});
-}
+};
 
 /**
  * 用户移动
  * 日前可以算出时间推给事件服务器
- * 
+ *
  * @param move
  */
 /**
  * 排名推送
  *
  */
-function updateRankList(){
+function updateRankList() {
 	rankService.getTopN(ServerConstant.top,function(err,data){
 	  if(err){
 	   logger.error('updateRankList failed!');

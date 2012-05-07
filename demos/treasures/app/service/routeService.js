@@ -41,4 +41,4 @@ exp.calculator = function(opts, cb){
     utils.invokeCallback(cb, null, list[crc.crc32(opts.uid.toString()) % list.length].id);    
   }
   
-}
+};

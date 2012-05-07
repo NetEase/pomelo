@@ -14,10 +14,10 @@ var initX = 100;
 var initY = 100;
 
 var moveJob = {};
-      
+
 /**
  * 用户加入uidList
- *  
+ *
  * @param uid
  * @param cb
  */
@@ -31,16 +31,16 @@ handler.addUser = function(msg, session) {
 	    areaService.addUser(msg.areaId, user);
 	    updateRankList(msg.areaId, uid);
 	    areaService.pushMessage(msg.areaId, {route:'onUserJoin', user: user});
-	    session.response({route: msg.route, code: 200});  
+	    session.response({route: msg.route, code: 200});
 	  }
 	});
 };
-        
+
 /**
  * 用户移动
  * 目前可以算出时间推给事件服务器
  * 是否需要通过逻辑服务器验证
- * 
+ *
  * @param msg
  */
 handler.move = function (msg, session){
@@ -52,9 +52,9 @@ handler.move = function (msg, session){
 	var path = params.path;
 	var speed = params.speed;
 	var time = params.time;
-	
+
 	//channel.pushMessage({route: 'onMove', uid: uid, path: path, time: time});
-	
+
 	areaService.pushMessageByPath(areaId, path, {route: 'onMove', uid: uid, path: path, time: time});
 	var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 
@@ -64,7 +64,7 @@ handler.move = function (msg, session){
   }
   logger.debug('user move' + time);
   moveJob[uid] = schedule.scheduleJob({start:Date.now() + time, count: 1}, handler.moveCalc, {areaId: areaId, uid:uid, path: path});
-  
+
 	session.response({route: msg.route, body: move, code: 200});
 };
 
@@ -76,7 +76,7 @@ handler.moveCalc = function(data){
   }
 
   var path = data.path;
-//   
+//
   //更新用户的位置信息数据
   user.x = path[1].x;
   user.y = path[1].y;
@@ -90,13 +90,13 @@ handler.moveCalc = function(data){
  */
 handler.getOnlineUsers = function(msg, session){
   var users = areaService.getUsers(msg.areaId);
-  
+
   if(!users){
-    logger.error('Area not exist! msg: ' + JSON.stringify(msg))
+    logger.error('Area not exist! msg: ' + JSON.stringify(msg));
     session.response({route: msg.route, code:500});
     return;
   }
-  
+
   session.response({route: msg.route, code: 200, result: users});
   logger.debug("get online users :" + JSON.stringify(users));
 }
@@ -104,7 +104,7 @@ handler.getOnlineUsers = function(msg, session){
 /**
  * 排名推送
  */
-function updateRankList(areaId, uid){
+function updateRankList(areaId, uid) {
 	rankService.getTopN(ServerConstant.top,function(err,data){
 	  if(err){
 	   logger.error('updateRankList failed!');
