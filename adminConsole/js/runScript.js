@@ -69,6 +69,7 @@ Ext.onReady(function(){
 			    		// colspan: 2
 	    		        xtype:'button',
 	    		        text:'run',
+	    		        handler:runScript,
 	    		        columnWidth:0.08
 			    	},{
 			    		xtype:'label',
@@ -87,6 +88,7 @@ Ext.onReady(function(){
 		    		// height:20
 			    },{
 			    	xtype : 'textareafield',
+			    	id:'tesultTextId',
 			    	height:150,
 			    	name:'scriptId',
 			    	anchor : '95%'
@@ -131,7 +133,7 @@ function save(){
         },{
             text: 'Cancel',
             handler:cancel
-        }],
+        }]
 	});
  var win=Ext.create('Ext.window.Window',{
  	    id:'saveWinId',
@@ -155,6 +157,15 @@ socket.on('connect',function(){
 	    Ext.getCmp('scriptComId').getStore().loadData(msg.scriptArray);
 	  });
 	});
+//run the cript
+function runScript(){
+	var scriptJs=Ext.getCmp('scriptAreaId').getValue();
+	var serverId=Ext.getCmp('serverComId').getValue();
+	socket.emit('runScript',{scriptJs:scriptJs,serverId:serverId});
+	socket.on('runScript',function(msg){
+	    Ext.getCmp('tesultTextId').setValue(msg);
+	});
+}
 var getFile=function(filename){
 	    socket.emit('getFile',{filename:filename});
 	    socket.on('getFile',function(msg){
@@ -178,5 +189,4 @@ var saveFile=function(){
 			alert('save failed!');
 		}
 	});
-
 }
