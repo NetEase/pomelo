@@ -63,12 +63,20 @@ exp.pushMessage = function(areaId, msg){
   areaManager.getArea(areaId).pushMessage(msg);
 }
 
+exp.pushMessageByUids = function(areaId, uids, msg){
+  areaManager.getArea(areaId).pushMessageByUids(uids, msg);  
+}
+
 exp.pushMessageByPath = function(areaId, path, msg, cb){
   areaManager.getArea(areaId).pushMessageByPath(path, msg, cb);  
 }
 
 exp.pushMessageToAll = function(msg){
+  var areas = areaManager.getAreas();
   
+  for(var id in areas){
+    areas[id].pushMessage(msg);
+  }
 }
 
 exp.getMapConfig = function(areaId){

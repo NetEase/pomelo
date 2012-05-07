@@ -61,25 +61,7 @@ __resources__["/sceneManager.js"] = {
             treasureManager = new treasureView.TreasureManager(scene, gameMap.curMapNode);
             
             //lwj加载积分排名
-//            rankManager=new rankView.refreshView(rankListData);
-            
-            
-            // treasureManager.showTreasures({1001:{
-            // id: 1001,
-            // imgId: "001",
-            // posX: 1000,
-            // posY: 400
-            // },44:{
-            // id: 44,
-            // imgId: "44",
-            // posX: 1268,
-            // posY: 477
-            // },48:{
-            // id: 48,
-            // imgId: "48",
-            // posX: 1830,
-            // posY: 461
-            // }});
+            //rankManager=new rankView.refreshView(rankListData);
             
             var gd = initColorBox(logicObj, scene, gameMap);
             

@@ -20,11 +20,11 @@ var Area = function(param) {
 	
 	this.towerConfig = param.tower;
 	
-	this.towers = {}
+	this.users = dataService.getDataSet(areaUsersKey(this.id));
+	
+	this.towers = {};
 	
 	this.init();
-	
-	this.users = dataService.getDataSet(areaUsersKey(this.id));
 }
 
 var pro = Area.prototype;
@@ -34,24 +34,27 @@ pro.getChannelId = function(areaId){
 }
 
 pro.init = function(){
-  if(!this.mapConfig || !this.cellConfig || !this.towerConfig)
+  if(!this.mapConfig || !this.cellConfig || !this.towerConfig){
+    logger.error('area init failed! areaid: ' + this.id);   
     return;
+  }
  
- //Init towers
- var channelManager = pomelo.getApp().get('channelManager');
- var map = this.mapConfig;
- var tower = this.towerConfig;
- var cell = this.cellConfig;
+  //Init towers
+  var channelManager = pomelo.getApp().get('channelManager');
+  var map = this.mapConfig;
+  var tower = this.towerConfig;
+  var cell = this.cellConfig;
+    
+   //创建监听tower 
+  for(var i = 0; i<Math.ceil(map.width/tower.width); i++){
+    this.towers[i] = {};
+    for(var j = 0; j < Math.ceil(map.height/tower.height); j++)
+      this.towers[i][j] = Tower.create(); 
+  }
  
- //每个area建立一个监听channel
- this.channel = channelManager.createChannel(this.getChannelId(this.id));
  
- //创建监听tower 
- for(var i = 0; i<Math.ceil(map.width/tower.width); i++){
-   this.towers[i] = {};
-   for(var j = 0; j < Math.ceil(map.height/tower.height); j++)
-    this.towers[i][j] = Tower.create(); 
- }   
+  //每个area建立一个监听channel
+  this.channel = channelManager.createChannel(this.getChannelId(this.id));
 }
 
 pro.pushMessage = function(msg, cb){
@@ -150,7 +153,6 @@ pro.addUser = function(userInfo){
   // logger.error(this.towerConfig);
   // logger.error(userInfo);
   // logger.error(this.towers);
-  logger.error('the number is i : ' + i + ', j : ' + j)
   var tower = this.towers[i][j];
   
   if(!tower){

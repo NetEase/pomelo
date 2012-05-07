@@ -38,8 +38,9 @@ trservice.generateTreasures = function (params, cb){
 	    var posX = Math.floor(Math.random() * (mapConfig.width-200)) +100;
 			var	posY = Math.floor(Math.random() * (mapConfig.height-200)) +100;
 			var	trId = allTreasureId[newIdList[i]];
+			//var newTrId = trId + 
 			tmpLTreasure[trId*(j+1)] = treasure.create({
-			  id: trId,
+			  id: trId*(j+1),
 				imgId: trId,
 				name: allTreasureInfo[trId]['name'],
 				score: allTreasureInfo[trId]['score'] * multi,

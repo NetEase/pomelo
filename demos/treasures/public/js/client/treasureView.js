@@ -122,7 +122,7 @@ __resources__["/treasureView.js"] = {
                 var isHit = false;
                 if ((!!point) && (!!treasureNode)) {
                     // 获取宝物数据
-                    var imgPos = treasureNode._component.matrix._matrix._position;
+                    var imgPos = treasureNode.exec("getMatrixHdl").position;
                     imgPos.x = Number(imgPos.x);
                     imgPos.y = Number(imgPos.y);
                     var img = treasureNode._model._image;
@@ -171,7 +171,7 @@ __resources__["/treasureView.js"] = {
                 var isHit = false;
                 if ((!!roleNode) && (!!imageNode)) {
                     // 获取两个节点数据
-                    var imgPos = imageNode._component.matrix._matrix._position;
+                    var imgPos = imageNode.exec("getMatrixHdl").position;;
                     imgPos.x = Number(imgPos.x);
                     imgPos.y = Number(imgPos.y);
                     var img = imageNode._model._image;

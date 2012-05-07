@@ -114,7 +114,7 @@ function updateRankList(areaId, uid){
 	  //session.socket.emit('message',msg);
 	  var uids=[];
 	  uids.push(uid);
-	  areaService.pushMessageToAll(msg);
+	  areaService.pushMessageByUids(areaId, uids, msg);
 	  logger.info('logining,updateRankList success!');
 	});
 }

@@ -2,7 +2,7 @@ var pomelo = require('../../lib/pomelo');
 var appTemplate = pomelo.appTemplate;
 var authFilter = require('./app/connector/filter/authFilter');
 var routeService = require('./app/service/routeService');
-var areaManager = require('./app/service/area/areaManager');
+var areaService = require('./app/service/areaService');
 
 var app = appTemplate.init();
 app.set('name','抢宝');
@@ -16,7 +16,7 @@ app.configure(function(){
 });
 
 app.configure('production|development', 'area', function(){
-  areaManager.init();
+  areaService.init();
 });
 
 app.configure('production|development', 'connector', function(){
