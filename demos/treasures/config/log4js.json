@@ -5,7 +5,7 @@
       "filename": "./logs/node-log-[serverId].log",
       "fileSize": 1048576,
       "layout": {
-          "type": "messagePassThrough"
+          "type": "basic"
         }
       ,"backups": 5
     },
@@ -18,7 +18,7 @@
       "serverType": "connector",
       "fileSize": 1048576,
       "layout": {
-          "type": "messagePassThrough"
+          "type": "basic"
         }
       ,"backups": 5,
       "category":"con-log"
@@ -28,7 +28,7 @@
       "filename": "./logs/rpc-log-[serverId].log",
       "fileSize": 1048576,
       "layout": {
-          "type": "messagePassThrough"
+          "type": "basic"
         }
       ,"backups": 5,
       "category":"rpc-log"
