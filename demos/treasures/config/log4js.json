@@ -32,6 +32,16 @@
         }
       ,"backups": 5,
       "category":"rpc-log"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/forward-log-[serverId].log",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "messagePassThrough"
+        }
+      ,"backups": 5,
+      "category":"forward-log"
     }
   ],
 
