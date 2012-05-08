@@ -21,17 +21,18 @@ var moveJob = {};
  * @param uid
  * @param cb
  */
-handler.addUser = function(msg, session) {
+handler.addUser = function(req, session) {
   var uid = session.uid;
-	logger.debug('user login :'+uid+","+ msg.areaId + " serverId:" + app.get('serverId'));
+  var areaId = session.areaId;
+	logger.debug('user login :'+uid+","+ areaId + " serverId:" + app.get('serverId'));
 	userService.getUserById(uid, function(err, user){
 	  if(!!err || !user && !user.uid && !user.roleId && !user.name){
-	    session.response({route: msg.route, code: 500});
+	    session.response({route: req.route, code: 500});
 	  }else{
-	    areaService.addUser(msg.areaId, user);
-	    updateRankList(msg.areaId, uid);
-	    areaService.pushMessage(msg.areaId, {route:'onUserJoin', user: user});
-	    session.response({route: msg.route, code: 200});  
+	    areaService.addUser(areaId, user);
+	    updateRankList(req.areaId, uid);
+	    areaService.pushMessage(areaId, {route:'onUserJoin', user: user});
+	    session.response({route: req.route, code: 200});  
 	  }
 	});
 };
@@ -43,15 +44,14 @@ handler.addUser = function(msg, session) {
  * 
  * @param msg
  */
-handler.move = function (msg, session){
-  var areaId = msg.areaId;
-  var params = msg.params;
-	var uid = params.uid;
-	var startx = params.path[0].x;
-	var starty = params.path[0].y;
-	var path = params.path;
-	var speed = params.speed;
-	var time = params.time;
+handler.move = function (req, session){
+  var areaId = session.areaId;
+	var uid = req.uid;
+	var startx = req.path[0].x;
+	var starty = req.path[0].y;
+	var path = req.path;
+	var speed = req.speed;
+	var time = req.time;
 	
 	//channel.pushMessage({route: 'onMove', uid: uid, path: path, time: time});
 	
@@ -65,7 +65,7 @@ handler.move = function (msg, session){
   logger.debug('user move' + time);
   moveJob[uid] = schedule.scheduleJob({start:Date.now() + time, count: 1}, handler.moveCalc, {areaId: areaId, uid:uid, path: path});
   
-	session.response({route: msg.route, body: move, code: 200});
+	session.response({route: req.route, body: move, code: 200});
 };
 
 handler.moveCalc = function(data){
@@ -89,7 +89,8 @@ handler.moveCalc = function(data){
  * 获取所有在线用户
  */
 handler.getOnlineUsers = function(msg, session){
-  var users = areaService.getUsers(msg.areaId);
+  var areaId = session.areaId;
+  var users = areaService.getUsers(areaId);
   
   if(!users){
     logger.error('Area not exist! msg: ' + JSON.stringify(msg))
@@ -113,7 +114,7 @@ function updateRankList(areaId, uid){
 	  //session.socket.emit('message',msg);
 	  var uids=[];
 	  uids.push(uid);
-	  areaService.pushMessageByUids(areaId, uids, msg);
+	  //areaService.pushMessageByUids(areaId, uids, msg);
 	  logger.info('logining,updateRankList success!');
 	});
 }

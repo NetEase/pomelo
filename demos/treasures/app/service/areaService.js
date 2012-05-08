@@ -6,7 +6,7 @@ var areaManager = require('./area/areaManager');
 
 var exp = module.exports;
 var areas = {};
-var logger = require('../../../../lib/pomelo').log.getLogger(__filename);
+var console = require('../../../../lib/pomelo').log.getLogger(__filename);
 
 exp.init = function(){
   areaManager.init();
@@ -17,7 +17,12 @@ exp.init = function(){
  * 向一个场景内增加用户
  */
 exp.addUserByUid = function(areaId, uid){
-  return areaManager.getArea(areaId).addUser(uid);
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('addUserByUid Area not exist! areaId : ' + areaId);
+    return;
+  }
+  return area.addUser(uid);
 }
 
 /**
@@ -26,7 +31,7 @@ exp.addUserByUid = function(areaId, uid){
 exp.addUser = function(areaId, user){
   var area = areaManager.getArea(areaId);
   if(!area){
-    logger.error('Area not exist! areaId : ' + areaId);
+    console.error('addUser Area not exist! areaId : ' + areaId);
     return;
   }
   
@@ -34,22 +39,42 @@ exp.addUser = function(areaId, user){
 }
 
 exp.setUser = function(areaId, user){
-  return areaManager.getArea(areaId).setUser(user);
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('setUser Area not exist! areaId : ' + areaId);
+    return;
+  }
+  return area.setUser(user);
 }
 
 exp.getUser = function(areaId, uid){
-  return areaManager.getArea(areaId).getUser(uid);
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('getUser Area not exist! areaId : ' + areaId);
+    return;
+  }
+  return area.getUser(uid);
 }
 
 exp.removeUser = function(areaId, uid){
-  return areaManager.getArea(areaId).removeUser(uid);
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('removeUser Area not exist! areaId : ' + areaId);
+    return;
+  }
+  return area.removeUser(uid);
 }
 
 /**
  * 获取某个场景内的所有在线用户
  */
 exp.getUsers = function(areaId){
-  return areaManager.getArea(areaId).getUsers();
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('getUsers Area not exist! areaId : ' + areaId);
+    return;
+  }
+  return area.getUsers();
 }
 
 exp.transferUser = function(msg, cb){
@@ -60,15 +85,30 @@ exp.transferUser = function(msg, cb){
  * 向一个Area内的所有对象发送消息
  */
 exp.pushMessage = function(areaId, msg){
-  areaManager.getArea(areaId).pushMessage(msg);
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('pushMessage Area not exist! areaId : ' + areaId);
+    return;
+  }
+  area.pushMessage(msg);
 }
 
 exp.pushMessageByUids = function(areaId, uids, msg){
-  areaManager.getArea(areaId).pushMessageByUids(uids, msg);  
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('pushMessageByUids Area not exist! areaId : ' + areaId);
+    return;
+  }
+	area.pushMessageByUids(uids, msg);  
 }
 
 exp.pushMessageByPath = function(areaId, path, msg, cb){
-  areaManager.getArea(areaId).pushMessageByPath(path, msg, cb);  
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+	area.pushMessageByPath(path, msg, cb);  
 }
 
 exp.pushMessageToAll = function(msg){
@@ -80,5 +120,10 @@ exp.pushMessageToAll = function(msg){
 }
 
 exp.getMapConfig = function(areaId){
-  return areaManager.getArea(areaId).mapConfig;
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    console.error('getMapConfig Area not exist! areaId : ' + areaId);
+    return;
+  }
+  return area.mapConfig;
 }
