@@ -6,7 +6,7 @@ Ext.onReady(function(){
 	id:'sceneStoreId',
 	autoLoad:false,
 	pageSize:5,
-    fields:['sceneId','name','roleId','uid','position'],
+    fields:['sceneId','name','roleId','uid','position','serverId'],
     proxy: {
         type: 'memory',
         reader: {
@@ -24,12 +24,18 @@ var sceneGrid=Ext.create('Ext.grid.Panel', {
     store: sceneStore,
     columns:[
 		{xtype:'rownumberer',width:50,sortable:false},
+		{text:'serverId',width:120,dataIndex:'serverId'},
 		{text:'sceneId',width:100,dataIndex:'sceneId'},
 		{text:'uid',dataIndex:'uid',width:100},
 		{text:'name',dataIndex:'name',width:100},
 		{text:'roleId',dataIndex:'roleId',width:100},
 		{text:'position',dataIndex:'position',width:400}
-		]
+		],
+	 tbar:[{
+          xtype:'button',
+          text:'refresh',
+          handler:refresh
+         }]
 });
 var viewport=new Ext.Viewport({
 	    layout:'border',
@@ -40,10 +46,10 @@ var sceneInfo=[];
 var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
-		socket.emit('sceneInfo',{sceneId:'1'});
+		socket.emit('sceneInfo');
 		setInterval(function(){
 			sceneInfo=[];
-			socket.emit('sceneInfo',{sceneId:'1'});
+			socket.emit('sceneInfo');
 		},STATUS_INTERVAL)
 		socket.on('sceneInfo',function(msg){ 
 		if(msg==null){
@@ -56,6 +62,10 @@ var STATUS_INTERVAL = 60 * 1000; // 60 seconds
        store.loadData(sceneInfo);
 	  });
 	});
+function refresh(){
+	sceneInfo=[];
+	socket.emit('sceneInfo');
+}
 	
 	
 	
