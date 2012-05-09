@@ -4,33 +4,33 @@ var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 var exp = module.exports;
 var areas = require('../../../config/areas.json')['areas'];
 
-exp.login = function(msg, session) {
-	var username = msg.params.username;
-	var pwd = msg.params.password;
+exp.login = function(req, session) {
+	var username = req.username;
+	var pwd = req.password;
 	//TODO: add parameters validating logic
 	pomelo.getApp().get('proxyMap').user.login.loginRemote.checkPassport(username, pwd, function(err, uinfo) {
 		if(!!err) {
 			logger.error('[login] fail to invoke loginRemote for ' + err.stack);
-			session.response({route: msg.route, code: 500});
+			session.response({route: req.route, code: 500});
 			return;
 		}
 
 		logger.debug('[login] login success, uid:' + uinfo.uid);
-		afterLogin(msg, session, uinfo);
+		afterLogin(req, session, uinfo);
 	});
 };
 
-exp.register = function(msg, session) {
+exp.register = function(req, session) {
 	//TODO: add parameters validating logic
-	pomelo.getApp().get('proxyMap').user.login.loginRemote.register(msg.params, function(err, uinfo) {
+	pomelo.getApp().get('proxyMap').user.login.loginRemote.register(req, function(err, uinfo) {
 		if(!!err) {
 			logger.error('[register] fail to invoke loginRemote for ' + err.stack);
-			session.response({route: msg.route, code: 500, error:err});
+			session.response({route: req.route, code: 500, error:err});
 			return;
 		}
 
 		logger.debug('[register] register success, uid:' + uinfo.uid);
-		afterLogin(msg, session, uinfo);
+		afterLogin(req, session, uinfo);
 	});
 };
 

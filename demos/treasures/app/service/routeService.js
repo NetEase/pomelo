@@ -37,8 +37,8 @@ exp.calculator = function(opts, cb){
       utils.invokeCallback(cb, new Error('can not find server info for type:' + opts.type));
       return;
     }
-
-    utils.invokeCallback(cb, null, list[crc.crc32(opts.uid.toString()) % list.length].id);    
+    var index = Math.abs(crc.crc32(opts.uid.toString())) % list.length;
+    utils.invokeCallback(cb, null, list[index].id);    
   }
   
 }

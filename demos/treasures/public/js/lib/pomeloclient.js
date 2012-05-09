@@ -50,8 +50,8 @@
 
 
 	pomelo.pushMessage = function(msg){
-		if (pomelo.params.debug){
-      console.log('[pomeloclient.pushMessage], msg: '+msg.route+ ' params:'+JSON.stringify(msg.params));
+		if (pomelo.debug){
+      console.log('[pomeloclient.pushMessage], msg: '+JSON.stringify(msg));
     }
 		if(!!msg){
 			msg = filter(msg);
@@ -66,11 +66,7 @@
       msg.areaId = pomelo.areaId;
     }
 
-    if (!msg.params){
-    	msg.params = {};
-		}
-
-    msg.params.timestamp = Date.now();
+    msg.timestamp = Date.now();
     return msg;
   };
 
