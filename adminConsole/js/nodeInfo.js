@@ -18,7 +18,7 @@ Ext.onReady(function(){
 	//nodes' detailed information
 	var nodesPanel=Ext.create('Ext.grid.Panel',{
         id:'nodesPanel',
-        title:'nodesInformation',
+        // title:'nodesInformation',
         region:'north',
         store:nodeStore,
         autoScroll:true,
@@ -40,7 +40,12 @@ Ext.onReady(function(){
                {text:'gue',width:60,sortable:true,dataIndex:'gue'}
              ]
            }
-        ]
+        ],
+        tbar:[{
+          xtype:'button',
+          text:'refresh',
+          handler:refresh
+         }]
 	});
 
 	//chart of nodes' detailed
@@ -78,4 +83,7 @@ socket.on('connect',function(){
 
      });
 });
+function refresh(){
+  socket.emit('processInfo',{method:'getProcess'});
+}
 

@@ -13,17 +13,18 @@ Ext.onReady(function(){
 	      children:[
 	      {id:'systemInfo',text:'systemInfo',leaf:true},
 	      {id:'nodeInfo',text:'nodeInfo',leaf:true},
-	      {id:'romote',text:'romote',leaf:true},
+	      // {id:'romote',text:'romote',leaf:true},
 	      {id:'qq',text:'request',expanded:true,children:[
 	          {id:'conRequest',text:'conRequest',leaf:true},
-	          {id:'rpcRequest',text:'rpcRequest',leaf:true}
+	          {id:'rpcRequest',text:'rpcRequest',leaf:true},
+	          {id:'forRequest',text:'forRequest',leaf:true}
 	      ]},
 	       {id:'onlineUser',text:'onlineUser',leaf:true},
 	       {id:'sceneInfo',text:'sceneInfo',leaf:true},
 	       {id:'runScript',text:'runScript',leaf:true},
-	       {id:'requesting',text:'requesting',leaf:true},
-	       {id:'Wizard',text:'Wizard',leaf:true},
-	       {id:'autoTest',text:'autoTest',leaf:true}      
+	       // {id:'requesting',text:'requesting',leaf:true},
+	       // {id:'Wizard',text:'Wizard',leaf:true},
+	       // {id:'autoTest',text:'autoTest',leaf:true}      
 	      ]
 	    }
 	});

@@ -9,7 +9,7 @@ var sysStore = Ext.create('Ext.data.Store', {
 	id:'sysStore',
 	autoLoad:false,
 	pageSize:5,
-    fields:['Time','hostname',
+    fields:['Time','hostname','serverId',
             'cpu_user','cpu_nice','cpu_system','cpu_iowait','cpu_steal','cpu_idle',
             'tps','kb_read','kb_wrtn','kb_read_per','kb_wrtn_per',
             'totalmem','freemem','free/total',
@@ -29,7 +29,7 @@ var sysStore = Ext.create('Ext.data.Store', {
  */
 var sysPanel=Ext.create('Ext.grid.Panel', {
 	id:'gridPanelId',
-    title: 'more information',
+    // title: 'more information',
 	region:'center',
     store: sysStore,
     autoScroll:true,
@@ -37,6 +37,7 @@ var sysPanel=Ext.create('Ext.grid.Panel', {
     		{xtype:'rownumberer',width:40,sortable:false},
 		    {text:'Time',width:120,sortable:false,dataIndex:'Time'},
 		    {text:'hostname',width:100,sortable:true,dataIndex:'hostname'},
+		    {text:'serverId',width:120,sortable:false,dataIndex:'serverId'},
 		    {text:'CPU(I/O)',
 		     columns:[
 		       {text:'user',width:60,sortable:true,dataIndex:'cpu_user'},
@@ -66,7 +67,12 @@ var sysPanel=Ext.create('Ext.grid.Panel', {
 		       {text:'5m',width:60,sortable:true,dataIndex:'m_5'},
 		       {text:'15m',width:60,sortable:true,dataIndex:'m_15'}
 		     ]}
-		]
+		],
+	tbar:[{
+		 	xtype:'button',
+		 	text:'refresh',
+		 	handler:refresh
+		 }]
 });
 
 /**
@@ -92,7 +98,6 @@ socket.on('connect',function(){
 	},STATUS_INTERVAL);
     
     socket.on('systemInfo',function(msg){
-    // alert(msg.serverSize);
     if(systemInfo.length==msg.serverSize){
     	systemInfo=[];
     }
@@ -100,8 +105,11 @@ socket.on('connect',function(){
    	var store=Ext.getCmp('gridPanelId').getStore();
     store.loadData(systemInfo);
    });
-   
 });
+function refresh(){
+	systemInfo=[];
+	socket.emit('systemInfo',{method:'getSystem'});
+}
 /*
  * update the data of gkPanel
  */

@@ -98,9 +98,7 @@ function refresh(){
 	conLogData=[];
 	n=0;
 	var time=Ext.getCmp('timeFieldId').getValue() ;
-	// socket.emit('announce_web_client');
 	socket.emit('con-log',{time:time,logfile:'con-log'});
-
 }
 function getLatest(){
 	conLogData=[];
