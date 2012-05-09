@@ -29,7 +29,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
 		 */
 
 		pomelo.on('area.treasureHandler.pickItem', function (result){
-			if(result.success){
+			if(result.code === 200){
 				//捡宝成功，删除宝物
 				sceneManager.getTreasureManager().removeTreasure(result.treasureId);
 			}
@@ -149,6 +149,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
       var userData = pomelo.userData;
       
       sceneManager.changeArea(area);
+      clientManager.joinUser();
       clientManager.getOnlineUsers();
       clientManager.getTreasures();
 		})

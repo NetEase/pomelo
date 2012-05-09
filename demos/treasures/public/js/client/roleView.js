@@ -13,6 +13,7 @@ __resources__["/roleView.js"] = {
         var RoleVO = require("voData").RoleVO;
         var MoveVO = require("voData").MoveVO;
         
+        var pomelo = window.pomelo;
         /**
          * 角色类
          *
@@ -193,11 +194,13 @@ __resources__["/roleView.js"] = {
                             closure.loadRole("stand", direction);
                         }
 
-                        var target = closure.gameMap.checkHitTeleporter(closure.position());
-                        if(target > 0){
-                          closure.stopMove();
-                          closure.loadRole("stand", direction);
-                          clientManager.transferUser(target);
+                        if(pomelo.uid === closure.roleVO.id){
+                          var target = closure.gameMap.checkHitTeleporter(closure.position());
+                          if(target > 0){
+                            closure.stopMove();
+                            closure.loadRole("stand", direction);
+                            clientManager.transferUser(target);
+                          }
                         }
                     }
                     this.curRoleNode.exec('addAnimation', this.curMoveMotion);

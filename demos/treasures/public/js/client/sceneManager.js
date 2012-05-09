@@ -56,7 +56,7 @@ __resources__["/sceneManager.js"] = {
             role = new roleView.Role(roleData, scene, gameMap, speed);
             role.loadRole("stand");
             // 生成场景中其他角色的管理类
-            rolesManager = new roleView.RoleManager(scene, gameMap.curMapNode);
+            rolesManager = new roleView.RoleManager(scene, gameMap);
             // 加载宝物管理类
             treasureManager = new treasureView.TreasureManager(scene, gameMap.curMapNode);
             
@@ -150,7 +150,7 @@ __resources__["/sceneManager.js"] = {
           role = new roleView.Role(roleData, scene, gameMap, speed);
           role.loadRole("stand");
           // 生成场景中其他角色的管理类
-          rolesManager = new roleView.RoleManager(scene, gameMap.curMapNode);
+          rolesManager = new roleView.RoleManager(scene, gameMap);
           // 加载宝物管理类
           treasureManager = new treasureView.TreasureManager(scene, gameMap.curMapNode);
           
