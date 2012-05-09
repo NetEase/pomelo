@@ -19,13 +19,14 @@ handler.pickItem = function (req, session){
   var treasureId = req.treasureId;
 
   //var sceneId = session.sceneId;
-  treasureService.pickItem(uid, treasureId, req.areaId, function(err,success){
+  treasureService.pickItem(uid, treasureId, session.areaId, function(err,success){
 			logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + success);
-			var result = {route: req.route, code: 200, success: success, treasureId: treasureId};
+			var result = {route: req.route, code: 200, uid: uid, treasureId: treasureId};
 			if (err){
 				session.response({route: req.route, code:500});
 			}else{
 				session.response(result);
+				areaService.pushMessage(session.areaId, result);
 				updateRankList();
 			}
   });
@@ -35,6 +36,7 @@ handler.getTreasures = function(req, session){
   var result = treasureService.getAllTreasureInfo(req.areaId);
   session.response({route: req.route, code: 200, result: result});
 };
+
 /**
  * 用户移动
  * 日前可以算出时间推给事件服务器

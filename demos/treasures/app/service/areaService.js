@@ -1,7 +1,6 @@
 var utils = require('../../../../lib/util/utils');
 var pomelo = require('../../../../lib/pomelo');
 var Area = require('./area/area');
-var Tower = require('./area/tower');
 var areaManager = require('./area/areaManager');
 
 var exp = module.exports;
@@ -126,6 +125,46 @@ exp.pushMessageToAll = function(msg){
   for(var id in areas){
     areas[id].pushMessage(msg);
   }
+}
+
+exp.setTrs = function(areaId, treasures){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+  
+  area.setTrs(treasures);
+}
+
+exp.removeTr = function(areaId, trId){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+  
+  area.removeTr(trId);
+}
+
+exp.getTr = function(areaId, trId){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+  
+  return area.getTr(trId);
+}
+
+exp.getTrs = function(areaId){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+  
+  return area.getTrs();
 }
 
 exp.getMapConfig = function(areaId){

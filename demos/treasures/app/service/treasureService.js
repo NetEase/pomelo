@@ -5,7 +5,6 @@ var logger = require('../../../../lib/util/log/log').getLogger(__filename);
 var trConfig = require('../config/treasureConfig');
 var rs = require('./rankService');
 var serverConstant = require('../config/serverConstant');
-var treasureDao = require('../dao/treasureDao');
 var pomelo = require('../../../../lib/pomelo');
 var areaService = require('./areaService');
 
@@ -26,7 +25,7 @@ trservice.generateTreasures = function (params, cb){
   
   var mapConfig = areaService.getMapConfig(areaId);
 
-	treasureDao.removeTreasures(areaId);
+	//areaService.removeTreasures(areaId);
 	var num = trConfig.TREASURE_NUM;
 	var tmpLTreasure = {};
 	var newIdList = utils.genRandomNum(num, allTreasureId.length);
@@ -50,14 +49,14 @@ trservice.generateTreasures = function (params, cb){
 		}
 	}
 	
-	treasureDao.createTreasureList(areaId,tmpLTreasure);
+	areaService.setTrs(areaId,tmpLTreasure);
 	lastGenTime = new Date().getTime();
 	//logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ');
 	utils.invokeCallback(cb, null, {treasures:tmpLTreasure,leftTime:leftTime});
 };
 
 trservice.pickItem = function (userId, treasureId, areaId, cb){
-	var data = treasureDao.getTreasure(areaId,treasureId)
+	var data = areaService.getTr(areaId,treasureId)
 	console.log(' pickItem === ' + JSON.stringify(data));
 	if(!data){
 		var tipInfo = 'Treasure ' + treasureId + ' has been picked up by another player';
@@ -70,7 +69,7 @@ trservice.pickItem = function (userId, treasureId, areaId, cb){
 	    if(err !== null){
 	      utils.invokeCallback(cb, new WGError({code: -1, msg: 'Pick up tresure error'}),res);
 	    }  else {
-	      treasureDao.removeTreasure(areaId,treasure.id);
+	      areaService.removeTr(areaId,treasure.id);
     	  logger.debug(userId + ' picked up ' +  'treasure ' + treasureId);
 	      utils.invokeCallback(cb, null,res);
 	    }
@@ -79,22 +78,22 @@ trservice.pickItem = function (userId, treasureId, areaId, cb){
 };
 
 /**
- * 根据sceneId和treasureId获取treasure信息
+ * 根据areaId和treasureId获取treasure信息
  * @param treasureId
- * @param sceneId
+ * @param areaId
  * @param cb
  */
-trservice.getTreasureById = function (treasureId, sceneId){
-  return treasureDao.getTreasure(sceneId,treasureId);
+trservice.getTreasureById = function (treasureId, areaId){
+  return areaService.getTr(areaId,treasureId);
 };
 
 /**
- * 获取场景id为sceneId内的所有宝物信息
- * @param sceneId
+ * 获取场景id为areaId内的所有宝物信息
+ * @param areaId
  * @param cb
  */
-trservice.getAllTreasureInfo = function (sceneId){
-  return treasureDao.getTreasures(sceneId);
+trservice.getAllTreasureInfo = function (areaId){
+  return areaService.getTrs(areaId);
 };
 
 /**

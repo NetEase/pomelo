@@ -20,6 +20,8 @@ var Area = function(param) {
 	
 	this.users = dataService.getDataSet(areaUsersKey(this.id));
 	
+	this.treasures = {};
+	
 	this.aoi = aoiService.getService(param);
 	
 	this.init();
@@ -109,6 +111,25 @@ pro.getUsers = function(){
 pro.getUser = function(uid){
   return !!this.users[uid]?this.users[uid]:null;  
 }
+
+pro.setTrs = function(treasures){
+  this.treasures = treasures;
+}
+
+pro.removeTr = function(id){
+  if(!!this.treasures[id]){
+    delete this.treasures[id];
+  }
+}
+
+pro.getTr = function(id){
+  return this.treasures[id]||null;
+}
+
+pro.getTrs = function(){
+  return this.treasures||{};
+}
+
 
 /**
  * 场景用户

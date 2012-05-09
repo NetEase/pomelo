@@ -1,7 +1,6 @@
 var utils = require('../../../../../lib/util/utils');
 var pomelo = require('../../../../../lib/pomelo');
 var Area = require('./area');
-var Tower = require('./tower');
 
 var exp = module.exports;
 var areas = {};

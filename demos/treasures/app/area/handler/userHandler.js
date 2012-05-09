@@ -123,7 +123,7 @@ function updateRankList(areaId, uid) {
 	  //session.socket.emit('message',msg);
 	  var uids=[];
 	  uids.push(uid);
-	  //areaService.pushMessageByUids(areaId, uids, msg);
+	  areaService.pushMessageByUids(areaId, uids, msg);
 	  logger.info('logining,updateRankList success!');
 	});
 }
