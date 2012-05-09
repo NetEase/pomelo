@@ -27,7 +27,7 @@ exp.userLeave = function(msg, cb) {
 	areaService.pushMessage(areaId, {route:'onUserLeave', code: 200, uid: uid});
 	console.log('[userLeave] uid:' + uid);
 	utils.invokeCallback(cb);
-}
+};
 
 /**
  * 在场景中加入用户
@@ -52,4 +52,4 @@ exp.addUser = function(msg, cb){
       }
     }
   });
-}
+};

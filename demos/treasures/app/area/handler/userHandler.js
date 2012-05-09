@@ -14,10 +14,10 @@ var initX = 100;
 var initY = 100;
 
 var moveJob = {};
-      
+
 /**
  * 用户加入uidList
- *  
+ *
  * @param uid
  * @param cb
  */
@@ -47,12 +47,12 @@ handler.joinUser = function(req, session) {
     session.response({route: req.route, code: 200});
   }
 }
-        
+
 /**
  * 用户移动
  * 目前可以算出时间推给事件服务器
  * 是否需要通过逻辑服务器验证
- * 
+ *
  * @param msg
  */
 handler.move = function (req, session){
@@ -64,18 +64,13 @@ handler.move = function (req, session){
 	var speed = req.speed;
 	var time = req.time;
 	
-	//channel.pushMessage({route: 'onMove', uid: uid, path: path, time: time});
-	
+
 	areaService.pushMessageByPath(areaId, path, {route: 'onMove', uid: uid, path: path, time: time});
 	var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 
-  if(!!moveJob[uid]){
-    schedule.cancelJob(moveJob[uid]);
-    delete moveJob[move.uid];
-  }
+  cancelJob(uid);
   logger.debug('user move' + time);
   moveJob[uid] = schedule.scheduleJob({start:Date.now() + time, count: 1}, handler.moveCalc, {areaId: areaId, uid:uid, path: path});
-  
 	session.response({route: req.route, body: move, code: 200});
 };
 
@@ -106,21 +101,20 @@ handler.moveCalc = function(data){
 handler.getOnlineUsers = function(msg, session){
   var areaId = session.areaId;
   var users = areaService.getUsers(areaId);
-  
   if(!users){
-    logger.error('Area not exist! msg: ' + JSON.stringify(msg))
+    logger.error('Area not exist! msg: ' + JSON.stringify(msg));
     session.response({route: msg.route, code:500});
     return;
   }
-  
+
   session.response({route: msg.route, code: 200, result: users});
   logger.debug("get online users :" + JSON.stringify(users));
-}
+};
 
 /**
  * 排名推送
  */
-function updateRankList(areaId, uid){
+function updateRankList(areaId, uid) {
 	rankService.getTopN(ServerConstant.top,function(err,data){
 	  if(err){
 	   logger.error('updateRankList failed!');
@@ -148,8 +142,16 @@ handler.transferUser = function(msg, session){
     }else{
       logger.info("transfer user success!!" + JSON.stringify(msg));
       
+      cancelJob(uid);  
       areaService.removeUser(areaId, user);
       session.response({route:msg.route, code: 200, msg: msg});
     }
   });
+};
+
+function cancelJob(uid){
+  if(!!moveJob[uid]){
+    schedule.cancelJob(moveJob[uid]);
+    delete moveJob[uid];
+  }
 }

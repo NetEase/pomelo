@@ -1,4 +1,3 @@
-var Tower = require('./tower');
 var pomelo = require('../../../../../lib/pomelo');
 var utils = require('../../../../../lib/util/utils');
 var dataService = require('../syncService.js');
@@ -19,11 +18,7 @@ var Area = function(param) {
 	
 	this.cellConfig = param.cell;
 	
-	this.towerConfig = param.tower;
-	
 	this.users = dataService.getDataSet(areaUsersKey(this.id));
-	
-	this.towers = {};
 	
 	this.aoi = aoiService.getService(param);
 	
@@ -42,7 +37,6 @@ pro.init = function(){
     return;
   }
  
-  //Init towers
   this.channelManager = pomelo.getApp().get('channelManager');
      
   //每个area建立一个监听channel
@@ -68,74 +62,6 @@ pro.pushMessageByPos = function(x, y, msg, cb){
   this.channelManager.pushMessageByUids(msg, uids, cb);
 }
 
-pro.pushMessageByTowers = function(towers, msg, cb){
-  if(!towers)
-    utils.invokeCallback(cb, 'There are no tower exist!');
-    
-  for(var key in towers){
-    var count = 0;
-    var errCount = 0;
-    towers[key].pushMessage(msg, function(err){
-      count++;
-      if(!!err){
-        errCount++;
-      }
-      
-      if(count == towers.length){
-        if(errCount > 0){
-          utils.invokeCallback(cb, count +' towers ' + errCount + ' failed!');
-        }else{
-          logger.info('All messae have been send!');
-          utils.invokeCallback(cb, null);
-        }
-      }
-    });
-  } 
-}
-
-// /**
- // * 获取指定坐标及附近8个格子对应的tower
- // */
-// pro.getTowersByPos = function(x, y){
-  // var result = [];
-  // var towers = this.towers;
-//   
-  // var posX = Math.floor(x/this.towerConfig.width);
-  // var posY = Math.floor(y/this.towerConfig.height);
-//   
-  // for(var i = posX-1; i <= posX+1; i++)
-    // for(var j = posY-1; j <= posY+1; j++){
-      // if(!!towers[i][j])
-        // result.add(towers[i][j]);  
-    // }
-//     
-  // return result;
-// }
-// 
-// /**
- // * 获取路径相关的格子，现在的算法是判断该路径不会移动超过一个格子的距离
- // */
-// pro.getTowersByPath = function(path){
-  // var result = [];
-//   
-  // var start = path[0];
-  // var end = path[1];
-//   
-  // var x0 = Math.floor((start.x<end.x?start.x:end.x - 1)/this.towerConfig.width);
-  // var x1 = Math.floor((start.x>end.x?start.x:end.x + 1)/this.towerConfig.width);
-//   
-  // var y0 = Math.floor((start.y<end.y?start.y:end.y - 1)/this.towerConfig.height);
-  // var y1 = Math.floor((start.y>end.y?start.y:end.y + 1)/this.towerConfig.height);
-//   
-  // for(var i = x0; i <= x1; i++)
-    // for(var j = y0; j <= y1; j++){
-      // if(!!this.towers[i][j])
-        // result.push(this.towers[i][j]);  
-    // }
-//     
-  // return result;
-// }
-
 pro.addUser = function(userInfo){
   var uid = userInfo.uid;
   
@@ -152,10 +78,7 @@ pro.setUser = function(user){
   // var oldUser = this.users[uid];
   // if(!oldUser){
     // return this.addUser(user);
-  // }
-//   
-  // var tower = this.towers[Math.floor(user.x/this.towerConfig.width)][Math.floor(user.y/this.towerConfig.height)];
-  
+  // } 
 }
 
 pro.updateUser = function(uid, start, end){

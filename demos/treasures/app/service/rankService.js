@@ -6,7 +6,7 @@ var comConst = require('../config/constant');
 var rankService = module.exports;
 
 rankService.updateUserScore = function (userId, score, cb){
-	var scoreInt = parseInt(score) || 0;
+	var scoreInt = parseInt(score,10) || 0;
 	if (scoreInt<=0){
 		utils.invokeCallback(cb, null, false);
 		return ;

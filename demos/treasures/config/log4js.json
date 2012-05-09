@@ -38,7 +38,7 @@
       "filename": "./logs/forward-log-[serverId].log",
       "fileSize": 1048576,
       "layout": {
-          "type": "messagePassThrough"
+          "type": "basic"
         }
       ,"backups": 5,
       "category":"forward-log"
