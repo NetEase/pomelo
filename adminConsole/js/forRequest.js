@@ -37,16 +37,16 @@ var forGrid=Ext.create('Ext.grid.Panel', {
 //		{header:'state',dataIndex:'state'}
 		],
 	tbar:[
-		 'time: ',{
+		 'number: ',{
 		 	xtype:'numberfield',
-		 	name:'timeField',
-		 	id:'timeFieldId',
+		 	name:'numberfield',
+		 	id:'numberfieldId',
 		 	anchor: '100%',
-		 	value: 2,
-        	maxValue: 24*60,
+		 	value: 100,
+        	maxValue: 1000,
         	minValue: 0,
 		 	width:100
-		 },'minutes',' ',
+		 },' ',
 		 // {
 		 // 	xtype:'button',
 		 // 	text:'latest 100logs',
@@ -63,6 +63,19 @@ var forGrid=Ext.create('Ext.grid.Panel', {
 		 }
 		]
 });
+forGrid.addListener('itemdblclick', function(forGrid, rowindex, e){
+	var theGrid=Ext.getCmp('conGridId');
+	var record=forGrid.getSelectionModel().getSelection();
+	if(record.length>1){
+		alert('only one data is required!');
+		return;
+	}
+	if(record.length<1){
+		alert('please choose one data!')
+	}
+	var data=record[0].data.params;
+	gridDetailShow(data);
+});
 var viewport=new Ext.Viewport({
 	    layout:'border',
 	    items:[{
@@ -75,11 +88,11 @@ var viewport=new Ext.Viewport({
    var forLogData=[];
    var n=0;
 	socket.on('connect',function(){
-		var time=Ext.getCmp('timeFieldId').getValue() ;
+		var number=Ext.getCmp('numberfieldId').getValue() ;
 		socket.emit('announce_web_client');
 		// socket.emit('webmessage');	
 		// socket.emit('announce_web_client');
-		socket.emit('for-log',{time:time,logfile:'for-log'});
+		socket.emit('for-log',{number:number,logfile:'for-log'});
 		socket.on('for-log',function(msg){ 
 		var data=msg.dataArray; 
 		for(var i=0;i<data.length;i++){
@@ -97,8 +110,8 @@ var viewport=new Ext.Viewport({
 function refresh(){
 	forLogData=[];
 	n=0;
-	var time=Ext.getCmp('timeFieldId').getValue() ;
-	socket.emit('for-log',{time:time,logfile:'for-log'});
+	var number=Ext.getCmp('numberfieldId').getValue() ;
+	socket.emit('for-log',{number:number,logfile:'for-log'});
 
 }
 function count(){
