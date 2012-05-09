@@ -36,7 +36,7 @@ exp.addUser = function(msg, cb){
   var uid = msg.uid;
   var areaId = msg.areaId;
   
-  logger.error('serverId ' + pomelo.getApp().get('serverId') + ', areaId :' + areaId);
+  //logger.error('serverId ' + pomelo.getApp().get('serverId') + ', areaId :' + areaId);
   userService.getUserById(uid, function(err, user){
     if(!!err){
       utils.invokeCallback(cb, err);

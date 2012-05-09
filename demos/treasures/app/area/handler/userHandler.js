@@ -36,6 +36,17 @@ handler.addUser = function(req, session) {
 	  }
 	});
 };
+
+handler.joinUser = function(req, session) {
+  var user = areaService.getUser(session.areaId, session.uid);
+  if(!user){
+    session.response({route: req.route, code: 500});
+    logger.error('join user failed');
+  }else{
+    areaService.pushMessage(session.areaId, {route:'onUserJoin', user: user});
+    session.response({route: req.route, code: 200});
+  }
+}
         
 /**
  * 用户移动
@@ -76,12 +87,16 @@ handler.moveCalc = function(data){
   }
 
   var path = data.path;
-//   
+  
+  //更新AOI中用户数据 
+  areaService.updateUser(data.areaId, data.uid, {x: user.x, y: user.y}, path[1]);
+  
   //更新用户的位置信息数据
-  user.x = path[1].x;
-  user.y = path[1].y;
-
-  logger.debug('set user position success! [areaId]:' + data.areaId + '[uid]:' + data.uid + " [x]:" + path[1].x + " [y]:" + path[1].y);
+  // user.x = path[1].x;
+  // user.y = path[1].y;
+  
+  
+  //logger.debug('set user position success! [areaId]:' + data.areaId + '[uid]:' + data.uid + " [x]:" + path[1].x + " [y]:" + path[1].y);
   delete moveJob[data.uid];
 };
 
@@ -121,13 +136,19 @@ function updateRankList(areaId, uid){
 
 handler.transferUser = function(msg, session){
   msg.uid = session.uid;
+  var uid = session.uid;
+  var areaId = session.areaId;
+  var user = areaService.getUser(session.areaId, session,uid);
+  
   areaService.transferUser(msg, function(err) {
     //TODO: logout logic
     //TODO: remember to call session.closed() to finish logout flow finally
     if(!!err){
       session.response({route:msg.route, code: 500});
     }else{
-      logger.error("transfer user success!!" + JSON.stringify(msg));
+      logger.info("transfer user success!!" + JSON.stringify(msg));
+      
+      areaService.removeUser(areaId, user);
       session.response({route:msg.route, code: 200, msg: msg});
     }
   });

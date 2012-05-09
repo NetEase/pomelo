@@ -149,6 +149,7 @@ __resources__["/serverMsgHandler.js"] = {meta: {mimetype: "application/javascrip
       var userData = pomelo.userData;
       
       sceneManager.changeArea(area);
+      clientManager.joinUser();
       clientManager.getOnlineUsers();
       clientManager.getTreasures();
 		})

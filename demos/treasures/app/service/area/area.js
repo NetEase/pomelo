@@ -2,6 +2,7 @@ var Tower = require('./tower');
 var pomelo = require('../../../../../lib/pomelo');
 var utils = require('../../../../../lib/util/utils');
 var dataService = require('../syncService.js');
+var aoiService = require('aoi-service');
 
 // /var sceneDao = require('../dao/sceneDao');
 var exports = module.exports;
@@ -24,6 +25,8 @@ var Area = function(param) {
 	
 	this.towers = {};
 	
+	this.aoi = aoiService.getService(param);
+	
 	this.init();
 }
 
@@ -34,27 +37,16 @@ pro.getChannelId = function(areaId){
 }
 
 pro.init = function(){
-  if(!this.mapConfig || !this.cellConfig || !this.towerConfig){
+  if(!this.mapConfig || !this.cellConfig){
     logger.error('area init failed! areaid: ' + this.id);   
     return;
   }
  
   //Init towers
-  var channelManager = pomelo.getApp().get('channelManager');
-  var map = this.mapConfig;
-  var tower = this.towerConfig;
-  var cell = this.cellConfig;
-    
-   //创建监听tower 
-  for(var i = 0; i<Math.ceil(map.width/tower.width); i++){
-    this.towers[i] = {};
-    for(var j = 0; j < Math.ceil(map.height/tower.height); j++)
-      this.towers[i][j] = Tower.create(); 
-  }
- 
- 
+  this.channelManager = pomelo.getApp().get('channelManager');
+     
   //每个area建立一个监听channel
-  this.channel = channelManager.createChannel(this.getChannelId(this.id));
+  this.channel = this.channelManager.createChannel(this.getChannelId(this.id));
 }
 
 pro.pushMessage = function(msg, cb){
@@ -62,15 +54,18 @@ pro.pushMessage = function(msg, cb){
 }
 
 pro.pushMessageByUids = function(uids, msg, cb){
-  pomelo.getApp().get('channelManager').pushMessageByUids(msg, uids, cb);
+  this.channelManager.pushMessageByUids(msg, uids, cb);
 }
 
 pro.pushMessageByPath = function(path, msg, cb){
-  this.pushMessageByTowers(this.getTowersByPath(path), msg, cb);
+  var uids = this.aoi.getIdsByPath(path[0], path[1]);
+  this.channelManager.pushMessageByUids(msg, uids, cb);
 }
 
 pro.pushMessageByPos = function(x, y, msg, cb){
-  this.pushMessageByTowers(this.getTowersByPos(x, y), msg, cb);
+  var uids = this.aoi.getIdsByPos({x : x, y : y});
+  
+  this.channelManager.pushMessageByUids(msg, uids, cb);
 }
 
 pro.pushMessageByTowers = function(towers, msg, cb){
@@ -98,67 +93,56 @@ pro.pushMessageByTowers = function(towers, msg, cb){
   } 
 }
 
-/**
- * 获取指定坐标及附近8个格子对应的tower
- */
-pro.getTowersByPos = function(x, y){
-  var result = [];
-  var towers = this.towers;
-  
-  var posX = Math.floor(x/this.towerConfig.width);
-  var posY = Math.floor(y/this.towerConfig.height);
-  
-  for(var i = posX-1; i <= posX+1; i++)
-    for(var j = posY-1; j <= posY+1; j++){
-      if(!!towers[i][j])
-        result.add(towers[i][j]);  
-    }
-    
-  return result;
-}
-
-/**
- * 获取路径相关的格子，现在的算法是判断该路径不会移动超过一个格子的距离
- */
-pro.getTowersByPath = function(path){
-  var result = [];
-  
-  var start = path[0];
-  var end = path[1];
-  
-  var x0 = Math.floor((start.x<end.x?start.x:end.x - 1)/this.towerConfig.width);
-  var x1 = Math.floor((start.x>end.x?start.x:end.x + 1)/this.towerConfig.width);
-  
-  var y0 = Math.floor((start.y<end.y?start.y:end.y - 1)/this.towerConfig.height);
-  var y1 = Math.floor((start.y>end.y?start.y:end.y + 1)/this.towerConfig.height);
-  
-  for(var i = x0; i <= x1; i++)
-    for(var j = y0; j <= y1; j++){
-      if(!!this.towers[i][j])
-        result.push(this.towers[i][j]);  
-    }
-    
-  return result;
-}
+// /**
+ // * 获取指定坐标及附近8个格子对应的tower
+ // */
+// pro.getTowersByPos = function(x, y){
+  // var result = [];
+  // var towers = this.towers;
+//   
+  // var posX = Math.floor(x/this.towerConfig.width);
+  // var posY = Math.floor(y/this.towerConfig.height);
+//   
+  // for(var i = posX-1; i <= posX+1; i++)
+    // for(var j = posY-1; j <= posY+1; j++){
+      // if(!!towers[i][j])
+        // result.add(towers[i][j]);  
+    // }
+//     
+  // return result;
+// }
+// 
+// /**
+ // * 获取路径相关的格子，现在的算法是判断该路径不会移动超过一个格子的距离
+ // */
+// pro.getTowersByPath = function(path){
+  // var result = [];
+//   
+  // var start = path[0];
+  // var end = path[1];
+//   
+  // var x0 = Math.floor((start.x<end.x?start.x:end.x - 1)/this.towerConfig.width);
+  // var x1 = Math.floor((start.x>end.x?start.x:end.x + 1)/this.towerConfig.width);
+//   
+  // var y0 = Math.floor((start.y<end.y?start.y:end.y - 1)/this.towerConfig.height);
+  // var y1 = Math.floor((start.y>end.y?start.y:end.y + 1)/this.towerConfig.height);
+//   
+  // for(var i = x0; i <= x1; i++)
+    // for(var j = y0; j <= y1; j++){
+      // if(!!this.towers[i][j])
+        // result.push(this.towers[i][j]);  
+    // }
+//     
+  // return result;
+// }
 
 pro.addUser = function(userInfo){
   var uid = userInfo.uid;
   
   this.users[uid] = userInfo;
+  
   this.channel.add(uid);
-  
-  var i = Math.floor(userInfo.x/this.towerConfig.width);
-  var j = Math.floor(userInfo.y/this.towerConfig.height)
-  
-  // logger.error(this.towerConfig);
-  // logger.error(userInfo);
-  // logger.error(this.towers);
-  var tower = this.towers[i][j];
-  
-  if(!tower){
-    return false;
-  }
-  tower.addUser(uid, userInfo.sceneId);
+  this.aoi.addObject(uid, {x: userInfo.x, y: userInfo.y});
   
   return true;
 }
@@ -174,6 +158,14 @@ pro.setUser = function(user){
   
 }
 
+pro.updateUser = function(uid, start, end){
+  if(!this.users[uid])
+    return true;
+  this.users[uid].x = end.x;
+  this.users[uid].y = end.y;
+  this.aoi.updateObject(uid, start, end);
+}
+
 pro.removeUser = function(uid){
   var user = this.users[uid];
   
@@ -182,10 +174,7 @@ pro.removeUser = function(uid){
     
   delete this.users[uid];
   this.channel.leave(uid);  
-  
-  var tower = this.towers[Math.floor(user.x/this.towerConfig.width)][Math.floor(user.y/this.towerConfig.height)];
-  
-  tower.removeUser(user.uid, user.areaId);  
+  this.aoi.removeObject(uid, {x:user.x, y:user.y});
   
   return true;
 }
