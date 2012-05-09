@@ -63,7 +63,7 @@ function login(){
     localStorage.setItem('username', username);
   }
   pomelo.init({socketUrl: window.__front_address__, log: true}, function() {
-    pomelo.pushMessage({route:"connector.loginHandler.login", params:{username: username, password: pwd}});
+    pomelo.pushMessage({route:"connector.loginHandler.login", username: username, password: pwd});
   });
 }
 
@@ -90,7 +90,7 @@ function register(){
     alert('干嘛蛋疼取这么长的名字。。。');
   }
   else {
-    pomelo.pushMessage({route:"connector.loginHandler.register", params:{username: loginUsername, name: name, password: pwd, roleId: roleId}});
+    pomelo.pushMessage({route:"connector.loginHandler.register", username: loginUsername, name: name, password: pwd, roleId: roleId});
   }
 }
 
@@ -107,7 +107,7 @@ function getCurrentScene(){
  * 获取所有宝物信息
  */
 function getTreasures(){
-  pomelo.pushMessage({route:"area.treasureHandler.getTreasures", params:{uid: pomelo.uid, areaId: pomelo.areaId}});
+  pomelo.pushMessage({route:"area.treasureHandler.getTreasures", uid: pomelo.uid, areaId: pomelo.areaId});
 }
 
 /**
@@ -118,7 +118,7 @@ function addUser(){
 }
 
 function getOnlineUsers(){
-  pomelo.pushMessage({route:"area.userHandler.getOnlineUsers", params:{uid: pomelo.uid, areaId: pomelo.areaId}});
+  pomelo.pushMessage({route:"area.userHandler.getOnlineUsers", uid: pomelo.uid, areaId: pomelo.areaId});
 }
 
 /**
@@ -134,7 +134,7 @@ function getOnlineUsers(){
  */
 function move(startX, startY, endX, endY, time){
   path = [{x:startX, y:startY},{x:endX, y:endY}];
-  pomelo.pushMessage({route:"area.userHandler.move", params:{path: path, time: time,uid: pomelo.uid, areaId: pomelo.areaId}});
+  pomelo.pushMessage({route:"area.userHandler.move", path: path, time: time,uid: pomelo.uid, areaId: pomelo.areaId});
 }
 
 /**
@@ -148,7 +148,7 @@ function move(startX, startY, endX, endY, time){
  * }
  */
 function pickTreasure(treasureId){
-  pomelo.pushMessage({route:"area.treasureHandler.pickItem", params:{treasureId: treasureId, areaId: pomelo.areaId}});
+  pomelo.pushMessage({route:"area.treasureHandler.pickItem", treasureId: treasureId, areaId: pomelo.areaId});
 }
 
 function transferUser(target){

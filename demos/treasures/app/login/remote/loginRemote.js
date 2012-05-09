@@ -27,12 +27,12 @@ exp.checkPassport = function (username, pwd, cb){
   }
 };
 
-exp.register = function(params, cb){
-  var username = params.username;
-  var name = params.name;
-  var pwd = params.password;
-  var roleId = params.roleId;
-
+exp.register = function(req, cb){
+  var username = req.username;
+  var name = req.name;
+  var pwd = req.password;
+  var roleId = req.roleId;
+  
   logger.debug('[register] ', {'username':username,'password':pwd, 'roleId':roleId});
 
   if(!!username && !!name && !!roleId){
@@ -47,6 +47,6 @@ exp.register = function(params, cb){
     });
   }
   else{
-  	utils.invokeCallback(cb, new Error('invalid arguments'));
+		utils.invokeCallback(cb, new Error('invalid arguments'));
   }
 };

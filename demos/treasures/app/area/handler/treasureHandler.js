@@ -14,17 +14,16 @@ var areaService = require('../../service/areaService');
  * @param treasureId
  * @param sceneId
  */
-handler.pickItem = function (msg, session){
-  var params = msg.params;
+handler.pickItem = function (req, session){
   var uid = session.uid;
-  var treasureId = params.treasureId;
+  var treasureId = req.treasureId;
 
   //var sceneId = session.sceneId;
-  treasureService.pickItem(uid, treasureId, msg.areaId, function(err,success){
+  treasureService.pickItem(uid, treasureId, req.areaId, function(err,success){
 			logger.debug(uid + ' picked up treasure to logic ' + treasureId + "result:" + success);
-			var result = {route: msg.route, code: 200, success: success, treasureId: treasureId};
+			var result = {route: req.route, code: 200, success: success, treasureId: treasureId};
 			if (err){
-				session.response({route: msg.route, code:500});
+				session.response({route: req.route, code:500});
 			}else{
 				session.response(result);
 				updateRankList();
@@ -32,12 +31,10 @@ handler.pickItem = function (msg, session){
   });
 };
 
-handler.getTreasures = function(msg, session){
-  var result = treasureService.getAllTreasureInfo(msg.areaId);
-
-  session.response({route: msg.route, code: 200, result: result});
+handler.getTreasures = function(req, session){
+  var result = treasureService.getAllTreasureInfo(req.areaId);
+  session.response({route: req.route, code: 200, result: result});
 };
-
 /**
  * 用户移动
  * 日前可以算出时间推给事件服务器
