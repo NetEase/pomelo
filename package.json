@@ -10,7 +10,6 @@
   , "generic-pool": ">=1.0.9"
   , "mysql": ">=0.9.5"
   , "redis": ">=0.7.1"
-  , "seq-queue": ">=0.0.1"
   , "pomelo-schedule": ">=0.3.3"
   , "pomelo-monitor": ">=0.1.2"
   , "mail-box": "0.0.4"

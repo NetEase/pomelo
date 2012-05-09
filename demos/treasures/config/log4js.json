@@ -46,6 +46,8 @@
   ],
 
   "levels": {
-    "tests":  "DEBUG"
+    "rpc-log": "ERROR", 
+    "con-log": "ERROR", 
+    "forward-log": "ERROR" 
   }
 }
