@@ -9,29 +9,16 @@ var pomelo = require('../../../../../lib/pomelo');
  * 宝物位置可能重叠，未区分位置
  */
 handler.generateTreasures = function(req){
-	
+
 	treasureService.generateTreasures(req,function(err,data){
     var res={"route":"area.treasureHandler.getTreasures","code":200,"result":data.treasures};
     areaService.pushMessage(req.areaId, res);
 	});
 };
-/** 
+/**
  * 用户移动
  * 日前可以算出时间推给事件服务器
- * 
+ *
  * @param move
  */
 
-//
-//
-///**
-// * 排名推送
-// *
-// */
-//
-//handler.updateRankList = function(){
-//  	rankService.getTopN(ServerConstant.top,function(err,data){
-// 		var msg={'type':clientConstant.RANK_LIST_REFRESH, 'code':200 ,'body':data};
-// 		channelClient.publishState(msg);
-//	});
-//};

@@ -41,4 +41,4 @@ exp.calculator = function(opts, cb){
     utils.invokeCallback(cb, null, list[index].id);    
   }
   
-}
+};
