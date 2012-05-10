@@ -1,12 +1,11 @@
 var utils = require('../../../../lib/util/utils');
 var pomelo = require('../../../../lib/pomelo');
 var Area = require('./area/area');
-var Tower = require('./area/tower');
 var areaManager = require('./area/areaManager');
 
 var exp = module.exports;
 var areas = {};
-var console = require('../../../../lib/pomelo').log.getLogger(__filename);
+var log = require('../../../../lib/pomelo').log.getLogger(__filename);
 
 exp.init = function(){
   areaManager.init();
@@ -19,7 +18,7 @@ exp.init = function(){
 exp.addUserByUid = function(areaId, uid){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('addUserByUid Area not exist! areaId : ' + areaId);
+    log.error('addUserByUid Area not exist! areaId : ' + areaId);
     return;
   }
   return area.addUser(uid);
@@ -31,7 +30,7 @@ exp.addUserByUid = function(areaId, uid){
 exp.addUser = function(areaId, user){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('addUser Area not exist! areaId : ' + areaId);
+    log.error('addUser Area not exist! areaId : ' + areaId);
     return;
   }
   
@@ -41,7 +40,7 @@ exp.addUser = function(areaId, user){
 exp.setUser = function(areaId, user){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('setUser Area not exist! areaId : ' + areaId);
+    log.error('setUser Area not exist! areaId : ' + areaId);
     return;
   }
   return area.setUser(user);
@@ -50,7 +49,7 @@ exp.setUser = function(areaId, user){
 exp.getUser = function(areaId, uid){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('getUser Area not exist! areaId : ' + areaId);
+    log.error('getUser Area not exist! areaId : ' + areaId);
     return;
   }
   return area.getUser(uid);
@@ -59,10 +58,19 @@ exp.getUser = function(areaId, uid){
 exp.removeUser = function(areaId, uid){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('removeUser Area not exist! areaId : ' + areaId);
+    log.error('removeUser Area not exist! areaId : ' + areaId);
     return;
   }
   return area.removeUser(uid);
+}
+
+exp.updateUser = function(areaId, uid, start, end){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('removeUser Area not exist! areaId : ' + areaId);
+    return;
+  }
+  return area.updateUser(uid, start, end);
 }
 
 /**
@@ -71,7 +79,7 @@ exp.removeUser = function(areaId, uid){
 exp.getUsers = function(areaId){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('getUsers Area not exist! areaId : ' + areaId);
+    log.error('getUsers Area not exist! areaId : ' + areaId);
     return;
   }
   return area.getUsers();
@@ -87,7 +95,7 @@ exp.transferUser = function(msg, cb){
 exp.pushMessage = function(areaId, msg){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('pushMessage Area not exist! areaId : ' + areaId);
+    log.error('pushMessage Area not exist! areaId : ' + areaId);
     return;
   }
   area.pushMessage(msg);
@@ -96,7 +104,7 @@ exp.pushMessage = function(areaId, msg){
 exp.pushMessageByUids = function(areaId, uids, msg){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('pushMessageByUids Area not exist! areaId : ' + areaId);
+    log.error('pushMessageByUids Area not exist! areaId : ' + areaId);
     return;
   }
 	area.pushMessageByUids(uids, msg);  
@@ -105,7 +113,7 @@ exp.pushMessageByUids = function(areaId, uids, msg){
 exp.pushMessageByPath = function(areaId, path, msg, cb){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
     return;
   }
 	area.pushMessageByPath(path, msg, cb);  
@@ -119,10 +127,50 @@ exp.pushMessageToAll = function(msg){
   }
 }
 
+exp.setTrs = function(areaId, treasures){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+  
+  area.setTrs(treasures);
+}
+
+exp.removeTr = function(areaId, trId){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+  
+  area.removeTr(trId);
+}
+
+exp.getTr = function(areaId, trId){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+  
+  return area.getTr(trId);
+}
+
+exp.getTrs = function(areaId){
+  var area = areaManager.getArea(areaId);
+  if(!area){
+    log.error('pushMessageByPath Area not exist! areaId : ' + areaId);
+    return;
+  }
+  
+  return area.getTrs();
+}
+
 exp.getMapConfig = function(areaId){
   var area = areaManager.getArea(areaId);
   if(!area){
-    console.error('getMapConfig Area not exist! areaId : ' + areaId);
+    log.error('getMapConfig Area not exist! areaId : ' + areaId);
     return;
   }
   return area.mapConfig;

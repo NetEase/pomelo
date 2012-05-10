@@ -25,6 +25,7 @@ exports.getCurrentScene = getCurrentScene;
 exports.transferUser = transferUser;
 exports.getOnlineUsers = getOnlineUsers;
 exports.getTreasures = getTreasures;
+exports.joinUser = joinUser;
 
 var self = this;
 
@@ -115,6 +116,10 @@ function getTreasures(){
  */
 function addUser(){
   pomelo.pushMessage({route:"area.userHandler.addUser"});
+}
+
+function joinUser(){
+  pomelo.pushMessage({route:"area.userHandler.joinUser"});
 }
 
 function getOnlineUsers(){

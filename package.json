@@ -13,6 +13,7 @@
   , "seq-queue": ">=0.0.1"
   , "pomelo-schedule": ">=0.3.3"
   , "pomelo-monitor": ">=0.1.2"
+  , "aoi-service": ">=0.1.2"
   , "mail-box": "0.0.4"
   , "mail-router": ">=0.0.4"
   , "data-sync": ">=0.0.6"

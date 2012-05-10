@@ -37,6 +37,17 @@ handler.addUser = function(req, session) {
 	});
 };
 
+handler.joinUser = function(req, session) {
+  var user = areaService.getUser(session.areaId, session.uid);
+  if(!user){
+    session.response({route: req.route, code: 500});
+    logger.error('join user failed');
+  }else{
+    areaService.pushMessage(session.areaId, {route:'onUserJoin', user: user});
+    session.response({route: req.route, code: 200});
+  }
+}
+
 /**
  * 用户移动
  * 目前可以算出时间推给事件服务器
@@ -57,10 +68,7 @@ handler.move = function (req, session){
 	areaService.pushMessageByPath(areaId, path, {route: 'onMove', uid: uid, path: path, time: time});
 	var move = Move.create({uid: uid, startx: startx, starty: starty, speed: speed,path: path, time: time, startTime: (new Date()).getTime()});
 
-  if(!!moveJob[uid]){
-    schedule.cancelJob(moveJob[uid]);
-    delete moveJob[move.uid];
-  }
+  cancelJob(uid);
   logger.debug('user move' + time);
   moveJob[uid] = schedule.scheduleJob({start:Date.now() + time, count: 1}, handler.moveCalc, {areaId: areaId, uid:uid, path: path});
 	session.response({route: req.route, body: move, code: 200});
@@ -74,12 +82,16 @@ handler.moveCalc = function(data){
   }
 
   var path = data.path;
-//
+  
+  //更新AOI中用户数据 
+  areaService.updateUser(data.areaId, data.uid, {x: user.x, y: user.y}, path[1]);
+  
   //更新用户的位置信息数据
-  user.x = path[1].x;
-  user.y = path[1].y;
-
-  logger.debug('set user position success! [areaId]:' + data.areaId + '[uid]:' + data.uid + " [x]:" + path[1].x + " [y]:" + path[1].y);
+  // user.x = path[1].x;
+  // user.y = path[1].y;
+  
+  
+  //logger.debug('set user position success! [areaId]:' + data.areaId + '[uid]:' + data.uid + " [x]:" + path[1].x + " [y]:" + path[1].y);
   delete moveJob[data.uid];
 };
 
@@ -111,21 +123,35 @@ function updateRankList(areaId, uid) {
 	  //session.socket.emit('message',msg);
 	  var uids=[];
 	  uids.push(uid);
-	  //areaService.pushMessageByUids(areaId, uids, msg);
+	  areaService.pushMessageByUids(areaId, uids, msg);
 	  logger.info('logining,updateRankList success!');
 	});
 }
 
 handler.transferUser = function(msg, session){
   msg.uid = session.uid;
+  var uid = session.uid;
+  var areaId = session.areaId;
+  var user = areaService.getUser(session.areaId, session,uid);
+  
   areaService.transferUser(msg, function(err) {
     //TODO: logout logic
     //TODO: remember to call session.closed() to finish logout flow finally
     if(!!err){
       session.response({route:msg.route, code: 500});
     }else{
-      logger.error("transfer user success!!" + JSON.stringify(msg));
+      logger.info("transfer user success!!" + JSON.stringify(msg));
+      
+      cancelJob(uid);  
+      areaService.removeUser(areaId, user);
       session.response({route:msg.route, code: 200, msg: msg});
     }
   });
 };
+
+function cancelJob(uid){
+  if(!!moveJob[uid]){
+    schedule.cancelJob(moveJob[uid]);
+    delete moveJob[uid];
+  }
+}

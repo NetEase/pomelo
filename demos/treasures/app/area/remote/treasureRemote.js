@@ -9,7 +9,6 @@ var pomelo = require('../../../../../lib/pomelo');
  * 宝物位置可能重叠，未区分位置
  */
 handler.generateTreasures = function(req){
-
 	treasureService.generateTreasures(req,function(err,data){
     var res={"route":"area.treasureHandler.getTreasures","code":200,"result":data.treasures};
     areaService.pushMessage(req.areaId, res);
