@@ -161,6 +161,10 @@ socket.on('connect',function(){
 function runScript(){
 	var scriptJs=Ext.getCmp('scriptAreaId').getValue();
 	var serverId=Ext.getCmp('serverComId').getValue();
+	if(!serverId||serverId.length<1){
+		alert('serverId is required!');
+		return;
+	}
 	socket.emit('runScript',{scriptJs:scriptJs,serverId:serverId});
 	socket.on('runScript',function(msg){
 	    Ext.getCmp('tesultTextId').setValue(msg);

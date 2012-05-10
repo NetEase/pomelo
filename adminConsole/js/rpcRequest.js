@@ -36,16 +36,16 @@ var rpcGrid=Ext.create('Ext.grid.Panel', {
 //		{header:'state',dataIndex:'state'}
 		],
 	tbar:[
-	 'time: ',{
+	 'number: ',{
 	 	xtype:'numberfield',
-	 	name:'timeField',
-	 	id:'timeFieldId',
+	 	name:'numberfield',
+	 	id:'numberfieldId',
 	 	anchor: '100%',
-	 	value: 2,
-    	maxValue: 24*60,
+	 	value: 100,
+    	maxValue: 1000,
     	minValue: 0,
 	 	width:100
-	 },'minutes ',{
+	 },{
 	 	xtype:'button',
 	 	text:'refresh',
 	 	handler:refresh
@@ -55,6 +55,19 @@ var rpcGrid=Ext.create('Ext.grid.Panel', {
 	 	handler:count
 	 }
 	]
+});
+rpcGrid.addListener('itemdblclick', function(rpcGrid, rowindex, e){
+	var theGrid=Ext.getCmp('conGridId');
+	var record=rpcGrid.getSelectionModel().getSelection();
+	if(record.length>1){
+		alert('only one data is required!');
+		return;
+	}
+	if(record.length<1){
+		alert('please choose one data!')
+	}
+	var data=record[0].data.params;
+	gridDetailShow(data);
 });
 var viewport=new Ext.Viewport({
 	    layout:'border',
@@ -69,10 +82,10 @@ var viewport=new Ext.Viewport({
    var conLogData=[];
    var n=0;
 	socket.on('connect',function(){
-		var time=Ext.getCmp('timeFieldId').getValue() ;
+		var number=Ext.getCmp('numberfieldId').getValue() ;
 		socket.emit('announce_web_client');
-		socket.emit('webmessage');	
-		socket.emit('rpc-log',{time:time,logfile:'rpc-log'});
+		// socket.emit('webmessage');	
+		socket.emit('rpc-log',{number:number,logfile:'rpc-log'});
 		socket.on('rpc-log',function(msg){ 
 		var data=msg.dataArray;
 		for(var i=0;i<data.length;i++){
@@ -87,8 +100,8 @@ var viewport=new Ext.Viewport({
 function refresh(){
     conLogData=[];
 	n=0;
-	var time=Ext.getCmp('timeFieldId').getValue() ;
-	socket.emit('rpc-log',{time:time,logfile:'rpc-log'});
+	var number=Ext.getCmp('numberfieldId').getValue() ;
+	socket.emit('rpc-log',{number:number,logfile:'rpc-log'});
 }
 
 function count(){
