@@ -65,7 +65,7 @@ trconfig.TREASURE_DATA = {
 		"71":{"name":"伏魔天书", "imgId": "71", "score": 9},
 		"72":{"name":"普渡", "imgId": "72", "score": 9},
 		"64":{"name":"镇海珠", "imgId": "64", "score": 9},
-		"65":{"name":" 奇门五行令", "imgId": "65", "score": 9},
+		"65":{"name":"奇门五行令", "imgId": "65", "score": 9},
 		"66":{"name":"失心钹", "imgId": "66", "score": 9},
 		"67":{"name":"五火神焰印", "imgId": "67", "score": 9},
 		"68":{"name":"九幽", "imgId": "68", "score": 10},
