@@ -2,7 +2,7 @@ var pomelo = require('../../../../../lib/pomelo');
 var logger = require('../../../../../lib/util/log/log').getLogger(__filename);
 
 var exp = module.exports;
-var areas = require('../../../config/areas.json')['areas'];
+var areas = require('../../../config/areas.json').area;
 
 exp.login = function(req, session) {
 	var username = req.username;
@@ -34,7 +34,7 @@ exp.register = function(req, session) {
 	});
 };
 
-var afterLogin = function(msg, session, uinfo) {
+var afterLogin = function (msg, session, uinfo) {
 	var app = pomelo.getApp();
 	app.get('proxyMap').user.status.statusRemote.addStatus(uinfo.uid,  app.get('serverId'), function(err) {
 		if(!!err) {
@@ -46,16 +46,16 @@ var afterLogin = function(msg, session, uinfo) {
 		session.set('username', uinfo.username);
 		session.userLogined(uinfo.uid);
 		session.on('closing', onUserLeave);
-	
+
 		session.response({route: msg.route, code: 200, userData: uinfo, areaData: app.get('areas')});
 	});
 };
 
-var onUserLeave = function(session, reason) {
+var onUserLeave = function (session, reason) {
 	if(!session || !session.uid) {
 		return;
 	}
-	
+
 	var proxy = pomelo.getApp().get('proxyMap');
 	proxy.user.area.userRemote.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
 		//TODO: logout logic

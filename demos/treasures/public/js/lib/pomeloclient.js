@@ -9,8 +9,8 @@
 
 
 	var root = window;
-	var eventEmitter = new root.EventEmitter();
-	var pomelo = Object.create(eventEmitter); // object extend from object
+	//var eventEmitter = new root.EventEmitter();
+	var pomelo = Object.create(EventEmitter.prototype); // object extend from object
 	root.pomelo = pomelo;
 	var socket = null;
 

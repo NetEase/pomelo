@@ -27,7 +27,7 @@ exp.userLeave = function(msg, cb) {
 	areaService.pushMessage(areaId, {route:'onUserLeave', code: 200, uid: uid});
 	console.log('[userLeave] uid:' + uid);
 	utils.invokeCallback(cb);
-}
+};
 
 /**
  * 在场景中加入用户
@@ -36,7 +36,7 @@ exp.addUser = function(msg, cb){
   var uid = msg.uid;
   var areaId = msg.areaId;
   
-  logger.error('serverId ' + pomelo.getApp().get('serverId') + ', areaId :' + areaId);
+  //logger.error('serverId ' + pomelo.getApp().get('serverId') + ', areaId :' + areaId);
   userService.getUserById(uid, function(err, user){
     if(!!err){
       utils.invokeCallback(cb, err);
@@ -52,4 +52,4 @@ exp.addUser = function(msg, cb){
       }
     }
   });
-}
+};

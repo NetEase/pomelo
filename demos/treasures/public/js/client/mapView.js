@@ -44,7 +44,6 @@ __resources__["/mapView.js"] = {
                 });
                 
                 //计算得到地图位置
-                console.log(mapPos);
                 mapPos.x *= -1;
                 mapPos.y *= -1;
             //    mapPos = this.transPos(mapPos);
@@ -124,10 +123,6 @@ __resources__["/mapView.js"] = {
                     var target = {};
                     target.x = pos.x + xDist;
                     target.y = pos.y + yDist;
-                    
-                    // 判断是否移出了地图边界
-            //        target = this.transPos(target);
-           //         start = this.transStart(pos);
                     
                     // 移动地图
                     var dis = Math.sqrt((target.x - pos.x) * (target.x - pos.x) +

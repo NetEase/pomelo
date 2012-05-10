@@ -8,8 +8,6 @@ var exp = module.exports;
 
 exp.calculator = function(opts, cb){
   var app = pomelo.getApp();
-  // logger.error('serverId :' + app.get('serverId') + "areaId :" + JSON.stringify(opts));
-  // logger.error("arae Info : " + JSON.stringify(app.get('areas')[opts.areaId]));
   if(opts.type == 'area'){
     var areas = app.get('areas');
     
@@ -26,7 +24,33 @@ exp.calculator = function(opts, cb){
     }
     utils.invokeCallback(cb, null, server);    
     
-  }else{
+  } else if(opts.type === 'connector') {
+    if(!opts || !opts.servers) {
+      utils.invokeCallback(cb, new Error('empty server configs.'));
+      return;
+    }
+
+    var servers = opts.servers;
+    var list = servers[opts.type];
+    if(!list) {
+      utils.invokeCallback(cb, new Error('can not find server info for type:' + opts.type));
+      return;
+    }
+
+    if(!!opts.frontendId) {
+      utils.invokeCallback(cb, null, frontendId);
+      return;
+    }
+
+    pomelo.getApp().get('proxyMap').user.status.statusRemote.queryStatus(opts.uid, function(err, sid) {
+      if(!!err) {
+        utils.invokeCallback(cb, new Error('fail to query status for uid:' + uid + ', err:' + err.stack));
+        return;
+      }
+      utils.invokeCallback(cb, null, sid);
+      return;
+    });
+  } else {
     if(!opts || !opts.servers) {
       utils.invokeCallback(cb, new Error('empty server configs.'));
       return;
@@ -41,4 +65,4 @@ exp.calculator = function(opts, cb){
     utils.invokeCallback(cb, null, list[index].id);    
   }
   
-}
+};

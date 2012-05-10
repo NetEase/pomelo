@@ -15,7 +15,7 @@ exp.transferUser = function(msg, cb){
       logger.info('transfer user success! msg:' + JSON.stringify(msg));
       utils.invokeCallback(cb);
     }
-  })
+  });
 };
 
 exp.pushMessageToAll = function(msg, cb){

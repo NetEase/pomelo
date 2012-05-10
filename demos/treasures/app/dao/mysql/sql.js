@@ -18,20 +18,20 @@ NND.init = function(){
 NND.query = function(sql, args, callback){
 
 	_pool.acquire(function(err, client) {
-        if (!!err) {
-            console.log('[sqlqueryErr] '+err.stack);
-        	return;
-        }
-	
-	    client.query(sql, args, function(err, res) {
-	    
-	        _pool.release(client);
-	        
-	        _utils.invokeCallback(callback, err, res);
-	        
-	    });
+		if (!!err) {
+			console.log('[sqlqueryErr] '+err.stack);
+			return;
+		}
+
+		client.query(sql, args, function(err, res) {
+
+			_pool.release(client);
+
+			_utils.invokeCallback(callback, err, res);
+
+		});
 	});
-}
+};
 
 NND.insert = NND.query;
 NND.update = NND.query;
