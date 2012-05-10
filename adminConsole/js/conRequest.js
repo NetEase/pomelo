@@ -37,16 +37,16 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 //		{header:'state',dataIndex:'state'}
 		],
 	tbar:[
-		 'time: ',{
+		 'number: ',{
 		 	xtype:'numberfield',
-		 	name:'timeField',
-		 	id:'timeFieldId',
+		 	name:'numberfield',
+		 	id:'numberfieldId',
 		 	anchor: '100%',
-		 	value: 2,
-        	maxValue: 24*60,
+		 	value: 100,
+        	maxValue: 1000,
         	minValue: 0,
 		 	width:100
-		 },'minutes',' ',
+		 },' ',
 		 // {
 		 // 	xtype:'button',
 		 // 	text:'latest 100logs',
@@ -62,6 +62,12 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 		 	handler:count
 		 }
 		]
+	// listeners:{
+	// 	dblclick:{
+	// 		element: 'body',
+	// 		fn:showDeails
+	// 	}
+	// }
 });
 var viewport=new Ext.Viewport({
 	    layout:'border',
@@ -71,22 +77,35 @@ var viewport=new Ext.Viewport({
          contentEl:countId
 	    },conGrid]
 	});
+
+conGrid.addListener('itemdblclick', function(conGrid, rowindex, e){
+	var theGrid=Ext.getCmp('conGridId');
+	var record=conGrid.getSelectionModel().getSelection();
+	if(record.length>1){
+		alert('only one data is required!');
+		return;
+	}
+	if(record.length<1){
+		alert('please choose one data!')
+	}
+	var data=record[0].data.params;
+	gridDetailShow(data);
+});
+
 });
    var conLogData=[];
    var n=0;
 	socket.on('connect',function(){
-		var time=Ext.getCmp('timeFieldId').getValue() ;
+		var number=Ext.getCmp('numberfieldId').getValue() ;
 		socket.emit('announce_web_client');
 		// socket.emit('webmessage');	
-		// socket.emit('announce_web_client');
-		socket.emit('con-log',{time:time,logfile:'con-log'});
+		socket.emit('con-log',{number:number,logfile:'con-log'});
 		socket.on('con-log',function(msg){ 
 		var data=msg.dataArray; 
 		for(var i=0;i<data.length;i++){
 			conLogData[n]=data[i];
 			n++;
 		}
-		// alert('data length:'+data.length+';conLogData length:'+conLogData.length);
 	   var store=Ext.getCmp('conGridId').getStore();
        store.loadData(conLogData);
        
@@ -97,14 +116,8 @@ var viewport=new Ext.Viewport({
 function refresh(){
 	conLogData=[];
 	n=0;
-	var time=Ext.getCmp('timeFieldId').getValue() ;
-	socket.emit('con-log',{time:time,logfile:'con-log'});
-}
-function getLatest(){
-	conLogData=[];
-	n=0;
-	socket.emit('announce_web_client');
-	socket.emit('con-log',{number:100,flag:'yes',time:0,logfile:'con-log'});
+	var number=Ext.getCmp('numberfieldId').getValue() ;
+	socket.emit('con-log',{number:number,logfile:'con-log'});
 }
 function count(){
 	if(conLogData.length<1){
