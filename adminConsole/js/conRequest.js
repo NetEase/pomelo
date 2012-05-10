@@ -31,10 +31,6 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 		{text:'request route',dataIndex:'route',width:220},
 		{text:'timeUsed',dataIndex:'timeUsed',width:70},
 		{text:'request params',dataIndex:'params',width:900}
-//		{header:'createTime',dataIndex:'createTime',width:200},
-//		{header:'doneTime',dataIndex:'doneTime',width:200},
-//		{header:'cost(ms)',dataIndex:'cost(ms)',width:800}
-//		{header:'state',dataIndex:'state'}
 		],
 	tbar:[
 		 'number: ',{
@@ -42,16 +38,11 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 		 	name:'numberfield',
 		 	id:'numberfieldId',
 		 	anchor: '100%',
-		 	value: 100,
+		 	value: 50,
         	maxValue: 1000,
         	minValue: 0,
 		 	width:100
 		 },' ',
-		 // {
-		 // 	xtype:'button',
-		 // 	text:'latest 100logs',
-		 // 	handler:getLatest
-		 // },' ',
 		 {
 		 	xtype:'button',
 		 	text:'refresh',
@@ -62,12 +53,6 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 		 	handler:count
 		 }
 		]
-	// listeners:{
-	// 	dblclick:{
-	// 		element: 'body',
-	// 		fn:showDeails
-	// 	}
-	// }
 });
 var viewport=new Ext.Viewport({
 	    layout:'border',
@@ -137,27 +122,4 @@ function count(){
 	document.getElementById("minTimeId").innerHTML=minTime;
 	document.getElementById("avgTimeId").innerHTML=totalTime/conLogData.length;
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	

@@ -41,7 +41,7 @@ var rpcGrid=Ext.create('Ext.grid.Panel', {
 	 	name:'numberfield',
 	 	id:'numberfieldId',
 	 	anchor: '100%',
-	 	value: 100,
+	 	value: 50,
     	maxValue: 1000,
     	minValue: 0,
 	 	width:100
