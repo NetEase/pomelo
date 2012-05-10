@@ -86,28 +86,21 @@ var sysPanel=Ext.create('Ext.grid.Panel', {
 /**
  * client's WebSocket,pull data
  */
- var systemInfo=[];
  var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 socket.on('connect',function(){
 	socket.emit('announce_web_client');
-	socket.emit('webmessage');
+	// socket.emit('webmessage');
 	socket.emit('systemInfo',{method:'getSystem'});
 	setInterval(function(){
-		systemInfo=[];
 		socket.emit('systemInfo',{method:'getSystem'});
-	},STATUS_INTERVAL);
+	},5000);
     
     socket.on('systemInfo',function(msg){
-    if(systemInfo.length==msg.serverSize){
-    	systemInfo=[];
-    }
-    systemInfo.push(msg.data);
    	var store=Ext.getCmp('gridPanelId').getStore();
-    store.loadData(systemInfo);
+    store.loadData(msg.systemInfo);
    });
 });
 function refresh(){
-	systemInfo=[];
 	socket.emit('systemInfo',{method:'getSystem'});
 }
 /*
