@@ -1,7 +1,6 @@
 var utils = require('../../../../../lib/util/utils');
 var pomelo = require('../../../../../lib/pomelo');
 var Area = require('./area');
-var Tower = require('./tower');
 
 var exp = module.exports;
 var areas = {};
@@ -80,15 +79,23 @@ exp.transferUser = function(msg, cb){
       utils.invokeCallback(cb, 'User not exist!');
       return;
     }
-    oldArea.removeUser(uid);
-
-    user.x = 100;
-    user.y = 100;
-    user.sceneId = areaId;
-
-    area.addUser(user);
-    utils.invokeCallback(cb);
-    return;
+    
+    proxy.sys.connector.sessionRemote.changeArea(msg, function(err){
+      if(!!err){
+        oldArea.setUser(user);
+        utils.invokeCallback(cb, err);
+        logger.error('Change area for session service failed! ' + err);
+      }else{
+        oldArea.removeUser(uid);
+        oldArea.pushMessage({route:'onUserLeave', code: 200, uid: uid});
+        user.x = 200;
+        user.y = 200;
+        user.sceneId = areaId;
+        
+        area.addUser(user);
+        utils.invokeCallback(cb);
+      }
+    });
   }else{
     var newMsg = {
       service : 'user.area.userRemote',
