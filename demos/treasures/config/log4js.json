@@ -42,6 +42,26 @@
         }
       ,"backups": 5,
       "category":"forward-log"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/systemInfo.log",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"systemInfo-log"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/processInfo.log",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"processInfo-log"
     }
   ],
 

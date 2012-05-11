@@ -16,6 +16,7 @@ Ext.onReady(function(){
         }
     }
 });
+
 /**
  * gridPanel,detail message
  */
@@ -47,20 +48,45 @@ var conGrid=Ext.create('Ext.grid.Panel', {
 		 	xtype:'button',
 		 	text:'refresh',
 		 	handler:refresh
-		 },' ',{
-		 	xtype:'button',
-		 	text:'count',
-		 	handler:count
 		 }
 		]
 });
+var countStore=Ext.create('Ext.data.Store',{
+	id:'countStoreId',
+	autoLoad:false,
+	pageSize:5,
+	fields:['route','totalCount','maxTime','minTime','avgTime'],
+	proxy:{
+		type:'memory',
+		reader:{
+			type:'json',
+			root:'countData'
+		}
+	}
+});
+var countGrid=Ext.create('Ext.grid.Panel',{
+	id:'countGridId',
+	region:'south',
+	store:countStore,
+	height:150,
+	columns:[
+		{xtype:'rownumberer',width:40,sortable:false},
+		{text:'request route',dataIndex:'route',width:200},
+		{text:'totalCount',dataIndex:'totalCount',width:70},
+		{text:'maxTime',dataIndex:'maxTime',width:70},
+		{text:'minTime',dataIndex:'minTime',width:70},
+		{text:'avgTime',dataIndex:'avgTime',width:200}
+	]
+});
 var viewport=new Ext.Viewport({
 	    layout:'border',
-	    items:[{
-	     region:'south',
-         height:30,
-         contentEl:countId
-	    },conGrid]
+	    items:[
+	    // {
+	    //  region:'south',
+     //     height:30,
+     //     contentEl:countId
+	    // },
+	    conGrid,countGrid]
 	});
 
 conGrid.addListener('itemdblclick', function(conGrid, rowindex, e){
@@ -78,48 +104,21 @@ conGrid.addListener('itemdblclick', function(conGrid, rowindex, e){
 });
 
 });
-   var conLogData=[];
-   var n=0;
 	socket.on('connect',function(){
 		var number=Ext.getCmp('numberfieldId').getValue() ;
 		socket.emit('announce_web_client');
-		// socket.emit('webmessage');	
-		socket.emit('con-log',{number:number,logfile:'con-log'});
+		socket.emit('webMessage',{method:'getConLog',number:number,logfile:'con-log'});	
+		// socket.emit('con-log',{number:number,logfile:'con-log'});
 		socket.on('con-log',function(msg){ 
-		var data=msg.dataArray; 
-		for(var i=0;i<data.length;i++){
-			conLogData[n]=data[i];
-			n++;
-		}
-	   var store=Ext.getCmp('conGridId').getStore();
-       store.loadData(conLogData);
+	    Ext.getCmp('conGridId').getStore().loadData(msg.data);
+        Ext.getCmp('countGridId').getStore().loadData(msg.countData);
        
 	  });
 	});
 
 //refresh conGrid's data
 function refresh(){
-	conLogData=[];
-	n=0;
 	var number=Ext.getCmp('numberfieldId').getValue() ;
-	socket.emit('con-log',{number:number,logfile:'con-log'});
+	socket.emit('webMessage',{method:'getConLog',number:number,logfile:'con-log'});	
 }
-function count(){
-	if(conLogData.length<1){
-		return;
-	}
-	var maxTime=conLogData[0].timeUsed;
-	var minTime=conLogData[0].timeUsed;
-	var totalTime=0;
-    for(var i=1;i<conLogData.length;i++){
-    	var data=conLogData[i].timeUsed;
-    	if(data<=minTime){minTime=data};
-    	if(data>=maxTime){maxTime=data};
-    	totalTime+=data;
-    }
-	document.getElementById("totalCountId").innerHTML=conLogData.length;
-	document.getElementById("maxTimeId").innerHTML=maxTime;
-	document.getElementById("minTimeId").innerHTML=minTime;
-	document.getElementById("avgTimeId").innerHTML=totalTime/conLogData.length;
-}
-	
+

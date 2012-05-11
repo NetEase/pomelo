@@ -151,7 +151,7 @@ function cancel(){
 }
 socket.on('connect',function(){
 		socket.emit('announce_web_client');
-		socket.emit('getSer_Scr',{});
+		socket.emit('webMessage',{method:'getSer_Scr'});
 		socket.on('getSer_Scr',function(msg){
 	    Ext.getCmp('serverComId').getStore().loadData(msg.serverArray);
 	    Ext.getCmp('scriptComId').getStore().loadData(msg.scriptArray);
@@ -165,13 +165,13 @@ function runScript(){
 		alert('serverId is required!');
 		return;
 	}
-	socket.emit('runScript',{scriptJs:scriptJs,serverId:serverId});
+	socket.emit('webMessage',{method:'runScript',scriptJs:scriptJs,serverId:serverId});
 	socket.on('runScript',function(msg){
 	    Ext.getCmp('tesultTextId').setValue(msg);
 	});
 }
 var getFile=function(filename){
-	    socket.emit('getFile',{filename:filename});
+	    socket.emit('webMessage',{method:'getFile',filename:filename});
 	    socket.on('getFile',function(msg){
 	    	Ext.getCmp('scriptAreaId').setValue(msg);
 	    })
@@ -183,7 +183,7 @@ var saveFile=function(){
 		return;
 	}
 	var data=Ext.getCmp('scriptAreaId').getValue();
-	socket.emit('saveFile',{filename:filename,data:data});
+	socket.emit('webMessage',{method:'saveFile',filename:filename,data:data});
 	socket.on('saveFile',function(msg){
 		if(msg=='yes'){
 			Ext.getCmp('saveWinId').close();

@@ -56,10 +56,6 @@ var forGrid=Ext.create('Ext.grid.Panel', {
 		 	xtype:'button',
 		 	text:'refresh',
 		 	handler:refresh
-		 },' ',{
-		 	xtype:'button',
-		 	text:'count',
-		 	handler:count
 		 }
 		]
 });
@@ -76,61 +72,58 @@ forGrid.addListener('itemdblclick', function(forGrid, rowindex, e){
 	var data=record[0].data.params;
 	gridDetailShow(data);
 });
+var countStore=Ext.create('Ext.data.Store',{
+	id:'countStoreId',
+	autoLoad:false,
+	pageSize:5,
+	fields:['route','totalCount','maxTime','minTime','avgTime'],
+	proxy:{
+		type:'memory',
+		reader:{
+			type:'json',
+			root:'countData'
+		}
+	}
+});
+var countGrid=Ext.create('Ext.grid.Panel',{
+	id:'countGridId',
+	region:'south',
+	store:countStore,
+	height:150,
+	columns:[
+		{xtype:'rownumberer',width:40,sortable:false},
+		{text:'request route',dataIndex:'route',width:200},
+		{text:'totalCount',dataIndex:'totalCount',width:70},
+		{text:'maxTime',dataIndex:'maxTime',width:70},
+		{text:'minTime',dataIndex:'minTime',width:70},
+		{text:'avgTime',dataIndex:'avgTime',width:200}
+	]
+});
 var viewport=new Ext.Viewport({
 	    layout:'border',
-	    items:[{
-	     region:'south',
-         height:30,
-         contentEl:countId
-	    },forGrid]
+	    items:[forGrid,countGrid]
 	});
 });
-   var forLogData=[];
-   var n=0;
+
 	socket.on('connect',function(){
 		var number=Ext.getCmp('numberfieldId').getValue() ;
 		socket.emit('announce_web_client');
-		// socket.emit('webmessage');	
+		socket.emit('webMessage',{method:'getForLog',number:number,logfile:'for-log'});	
 		// socket.emit('announce_web_client');
-		socket.emit('for-log',{number:number,logfile:'for-log'});
+		// socket.emit('for-log',{number:number,logfile:'for-log'});
 		socket.on('for-log',function(msg){ 
-		var data=msg.dataArray; 
-		for(var i=0;i<data.length;i++){
-			forLogData[n]=data[i];
-			n++;
-		}
 		// alert('data length:'+data.length+';conLogData length:'+conLogData.length);
-	   var store=Ext.getCmp('forGridId').getStore();
-       store.loadData(forLogData);
+	   Ext.getCmp('forGridId').getStore().loadData(msg.data);
+       Ext.getCmp('countGridId').getStore().loadData(msg.countData);
        
 	  });
 	});
 
 //refresh conGrid's data
 function refresh(){
-	forLogData=[];
-	n=0;
 	var number=Ext.getCmp('numberfieldId').getValue() ;
-	socket.emit('for-log',{number:number,logfile:'for-log'});
+	socket.emit('webMessage',{method:'getForLog',number:number,logfile:'for-log'});	
 
-}
-function count(){
-	if(forLogData.length<1){
-		return;
-	}
-	var maxTime=forLogData[0].timeUsed;
-	var minTime=forLogData[0].timeUsed;
-	var totalTime=0;
-    for(var i=1;i<forLogData.length;i++){
-    	var data=forLogData[i].timeUsed;
-    	if(data<=minTime){minTime=data};
-    	if(data>=maxTime){maxTime=data};
-    	totalTime+=data;
-    }
-	document.getElementById("totalCountId").innerHTML=forLogData.length;
-	document.getElementById("maxTimeId").innerHTML=maxTime;
-	document.getElementById("minTimeId").innerHTML=minTime;
-	document.getElementById("avgTimeId").innerHTML=totalTime/forLogData.length;
 }
 	
 	
