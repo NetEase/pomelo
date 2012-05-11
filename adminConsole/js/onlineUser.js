@@ -40,29 +40,19 @@ var viewport=new Ext.Viewport({
 	    },userGrid]
 	});
 });
-var onlineUserList=[];
-var totalConnCount=0;
-var loginedCount=0;
+
 var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
-		socket.emit('onlineUser',{});
-		setInterval(function(){
-			onlineUserList=[];
-			totalConnCount=0;
-			loginedCount=0;
-			socket.emit('onlineUser',{});
-		},STATUS_INTERVAL);
-		socket.on('onlineUser',function(msg){  
-       var body=msg.body;
-       totalConnCount+=body.totalConnCount;
-       loginedCount+=body.loginedCount;
-       var loginedList=body.loginedList
+		socket.emit('webMessage',{method:'getOnlineUser'});
+		
+		socket.on('getOnlineUser',function(msg){  
+     
+       var totalConnCount=msg.totalConnCount;
+       var loginedCount=msg.loginedCount;
+       var onlineUserList=msg.onlineUserList
 
-       for(var i=0;i<loginedList.length;i++){
-       	loginedList[i].serverId=body.serverId;
-       	onlineUserList.push(loginedList[i]);
-       }
+       
 	   var store=Ext.getCmp('userGridId').getStore();
 	   contentUpdate(totalConnCount,loginedCount)
        store.loadData(onlineUserList);

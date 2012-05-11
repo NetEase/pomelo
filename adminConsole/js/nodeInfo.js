@@ -61,22 +61,16 @@ Ext.onReady(function(){
 	});
 
 });
-var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 socket.on('connect',function(){
      socket.emit('announce_web_client');
-     socket.emit('webmessage');
-     socket.emit('processInfo',{method:'getProcess'});
-     setInterval(function(){
-      socket.emit('processInfo',{method:'getProcess'});
-     },5000)
-     socket.on('processInfo',function(msg){
-
-      //update the data of nodesPanel
+     socket.emit('webMessage',{method:'getProcessInfo'});
+     // socket.emit('processInfo',{method:'getProcess'});
+     socket.on('getProcessInfo',function(msg){
     var store=Ext.getCmp('nodesPanel').getStore();
-    store.loadData(msg.processInfo);
+    store.loadData(msg.data);
      });
 });
 function refresh(){
-  socket.emit('processInfo',{method:'getProcess'});
+   socket.emit('webMessage',{method:'getProcessInfo'});
 }
 

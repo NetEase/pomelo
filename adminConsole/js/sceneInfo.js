@@ -6,7 +6,7 @@ Ext.onReady(function(){
 	id:'sceneStoreId',
 	autoLoad:false,
 	pageSize:5,
-    fields:['sceneId','name','roleId','uid','position','serverId'],
+    fields:['sceneId','name','roleId','uid','position','serverId','username'],
     proxy: {
         type: 'memory',
         reader: {
@@ -27,6 +27,7 @@ var sceneGrid=Ext.create('Ext.grid.Panel', {
 		{text:'serverId',width:120,dataIndex:'serverId'},
 		{text:'sceneId',width:100,dataIndex:'sceneId'},
 		{text:'uid',dataIndex:'uid',width:100},
+		{text:'username',dataIndex:'username',width:100},
 		{text:'name',dataIndex:'name',width:100},
 		{text:'roleId',dataIndex:'roleId',width:100},
 		{text:'position',dataIndex:'position',width:400}
@@ -42,29 +43,21 @@ var viewport=new Ext.Viewport({
 	    items:[sceneGrid]
 	});
 });
-var sceneInfo=[];
+
 var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 	socket.on('connect',function(){
 		socket.emit('announce_web_client');
-		socket.emit('sceneInfo');
-		setInterval(function(){
-			sceneInfo=[];
-			socket.emit('sceneInfo');
-		},STATUS_INTERVAL)
-		socket.on('sceneInfo',function(msg){ 
+		socket.emit('webMessage',{method:'getSenceInfo'});
+		socket.on('getSenceInfo',function(msg){ 
 		if(msg==null){
 			return;
 		} 
-		for(var i=0;i<msg.length;i++){
-			sceneInfo.push(msg[i]);
-		}
 	   var store=Ext.getCmp('sceneGridId').getStore();
-       store.loadData(sceneInfo);
+       store.loadData(msg.data);
 	  });
 	});
 function refresh(){
-	sceneInfo=[];
-	socket.emit('sceneInfo');
+	socket.emit('webMessage',{method:'getSenceInfo'});
 }
 	
 	
