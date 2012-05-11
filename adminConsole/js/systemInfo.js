@@ -86,22 +86,17 @@ var sysPanel=Ext.create('Ext.grid.Panel', {
 /**
  * client's WebSocket,pull data
  */
- var STATUS_INTERVAL = 60 * 1000; // 60 seconds
 socket.on('connect',function(){
 	socket.emit('announce_web_client');
-	// socket.emit('webmessage');
-	socket.emit('systemInfo',{method:'getSystem'});
-	setInterval(function(){
-		socket.emit('systemInfo',{method:'getSystem'});
-	},5000);
-    
-    socket.on('systemInfo',function(msg){
+	socket.emit('webMessage',{method:'getSystemInfo'});
+	// socket.emit('systemInfo',{method:'getSystem'});
+    socket.on('getSystemInfo',function(msg){
    	var store=Ext.getCmp('gridPanelId').getStore();
-    store.loadData(msg.systemInfo);
+    store.loadData(msg.data);
    });
 });
 function refresh(){
-	socket.emit('systemInfo',{method:'getSystem'});
+	socket.emit('webMessage',{method:'getSystemInfo'});
 }
 /*
  * update the data of gkPanel
