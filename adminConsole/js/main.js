@@ -41,6 +41,10 @@ Ext.onReady(function(){
 		    	
 			       var title=re.data.text;
 			       var id=re.data.id;
+			       var leaf=re.data.leaf;
+			       if(!leaf){
+			       	return;
+			       }
 			       var url='./html/'+id+'.html';
 			       addIframe(title, url, id);
 		    	
