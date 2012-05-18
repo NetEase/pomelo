@@ -1,10 +1,10 @@
 {
   "area-server-1":[
-    [{"period":60000},"area.treasureRemote.generateTreasures", {"areaId":1, "name":"1分执行一次", "times": 1, "multi": 1}],
-    [{"period":120000},"area.treasureRemote.generateTreasures", {"areaId":2, "name":"2分执行一次,2", "times": 6, "multi": 2}],
-    [{"period":120000},"area.treasureRemote.generateTreasures", {"areaId":3, "name":"2分执行一次,3", "times": 4, "multi": 3}]
+    [{"period":60000},"treasureRemote.generateTreasures", {"areaId":1, "name":"1分执行一次", "times": 1, "multi": 1}],
+    [{"period":120000},"treasureRemote.generateTreasures", {"areaId":2, "name":"2分执行一次,2", "times": 6, "multi": 2}],
+    [{"period":120000},"treasureRemote.generateTreasures", {"areaId":3, "name":"2分执行一次,3", "times": 4, "multi": 3}]
   ],
   "area-server-2":[
-    [{"period":120000},"area.treasureRemote.generateTreasures", {"areaId":4, "name":"2分执行一次,4", "times": 3 ,"multi": 4}]
+    [{"period":120000},"treasureRemote.generateTreasures", {"areaId":4, "name":"2分执行一次,4", "times": 3 ,"multi": 4}]
   ]
 }
