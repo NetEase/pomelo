@@ -12,7 +12,8 @@ app.set('calculator', routeService.calculator);
 appTemplate.defaultConfig(app);
 
 app.configure(function(){
-    app.use(pomelo.logFilter);
+  app.use(pomelo.logFilter);
+  app.load(pomelo.channel, {serverType: 'channel'});
 });
 
 app.configure('production|development', 'area', function(){

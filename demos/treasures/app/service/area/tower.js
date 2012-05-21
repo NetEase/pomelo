@@ -6,8 +6,8 @@ var id = 0;
 var exp = module.exports;
 
 var Tower = function(){
-  var channelManager = pomelo.getApp().get('channelManager');
-  this.channel = channelManager.createChannel(prefix+id++);
+  var channelService = pomelo.getApp().get('channelService');
+  this.channel = channelService.getLocalChannelSync({name: prefix+id++, create: true});
 };
 
 var pro = Tower.prototype;

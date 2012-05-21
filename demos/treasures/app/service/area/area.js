@@ -39,10 +39,11 @@ pro.init = function(){
     return;
   }
  
-  this.channelManager = pomelo.getApp().get('channelManager');
+  this.channelService = pomelo.getApp().get('channelService');
      
   //每个area建立一个监听channel
-  this.channel = this.channelManager.createChannel(this.getChannelId(this.id));
+  var name = this.getChannelId(this.id);
+  this.channel = this.channelService.getLocalChannelSync({name: name, create: true});
 }
 
 pro.pushMessage = function(msg, cb){
@@ -50,18 +51,18 @@ pro.pushMessage = function(msg, cb){
 }
 
 pro.pushMessageByUids = function(uids, msg, cb){
-  this.channelManager.pushMessageByUids(msg, uids, cb);
+  this.channelService.pushMessageByUids(msg, uids, cb);
 }
 
 pro.pushMessageByPath = function(path, msg, cb){
   var uids = this.aoi.getIdsByPath(path[0], path[1]);
-  this.channelManager.pushMessageByUids(msg, uids, cb);
+  this.channelService.pushMessageByUids(msg, uids, cb);
 }
 
 pro.pushMessageByPos = function(x, y, msg, cb){
   var uids = this.aoi.getIdsByPos({x : x, y : y});
   
-  this.channelManager.pushMessageByUids(msg, uids, cb);
+  this.channelService.pushMessageByUids(msg, uids, cb);
 }
 
 pro.addUser = function(userInfo){
