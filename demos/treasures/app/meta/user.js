@@ -14,12 +14,12 @@ var User = function(params){
     this.speed = params.speed;
     this.score = params.score;
     this.status = params.status;
-}
+};
 
 exports.create = function(param) {
 	if(!param || !param.uid || !param.username || !param.name || !param.roleId) {
 		throw new Error('id, name and roleId should not be empty. ' + JSON.stringify(param));
 	}
-	
+
 	return new User(param);
 };
