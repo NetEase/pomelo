@@ -5,7 +5,10 @@
 
 var logger = require('../../../../lib/util/log/log').getLogger(__filename);
 var utils = require('../../../../lib/util/utils');
-var dataSource = require('../dao/sync').redis;
+var pomelo = require('../../../../lib/pomelo');
+var app = pomelo.getApp();
+var dbclient = require('../dao/mysql/mysql').init(app);
+var dataSource = require('../dao/sync').init(dbclient);
 
 var exp = module.exports;
 
