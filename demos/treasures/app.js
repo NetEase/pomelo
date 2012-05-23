@@ -12,7 +12,9 @@ app.set('calculator', routeService.calculator);
 appTemplate.defaultConfig(app);
 
 app.configure(function(){
-    app.use(pomelo.logFilter);
+  app.before(pomelo.logFilter);
+  app.filter(pomelo.timeFilter);
+  app.load(pomelo.channel, {serverType: 'channel'});
 });
 
 app.configure('production|development', 'area', function(){
@@ -21,8 +23,8 @@ app.configure('production|development', 'area', function(){
 
 app.configure('production|development', 'connector', function(){
   //app.use(pomelo.timeAdjustFilter);
-  app.use(pomelo.serialFilter);
-  app.use(authFilter);
+  app.filter(pomelo.serialFilter);
+  app.before(authFilter);
 });
 
 appTemplate.done(app);
