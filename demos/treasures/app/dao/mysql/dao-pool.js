@@ -4,26 +4,6 @@
 var _poolModule = require('generic-pool');
 
 /*
- * 创建redis的连接池
- */
-var createRedisPool = function(app){
-
-	return _poolModule.Pool({
-    			name     : 'redis',
-    			create   : function(callback) {
-        			var redis = require('redis');
-
-					var client = redis.createClient(app.redis.port, app.redis.host);
-        			callback(null, client);
-    			},
-    			destroy  : function(client) { client.quit(); },
-    			max      : 10,
-    			idleTimeoutMillis : 30000,
-    			log : false
-			});
-}
-
-/*
  * 创建mysql的连接池
  */
 var createMysqlPool = function(app){
@@ -33,7 +13,7 @@ var createMysqlPool = function(app){
         		var mysql = require('mysql');
 				var client = mysql.createClient({
 					host:app.mysql.host,
-					user: app.mysql.username,
+					user: app.mysql.user,
 					password: app.mysql.password,
 					database: app.mysql.database
 				});
@@ -47,5 +27,3 @@ var createMysqlPool = function(app){
 };
 
 exports.createMysqlPool = createMysqlPool;
-
-exports.createRedisPool = createRedisPool;

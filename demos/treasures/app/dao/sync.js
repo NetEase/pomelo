@@ -1,17 +1,18 @@
 var MemDatabase = require('data-sync');
+var app = require('../../../../lib/pomelo').getApp();
+var dbclient = require('./mysql/mysql').init(app);
 
-var dbclient = require('./mysql/mysql');
-var Mysqlrewriter = require('./mysqlrewriter');
 
+var write = require('./syncutil');
 var opt = {};
+opt.write = write;
 opt.client = dbclient;
-opt.rewriter = new Mysqlrewriter();
 opt.interval = 1000 * 10;
 
-var redis = new MemDatabase(this,opt) ;
+var sync = module.exports = new MemDatabase(this,opt);
 
-var sync = module.exports;
+sync.redis = sync;
 
-sync.redis = redis;
+
 
 

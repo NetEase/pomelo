@@ -15,7 +15,7 @@
   , "aoi-service": ">=0.1.2"
   , "mail-box": "0.0.4"
   , "mail-router": ">=0.0.4"
-  , "data-sync": ">=0.0.6"
+  , "data-sync": ">=0.0.8"
   , "debug": "*"
   , "module-loader": ">=0.0.1"
   , "local-proxy": ">=0.0.1"
