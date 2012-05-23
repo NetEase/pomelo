@@ -10,6 +10,7 @@ var Move= require('../../meta/move');
 var app = require('../../../../../lib/pomelo').getApp();
 var schedule = require('pomelo-schedule');
 var pomelo = require('../../../../../lib/pomelo');
+var utils = require('../../util/utils');
 var initX = 100;
 var initY = 100;
 
@@ -21,7 +22,7 @@ var moveJob = {};
  * @param uid
  * @param cb
  */
-handler.addUser = function(req, session) {
+handler.addUser = function(req, session, next) {
   var uid = session.uid;
   var areaId = session.areaId;
 	logger.debug('user login :'+uid+","+ areaId + " serverId:" + app.get('serverId'));
@@ -34,10 +35,11 @@ handler.addUser = function(req, session) {
 	    areaService.pushMessage(areaId, {route:'onUserJoin', user: user});
 	    session.response({route: req.route, code: 200});  
 	  }
+    utils.invokeCallback(next);
 	});
 };
 
-handler.joinUser = function(req, session) {
+handler.joinUser = function(req, session, next) {
   var user = areaService.getUser(session.areaId, session.uid);
   if(!user){
     session.response({route: req.route, code: 500});
@@ -46,6 +48,7 @@ handler.joinUser = function(req, session) {
     areaService.pushMessage(session.areaId, {route:'onUserJoin', user: user});
     session.response({route: req.route, code: 200});
   }
+  utils.invokeCallback(next);
 }
 
 /**
@@ -55,7 +58,7 @@ handler.joinUser = function(req, session) {
  *
  * @param msg
  */
-handler.move = function (req, session){
+handler.move = function (req, session, next){
   var areaId = session.areaId;
 	var uid = req.uid;
 	var startx = req.path[0].x;
@@ -72,6 +75,7 @@ handler.move = function (req, session){
   logger.debug('user move' + time);
   moveJob[uid] = schedule.scheduleJob({start:Date.now() + time, count: 1}, handler.moveCalc, {areaId: areaId, uid:uid, path: path});
 	session.response({route: req.route, body: move, code: 200});
+  utils.invokeCallback(next);
 };
 
 handler.moveCalc = function(data){
@@ -98,17 +102,19 @@ handler.moveCalc = function(data){
 /**
  * 获取所有在线用户
  */
-handler.getOnlineUsers = function(msg, session){
+handler.getOnlineUsers = function(msg, session, next){
   var areaId = session.areaId;
   var users = areaService.getUsers(areaId);
   if(!users){
     logger.error('Area not exist! msg: ' + JSON.stringify(msg));
     session.response({route: msg.route, code:500});
+    utils.invokeCallback(next);
     return;
   }
 
   session.response({route: msg.route, code: 200, result: users});
   logger.debug("get online users :" + JSON.stringify(users));
+  utils.invokeCallback(next);
 };
 
 /**
@@ -128,7 +134,7 @@ function updateRankList(areaId, uid) {
 	});
 }
 
-handler.transferUser = function(msg, session){
+handler.transferUser = function(msg, session, next){
   msg.uid = session.uid;
   var uid = session.uid;
   var areaId = session.areaId;
@@ -146,6 +152,7 @@ handler.transferUser = function(msg, session){
       areaService.removeUser(areaId, user);
       session.response({route:msg.route, code: 200, msg: msg});
     }
+    utils.invokeCallback(next);
   });
 };
 

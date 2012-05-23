@@ -4,7 +4,7 @@ var treasureService = require('../../service/treasureService');
 var rankService=require('../../service/rankService');
 var ServerConstant=require('../../config/serverConstant');
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
-
+var utils = require('../../util/utils');
 var pomelo = require('../../../../../lib/pomelo');
 var areaService = require('../../service/areaService');
 
@@ -14,7 +14,7 @@ var areaService = require('../../service/areaService');
  * @param treasureId
  * @param sceneId
  */
-handler.pickItem = function (req, session){
+handler.pickItem = function (req, session, next){
   var uid = session.uid;
   var treasureId = req.treasureId;
 
@@ -29,12 +29,14 @@ handler.pickItem = function (req, session){
 				areaService.pushMessage(session.areaId, result);
 				updateRankList();
 			}
+      utils.invokeCallback(next);
   });
 };
 
-handler.getTreasures = function(req, session){
+handler.getTreasures = function(req, session, next){
   var result = treasureService.getAllTreasureInfo(req.areaId);
   session.response({route: req.route, code: 200, result: result});
+  utils.invokeCallback(next);
 };
 
 /**
