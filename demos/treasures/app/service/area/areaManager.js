@@ -1,6 +1,7 @@
 var utils = require('../../../../../lib/util/utils');
 var pomelo = require('../../../../../lib/pomelo');
 var Area = require('./area');
+var userService = require('../userService');
 
 var exp = module.exports;
 var areas = {};
@@ -98,7 +99,7 @@ exp.transferUser = function(msg, cb){
     });
   }else{
     var newMsg = {
-      service : 'user.area.userRemote',
+      service : 'user.userRemote',
       method : 'addUser',
       args: [{areaId:areaId, uid: uid}]
     }
@@ -108,7 +109,7 @@ exp.transferUser = function(msg, cb){
 
     app.get('mailBox').dispatch(serverId, newMsg, null, function(err){
       if(!!err){
-        logger.error('!!!!!!!!!!!!! add user failed!');
+        logger.error('add user failed:' + err.stack);
         userService.setUser(areaId, user);
 
         utils.invokeCallback(cb, err);

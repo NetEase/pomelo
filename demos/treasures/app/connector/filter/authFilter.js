@@ -16,7 +16,7 @@ var ignoreTypes = [
  * @param session 会话上下文
  * @param next(err, msg, session) 触发下个filter的回调，将socket, msg, context参数传递下去.如果有错误，则通过err来传递
  */
-var handle = function(msg, session, next) {
+var filter = function(msg, session, next) {
 	if(!checkIgnore(msg.route) && !session.uid) {
 		utils.invokeCallback(next, new Error('unlogin session, msg:' + JSON.stringify(msg)));
 		return;
@@ -33,4 +33,4 @@ var checkIgnore = function (type) {
 	return false;
 };
 
-module.exports.handle = handle;
+module.exports.filter = filter;
