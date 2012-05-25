@@ -22,6 +22,7 @@ Ext.onReady(function(){
 	       {id:'onlineUser',text:'onlineUser',leaf:true},
 	       {id:'sceneInfo',text:'sceneInfo',leaf:true},
 	       {id:'runScript',text:'runScript',leaf:true},
+	       {id:'profiler',text:'profiler',leaf:true}
 	       // {id:'requesting',text:'requesting',leaf:true},
 	       // {id:'Wizard',text:'Wizard',leaf:true},
 	       // {id:'autoTest',text:'autoTest',leaf:true}      
