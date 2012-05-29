@@ -37,8 +37,8 @@ if (app.serverType==='master' || app.serverType==='all') {
 
 function startWebServer(){
     var app_express = require('./app_express');
-    var app_console = require('../../adminConsole/appCon');
     console.log('[AppWebServerStart] listen, visit http://0.0.0.0:3001/index.html');
+    app.startConsole();
 }
 
 process.on('uncaughtException', function(err) {
