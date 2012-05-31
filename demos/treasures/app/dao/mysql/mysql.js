@@ -13,7 +13,7 @@ var NND = {};
  */
 NND.init = function(app){
 	_pool = require('./dao-pool').createMysqlPool(app);
-}
+};
 
 NND.query = function(sql, args, callback){
 	_pool.acquire(function(err, client) {
@@ -31,25 +31,29 @@ NND.query = function(sql, args, callback){
 
 NND.shutdown = function(){
 	_pool.destroyAllNow();
-}
+};
 
 /**
  * init database
  */
 sqlclient.init = function(app) {
-	NND.init(app);
-	sqlclient.insert = NND.query;
-	sqlclient.update = NND.query;
-	sqlclient.delete = NND.query;
-	sqlclient.query = NND.query;
-	return sqlclient;
-}
+	if (!!_pool){
+		return sqlclient;
+	} else {
+		NND.init(app);
+		sqlclient.insert = NND.query;
+		sqlclient.update = NND.query;
+		sqlclient.delete = NND.query;
+		sqlclient.query = NND.query;
+		return sqlclient;
+	}
+};
 /**
  * shutdown database
  */
 sqlclient.shutdown = function() {
 	NND.shutdown(app);
-}
+};
 
 
 

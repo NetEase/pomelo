@@ -9,6 +9,10 @@ app.set('name','抢宝');
 app.set('dirname', __dirname);
 app.set('calculator', routeService.calculator);
 
+
+var dbclient = require('./app/dao/mysql/mysql').init(app);
+app.set('dbclient',dbclient);
+
 appTemplate.defaultConfig(app);
 
 app.configure(function(){
