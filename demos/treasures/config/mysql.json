@@ -4,7 +4,7 @@
       "host" : "192.168.130.107",
       "port" : "3306",
       "database" : "Pomelo",
-      "username" : "xy",
+      "user" : "xy",
       "password" : "dev"
     },
 	"production":
@@ -12,7 +12,7 @@
      "host" : "app47v2.photo.163.org",
       "port" : "3306",
       "database" : "Pomelo",
-      "username" : "xy",
+      "user" : "xy",
       "password" : "dev"
     }
 }

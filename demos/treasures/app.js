@@ -9,6 +9,10 @@ app.set('name','抢宝');
 app.set('dirname', __dirname);
 app.set('calculator', routeService.calculator);
 
+
+var dbclient = require('./app/dao/mysql/mysql').init(app);
+app.set('dbclient',dbclient);
+
 appTemplate.defaultConfig(app);
 
 app.configure(function(){
@@ -37,8 +41,8 @@ if (app.serverType==='master' || app.serverType==='all') {
 
 function startWebServer(){
     var app_express = require('./app_express');
-    var app_console = require('../../adminConsole/appCon');
     console.log('[AppWebServerStart] listen, visit http://0.0.0.0:3001/index.html');
+    app.startConsole();
 }
 
 process.on('uncaughtException', function(err) {
