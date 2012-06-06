@@ -34,12 +34,11 @@
 	  	if (params.debug){
 				console.log('[pomeloclient.init]websocket onmessage:' + JSON.stringify(data));
 			}
-	    var route = data.route;
-	    var code = data.code;
-	    if(!route){
-	      console.log('[pomeloclient.onmessage]Message type error! data: ' + JSON.stringify(data));
-	    }
-	    pomelo.emit(route, data);
+      if(data instanceof Array) {
+        processMessageBatch(pomelo, data);
+      } else {
+        processMessage(pomelo, data);
+      }
 	  });
 
 	  socket.on('disconnect', function(reason) {
@@ -68,6 +67,21 @@
 
     msg.timestamp = Date.now();
     return msg;
+  };
+
+  var processMessage = function(pomelo, msg) {
+	    var route = msg.route;
+	    var code = msg.code;
+	    if(!route){
+	      console.log('[pomeloclient.onmessage]Message type error! data: ' + JSON.stringify(msg));
+	    }
+	    pomelo.emit(route, msg);
+  };
+
+  var processMessageBatch = function(pomelo, msgs) {
+    for(var i=0, l=msgs.length; i<l; i++) {
+      processMessage(pomelo, msgs[i]);
+    }
   };
 
 })();
