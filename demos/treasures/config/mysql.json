@@ -1,7 +1,7 @@
 {
 	"development":
     {
-      "host" : "192.168.130.107",
+      "host" : "192.168.145.18",
       "port" : "3306",
       "database" : "Pomelo",
       "user" : "xy",
