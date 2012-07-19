@@ -49,23 +49,23 @@ describe('applicationTest', function(){
     });
 
     it('enable service should be ok!', function(done){
-    	app.enable('schedulerService');
-        var result = app.enabled('schedulerService');
-        result.should.be.ok;
+			var config = require('./config/scheduler.json');
+			app.set('schedulerServiceConfig', config);
+			//console.log('schedulerConfig  ' + JSON.stringify(config));
+			app.enable('schedulerService');
+			var result = app.enabled('schedulerService');
+			result.should.be.ok;
 
-        app.disable('schedulerService');
-        result = app.enabled('schedulerService');
-        result.should.not.be.ok;
-        done();
+			app.disable('schedulerService');
+			result = app.enabled('schedulerService');
+			result.should.not.be.ok;
+			done();
     });
 
-    it('use call should be ok!', function(done){
-        filterManager.stackLen().should.equal(0);
-    	app.use(function(msg, session){return 1;});
-        app.use('\*use', function(msg,session){return -1;});
-        filterManager.stackLen().should.equal(2);
-        done();
-    });
+    // it('before call should be ok!', function(done){
+    //     app.before('\*use', function(msg,session){return -1;});
+    //     done();
+    // });
 
     it('configure call should be work !', function(done){
         app.set('env', 'development');
@@ -97,51 +97,51 @@ describe('applicationTest', function(){
         done();
     });
 
-    it('gen handler should be ok!', function(done){
-        app.genHandler('area',  __dirname + '/config/area/handler');
-        should.exist(app.get('handlerMap'));
-        console.log('appTest genHandler: ' + JSON.stringify(app.get('handlerMap')));
-        should.exist(app.get('handlerMap').area, 'handler.area should exists!');
+    // it('gen handler should be ok!', function(done){
+    //     app.genHandler('area',  __dirname + '/config/area/handler');
+    //     should.exist(app.get('handlerMap'));
+    //     console.log('appTest genHandler: ' + JSON.stringify(app.get('handlerMap')));
+    //     should.exist(app.get('handlerMap').area, 'handler.area should exists!');
 
-        var userHandler = app.get('handlerMap').area.userHandler;
+    //     var userHandler = app.get('handlerMap').area.userHandler;
 
-        var result = userHandler.move();
+    //     var result = userHandler.move();
 
-        result.should.be.ok;
+    //     result.should.be.ok;
 
-        done();
-    });
+    //     done();
+    // });
 
-    it('gen remote should be ok!', function(done){
-        app.genRemote('area',  __dirname + '/config/area/remote');
-        should.exist(app.get('remoteMap'));
-        should.exist(app.get('remoteMap').user.area.userService);
+    // it('gen remote should be ok!', function(done){
+    //     app.genRemote('area',  __dirname + '/config/area/remote');
+    //     should.exist(app.get('remoteMap'));
+    //     should.exist(app.get('remoteMap').user.area.userService);
 
-        var userService = app.get('remoteMap').user.area.userService;
-        var result = userService.userLeave();
-        result.should.not.be.ok;
+    //     var userService = app.get('remoteMap').user.area.userService;
+    //     var result = userService.userLeave();
+    //     result.should.not.be.ok;
 
-        done();
-    });
+    //     done();
+    // });
 
-    it('gen proxy should be ok!', function(done){
-        app.genProxy('area',  __dirname + '/config/area/remote');
-        should.exist(app.get('proxyMap'));
-        //should.exist(app.get('proxyMap').user.area.treasureService, 'tresureService should exists');
-        should.exist(app.get('proxyMap').user.area.userService, 'user service should exist');
+    // it('gen proxy should be ok!', function(done){
+    //     app.genProxy('area',  __dirname + '/config/area/remote');
+    //     should.exist(app.get('proxyMap'));
+    //     //should.exist(app.get('proxyMap').user.area.treasureService, 'tresureService should exists');
+    //     should.exist(app.get('proxyMap').user.area.userService, 'user service should exist');
 
-        console.log('proxymap: ' + JSON.stringify(app.get('proxyMap')));
+    //     console.log('proxymap: ' + JSON.stringify(app.get('proxyMap')));
 
-        var userService = app.get('proxyMap').user.area.userService;
+    //     var userService = app.get('proxyMap').user.area.userService;
 
-        app.set('mailRouter', {
-            route: function(params, callback){
-                return false;
-            }
-        });
-        userService.userLeave();
-        done();
-    });
+    //     app.set('mailRouter', {
+    //         route: function(params, callback){
+    //             return false;
+    //         }
+    //     });
+    //     userService.userLeave();
+    //     done();
+    // });
 
     it('find server should be ok!', function(done){
         app.set('env', 'production');
