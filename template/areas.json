@@ -1,0 +1,34 @@
+{
+  "1": {
+    "id" : "1",
+    "name" : "江南野外",
+    "map":{
+      "width": 3200,
+      "height": 2400
+    },
+    "cell":{
+      "width": 100,
+      "height": 100
+    },
+    "tower":{
+      "width": 500,
+      "height": 300
+    }
+  },
+  "2": {
+    "id" : "2",
+    "name" : "建邺城",
+    "map":{
+      "width": 5760,
+      "height": 2880
+    },
+    "cell":{
+      "width": 100,
+      "height": 100 
+    },
+    "tower":{
+      "width": 500,
+      "height": 300
+    }
+  }
+}

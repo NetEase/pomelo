@@ -1,0 +1,11 @@
+{
+  "development": {
+    "area-server-1": [1],
+    "area-server-2": [2]
+  },
+  "production": {
+    "area-server-1": [1],
+    "area-server-2": [2]
+  }
+}
+

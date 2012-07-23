@@ -1,0 +1,30 @@
+{
+	"development":
+    {
+      "connector": [
+  		{"id": "connector-server-1", "host": "127.0.0.1", "port": 4050, "wsPort":3050}
+	  ],  
+	  "area": [
+	  	{"id": "area-server-1", "host": "127.0.0.1", "port": 8050},
+	  	{"id": "area-server-2", "host": "127.0.0.1", "port": 8051}
+	  ],
+	  "status": [
+	  	{"id": "status-server-1", "host": "127.0.0.1", "port": 9050}
+	  ],
+  	"channel":[
+    {"id":"channel-server-1","host":"127.0.0.1","port":5050}
+     ]  	    },
+	"production":
+    {
+	  "connector": [
+	  	{"id": "connector-server-1", "host": "app47v4.photo.163.org", "port": 4050, "wsPort":3050}
+	  ],
+	"area": [
+	  	{"id": "area-server-1", "host": "app47v2.photo.163.org", "port": 8050},
+	  	{"id": "area-server-2", "host": "app47v2.photo.163.org", "port": 8051}
+	  ],
+	  "status": [
+	  	{"id": "status-server-1", "host": "app47v4.photo.163.org", "port": 9050}
+	  ]
+    }
+}

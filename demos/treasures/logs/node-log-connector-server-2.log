@@ -1,0 +1,92 @@
+[2012-07-19 16:03:48.731] [INFO] /home/py/Project/pomelo-core/lib/components/logger.js - logger inited
+[2012-07-19 16:03:48.732] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - begin to init proxy component.
+[2012-07-19 16:03:48.732] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:connector, dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/remote
+[2012-07-19 16:03:48.733] [DEBUG] /home/py/Project/pomelo-core/lib/components/proxy.js - [remote path not exists] name:connector, dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/remote
+[2012-07-19 16:03:48.733] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:connector, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/frontend
+[2012-07-19 16:03:48.738] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:login, dir:/home/py/Project/pomelo-core/demos/treasures/app/login/remote
+[2012-07-19 16:03:48.744] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:login, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:03:48.750] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:logic, dir:/home/py/Project/pomelo-core/demos/treasures/app/logic/remote
+[2012-07-19 16:03:48.750] [DEBUG] /home/py/Project/pomelo-core/lib/components/proxy.js - [remote path not exists] name:logic, dir:/home/py/Project/pomelo-core/demos/treasures/app/logic/remote
+[2012-07-19 16:03:48.750] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:logic, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:03:48.751] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:area, dir:/home/py/Project/pomelo-core/demos/treasures/app/area/remote
+[2012-07-19 16:03:48.765] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:area, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:03:48.770] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:status, dir:/home/py/Project/pomelo-core/demos/treasures/app/status/remote
+[2012-07-19 16:03:48.772] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:status, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:03:48.773] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:channel, dir:/home/py/Project/pomelo-core/demos/treasures/app/channel/remote
+[2012-07-19 16:03:48.774] [DEBUG] /home/py/Project/pomelo-core/lib/components/proxy.js - [remote path not exists] name:channel, dir:/home/py/Project/pomelo-core/demos/treasures/app/channel/remote
+[2012-07-19 16:03:48.774] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:channel, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:03:48.775] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - proxy inited.
+[2012-07-19 16:03:48.775] [INFO] /home/py/Project/pomelo-core/lib/components/handler.js - begin to init handler component.
+[2012-07-19 16:03:48.775] [INFO] /home/py/Project/pomelo-core/lib/components/handler.js - [app.genHandler] loading handler module, name:connector, dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/handler
+[2012-07-19 16:03:48.781] [INFO] /home/py/Project/pomelo-core/lib/components/handler.js - handlers inited.
+[2012-07-19 16:03:48.782] [INFO] /home/py/Project/pomelo-core/lib/components/remote.js - begin to init remote component.
+[2012-07-19 16:03:48.782] [INFO] /home/py/Project/pomelo-core/lib/components/remote.js - [app.genRemote] loading handler module, name:connector, dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/remote
+[2012-07-19 16:03:48.782] [DEBUG] /home/py/Project/pomelo-core/lib/components/remote.js - [remote path not exists] name:connector  dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/remote
+[2012-07-19 16:03:48.783] [INFO] /home/py/Project/pomelo-core/lib/components/remote.js - [app.genRemote] loading handler module, name:connector, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/frontend
+[2012-07-19 16:03:48.783] [INFO] /home/py/Project/pomelo-core/lib/components/remote.js - remote inited.
+[2012-07-19 16:03:48.784] [INFO] /home/py/Project/pomelo-core/lib/components/server.js - begin to init server component.
+[2012-07-19 16:03:48.784] [INFO] /home/py/Project/pomelo-core/lib/components/server.js - server inited.
+[2012-07-19 16:03:48.784] [INFO] /home/py/Project/pomelo-core/lib/components/channel.js - begin to init channel component.
+[2012-07-19 16:03:48.785] [INFO] /home/py/Project/pomelo-core/lib/components/channel.js - channel inited.
+[2012-07-19 16:03:48.785] [INFO] /home/py/Project/pomelo-core/lib/components/sync.js - begin to init sync component.
+[2012-07-19 16:03:48.818] [INFO] /home/py/Project/pomelo-core/lib/sync/syncUtil.js -  load mapping file /home/py/Project/pomelo-core/demos/treasures/app/dao/mapping/
+[2012-07-19 16:03:48.819] [INFO] /home/py/Project/pomelo-core/lib/sync/syncUtil.js -  load mapping file done 
+[2012-07-19 16:03:48.820] [INFO] /home/py/Project/pomelo-core/lib/components/sync.js - sync inited.
+[2012-07-19 16:03:48.820] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: area
+[2012-07-19 16:03:48.821] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: logger
+[2012-07-19 16:03:48.821] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: proxy
+[2012-07-19 16:03:48.821] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: handler
+[2012-07-19 16:03:48.821] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: remote
+[2012-07-19 16:03:48.822] [INFO] /home/py/Project/pomelo-core/lib/components/server.js - begin to start server component.
+[2012-07-19 16:03:48.824] [INFO] /home/py/Project/pomelo-core/lib/server/server.js - [connector server] start listen on server: {"id":"connector-server-2","host":"127.0.0.1","port":4051,"wsPort":3051,"serverType":"connector"}
+[2012-07-19 16:03:48.825] [INFO] /home/py/Project/pomelo-core/lib/application.js - monitor connect to master {"id":"master-server-1","host":"127.0.0.1","port":3005,"queryPort":3015,"wsPort":2337}
+[2012-07-19 16:03:48.889] [INFO] /home/py/Project/pomelo-core/lib/components/server.js - server started.
+[2012-07-19 16:03:48.889] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: channel
+[2012-07-19 16:03:48.889] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: sync
+[2012-07-19 16:03:48.989] [INFO] /home/py/Project/pomelo-core/lib/monitor/monitorAgent.js - Connected to server, sending announcement...
+[2012-07-19 16:06:41.800] [INFO] /home/py/Project/pomelo-core/lib/components/logger.js - logger inited
+[2012-07-19 16:06:41.800] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - begin to init proxy component.
+[2012-07-19 16:06:41.800] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:connector, dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/remote
+[2012-07-19 16:06:41.801] [DEBUG] /home/py/Project/pomelo-core/lib/components/proxy.js - [remote path not exists] name:connector, dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/remote
+[2012-07-19 16:06:41.801] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:connector, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/frontend
+[2012-07-19 16:06:41.810] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:login, dir:/home/py/Project/pomelo-core/demos/treasures/app/login/remote
+[2012-07-19 16:06:41.815] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:login, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:06:41.822] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:logic, dir:/home/py/Project/pomelo-core/demos/treasures/app/logic/remote
+[2012-07-19 16:06:41.825] [DEBUG] /home/py/Project/pomelo-core/lib/components/proxy.js - [remote path not exists] name:logic, dir:/home/py/Project/pomelo-core/demos/treasures/app/logic/remote
+[2012-07-19 16:06:41.825] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:logic, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:06:41.827] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:area, dir:/home/py/Project/pomelo-core/demos/treasures/app/area/remote
+[2012-07-19 16:06:41.857] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:area, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:06:41.859] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:status, dir:/home/py/Project/pomelo-core/demos/treasures/app/status/remote
+[2012-07-19 16:06:41.863] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:status, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:06:41.864] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:channel, dir:/home/py/Project/pomelo-core/demos/treasures/app/channel/remote
+[2012-07-19 16:06:41.864] [DEBUG] /home/py/Project/pomelo-core/lib/components/proxy.js - [remote path not exists] name:channel, dir:/home/py/Project/pomelo-core/demos/treasures/app/channel/remote
+[2012-07-19 16:06:41.864] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - [app.genProxy] loading proxy module, name:channel, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/backend
+[2012-07-19 16:06:41.866] [INFO] /home/py/Project/pomelo-core/lib/components/proxy.js - proxy inited.
+[2012-07-19 16:06:41.866] [INFO] /home/py/Project/pomelo-core/lib/components/handler.js - begin to init handler component.
+[2012-07-19 16:06:41.866] [INFO] /home/py/Project/pomelo-core/lib/components/handler.js - [app.genHandler] loading handler module, name:connector, dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/handler
+[2012-07-19 16:06:41.874] [INFO] /home/py/Project/pomelo-core/lib/components/handler.js - handlers inited.
+[2012-07-19 16:06:41.875] [INFO] /home/py/Project/pomelo-core/lib/components/remote.js - begin to init remote component.
+[2012-07-19 16:06:41.876] [INFO] /home/py/Project/pomelo-core/lib/components/remote.js - [app.genRemote] loading handler module, name:connector, dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/remote
+[2012-07-19 16:06:41.877] [DEBUG] /home/py/Project/pomelo-core/lib/components/remote.js - [remote path not exists] name:connector  dir:/home/py/Project/pomelo-core/demos/treasures/app/connector/remote
+[2012-07-19 16:06:41.878] [INFO] /home/py/Project/pomelo-core/lib/components/remote.js - [app.genRemote] loading handler module, name:connector, dir:/home/py/Project/pomelo-core/lib/components/../common/remote/frontend
+[2012-07-19 16:06:41.882] [INFO] /home/py/Project/pomelo-core/lib/components/remote.js - remote inited.
+[2012-07-19 16:06:41.887] [INFO] /home/py/Project/pomelo-core/lib/components/server.js - begin to init server component.
+[2012-07-19 16:06:41.888] [INFO] /home/py/Project/pomelo-core/lib/components/server.js - server inited.
+[2012-07-19 16:06:41.891] [INFO] /home/py/Project/pomelo-core/lib/components/channel.js - begin to init channel component.
+[2012-07-19 16:06:41.891] [INFO] /home/py/Project/pomelo-core/lib/components/channel.js - channel inited.
+[2012-07-19 16:06:41.892] [INFO] /home/py/Project/pomelo-core/lib/components/sync.js - begin to init sync component.
+[2012-07-19 16:06:41.953] [INFO] /home/py/Project/pomelo-core/lib/sync/syncUtil.js -  load mapping file /home/py/Project/pomelo-core/demos/treasures/app/dao/mapping/
+[2012-07-19 16:06:41.957] [INFO] /home/py/Project/pomelo-core/lib/sync/syncUtil.js -  load mapping file done 
+[2012-07-19 16:06:41.958] [INFO] /home/py/Project/pomelo-core/lib/components/sync.js - sync inited.
+[2012-07-19 16:06:41.959] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: area
+[2012-07-19 16:06:41.960] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: logger
+[2012-07-19 16:06:41.961] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: proxy
+[2012-07-19 16:06:41.961] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: handler
+[2012-07-19 16:06:41.962] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: remote
+[2012-07-19 16:06:41.962] [INFO] /home/py/Project/pomelo-core/lib/components/server.js - begin to start server component.
+[2012-07-19 16:06:41.968] [INFO] /home/py/Project/pomelo-core/lib/server/server.js - [connector server] start listen on server: {"id":"connector-server-2","host":"127.0.0.1","port":4051,"wsPort":3051,"serverType":"connector"}
+[2012-07-19 16:06:41.969] [INFO] /home/py/Project/pomelo-core/lib/application.js - monitor connect to master {"id":"master-server-1","host":"127.0.0.1","port":3005,"queryPort":3015,"wsPort":2337}
+[2012-07-19 16:06:42.091] [INFO] /home/py/Project/pomelo-core/lib/components/server.js - server started.
+[2012-07-19 16:06:42.091] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: channel
+[2012-07-19 16:06:42.091] [WARN] /home/py/Project/pomelo-core/lib/application.js - ignore component not with start function, name: sync
+[2012-07-19 16:06:42.184] [INFO] /home/py/Project/pomelo-core/lib/monitor/monitorAgent.js - Connected to server, sending announcement...
