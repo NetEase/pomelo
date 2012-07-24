@@ -36,9 +36,9 @@
 	  });
 
     socket.on('message', function(data){
-      if (params.debug){
+      if (true){
 				//console.log('[pomeloclient.init]websocket onmessage:');
-        //console.log(data);
+        console.log(data);
 			}
       if(data instanceof Array) {
         processMessageBatch(pomelo, data);
@@ -92,6 +92,7 @@
 
   var processMessage = function(pomelo, msg) {
     var route;
+    msg.__new_format__=false;
     if(msg.__new_format__) {
       console.log('process new message');
       //new format message
@@ -118,12 +119,12 @@
         pomelo.emit(route, msg.body);
       }
     } else {
-      route = msg.route;
+      route = msg.body.route;
       var code = msg.code;
       if(!route){
         console.log('[pomeloclient.onmessage]Message type error! data: ' + JSON.stringify(msg));
       }
-      pomelo.emit(route, msg);
+      pomelo.emit(route, msg.body);
     }
   };
 

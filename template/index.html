@@ -3,15 +3,63 @@
  <head>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    <title>Pomelo</title>
-   <script src="js/lib/pomeloclient.js" type="text/javascript"></script>
-   <script src="js/lib/socket.io.js" type="text/javascript"></script>
-   <script type ="text/javascript">
-    pomelo.connect({url:'http://127.0.0.1:3001'},function(err){});
-    pomelo.request({route:'connector.helloHandler.hello',msg:'hello~'},function(    res){});
-    pomelo.notify({route:'connector.helloHandler.hello',msg:'hello~'});
-   </script>
+
+   <!--colorbox js start-->
+    <script src="./js/lib/colorbox/colorbox_header.js"></script>
+    <script src="./js/lib/colorbox/Box2dWeb-2.1.a.3.js"></script>
+    <script src="./js/lib/colorbox/JXGUtil.js"></script>
+    <script src="./js/lib/colorbox/base.js"></script>
+    <script src="./js/lib/colorbox/base64.js"></script>
+    <script src="./js/lib/colorbox/debug.js"></script>
+    <script src="./js/lib/colorbox/geometry.js"></script>
+    <script src="./js/lib/colorbox/gzip.js"></script>
+    <script src="./js/lib/colorbox/helper.js"></script>
+    <script src="./js/lib/colorbox/path.js"></script>
+    <script src="./js/lib/colorbox/platform.js"></script>
+    <script src="./js/lib/colorbox/processing.js"></script>
+    <script src="./js/lib/colorbox/util.js"></script>
+    <script src="./js/lib/colorbox/xmlload.js"></script>
+    <script src="./js/lib/colorbox/animate.js"></script>
+    <script src="./js/lib/colorbox/director.js"></script>
+    <script src="./js/lib/colorbox/level.js"></script>
+    <script src="./js/lib/colorbox/logic.js"></script>
+    <script src="./js/lib/colorbox/node.js"></script>
+    <script src="./js/lib/colorbox/physicsnode.js"></script>
+    <script src="./js/lib/colorbox/pipe.js"></script>
+    <script src="./js/lib/colorbox/scene.js"></script>
+    <script src="./js/lib/colorbox/tiled_map.js"></script>
+    <script src="./js/lib/colorbox/model.js"></script>
+    <script src="./js/lib/colorbox/view.js"></script>
+    <script src="./js/lib/colorbox/component.js"></script>
+    <script src="./js/lib/colorbox/matrix.js"></script>
+    <script src="./js/lib/colorbox/clocker.js"></script>
+    <script src="./js/lib/colorbox/sound.js"></script>
+    <script src="./js/lib/colorbox/colorbox_module.js"></script>
+    <script src="./js/lib/colorbox/frameanimation.js"></script>
+    <script src="./js/lib/colorbox/resmgr.js"></script>
+    <!--colorbox js end-->
+     <script src="js/lib/events.js"></script>
+    <script src="js/lib/main.js"></script>
+    <script src="js/lib/clientManager.js"></script>
+     <script src="js/lib/pomeloclient.js" type="text/javascript"></script>
+     <script src="js/lib/socket.io.js" type="text/javascript"></script>
+     <script src="js/lib/loginMsgHandler.js" type="text/javascript"></script>
+
+
  </head>
     <body>
+        <div id="loginPanel" class="m-login">
+        <div class="m-input">
+        <label>帐号： </label>
+        <input id="loginUser" type="text"/>
+        <br/>
+        <label>密码： </label>
+        <input id="loginPwd" type="password"/>
+        <br/>
+        <input id="login" type='button' value="登陆" onclick=""/>
+      </div>
+    </div>
+
     </body>
 </html>
 
