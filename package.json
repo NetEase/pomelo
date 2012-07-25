@@ -15,7 +15,7 @@
   , "aoi-service": ">=0.1.2"
   , "mail-box": "0.0.4"
   , "mail-router": ">=0.0.4"
-  , "data-sync": ">=0.0.9"
+  , "data-sync": ">=0.0.10"
   , "v8-profiler":">=3.6.2-1"
   , "ws":">=0.4.10"
   , "debug": "*"
