@@ -10,9 +10,6 @@ app.set('dirname', __dirname);
 app.set('calculator', routeService.calculator);
 
 
-var dbclient = require('./app/dao/mysql/mysql').init(app);
-app.set('dbclient',dbclient);
-
 appTemplate.defaultConfig(app);
 
 app.configure(function(){
@@ -23,7 +20,10 @@ app.configure(function(){
 
 app.configure('production|development', 'area', function(){
   app.load(areaService);
+  //app.load(pomelo.sync,{path:__dirname + '/app/dao/mapping'});
 });
+
+app.load(pomelo.sync,{path:__dirname + '/app/dao/mapping'});
 
 app.configure('production|development', 'connector', function(){
   //app.use(pomelo.timeAdjustFilter);

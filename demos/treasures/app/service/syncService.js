@@ -11,8 +11,7 @@ var exp = module.exports;
 
 exp.getDataSet = function(key){
  	var app = pomelo.getApp();
-	 var dbclient = require('../dao/mysql/mysql');
-	 var dataSource = require('../dao/sync').init(dbclient);
+  var dataSource = app.sync;
   var set = dataSource.get(key);
   if(!!set)
     return set;

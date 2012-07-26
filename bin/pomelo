@@ -93,6 +93,44 @@ var app = [
   ,''
 ].join(eol);
 
+
+/**
+ * App template.
+ */
+
+var app_debug = [
+    ''
+  , '/**'
+  , ' * Module dependencies.'
+  , ' */'
+  , 'var pomelo = require(\'pomelo\')'
+  , ''
+  , 'var appTemplate = pomelo.appTemplate;'
+  , 'var app = appTemplate.init();'
+  , ''
+  , '// Configuration'
+  , '  app.set(\'name\', \''+name+ '\');'
+  , '  app.set(\'dirname\', __dirname);'
+  , '  app.set(\'__debug\',\'true\');'
+  , '  appTemplate.defaultConfig(app);'
+  , ''
+  , '// Start'
+  , 'app.start();'
+  , ''
+  , 'function startWebServer(){'
+  , ' var app_express = require(\'./app_express\');'
+  , ' console.log(\'[AppWebServerStart] listen, visit http://0.0.0.0:3001/index.html\');'
+  ,'}'
+  ,''
+  ,'if(app.serverType===\'master\'){'
+  ,' startWebServer();'
+  ,'}'
+  ,''
+].join(eol);
+
+
+
+
 while (args.length) {
   var arg = args.shift();
   switch (arg) {
@@ -209,10 +247,9 @@ function init(){
            if(ph.existsSync(__dirname+'/../tmp')){
                 abort("the program is running,please stop first");
             }
-           else{      
-                var debugapp = cp.fork('./app.js');
+           else{
+                var debugapp = cp.fork('./app_debug.js');
                 write(__dirname + '/../tmp',debugapp.pid);
-                debugapp.send({cmd:'debug'});
                 console.log("the debug mode is opening......");
           }
        }
@@ -241,6 +278,11 @@ function createApplicationAt(path) {
   cpfile('/public/js/lib/','socket.io.js');
   cpfile('/public/js/lib/','pomeloclient.js');
   cpfile('/public/js/lib/','events.js');
+  cpfile('/public/js/lib/','loginMsgHandler.js');
+  cpfile('/public/js/lib/','clientManager.js');
+  cpfile('/public/js/lib/','main.js');
+  
+  
   cpfile('/config/','mysql.json');
   cpfile('/config/','log4js.json');
   cpfile('/config/','servers.json');
@@ -252,7 +294,9 @@ function createApplicationAt(path) {
   cpfile('/','app_express.js');
   cpfile('/app/status/remote/','statusRemote.js');
   cpfile('/public/','index.html');
-  cpfile('/app/connector/handler/','helloHandler.js');
+  cpfile('/app/connector/handler/','loginHandler.js');
+  copy(__dirname+'/../template/colorbox',path+'/public/js/lib/colorbox');
+
  
 var json = '{' + eol;
     json += '   "name" : "'+name+'",' + eol;
@@ -281,7 +325,9 @@ var json = '{' + eol;
     json += '}';
 
    write(path + '/app.js', app);
+   write(path + '/app_debug.js',app_debug);
    write(path + '/package.json', json);
+
   
 }
 
@@ -407,4 +453,39 @@ function prompt(msg, fn) {
 function abort(str) {
   console.error(str);
   process.exit(1);
+}
+
+/**
+ * @param {String} origin
+ * @param {String} target
+ */
+function copy(origin,target){
+  
+  if(!ph.existsSync(origin)){
+    console.log(origin + 'is not exist......');
+  }
+  
+  if(!ph.existsSync(target)){
+    fs.mkdirSync(target, 0755)
+  }
+  
+  fs.readdir(origin,function(err,datalist){
+    if(err) return;
+  
+    for(var i=0;i<datalist.length;i++){
+        var oCurrent = origin + '/' + datalist[i];
+        var tCurrent = target + '/' + datalist[i];
+        //console.log(fs.statSync(origin + '/' + datalist[i]).isFile());
+
+        //如果当前是文件,则写入到对应的目标目录下
+        if(fs.statSync(oCurrent).isFile()){
+          fs.writeFileSync(tCurrent,fs.readFileSync(oCurrent, ''),'');
+        }
+        //如果是目录，则递归
+        else if(fs.statSync(oCurrent).isDirectory()){
+          copy(oCurrent,tCurrent);
+        }
+      }
+    
+  });
 }

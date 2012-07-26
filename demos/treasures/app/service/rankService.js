@@ -1,8 +1,7 @@
 var utils = require('../../../../lib/util/utils');
-var dbclient = require('../dao/mysql/mysql');
 var WGError = require('../meta/WGError');
 var comConst = require('../config/constant');
-
+var pomelo = require('../../../../lib/pomelo');
 var rankService = module.exports;
 
 rankService.updateUserScore = function (userId, score, cb){
@@ -13,7 +12,7 @@ rankService.updateUserScore = function (userId, score, cb){
 	}
   var sql = 'update Hero set score = score + ? where id = ?';
   var args = [scoreInt, userId];
-  dbclient.update(sql, args, function(err, res){
+    pomelo.getApp().dbclient.update(sql, args, function(err, res){
     if(err !== null){
       utils.invokeCallback(cb, new WGError(comConst.RES_CODE.ERR_FAIL, err.message), false);
     }
@@ -31,7 +30,7 @@ rankService.updateUserScore = function (userId, score, cb){
 rankService.getTopN = function (n, cb){
   var sql = 'select id, name, score from Hero order by score desc limit ?';
   var args = [n];
-  dbclient.query(sql, args, function(err, res){
+    pomelo.getApp().dbclient.query(sql, args, function(err, res){
     if(err !== null){
       utils.invokeCallback(cb, new WGError(comConst.RES_CODE.ERR_FAIL, err.message), null);
     }

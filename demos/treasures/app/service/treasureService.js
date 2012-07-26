@@ -11,6 +11,8 @@ var areaService = require('./areaService');
 var trservice = module.exports;
 var allTreasureInfo = trConfig.TREASURE_DATA;
 var allTreasureId = trConfig.TREASURE_IDS;
+var pomelo = require('../../../../lib/pomelo');
+
 
 var lastGenTime = new Date().getTime();
 /**
@@ -53,6 +55,19 @@ trservice.generateTreasures = function (params, cb){
 	lastGenTime = new Date().getTime();
 	//logger.debug('lastGenTime ' + lastGenTime +' geneter treasures: ');
 	utils.invokeCallback(cb, null, {treasures:tmpLTreasure,leftTime:leftTime});
+
+                                                    //var user1 = {} ;
+     //user1.x = user1.y = 300;
+//user1.uid = 10026;
+//user1.sceneId = 1;
+
+  //                                                  pomelo.getApp().sync.exec('updateUser',user1);
+
+//pomelo.getApp().sync.select('selectUser',user1.uid,function(err,data){
+	//console.log(err + ' test sync get user infl ' + data);
+//});
+                                               
+                                                    
 };
 
 trservice.pickItem = function (userId, treasureId, areaId, cb){

@@ -2,7 +2,7 @@ var UserSync = module.exports =  {
 
   updateUser:function(client,val){
 	  console.error(' updatewrite ' + JSON.stringify(val)+ '  ' + val.x+ '  ' +val.y + '  ' +val.uid);
-		var sql = 'update Hero set x = ? ,y = ? ,areaId = ? where id = ?';
+		var sql = 'update Hero set x = ? ,y = ? ,sceneId = ? where id = ?';
 		var args = [val.x, val.y, val.sceneId, val.uid];
 		client.query(sql, args, function(err, res){
 		      if(err !== null){

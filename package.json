@@ -1,6 +1,6 @@
 {
   "name": "pomelo",
-  "version": "0.1.4",
+  "version": "0.1.12",
   "private": false,
   "dependencies": {
   "express": "2.5.2"
@@ -15,8 +15,8 @@
   , "aoi-service": ">=0.1.2"
   , "mail-box": "0.0.4"
   , "mail-router": ">=0.0.4"
-  , "data-sync": ">=0.0.8"
-  , "v8-profiler":">=3.6.2"
+  , "data-sync": ">=0.0.10"
+  , "v8-profiler":">=3.6.2-1"
   , "ws":">=0.4.10"
   , "debug": "*"
   , "module-loader": ">=0.0.1"

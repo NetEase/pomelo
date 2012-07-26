@@ -225,8 +225,8 @@ var loading = function(){
 	selectServer.remove(0);
 	socket.on('connect', function() {
 		socket.emit('announce_web_client');
-		socket.emit('webMessage', { method : 'getSer_Scr'});
-		socket.on('getSer_Scr', function(msg) {
+		socket.emit('webMessage', { method : 'getNodes'});
+		socket.on('getNodes', function(msg) {
 			for (var index = 0;index<msg.serverArray.length;index++){
 				var server = msg.serverArray[index];
 				var option = new Option(server.name,server.serverId);
