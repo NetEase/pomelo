@@ -5,13 +5,28 @@
  */
 
 var fs = require('fs')
-  , os = require('os')
-  , cp = require('child_process')
-  , util = require('util')
-  , ph = require('path')
-  , exec = cp.exec
-  , spawn = cp.spawn;
-   
+    , os = require('os')
+    , cp = require('child_process')
+    , util = require('util')
+    , ph = require('path')
+    , exec = cp.exec
+    , spawn = cp.spawn;
+
+/**
+ * Add function startWith to String Object
+ *  @param {String} str
+ *
+ */
+String.prototype.startWith = function (str) {
+    if (str == null || str == "" || this.length == 0 || str.length > this.length)
+        return false;
+    if (this.substr(0, str.length) == str)
+        return true;
+    else
+        return false;
+    return true;
+}
+
 /**
  * Package information.
  */
@@ -29,35 +44,34 @@ var version = pkg.version;
  */
 
 var eol = os.platform
-  ? ('win32' == os.platform() ? '\r\n' : '\n')
-  : '\n';
-
+    ? ('win32' == os.platform() ? '\r\n' : '\n')
+    : '\n';
 
 
 /**
  * Usage documentation.
  */
-  var help = [
-  'usage: pomelo [action] [path]',
-  '',
-  'Monitors the script specified in the current process or as a daemon',
-  '',
-  'actions:',
-  '  -version -v            Ouput pomelo version',
-  '  -init    -i            Init the program',
-  '  -start   -st           Start the program',
-  '  -stop    -sp           Stop the program',
-  '  -restart -r            Restart the program',
-  '  -debug   -d            Debug the program',
- ];
+var usage = ''
+        + '\n'
+        + '  Usage: pomelo [action] [path/option]\n'
+        + '\n'
+        + '  Options:\n'
+        + '    init  [path]              init the program\n'
+        + '    start [option]            start the program\n'
+        + '    stop                      stop the program\n'
+        + '    version                   output framework version\n'
+        + '    help                      output help information\n'
+        + '    [option]                  --debug=serverId:port'
+    ;
 
 
 // Parse arguments
 
 var args = process.argv.slice(2)
-  , path = '.';
+    , path = '.';
 
-var name = args[0];
+// Get the name of Project
+var name = args[1];
 
 
 /**
@@ -66,197 +80,234 @@ var name = args[0];
 
 var app = [
     ''
-  , '/**'
-  , ' * Module dependencies.'
-  , ' */'
-  , 'var pomelo = require(\'pomelo\')'
-  , ''
-  , 'var appTemplate = pomelo.appTemplate;'
-  , 'var app = appTemplate.init();'
-  , ''
-  , '// Configuration'
-  , '  app.set(\'name\', \''+name+ '\');'
-  , '  app.set(\'dirname\', __dirname);'
-  , '  appTemplate.defaultConfig(app);'
-  , ''
-  , '// Start'
-  , 'app.start();'
-  , ''
-  , 'function startWebServer(){'
-  , ' var app_express = require(\'./app_express\');'
-  , ' console.log(\'[AppWebServerStart] listen, visit http://0.0.0.0:3001/index.html\');'
-  ,'}'
-  ,''
-  ,'if(app.serverType===\'master\'){'
-  ,' startWebServer();'
-  ,'}'
-  ,''
+    , '/**'
+    , ' * Module dependencies.'
+    , ' */'
+    , 'var pomelo = require(\'pomelo\')'
+    , ''
+    , 'var appTemplate = pomelo.appTemplate;'
+    , 'var app = appTemplate.init();'
+    , ''
+    , '// Configuration'
+    , '  app.set(\'name\', \'' + name + '\');'
+    , '  app.set(\'dirname\', __dirname);'
+    , '  appTemplate.defaultConfig(app);'
+    , ''
+    , '// Start'
+    , 'app.start();'
+    , ''
+    , 'function startWebServer(){'
+    , ' var app_express = require(\'./app_express\');'
+    , ' console.log(\'[AppWebServerStart] listen, visit http://0.0.0.0:3001/index.html\');'
+    , '}'
+    , ''
+    , 'if(app.serverType===\'master\'){'
+    , ' startWebServer();'
+    , '}'
+    , ''
 ].join(eol);
 
 
 /**
- * App template.
+ * package.json template.
  */
 
-var app_debug = [
-    ''
-  , '/**'
-  , ' * Module dependencies.'
-  , ' */'
-  , 'var pomelo = require(\'pomelo\')'
-  , ''
-  , 'var appTemplate = pomelo.appTemplate;'
-  , 'var app = appTemplate.init();'
-  , ''
-  , '// Configuration'
-  , '  app.set(\'name\', \''+name+ '\');'
-  , '  app.set(\'dirname\', __dirname);'
-  , '  app.set(\'__debug\',\'true\');'
-  , '  appTemplate.defaultConfig(app);'
-  , ''
-  , '// Start'
-  , 'app.start();'
-  , ''
-  , 'function startWebServer(){'
-  , ' var app_express = require(\'./app_express\');'
-  , ' console.log(\'[AppWebServerStart] listen, visit http://0.0.0.0:3001/index.html\');'
-  ,'}'
-  ,''
-  ,'if(app.serverType===\'master\'){'
-  ,' startWebServer();'
-  ,'}'
-  ,''
-].join(eol);
+var json = '{' + eol;
+json += '   "name" : "' + name + '",' + eol;
+json += '   "version" : "0.1.0",' + eol;
+json += '   "private" : false,' + eol;
+json += '  "dependencies": {' + eol;
+json += '   "express" : "2.5.2"' + eol;
+json += '    ,"connnect" : ">=0.0.1"' + eol;
+json += '     ,"log4js" : ">=0.4.1"' + eol;
+json += '     , "socket.io" :  ">=0.9.4"' + eol;
+json += '     , "generic-pool" :  ">=1.0.9"' + eol;
+json += '     , "mysql" :  ">=0.9.5"' + eol;
+json += '     , "pomelo" :  ">=0.1.11"' + eol;
+json += '     , "socket.io-client" :  ">=0.9.4"' + eol;
+json += '     ,"underscore"  : ">=1.3.1"' + eol;
+json += '     ,"libxmljs"  :  ">=0.0.1"' + eol;
+json += '     ,"async" : ">=0.0.1"' + eol;
+json += '      ,"aoi-service" : ">=0.2.0"' + eol;
+json += '     ,"crc" : ">=0.0.1"' + eol;
+json += ' },' + eol;
+json += ' "devDependencies" : {' + eol;
+json += '  "flow" : ">=0.2.2"' + eol;
+json += '  , "should" : ">=0.0.1"' + eol;
+json += '  , "mocha" : ">=0.0.1"' + eol;
+json += '} ';
+json += '}' + eol;
 
-
-
-
-while (args.length) {
-  var arg = args.shift();
-  switch (arg) {
-    case '-h':
-    case '-help':
-      abort(help);
-      break;
-    case '-v':
-    case '-version':
-      abort(version);
-      break;
-    case '-i':
-    case '-init':
-      init();
-      break;
-    case '-st':
-    case '-start':
-      start();
-      break;
-    case '-sp':
-    case '-stop':
-      stop();
-      break;
-    case '-r':
-    case '-restart':
-       stop();
-       start();
-       break;
-    case '-d':
-    case '-debug':
-       debug();
-       break;
+// Parse command
+var arg = args.shift();
+switch (arg) {
+    case 'help':
+        legalArgNum(0);
+        abort(usage);
+        break;
+    case 'version':
+        legalArgNum(0);
+        abort(version);
+        break;
+    case 'init':
+        legalArgNum(1);
+        path = args[0];
+        init();
+        break;
+    case 'start':
+        start();
+        break;
+    case 'stop':
+        legalArgNum(0);
+        stop();
+        break;
+    case 'kill':
+        legalArgNum(0);
+        kill();
+        break;
     default:
-        path = arg;
-        createApplication(path);
-  }
+        abort("The command is error format.");
+        break;
 }
 
-// Generate application
 
-function createApplication(path) {
-  emptyDirectory(path, function(empty){
-    if (empty) {
-      createApplicationAt(path);
-    } else {
-      confirm('destination is not empty, continue? ', function(ok){
-        if (ok) {
-          process.stdin.destroy();
-          createApplicationAt(path);
+// Init application
+
+function init() {
+    emptyDirectory(path, function (empty) {
+        if (empty) {
+            createApplicationAt(path);
+            addDependency();
         } else {
-          abort('aborting');
+            confirm('destination is not empty, continue? ', function (ok) {
+                if (ok) {
+                    process.stdin.destroy();
+                    createApplicationAt(path);
+                    addDependency();
+                } else {
+                    abort('aborting');
+                }
+            });
         }
-      });
-    }
-  });
+    });
 }
 
-// init the program
-function init(){
+// Add node dependency to the application
+
+function addDependency() {
     //check if the current dir has the file package.json
-      if(ph.existsSync('./package.json')){
-         ls = spawn('npm',['install','-d']);
-         ls.stdout.on('data', function (data) {
+    if (ph.existsSync('./package.json')) {
+        var ls = spawn('npm', ['install', '-d']);
+        ls.stdout.on('data', function (data) {
             console.log('stdout: ' + data);
-           });
-         ls.stderr.on('data', function (data) {
+        });
+        ls.stderr.on('data', function (data) {
             console.log('stderr: ' + data);
-          });
-         ls.on('exit', function (code) {
+        });
+        ls.on('exit', function (code) {
             console.log('child process exited with code ' + code);
-          });
-         }
-      else{
-          abort("please go to your pomelo workspace to init the program");
-       }
- }
+        });
+    }
+    else {
+        abort("Please go to your pomelo workspace to init the program");
+    }
+}
 
 // start the program
- function start(){
-        if(ph.existsSync('./app.js')){
-            if(ph.existsSync(__dirname+'/../tmp')){
-                  abort("the program is running,please stop first");
-             }
-            else{
-                  var appjs = cp.fork('./app.js');
-                  write(__dirname + '/../tmp',appjs.pid);
-                  appjs.send({cmd:'start'});           
-                  console.log("the program is starting......");
-               }
-          }
-      else{
-             abort("please go to your pomelo workspace to start the program");
-          }
-     }
+function start() {
 
-// stop the program
-   function stop(){
-       if(ph.existsSync(__dirname+'/../tmp')){
-       fs.readFile(__dirname + '/../tmp', function (err, data) {
-             if (err) throw err;
-                console.log("closing the program......");
-                process.kill(data,'SIGHUP');
-               });
-             fs.unlinkSync(__dirname+'/../tmp');
-      }
-      else{
-              abort("there is no starting program");
-          }
+   //debug args
+    var serverId = " ";
+    var port = " ";
+
+    if (args.length != 0)
+        if (args[0] != 'production' && args[0] != 'development')
+            if (!args[0].startWith('--debug='))
+                abort("The start command  arguments is error.");
+
+
+    function parseServer(str) {
+        var str = str.substr(8, str.length - 8);
+        serverId = str.split(':')[0];
+        port = str.split(':')[1];
     }
 
-// debug the program
-  function debug(){
-      if(ph.existsSync('./app.js')){      
-           if(ph.existsSync(__dirname+'/../tmp')){
-                abort("the program is running,please stop first");
+
+    if (ph.existsSync('./app.js')) {
+        if (ph.existsSync(process.cwd()+ '/tmp')) {
+            abort("The program is still running,please stop it first.");
+        }
+        else {
+            var ls;
+            switch (args.length) {
+                case 0:
+                    ls = spawn('node', ['app.js']);
+                    break;
+                case 1:
+                    if (args[0] === 'development' || args[0] === 'production') {
+                        ls = spawn('node', ['app.js', args[0]]);
+                    }
+                    else {
+                        ls = spawn('node', ['app.js', 'development', 'master', 'master-server-1', args[0]]);
+                    }
+                    break;
+                case 2:
+                    parseServer(args[1]);
+                    ls = spawn('node', ['app.js', args[0], 'master', 'master-server-1', serverId, port]);
+                    break;
+                default:
+                    abort("The start command  arguments is error.");
             }
-           else{
-                var debugapp = cp.fork('./app_debug.js');
-                write(__dirname + '/../tmp',debugapp.pid);
-                console.log("the debug mode is opening......");
-          }
-       }
-      else{
-           abort("please go to your pomelo workspace");
-      }
-   }
+            //reserve the child process pid
+            write(process.cwd() + '/tmp',ls.pid);
+
+            ls.stdout.on('data', function (data) {
+                console.log('stdout: ' + data);
+            });
+            ls.stderr.on('data', function (data) {
+                console.log('stderr: ' + data);
+            });
+            ls.on('exit', function (code) {
+                console.log('child process exited with code ' + code);
+            });
+        }
+    }
+
+    else {
+        abort("Please go to your pomelo workspace to start the program");
+    }
+}
+
+
+// stop the program
+function stop() {
+    if (ph.existsSync('./tmp')) {
+        fs.readFile('./tmp', function (err, data) {
+            if (err) throw err;
+            console.log("Closing the program......");
+            process.kill(data, 'SIGHUP');
+        });
+        fs.unlinkSync('./tmp');
+    }
+    else {
+        abort("There is no starting program");
+    }
+}
+
+// kill the program
+function kill() {
+    if (ph.existsSync('./tmp')) {
+        fs.readFile('./tmp', function (err, data) {
+            if (err) throw err;
+            console.log("Closing the program......");
+            process.kill(data, 'SIGHUP');
+        });
+        fs.unlinkSync('./tmp');
+    }
+    else {
+        abort("There is no starting program");
+    }
+}
 
 /**
  * Create application at the given directory `path`.
@@ -265,70 +316,9 @@ function init(){
  */
 
 function createApplicationAt(path) {
-
-// make pomelo dirs
-  mkdir(path + '/public/js/lib',0); 
-  mkdir(path + '/app/status/remote',0); 
-  mkdir(path + '/app/connector/handler',0);
-  mkdir(path + '/config',0); 
-  mkdir(path + '/logs',0); 
-  mkdir(path + '/test',0); 
- 
-// copy files from template dir
-  cpfile('/public/js/lib/','socket.io.js');
-  cpfile('/public/js/lib/','pomeloclient.js');
-  cpfile('/public/js/lib/','events.js');
-  cpfile('/public/js/lib/','loginMsgHandler.js');
-  cpfile('/public/js/lib/','clientManager.js');
-  cpfile('/public/js/lib/','main.js');
-  
-  
-  cpfile('/config/','mysql.json');
-  cpfile('/config/','log4js.json');
-  cpfile('/config/','servers.json');
-  cpfile('/config/','master.json');
-  cpfile('/config/','scheduler.json');
-  cpfile('/config/','redis.json');
-  cpfile('/config/','areas.json');
-  cpfile('/config/','areasMap.json');
-  cpfile('/','app_express.js');
-  cpfile('/app/status/remote/','statusRemote.js');
-  cpfile('/public/','index.html');
-  cpfile('/app/connector/handler/','loginHandler.js');
-  copy(__dirname+'/../template/colorbox',path+'/public/js/lib/colorbox');
-
- 
-var json = '{' + eol;
-    json += '   "name" : "'+name+'",' + eol;
-    json += '   "version" : "0.1.0",' + eol;
-    json += '   "private" : false,' + eol;
-    json += '  "dependencies": {'+ eol;
-    json += '   "express" : "2.5.2"'+ eol;
-    json += '    ,"connnect" : ">=0.0.1"' + eol;
-    json += '     ,"log4js" : ">=0.4.1"' + eol;
-    json += '     , "socket.io" :  ">=0.9.4"' + eol;
-    json += '     , "generic-pool" :  ">=1.0.9"' + eol;  
-    json += '     , "mysql" :  ">=0.9.5"' + eol;
-    json += '     , "pomelo" :  ">=0.1.11"' + eol;
-    json += '     , "socket.io-client" :  ">=0.9.4"' + eol;
-    json += '     ,"underscore"  : ">=1.3.1"' + eol;
-    json += '     ,"libxmljs"  :  ">=0.0.1"' + eol;
-    json += '     ,"async" : ">=0.0.1"' + eol;
-    json += '      ,"aoi-service" : ">=0.2.0"'+ eol;
-    json += '     ,"crc" : ">=0.0.1"' + eol;
-    json += ' },' + eol;
-    json += ' "devDependencies" : {' + eol;
-    json += '  "flow" : ">=0.2.2"' + eol;
-    json += '  , "should" : ">=0.0.1"' + eol;
-    json += '  , "mocha" : ">=0.0.1"' + eol;
-    json += '} '+ eol;
-    json += '}';
-
-   write(path + '/app.js', app);
-   write(path + '/app_debug.js',app_debug);
-   write(path + '/package.json', json);
-
-  
+    copy(__dirname + '/../template/', path);
+    write(path + '/app.js', app);
+    write(path + '/package.json', json);
 }
 
 /**
@@ -339,61 +329,12 @@ var json = '{' + eol;
  */
 
 function emptyDirectory(path, fn) {
-  fs.readdir(path, function(err, files){
-    if (err && 'ENOENT' != err.code) throw err;
-    fn(!files || !files.length);
-  });
+    fs.readdir(path, function (err, files) {
+        if (err && 'ENOENT' != err.code) throw err;
+        fn(!files || !files.length);
+    });
 }
 
-/**
- * cpfile
- *
- * @param {String} filename
- * @param {String} current_path
- */
- function cpfile(current_path,filename){
-    if(ph.existsSync(__dirname+"/../template/"+filename)){
-           fs.writeFileSync(path+current_path+filename,fs.readFileSync(__dirname+'/../template/'+filename,''),'');
-             console.log('   \x1b[36mcopyfile\x1b[0m : ' + filename);
-         }
-    else{
-      abort("cannot find the file"+filename);
-       }
- }
-
-/**
- * mkdir
- *
- * @param {String} path
- * @param {Number} mode
- * @param {Function} cb
- */
- function mkdir(url,mode,cb){
-    var path = require("path"),arr = url.split("/");
-    mode = mode || 0755;
-    cb = cb || function(){}; 
-    if(arr[0]=="."){
-        arr.shift();
-    }
-    if(arr[0]==".."){
-        arr.splice(0,2,arr[0]+"/"+arr[1]);
-   }
-
-  function inner(cur){
-    if(!path.existsSync(cur)){
-            fs.mkdirSync(cur,mode);
-     }
-   
-   if(arr.length){
-           inner(cur+"/"+arr.shift());
-    }
-   else{
-       cb();
-    }
-   }
-   arr.length && inner(arr.shift());
-  console.log('   \x1b[36mmakedir\x1b[0m : ' + url);
-}
 
 /**
  * echo str > path.
@@ -403,10 +344,9 @@ function emptyDirectory(path, fn) {
  */
 
 function write(path, str) {
-  fs.writeFile(path, str);
-  console.log('   \x1b[36mcreatefile\x1b[0m : ' + path);
+    fs.writeFile(path, str);
+    console.log('   \x1b[36mcreatefile\x1b[0m : ' + path);
 }
-
 
 
 /**
@@ -417,9 +357,9 @@ function write(path, str) {
  */
 
 function confirm(msg, fn) {
-  prompt(msg, function(val){
-    fn(/^ *y(es)?/i.test(val));
-  });
+    prompt(msg, function (val) {
+        fn(/^ *y(es)?/i.test(val));
+    });
 }
 
 /**
@@ -430,19 +370,20 @@ function confirm(msg, fn) {
  */
 
 function prompt(msg, fn) {
-  // prompt
-  if (' ' == msg[msg.length - 1]) {
-    process.stdout.write(msg);
-  } else {
-    console.log(msg);
-  }
+    // prompt
+    if (' ' == msg[msg.length - 1]) {
+        process.stdout.write(msg);
+    } else {
+        console.log(msg);
+    }
 
-  // stdin
-  process.stdin.setEncoding('ascii');
-  process.stdin.once('data', function(data){
-    fn(data);
-  }).resume();
+    // stdin
+    process.stdin.setEncoding('ascii');
+    process.stdin.once('data',function (data) {
+        fn(data);
+    }).resume();
 }
+
 
 /**
  * Exit with the given `str`.
@@ -451,41 +392,94 @@ function prompt(msg, fn) {
  */
 
 function abort(str) {
-  console.error(str);
-  process.exit(1);
+    console.error(str);
+    process.exit(1);
 }
+
+/**
+ *
+ * @param {Number} argNum
+ */
+
+function legalArgNum(argNum) {
+    if (args.length != argNum) {
+        console.error("The command arguments number is error.");
+        process.exit(1);
+    }
+}
+
 
 /**
  * @param {String} origin
  * @param {String} target
  */
-function copy(origin,target){
-  
-  if(!ph.existsSync(origin)){
-    console.log(origin + 'is not exist......');
-  }
-  
-  if(!ph.existsSync(target)){
-    fs.mkdirSync(target, 0755)
-  }
-  
-  fs.readdir(origin,function(err,datalist){
-    if(err) return;
-  
-    for(var i=0;i<datalist.length;i++){
-        var oCurrent = origin + '/' + datalist[i];
-        var tCurrent = target + '/' + datalist[i];
-        //console.log(fs.statSync(origin + '/' + datalist[i]).isFile());
+function copy(origin, target) {
 
-        //如果当前是文件,则写入到对应的目标目录下
-        if(fs.statSync(oCurrent).isFile()){
-          fs.writeFileSync(tCurrent,fs.readFileSync(oCurrent, ''),'');
+    console.log(origin + 'is not exist......');
+    console.log(target + 'is not exist......');
+
+    if (!ph.existsSync(origin)) {
+        console.log(origin + 'is not exist......');
+    }
+
+    if (!ph.existsSync(target)) {
+        //fs.mkdirSync(target, 0755)
+        mkdir(target, 0);
+        console.log('   \x1b[36mmakedir\x1b[0m : ' + target);
+    }
+
+    fs.readdir(origin, function (err, datalist) {
+        if (err) return;
+
+        for (var i = 0; i < datalist.length; i++) {
+            var oCurrent = origin + '/' + datalist[i];
+            var tCurrent = target + '/' + datalist[i];
+
+            if (fs.statSync(oCurrent).isFile()) {
+                fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
+                console.log('   \x1b[36mcreatefile\x1b[0m : ' + oCurrent);
+            }
+
+            else if (fs.statSync(oCurrent).isDirectory()) {
+                copy(oCurrent, tCurrent);
+            }
         }
-        //如果是目录，则递归
-        else if(fs.statSync(oCurrent).isDirectory()){
-          copy(oCurrent,tCurrent);
+
+    });
+}
+
+/**
+ * mkdir
+ *
+ * @param {String} path
+ * @param {Number} mode
+ * @param {Function} cb
+ */
+function mkdir(url, mode, cb) {
+    var path = require("path"), arr = url.split("/");
+    mode = mode || 0755;
+    cb = cb || function () {
+    };
+    if (arr[0] == ".") {
+        arr.shift();
+    }
+    if (arr[0] == "..") {
+        arr.splice(0, 2, arr[0] + "/" + arr[1]);
+    }
+
+    function inner(cur) {
+        if (!path.existsSync(cur)) {
+            fs.mkdirSync(cur, mode);
         }
-      }
-    
-  });
+
+        if (arr.length) {
+            inner(cur + "/" + arr.shift());
+        }
+        else {
+            cb();
+        }
+    }
+
+    arr.length && inner(arr.shift());
+    console.log('   \x1b[36mmakedir\x1b[0m : ' + url);
 }

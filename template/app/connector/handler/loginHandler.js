@@ -8,5 +8,5 @@ exp.login = function(req, session) {
 	var username = req.username;
 	var pwd = req.password;
     console.log(username);
-    session.response({route: req.route, code: 200,id:1, user: username, player: {id: 0}});
+    session.response({route: req.route, code: 200,id:1, user: username, player: {id: 0},__new_format__:false});
 };
