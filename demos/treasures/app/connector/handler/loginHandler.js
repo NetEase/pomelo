@@ -9,7 +9,7 @@ exp.login = function(req, session, next) {
 	var username = req.username;
 	var pwd = req.password;
 	//TODO: add parameters validating logic
-	pomelo.getApp().get('proxyMap').user.login.loginRemote.checkPassport(username, pwd, function(err, uinfo) {
+	pomelo.app.rpc.login.loginRemote.checkPassport(username, pwd, function(err, uinfo) {
 		if(!!err) {
 			logger.error('[login] fail to invoke loginRemote for ' + err.stack);
 			session.response({route: req.route, code: 500});
@@ -25,7 +25,7 @@ exp.login = function(req, session, next) {
 
 exp.register = function(req, session, next) {
 	//TODO: add parameters validating logic
-	pomelo.getApp().get('proxyMap').user.login.loginRemote.register(req, function(err, uinfo) {
+	pomelo.app.rpc.login.loginRemote.register(req, function(err, uinfo) {
 		if(!!err) {
 			logger.error('[register] fail to invoke loginRemote for ' + err.stack);
 			session.response({route: req.route, code: 500, error:err});
@@ -40,8 +40,8 @@ exp.register = function(req, session, next) {
 };
 
 var afterLogin = function (msg, session, uinfo) {
-	var app = pomelo.getApp();
-	app.get('proxyMap').user.status.statusRemote.addStatus(uinfo.uid,  app.get('serverId'), function(err) {
+	var app = pomelo.app;
+	app.rpc.status.statusRemote.addStatus(uinfo.uid,  app.get('serverId'), function(err) {
 		if(!!err) {
 			session.response({route: msg.route, code: 500});
 			return;
@@ -61,8 +61,7 @@ var onUserLeave = function (session, reason) {
 		return;
 	}
 
-	var proxy = pomelo.getApp().get('proxyMap');
-	proxy.user.area.userRemote.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
+	app.rpc.area.userRemote.userLeave({uid:session.uid, areaId: session.areaId}, function(err) {
 		//TODO: logout logic
 		//TODO: remember to call session.closed() to finish logout flow finally
 		if(reason === 'kick') {

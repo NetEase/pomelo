@@ -10,7 +10,7 @@ var pomelo = require('../../../../lib/pomelo');
 var exp = module.exports;
 
 exp.getDataSet = function(key){
- 	var app = pomelo.getApp();
+ 	var app = pomelo.app;
   var dataSource = app.sync;
   var set = dataSource.get(key);
   if(!!set)
