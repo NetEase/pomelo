@@ -118,7 +118,7 @@ json += '   "version" : "0.1.0",' + eol;
 json += '   "private" : false,' + eol;
 json += '  "dependencies": {' + eol;
 json += '   "express" : "2.5.2"' + eol;
-json += '    ,"connnect" : ">=0.0.1"' + eol;
+json += '    ,"connect" : ">=0.0.1"' + eol;
 json += '     ,"log4js" : ">=0.4.1"' + eol;
 json += '     , "socket.io" :  ">=0.9.4"' + eol;
 json += '     , "generic-pool" :  ">=1.0.9"' + eol;
@@ -227,9 +227,14 @@ function start() {
 
 
     function parseServer(str) {
+        if(str.indexOf(':')<0||str.indexOf(':')!=str.lastIndexOf(':'))
+           abort("The debug argument is error.");
         var str = str.substr(8, str.length - 8);
         serverId = str.split(':')[0];
         port = str.split(':')[1];
+        var re = /^[1-9]+[0-9]*]*$/;
+        if(!re.test(port))
+           abort("The debug port is error.");
     }
 
 
@@ -254,13 +259,16 @@ function start() {
                     break;
                 case 2:
                     parseServer(args[1]);
+                    if(legalServerId(args[0],serverId)===false){
+                          abort("The serverId does not exist.");
+                    }
                     ls = spawn('node', ['app.js', args[0], 'master', 'master-server-1', serverId, port]);
                     break;
                 default:
                     abort("The start command  arguments is error.");
             }
             //reserve the child process pid
-            write(process.cwd() + '/tmp',ls.pid);
+             write(process.cwd() + '/tmp',ls.pid);
 
             ls.stdout.on('data', function (data) {
                 console.log('stdout: ' + data);
@@ -484,4 +492,41 @@ function mkdir(url, mode, cb) {
 
     arr.length && inner(arr.shift());
     console.log('   \x1b[36mmakedir\x1b[0m : ' + url);
+}
+
+function legalServerId(mode,serverId){
+    var flag='';
+    var str = fs.readFileSync(__dirname+"/../template/config/servers.json");
+
+    function readJson (mode,data){
+           var jsonObj = JSON.parse(data);
+           var servers = [];
+           function pushServerId(arr){
+              for(var i =0; i< arr.length; i++){
+                  servers.push(arr[i].id);
+              }
+           }
+
+           if(mode==='development'){
+                  var jo = jsonObj.development;
+                  pushServerId(jo.connector);
+                  pushServerId(jo.area);
+                  pushServerId(jo.status);
+                  pushServerId(jo.channel);
+           }
+           else{
+            var jo = jsonObj.production;
+                         pushServerId(jo.connector);
+                         pushServerId(jo.area);
+                         pushServerId(jo.status);
+             }
+           for(var j = 0 ;j<servers.length; j++){
+                       if(servers[j]===serverId)
+                       {
+                          return true;
+                       }
+           }
+              return false;
+    }
+   return readJson(mode,str);
 }
