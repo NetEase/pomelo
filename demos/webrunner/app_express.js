@@ -28,4 +28,4 @@ app.get('/', function(req, res){
 });
 
 app.listen(3001);
-console.log('express server listening on 3002');
+console.log('express server listening on 3001');

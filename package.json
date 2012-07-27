@@ -1,15 +1,11 @@
 {
   "name": "pomelo",
-  "version": "0.1.12",
+  "version": "0.1.14",
   "private": false,
   "dependencies": {
   "express": "2.5.2"
-  , "connect": ">=0.0.1"
   , "log4js": ">= 0.4.1"
   , "socket.io": ">=0.9.4"
-  , "generic-pool": ">=1.0.9"
-  , "mysql": ">=0.9.5"
-  , "redis": ">=0.7.1"
   , "pomelo-schedule": ">=0.3.3"
   , "pomelo-monitor": ">=0.1.2"
   , "aoi-service": ">=0.1.2"
@@ -18,7 +14,6 @@
   , "data-sync": ">=0.0.10"
   , "v8-profiler":">=3.6.2-1"
   , "ws":">=0.4.10"
-  , "debug": "*"
   , "module-loader": ">=0.0.1"
   , "local-proxy": ">=0.0.1"
   , "rpc-gateway": "0.0.4"
@@ -29,8 +24,7 @@
   , "crc" : ">=0.0.1"
   },
   "devDependencies": {
-  	"flow": ">=0.2.2"
-    , "should": ">=0.0.1"
+    "should": ">=0.0.1"
     , "mocha": ">=0.0.1"
   }
 }

@@ -12,7 +12,7 @@ rankService.updateUserScore = function (userId, score, cb){
 	}
   var sql = 'update Hero set score = score + ? where id = ?';
   var args = [scoreInt, userId];
-    pomelo.getApp().dbclient.update(sql, args, function(err, res){
+    pomelo.app.dbclient.update(sql, args, function(err, res){
     if(err !== null){
       utils.invokeCallback(cb, new WGError(comConst.RES_CODE.ERR_FAIL, err.message), false);
     }
@@ -30,7 +30,7 @@ rankService.updateUserScore = function (userId, score, cb){
 rankService.getTopN = function (n, cb){
   var sql = 'select id, name, score from Hero order by score desc limit ?';
   var args = [n];
-    pomelo.getApp().dbclient.query(sql, args, function(err, res){
+    pomelo.app.dbclient.query(sql, args, function(err, res){
     if(err !== null){
       utils.invokeCallback(cb, new WGError(comConst.RES_CODE.ERR_FAIL, err.message), null);
     }

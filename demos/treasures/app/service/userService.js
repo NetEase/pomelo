@@ -72,7 +72,7 @@ UserService.getUserByName = function (username, passwd, cb){
 UserService.getUserById = function (uid, cb){
 	  var sql = 'select * from  Hero where id = ?';
 	  var args = [uid];
-	  pomelo.getApp().dbclient.query(sql,args,function(err, res){
+	  pomelo.app.dbclient.query(sql,args,function(err, res){
 		    if(err !== null){
 			      utils.invokeCallback(cb,new WGError(comConst.RES_CODE.ERR_FAIL, err.message), null);
 		    } else {
@@ -97,7 +97,8 @@ UserService.getUserById = function (uid, cb){
  */
 UserService.deleteByName = function (username, cb){
 	  var sql = 'delete from  Hero where username = ?';
-	  var args = [username];app.pomelo.getApp().bclient.query(sql,args,function(err, res){
+	  var args = [username];
+	  app.pomelo.app.bclient.query(sql,args,function(err, res){
 		    if(err !== null){
 			      utils.invokeCallback(cb,new WGError(comConst.RES_CODE.ERR_FAIL, err.message), null);
 		    } else {
@@ -119,7 +120,7 @@ UserService.register = function (username,name,roleId,cb){
 	  var sceneId = ServerConstant.sceneId,level = ServerConstant.level , x = ServerConstant.x,y = ServerConstant.y;
 	  var sql = 'insert into Hero (username,name,roleId,sceneId,level,x,y) values(?,?,?,?,?,?,?)';
 	  var args = [username,name,roleId,sceneId,level,x,y];
-	  pomelo.getApp().dbclient.insert(sql, args, function(err,res){
+	  pomelo.app.dbclient.insert(sql, args, function(err,res){
 		    if(err !== null){
 			      utils.invokeCallback(cb,new WGError(comConst.RES_CODE.ERR_FAIL, err.message), null);
 		    } else {

@@ -8,7 +8,7 @@ var areas = {};
 var logger = require('../../../../../lib/pomelo').log.getLogger(__filename);
 
 exp.init = function(){
-  var app = pomelo.getApp();
+  var app = pomelo.app;
   var areasConfig = app.get('areas');
   var areasMapConfig = app.get('areasMap');
 
@@ -57,13 +57,12 @@ exp.transferUser = function(msg, cb){
   var uid = msg.uid;
   var areaId = msg.target;
   var oldAreaId = msg.areaId;
-  var app = pomelo.getApp();
+  var app = pomelo.app;
   var areasConfig = app.get('areas');
 
   var oldServerId = areasConfig[oldAreaId].server;
   var serverId = areasConfig[areaId].server;
 
-  var proxy =  pomelo.getApp().get('proxyMap');
 
   //If the target and the start are in the same server, use the in server transfer
   if(serverId == oldServerId){
@@ -80,8 +79,8 @@ exp.transferUser = function(msg, cb){
       utils.invokeCallback(cb, 'User not exist!');
       return;
     }
-    
-    proxy.sys.connector.sessionRemote.changeArea(msg, function(err){
+
+    pomelo.app.sysrpc.connector.sessionRemote.changeArea(msg, function(err){
       if(!!err){
         oldArea.setUser(user);
         utils.invokeCallback(cb, err);
@@ -92,7 +91,7 @@ exp.transferUser = function(msg, cb){
         user.x = 200;
         user.y = 200;
         user.sceneId = areaId;
-        
+
         area.addUser(user);
         utils.invokeCallback(cb);
       }

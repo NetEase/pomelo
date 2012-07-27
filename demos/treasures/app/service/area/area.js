@@ -15,15 +15,15 @@ var Area = function(param) {
 	this.id = param.id;
 	this.name = param.name;
 	this.mapConfig = param.map;
-	
+
 	this.cellConfig = param.cell;
-	
+
 	this.users = dataService.getDataSet(areaUsersKey(this.id));
-	
+
 	this.treasures = {};
-	
+
 	this.aoi = aoiService.getService(param);
-	
+
 	this.init();
 }
 
@@ -35,19 +35,19 @@ pro.getChannelId = function(areaId){
 
 pro.init = function(){
   if(!this.mapConfig || !this.cellConfig){
-    logger.error('area init failed! areaid: ' + this.id);   
+    logger.error('area init failed! areaid: ' + this.id);
     return;
   }
- 
-  this.channelService = pomelo.getApp().get('channelService');
-     
+
+  this.channelService = pomelo.channelService;
+
   //每个area建立一个监听channel
   var name = this.getChannelId(this.id);
   this.channel = this.channelService.getLocalChannelSync({name: name, create: true});
 }
 
 pro.pushMessage = function(msg, cb){
-  this.channel.pushMessage(msg,cb);  
+  this.channel.pushMessage(msg,cb);
 }
 
 pro.pushMessageByUids = function(uids, msg, cb){
@@ -61,18 +61,18 @@ pro.pushMessageByPath = function(path, msg, cb){
 
 pro.pushMessageByPos = function(x, y, msg, cb){
   var uids = this.aoi.getIdsByPos({x : x, y : y});
-  
+
   this.channelService.pushMessageByUids(msg, uids, cb);
 }
 
 pro.addUser = function(userInfo){
   var uid = userInfo.uid;
-  
+
   this.users[uid] = userInfo;
-  
+
   this.channel.add(uid);
   this.aoi.addObject(uid, {x: userInfo.x, y: userInfo.y});
-  
+
   return true;
 }
 
@@ -81,7 +81,7 @@ pro.setUser = function(user){
   // var oldUser = this.users[uid];
   // if(!oldUser){
     // return this.addUser(user);
-  // } 
+  // }
 }
 
 pro.updateUser = function(uid, start, end){
@@ -94,23 +94,23 @@ pro.updateUser = function(uid, start, end){
 
 pro.removeUser = function(uid){
   var user = this.users[uid];
-  
+
   if(!user)
     return true;
-    
+
   delete this.users[uid];
-  this.channel.leave(uid);  
+  this.channel.leave(uid);
   this.aoi.removeObject(uid, {x:user.x, y:user.y});
-  
+
   return true;
 }
 
 pro.getUsers = function(){
-  return this.users;  
+  return this.users;
 }
 
 pro.getUser = function(uid){
-  return !!this.users[uid]?this.users[uid]:null;  
+  return !!this.users[uid]?this.users[uid]:null;
 }
 
 pro.setTrs = function(treasures){
@@ -134,9 +134,9 @@ pro.getTrs = function(){
 
 /**
  * 场景用户
- * 
+ *
  * param属性：
- * 
+ *
  */
 
 exports.create = function(param) {

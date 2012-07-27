@@ -6,7 +6,7 @@ var id = 0;
 var exp = module.exports;
 
 var Tower = function(){
-  var channelService = pomelo.getApp().get('channelService');
+  var channelService = pomelo.channelService;
   this.channel = channelService.getLocalChannelSync({name: prefix+id++, create: true});
 };
 
