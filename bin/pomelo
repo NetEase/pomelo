@@ -248,7 +248,8 @@ function start() {
                         ls = spawn('node', ['app.js', args[0]]);
                     }
                     else {
-                        ls = spawn('node', ['app.js', 'development', 'master', 'master-server-1', args[0]]);
+                        parseServer(args[0]);
+                        ls = spawn('node', ['app.js', 'development', 'master', 'master-server-1', serverId, port]);
                     }
                     break;
                 case 2:
