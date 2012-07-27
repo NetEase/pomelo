@@ -7,7 +7,7 @@ var logger = require('../../../../lib/pomelo').log.getLogger(__filename);
 var exp = module.exports;
 
 exp.calculator = function(opts, cb){
-  var app = pomelo.getApp();
+  var app = pomelo.app;
   if(opts.type == 'area'){
     var areas = app.get('areas');
     
@@ -42,7 +42,7 @@ exp.calculator = function(opts, cb){
       return;
     }
 
-    pomelo.getApp().get('proxyMap').user.status.statusRemote.queryStatus(opts.uid, function(err, sid) {
+    pomelo.app.rpc.status.statusRemote.queryStatus(opts.uid, function(err, sid) {
       if(!!err) {
         utils.invokeCallback(cb, new Error('fail to query status for uid:' + uid + ', err:' + err.stack));
         return;
