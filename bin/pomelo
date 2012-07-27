@@ -300,8 +300,9 @@ function kill() {
     if (ph.existsSync('./tmp')) {
         fs.readFile('./tmp', function (err, data) {
             if (err) throw err;
-            console.log("Closing the program......");
-            process.kill(data, 'SIGHUP');
+            spawn('kill', ['-9'].concat(data)).on('exit', function() {
+               abort("The program is killed.");
+            });
         });
         fs.unlinkSync('./tmp');
     }
