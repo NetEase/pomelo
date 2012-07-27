@@ -293,17 +293,22 @@ function start() {
 
 // stop the program
 function stop() {
+
     if (ph.existsSync('./tmp')) {
         fs.readFile('./tmp', function (err, data) {
             if (err) throw err;
             console.log("Closing the program......");
             process.kill(data, 'SIGHUP');
+
         });
         fs.unlinkSync('./tmp');
+
     }
     else {
         abort("There is no starting program");
     }
+
+
 }
 
 // kill the program
