@@ -23,7 +23,8 @@ app.configure('production|development', 'area', function(){
   //app.load(pomelo.sync,{path:__dirname + '/app/dao/mapping'});
 });
 
-app.load(pomelo.sync,{path:__dirname + '/app/dao/mapping'});
+var dbclient = require('./app/dao/mysql/mysql').init(app);
+app.load(pomelo.sync,{path:__dirname + '/app/dao/mapping',dbclient:dbclient});
 
 app.configure('production|development', 'connector', function(){
   //app.use(pomelo.timeAdjustFilter);
