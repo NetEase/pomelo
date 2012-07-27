@@ -234,7 +234,10 @@ function start() {
         port = str.split(':')[1];
         var re = /^[1-9]+[0-9]*]*$/;
         if (!re.test(port))
-            abort("The debug port is error.");
+            abort("The debug port is not Number.");
+        var lp = Number(port);
+        if(lp<1024||lp>65535)
+            abort("The debug port is out of range.");
     }
 
 
