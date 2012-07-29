@@ -149,6 +149,10 @@ switch (arg) {
         legalArgNum(0);
         abort(version);
         break;
+    case 'list':
+        legalArgNum(0);
+        list();
+        break;
     case 'init':
         legalArgNum(1);
         path = args[0];
@@ -236,7 +240,7 @@ function start() {
         if (!re.test(port))
             abort("The debug port is not Number.");
         var lp = Number(port);
-        if(lp<1024||lp>65535)
+        if (lp < 1024 || lp > 65535)
             abort("The debug port is out of range.");
     }
 
@@ -299,7 +303,6 @@ function stop() {
             if (err) throw err;
             console.log("Closing the program......");
             process.kill(data, 'SIGHUP');
-
         });
         fs.unlinkSync('./tmp');
 
@@ -310,6 +313,30 @@ function stop() {
 
 
 }
+
+
+// list the servers of the program
+function list() {
+    if (ph.existsSync('./tmp')) {
+        fs.readFile('./tmp', function (err, data) {
+            if (err) throw err;
+            process.kill(data, 'SIGINT');
+            var client = require('socket.io-client');
+            var socket = client.connect('http://127.0.0.1:3000');
+            socket.on('connect', function () {
+                socket.emit('ferret', 'tobi', function (data) {
+                    console.log(data);
+                    process.exit(1);
+                });
+            });
+        });
+    }
+    else {
+        abort("There is no starting program");
+    }
+
+}
+
 
 // kill the program
 function kill() {
