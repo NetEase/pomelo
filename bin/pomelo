@@ -48,6 +48,15 @@ var eol = os.platform
     : '\n';
 
 
+// Parse arguments
+
+var args = process.argv.slice(2)
+    , path = '.';
+
+// Get the name of Project
+var name = args[1];
+
+
 /**
  * Usage documentation.
  */
@@ -65,13 +74,35 @@ var usage = ''
     ;
 
 
-// Parse arguments
+/**
+ * package.json template.
+ */
 
-var args = process.argv.slice(2)
-    , path = '.';
-
-// Get the name of Project
-var name = args[1];
+var json = '{' + eol;
+json += '   "name" : "' + name + '",' + eol;
+json += '   "version" : "0.1.0",' + eol;
+json += '   "private" : false,' + eol;
+json += '  "dependencies": {' + eol;
+json += '   "express" : "2.5.2"' + eol;
+json += '    ,"connect" : ">=0.0.1"' + eol;
+json += '     ,"log4js" : ">=0.4.1"' + eol;
+json += '     , "socket.io" :  ">=0.9.4"' + eol;
+json += '     , "generic-pool" :  ">=1.0.9"' + eol;
+json += '     , "mysql" :  ">=0.9.5"' + eol;
+json += '     , "pomelo" :  ">=0.1.11"' + eol;
+json += '     , "socket.io-client" :  ">=0.9.4"' + eol;
+json += '     ,"underscore"  : ">=1.3.1"' + eol;
+json += '     ,"libxmljs"  :  ">=0.0.1"' + eol;
+json += '     ,"async" : ">=0.0.1"' + eol;
+json += '      ,"aoi-service" : ">=0.2.0"' + eol;
+json += '     ,"crc" : ">=0.0.1"' + eol;
+json += ' },' + eol;
+json += ' "devDependencies" : {' + eol;
+json += '  "flow" : ">=0.2.2"' + eol;
+json += '  , "should" : ">=0.0.1"' + eol;
+json += '  , "mocha" : ">=0.0.1"' + eol;
+json += '} ';
+json += '}' + eol;
 
 
 /**
@@ -107,36 +138,6 @@ var app = [
     , ''
 ].join(eol);
 
-
-/**
- * package.json template.
- */
-
-var json = '{' + eol;
-json += '   "name" : "' + name + '",' + eol;
-json += '   "version" : "0.1.0",' + eol;
-json += '   "private" : false,' + eol;
-json += '  "dependencies": {' + eol;
-json += '   "express" : "2.5.2"' + eol;
-json += '    ,"connect" : ">=0.0.1"' + eol;
-json += '     ,"log4js" : ">=0.4.1"' + eol;
-json += '     , "socket.io" :  ">=0.9.4"' + eol;
-json += '     , "generic-pool" :  ">=1.0.9"' + eol;
-json += '     , "mysql" :  ">=0.9.5"' + eol;
-json += '     , "pomelo" :  ">=0.1.11"' + eol;
-json += '     , "socket.io-client" :  ">=0.9.4"' + eol;
-json += '     ,"underscore"  : ">=1.3.1"' + eol;
-json += '     ,"libxmljs"  :  ">=0.0.1"' + eol;
-json += '     ,"async" : ">=0.0.1"' + eol;
-json += '      ,"aoi-service" : ">=0.2.0"' + eol;
-json += '     ,"crc" : ">=0.0.1"' + eol;
-json += ' },' + eol;
-json += ' "devDependencies" : {' + eol;
-json += '  "flow" : ">=0.2.2"' + eol;
-json += '  , "should" : ">=0.0.1"' + eol;
-json += '  , "mocha" : ">=0.0.1"' + eol;
-json += '} ';
-json += '}' + eol;
 
 // Parse command
 var arg = args.shift();
@@ -196,6 +197,19 @@ function init() {
     });
 }
 
+
+/**
+ * Create application at the given directory `path`.
+ *
+ * @param {String} path
+ */
+
+function createApplicationAt(path) {
+    copy(__dirname + '/../template/', path);
+    write(path + '/app.js', app);
+    write(path + '/package.json', json);
+}
+
 // Add node dependency to the application
 
 function addDependency() {
@@ -247,46 +261,49 @@ function start() {
 
     if (ph.existsSync('./app.js')) {
         if (ph.existsSync(process.cwd() + '/tmp')) {
-            abort("The program is still running,please stop it first.");
+            var ex = exec('ps -p ' + fs.readFileSync(process.cwd() + '/tmp'), function (error, stdout, stderr) {
+                if (stdout.length > 28) {
+                    abort("The program is still running,please stop it first.");
+                }
+            });
         }
-        else {
-            var ls;
-            switch (args.length) {
-                case 0:
-                    ls = spawn('node', ['app.js']);
-                    break;
-                case 1:
-                    if (args[0] === 'development' || args[0] === 'production') {
-                        ls = spawn('node', ['app.js', args[0]]);
-                    }
-                    else {
-                        parseServer(args[0]);
-                        ls = spawn('node', ['app.js', 'development', 'master', 'master-server-1', serverId, port]);
-                    }
-                    break;
-                case 2:
-                    parseServer(args[1]);
-                    if (legalServerId(args[0], serverId) === false) {
-                        abort("The serverId does not exist.");
-                    }
-                    ls = spawn('node', ['app.js', args[0], 'master', 'master-server-1', serverId, port]);
-                    break;
-                default:
-                    abort("The start command  arguments is error.");
-            }
-            //reserve the child process pid
-            write(process.cwd() + '/tmp', ls.pid);
+        var ls;
+        switch (args.length) {
+            case 0:
+                ls = spawn('node', ['app.js']);
+                break;
+            case 1:
+                if (args[0] === 'development' || args[0] === 'production') {
+                    ls = spawn('node', ['app.js', args[0]]);
+                }
+                else {
+                    parseServer(args[0]);
+                    ls = spawn('node', ['app.js', 'development', 'master', 'master-server-1', serverId, port]);
+                }
+                break;
+            case 2:
+                parseServer(args[1]);
+                if (legalServerId(args[0], serverId) === false) {
+                    abort("The serverId does not exist.");
+                }
+                ls = spawn('node', ['app.js', args[0], 'master', 'master-server-1', serverId, port]);
+                break;
+            default:
+                abort("The start command  arguments is error.");
+        }
+        //reserve the child process pid
+        fs.writeFile(process.cwd() + '/tmp', ls.pid);
 
-            ls.stdout.on('data', function (data) {
-                console.log('stdout: ' + data);
-            });
-            ls.stderr.on('data', function (data) {
-                console.log('stderr: ' + data);
-            });
-            ls.on('exit', function (code) {
-                console.log('child process exited with code ' + code);
-            });
-        }
+        ls.stdout.on('data', function (data) {
+            console.log('stdout: ' + data);
+        });
+        ls.stderr.on('data', function (data) {
+            console.log('stderr: ' + data);
+        });
+        ls.on('exit', function (code) {
+            console.log('child process exited with code ' + code);
+        });
+
     }
 
     else {
@@ -341,30 +358,26 @@ function list() {
 // kill the program
 function kill() {
     if (ph.existsSync('./tmp')) {
-        fs.readFile('./tmp', function (err, data) {
-            if (err) throw err;
-            spawn('kill', ['-9'].concat(data)).on('exit', function () {
-                abort("The program is killed.");
-            });
+        exec('ps -p ' + fs.readFileSync('./tmp'), function (error, stdout, stderr) {
+            if (stdout.length <= 28) {
+                abort("The program is stopped.");
+            }
+            else {
+                fs.readFile('./tmp', function (err, data) {
+                    if (err) throw err;
+                    spawn('kill', ['-9'].concat(data)).on('exit', function () {
+                        fs.unlinkSync('./tmp');
+                        abort("The program is killed.");
+                    });
+                });
+            }
         });
-        fs.unlinkSync('./tmp');
     }
     else {
         abort("There is no starting program");
     }
 }
 
-/**
- * Create application at the given directory `path`.
- *
- * @param {String} path
- */
-
-function createApplicationAt(path) {
-    copy(__dirname + '/../template/', path);
-    write(path + '/app.js', app);
-    write(path + '/package.json', json);
-}
 
 /**
  * Check if the given directory `path` is empty.
