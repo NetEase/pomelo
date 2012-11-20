@@ -1,0 +1,24 @@
+﻿.g-doc{width:1000px;margin:0 auto;text-align:left;line-height:18px;font-size:12px;color:#555;font-family:arial;}
+.g-banner{position:relative;width:1000px;height:90px;margin:0 auto;border-bottom:1px solid #dedede;}
+.g-banner .logo{position:absolute;left:20px;top:13px;width:153px;height:60px;z-index:101;}
+.g-banner .logo .img{width:153px;height:60px;background:url(../image/logo.png) no-repeat 0 0;}
+.g-background {height:350px;background:url(../image/sp.png) no-repeat 326px 0;}
+.g-content {padding:150px;width:800px;margin-left:50px;font-size:50pt;font-style:italic;}
+
+.g-link {height:100px;margin-top:30px;margin-left:300px;font-size:15pt}
+.g-button {margin-top:10px;margin-left:150px}
+
+
+a:link { color:#006699;text-decoration:none; }
+a:visited { color:#006699;text-decoration:none; }
+a:hover { color:#FF0000;text-decoration:underline; }
+a:active { color:#006699;text-decoration:underline; }
+
+
+
+
+
+
+
+
+

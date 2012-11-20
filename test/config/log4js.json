@@ -1,0 +1,64 @@
+{
+  "appenders": [
+    {
+      "type": "file",
+      "filename": "./logs/node-log-${opts:serverId}.log",
+      "fileSize": 1048576,
+      "layout": {
+        "type": "basic"
+      }, 
+      "backups": 5
+    },
+    {
+      "type": "console"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/con-log-${opts:serverId}.log", 
+      "pattern": "connector", 
+      "fileSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"con-log"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/rpc-log-${opts:serverId}.log",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"rpc-log"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/forward-log-${opts:serverId}.log",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"forward-log"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/crash.log",
+      "fileSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"crash-log"
+    }
+  ],
+
+  "levels": {
+  	"rpc-log" : "ERROR", 
+    "forward-log": "ERROR"
+  }, 
+
+  "replaceConsole": true
+}
