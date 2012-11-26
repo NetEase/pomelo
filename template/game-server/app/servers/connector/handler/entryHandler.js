@@ -1,9 +1,9 @@
 module.exports = function(app) {
-	return new Handler(app);
+  return new Handler(app);
 };
 
 var Handler = function(app) {
-	this.app = app;
+  this.app = app;
 };
 
 /**
@@ -15,5 +15,5 @@ var Handler = function(app) {
  * @return {Void}
  */
 Handler.prototype.entry = function(msg, session, next) {
-	next(null, {code: 200, msg: 'game server is ok.'});
+  next(null, {code: 200, msg: 'game server is ok.'});
 };
