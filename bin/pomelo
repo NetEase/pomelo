@@ -17,7 +17,6 @@ var fs = require('fs'),
 /**
  *  Common Variables
  */
-
 var DEV = 'development';
 var PRD = 'production';
 var DEM = '--daemon';
