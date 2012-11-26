@@ -11,5 +11,5 @@ app.defaultConfiguration();
 app.start();
 
 process.on('uncaughtException', function (err) {
-    console.error(' Caught exception: ' + err.stack);
+	console.error(' Caught exception: ' + err.stack);
 });
