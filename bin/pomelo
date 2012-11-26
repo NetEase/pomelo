@@ -35,7 +35,7 @@ var TMP_FILE = path.resolve(LOGS_DIR, 'tmp');
 var KILL_CMD = 'kill -9 `ps -ef|grep node|awk \'{print $2}\'`';
 var MASTER_JSON;
 
-var NOWORKSPACE_ERROR = 'Please go to your pomelo project workspace to operate the application.';
+var NOWORKSPACE_ERROR = 'Please go to your game-server directory to start the application.';
 var COMMAND_ERROR = 'The command is error format.';
 var INSTALLFOREVER_ERROR = 'Please install forever use command: npm install forever -g.';
 var CONNECT_ERROR = 'Fail to connect to admin console server.';
