@@ -1,27 +1,27 @@
 {
-	"name":"pomelo",
-	"version":"0.2.0",
-	"private":false,
-	"dependencies":{
-		"socket.io":">=0.9.4",
-		"pomelo-sync":">=0.0.1",
-		"async":">=0.0.1",
-		"seq-queue":">=0.0.5",
-		"crc":">=0.0.1",
-		"cliff": ">=0.1.8",
-		"pomelo-loader":">=0.0.4",
-		"pomelo-rpc":">=0.0.10",
-		"pomelo-protocol":">=0.0.3", 
-		"pomelo-admin":">=0.0.17", 
-		"pomelo-monitor":">=0.3.5",
-		"pomelo-logger": "0.0.2"
-	},
-	"bin":{
-		"pomelo":"./bin/pomelo"
-	},
-	"devDependencies":{
-		"should":">=0.0.1",
-		"mocha":">=0.0.1", 
-		"socket.io-client":">=0.0.1"
-	}
+  "name":"pomelo",
+  "version":"0.2.0",
+  "private":false,
+  "dependencies": {
+    "socket.io":">=0.9.4",
+    "pomelo-sync":">=0.0.1",
+    "async":">=0.0.1",
+    "seq-queue":">=0.0.5",
+    "crc":">=0.0.1",
+    "cliff": ">=0.1.8",
+    "pomelo-loader":">=0.0.4",
+    "pomelo-rpc":">=0.0.10",
+    "pomelo-protocol":">=0.0.3", 
+    "pomelo-admin":">=0.0.17", 
+    "pomelo-monitor":">=0.3.5",
+    "pomelo-logger": "0.0.2"
+  }, 
+  "bin": {
+    "pomelo":"./bin/pomelo"
+  }, 
+  "devDependencies": {
+    "should":">=0.0.1",
+    "mocha":">=0.0.1", 
+    "socket.io-client":">=0.0.1"
+  }
 }

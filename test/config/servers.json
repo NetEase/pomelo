@@ -1,8 +1,6 @@
 {
-	"development":
-    {
-    },
-	"production":
-    {
-    }
+  "development": {
+  },
+  "production": {
+  }
 }

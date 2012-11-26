@@ -18,9 +18,9 @@
       "pattern": "connector", 
       "fileSize": 1048576,
       "layout": {
-          "type": "basic"
-        }
-      ,"backups": 5,
+        "type": "basic"
+      }, 
+      "backups": 5,
       "category":"con-log"
     },
     {
@@ -28,9 +28,9 @@
       "filename": "./logs/rpc-log-${opts:serverId}.log",
       "fileSize": 1048576,
       "layout": {
-          "type": "basic"
-        }
-      ,"backups": 5,
+        "type": "basic"
+      }, 
+      "backups": 5,
       "category":"rpc-log"
     },
     {
@@ -38,9 +38,9 @@
       "filename": "./logs/forward-log-${opts:serverId}.log",
       "fileSize": 1048576,
       "layout": {
-          "type": "basic"
-        }
-      ,"backups": 5,
+        "type": "basic"
+      }, 
+      "backups": 5,
       "category":"forward-log"
     },
     {
@@ -48,15 +48,15 @@
       "filename": "./logs/crash.log",
       "fileSize": 1048576,
       "layout": {
-          "type": "basic"
-        }
-      ,"backups": 5,
+        "type": "basic"
+      }, 
+      "backups": 5,
       "category":"crash-log"
     }
   ],
 
   "levels": {
-  	"rpc-log" : "ERROR", 
+    "rpc-log" : "ERROR", 
     "forward-log": "ERROR"
   }, 
 
