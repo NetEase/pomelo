@@ -14,10 +14,10 @@ var fs = require('fs'),
     utils = require('../lib/util/utils'),
     adminClient = require('pomelo-admin').adminClient;
 
-
 /**
  *  Common Variables
  */
+
 var DEV = 'development';
 var PRD = 'production';
 var DEM = '--daemon';
