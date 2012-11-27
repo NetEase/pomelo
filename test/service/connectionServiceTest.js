@@ -4,7 +4,7 @@ var ConnectionService = require('../../lib/common/service/connectionService');
 var mockApp = {
   settings: {
     serverId: 'connector-server-1'
-  }, 
+  },
 
   get: function(key) {
     return this.settings[key];
@@ -28,7 +28,7 @@ var mockPlayer2 = {
 describe("connectionService",function(){
   it('should add login user info',function(done){
     var mockService1 = new ConnectionService(mockApp);
-    
+
     mockService1.addLoginedUser(mockPlayer1.uid,mockPlayer1.info);
     mockService1.loginedCount.should.equal(1);
 
@@ -53,7 +53,7 @@ describe("connectionService",function(){
     mockService1.addLoginedUser(mockPlayer2.uid,mockPlayer2.info);
 
     mockService1.loginedCount.should.equal(2);
-    
+
     mockService1.removeLoginedUser(mockPlayer1.uid);
 
     mockService1.loginedCount.should.equal(1);

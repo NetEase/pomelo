@@ -2,7 +2,7 @@ var should = require('should');
 var HandlerService = require('../../lib/common/service/handlerService');
 
 var mockApp = {
-  serverType: 'connector', 
+  serverType: 'connector',
 
   get: function(key) {
     return this[key];
@@ -30,7 +30,7 @@ describe('handler service test', function() {
             msg.should.eql(mockMsg);
             next();
           }
-        }, 
+        },
         test2Handler: {
           testMethod: function(msg, session, next) {
             invoke2Count++;

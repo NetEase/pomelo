@@ -7,7 +7,7 @@ var mockFilter1 = {
   before: function(msg, session, cb) {
     session.beforeCount1++;
     cb();
-  }, 
+  },
 
   after: function(err, msg, session, resp, cb) {
     session.afterCount1++;
@@ -19,7 +19,7 @@ var mockFilter2 = {
   before: function(msg, session, cb) {
     session.beforeCount2++;
     cb();
-  }, 
+  },
 
   after: function(err, msg, session, resp, cb) {
     session.afterCount2++;
@@ -28,7 +28,7 @@ var mockFilter2 = {
 };
 
 var blackholdFilter = {
-  before: function() {}, 
+  before: function() {},
   after: function() {}
 };
 

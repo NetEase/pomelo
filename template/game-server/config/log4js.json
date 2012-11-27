@@ -6,7 +6,7 @@
       "fileSize": 1048576,
       "layout": {
         "type": "basic"
-      }, 
+      },
       "backups": 5
     },
     {
@@ -14,13 +14,13 @@
     },
     {
       "type": "file",
-      "filename": "./logs/con-log-${opts:serverId}.log", 
-      "pattern": "connector", 
-      "fileSize": 1048576, 
+      "filename": "./logs/con-log-${opts:serverId}.log",
+      "pattern": "connector",
+      "fileSize": 1048576,
       "layout": {
         "type": "basic"
-      }, 
-      "backups": 5, 
+      },
+      "backups": 5,
       "category":"con-log"
     },
     {
@@ -29,7 +29,7 @@
       "fileSize": 1048576,
       "layout": {
         "type": "basic"
-      }, 
+      },
       "backups": 5,
       "category":"rpc-log"
     },
@@ -39,7 +39,7 @@
       "fileSize": 1048576,
       "layout": {
         "type": "basic"
-      }, 
+      },
       "backups": 5,
       "category":"forward-log"
     },
@@ -49,16 +49,16 @@
       "fileSize": 1048576,
       "layout": {
         "type": "basic"
-      }, 
+      },
       "backups": 5,
       "category":"crash-log"
     }
   ],
 
   "levels": {
-    "rpc-log" : "ERROR", 
+    "rpc-log" : "ERROR",
     "forward-log": "ERROR"
-  }, 
+  },
 
   "replaceConsole": true
 }

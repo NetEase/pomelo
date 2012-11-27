@@ -58,12 +58,12 @@ describe('application test', function(){
         start: function(cb) {
           startCount++;
           cb();
-        }, 
+        },
 
         afterStart: function(cb) {
           afterStartCount++;
           cb();
-        }, 
+        },
 
         stop: function(force, cb) {
           stopCount++;

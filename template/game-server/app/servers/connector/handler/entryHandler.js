@@ -7,8 +7,8 @@ var Handler = function(app) {
 };
 
 /**
- * New client entry chat server. 
- * 
+ * New client entry chat server.
+ *
  * @param  {Object}   msg     request message
  * @param  {Object}   session current session object
  * @param  {Function} next    next stemp callback

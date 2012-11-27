@@ -7,10 +7,10 @@ var cbCreator = (function() {
   return {
     callback: function() {
       count++;
-    }, 
+    },
     getCount: function() {
       return count;
-    }, 
+    },
     count: count
   };
 })();
@@ -18,13 +18,13 @@ var cbCreator = (function() {
 describe('countDownLatchTest', function() {
   var countDownLatch1;
   var countDownLatch2;
-  
+
   before(function(done) {
     countDownLatch1 = countDownLatch.createCountDownLatch(5, cbCreator.callback);
     countDownLatch2 = countDownLatch.createCountDownLatch(2, cbCreator.callback);
     done();
   });
-  
+
   it('countdownLatch should be invoked callback 5 times', function(done) {
     countDownLatch1.done();
     should.exist(cbCreator.getCount());
@@ -38,7 +38,7 @@ describe('countDownLatchTest', function() {
     countDownLatch1.done();
     cbCreator.getCount().should.equal(1);
     cbCreator.count.should.equal(0);
-    
+
     countDownLatch2.done();
     cbCreator.getCount().should.equal(1);
     cbCreator.count.should.equal(0);
