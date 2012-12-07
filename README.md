@@ -15,7 +15,7 @@ Pomelo is also suitable for realtime web application, its distributed architectu
 ## Features
 
 * High scalable multi-process architecture, supporting MMO based area partition and other partition strategies
-* Easy extention mechnisam, you can scale up your server types and server instances conveniently.
+* Easy extention mechanisam, you can scale up your server types and server instances conveniently.
 * Easy request, response, broadcast and rpc mechnisam, almost zero configuration.
 * Focus on performance, a lot of stress testing and tune in performance and scalability
 * Providing a lot tools and libraries, which are quite useful for game development.
