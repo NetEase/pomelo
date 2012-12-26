@@ -9,10 +9,11 @@
     "seq-queue":">=0.0.5",
     "crc":">=0.0.1",
     "cliff": ">=0.1.8",
+    "mkdirp": "0.3.3",
     "pomelo-loader":">=0.0.4",
     "pomelo-rpc":">=0.0.10",
     "pomelo-protocol":">=0.0.3",
-    "pomelo-admin":">=0.0.17",
+    "pomelo-admin":"0.0.18",
     "pomelo-monitor":">=0.3.5",
     "pomelo-logger": "0.0.2"
   },

@@ -3,16 +3,17 @@
 /**
  * Module dependencies.
  */
-var fs = require('fs'),
-    path = require('path'),
-    util = require('util'),
-    cliff = require('cliff'),
-    cp = require('child_process'),
-    exec = cp.exec,
-    spawn = cp.spawn,
-    co = require('../lib/modules/console'),
-    utils = require('../lib/util/utils'),
-    adminClient = require('pomelo-admin').adminClient;
+var fs = require('fs')
+  , path = require('path')
+  , util = require('util')
+  , cliff = require('cliff')
+  , mkdirp = require('mkdirp')
+  , co = require('../lib/modules/console')
+  , utils = require('../lib/util/utils')
+  , exec = require('child_process').exec
+  , spawn = require('child_process').spawn
+  , version = require('../package.json').version
+  , adminClient = require('pomelo-admin').adminClient;
 
 /**
  *  Common Variables
@@ -44,15 +45,11 @@ var STOPSERVER_ERROR = 'Fail to stop server.';
 var FILEREAD_ERROR = 'Fail to read the file, please check if the application is started legally.';
 var RUNDAEMON_INFO = 'Application run in daemon.\nStop the application use the command:pomelo stop.';
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
+
 /**
  * Usage documentation.
  */
-var usage = '' + '\n' + '  Usage: pomelo [action] [option]\n' + '\n' + '  Options:\n' + ' init  [path]        create new application\n' + ' start [option]      start the application\n' + '  list            list server information\n' + '  stop            stop the application\n' + ' kill  [--force]      kill the application\n' + '  version          output framework version\n' + '  help            output help information\n' + '  [option]          developement(default)/production --daemon';
-
-/**
- * Framework version.
- */
-var version = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../package.json'))).version;
+var usage = '' + '\n' + '  Usage: pomelo [action] [option]\n' + '\n' + '  Options:\n' + '  init  [path]        create new application\n' + '  start [option]      start the application\n' + '  list                list server information\n' + '  stop                stop the application\n' + '  kill  [--force]     kill the application\n' + '  version             output framework version\n' + '  help                output help information\n' + '  [option]            developement(default)/production --daemon';
 
 /**
  * Parse command arguments.
@@ -124,8 +121,8 @@ function init(path) {
 function createApplicationAt(ph) {
   var name = path.basename(path.resolve(CUR_DIR, ph));
   copy(path.join(__dirname, '../template/'), ph);
-  mkdir(path.join(ph, 'game-server/logs'), 0755);
-  mkdir(path.join(ph, 'shared'), 0755);
+  mkdir(path.join(ph, 'game-server/logs'));
+  mkdir(path.join(ph, 'shared'));
   setTimeout(function() {
     var repalcefile = [path.resolve(ph, 'game-server/app.js'), path.resolve(ph, 'game-server/package.json'), path.resolve(ph, 'web-server/package.json')];
     for(var i = 0; i < repalcefile.length; i++) {
@@ -267,7 +264,6 @@ function terminal(signal) {
   } else abort(NOWORKSPACE_ERROR);
 };
 
-
 /**
  * Check if the given directory `path` is empty.
  *
@@ -336,8 +332,8 @@ function legalArgNum(argNum) {
 function copy(origin, target) {
   if(!fs.existsSync(origin)) abort(origin + 'is not exist.');
   if(!fs.existsSync(target)) {
-    mkdir(target, 0);
-    console.log('Make dir: ' + target);
+    mkdir(target);
+    console.log('   \x1b[36mcreate\x1b[0m : ' + target);
   }
   fs.readdir(origin, function(err, datalist) {
     if(err) abort(FILEREAD_ERROR);
@@ -346,37 +342,22 @@ function copy(origin, target) {
       var tCurrent = path.resolve(target, datalist[i]);
       if(fs.statSync(oCurrent).isFile()) {
         fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
-        console.log('Create file: ' + tCurrent);
+        console.log('   \x1b[36mcreate\x1b[0m : ' + tCurrent);
       } else if(fs.statSync(oCurrent).isDirectory()) copy(oCurrent, tCurrent);
     }
   });
 };
 
 /**
- * Make directory for new project.
+ * Mkdir -p.
  *
  * @param {String} path
- * @param {Number} mode
+ * @param {Function} fn
  */
-function mkdir(url, mode) {
-  var arr = url.split('/');
-  mode = mode || 0755;
-  switch(arr[0]) {
-  case '.':
-    arr.shift();
-    break;
-  case '..':
-    arr.splice(0, 2, arr[0] + '/' + arr[1]);
-    break;
-  case '':
-    arr[0] = "/";
-    break;
-  };
-
-  function inner(cur) {
-    if(!fs.existsSync(cur)) fs.mkdirSync(cur, mode);
-    if(arr.length) inner(cur + '/' + arr.shift());
-  }
-  arr.length && inner(arr.shift());
-  console.log('Make dir: ' + url);
-};
+function mkdir(path, fn) {
+  mkdirp(path, 0755, function(err){
+    if (err) throw err;
+    console.log('   \033[36mcreate\033[0m : ' + path);
+    fn && fn();
+  });
+}
