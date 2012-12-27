@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var fs = require('fs')
+  , os = require('os')
   , path = require('path')
   , util = require('util')
   , cliff = require('cliff')
@@ -33,7 +34,8 @@ var HOME = IF_HOME ? CUR_DIR : path.join(CUR_DIR, 'game-server');
 var LOGS_DIR = IF_HOME ? path.join(CUR_DIR, 'logs') : path.join(CUR_DIR, 'game-server/logs');
 var MASTER_CONFIG = path.resolve(HOME, 'config/master.json');
 var TMP_FILE = path.resolve(LOGS_DIR, 'tmp');
-var KILL_CMD = 'kill -9 `ps -ef|grep node|awk \'{print $2}\'`';
+var KILL_CMD_LUX = 'kill -9 `ps -ef|grep node|awk \'{print $2}\'`';
+var KILL_CMD_WIN = 'taskkill /im node.exe /f';
 var MASTER_JSON;
 
 var NOWORKSPACE_ERROR = 'Please go to your game-server directory to start the application.';
@@ -205,12 +207,12 @@ function list() {
             }
             var msg = data.msg;
             var rows = [];
-            rows.push(['serverId', 'serverType', 'pid', 'cpuAvg', 'memAvg', 'time']);
+            rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
             for(var key in msg) {
               var server = msg[key];
-              rows.push([server['serverId'], server['serverType'], server['pid'], server['cpuAvg'], server['memAvg'], server['time']]);
+              rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
             }
-            console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow', 'grey']));
+            console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
             process.exit(1);
           });
         }
@@ -230,7 +232,7 @@ function terminal(signal) {
   if(IF_WORKSPACE) {
     console.info(CLOSEAPP_INFO);
     if(args[0] === '--force') {
-      exec(KILL_CMD);
+      os.platform() === 'win32' ? exec(KILL_CMD_WIN):exec(KILL_CMD_LUX);
       process.exit(1);
     }
     fs.readFile(TMP_FILE, function(err, data) {
@@ -254,7 +256,7 @@ function terminal(signal) {
           if(err) abort(STOPSERVER_ERROR);
           if(msg.status === "error") abort(STOPSERVER_ERROR);
           setTimeout(function() {
-            exec(KILL_CMD);
+            os.platform() === 'win32' ? exec(KILL_CMD_WIN):exec(KILL_CMD_LUX);
             fs.unlinkSync(TMP_FILE);
             process.exit(1);
           }, TIME_KILL_WAIT);
