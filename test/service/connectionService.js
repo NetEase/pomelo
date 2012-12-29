@@ -1,5 +1,6 @@
+var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var ConnectionService = require('../../lib/common/service/connectionService');
+var ConnectionService = require('../../' + lib + '/common/service/connectionService');
 
 var mockApp = {
   settings: {
@@ -8,6 +9,10 @@ var mockApp = {
 
   get: function(key) {
     return this.settings[key];
+  },
+
+  getServerId: function() {
+    return this.get('serverId');
   }
 };
 

@@ -3,7 +3,9 @@
     "describe",
     "it",
     "before",
+    "beforeEach",
     "after",
+    "afterEach",
     "window",
     "__resources__"
   ],

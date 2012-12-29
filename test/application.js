@@ -1,4 +1,6 @@
-var app = require('../lib/application');
+var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
+var app = require('../' + lib + '/application');
+var pomelo = require('../');
 var should = require('should');
 
 var WAIT_TIME = 100;
@@ -72,7 +74,6 @@ describe('application test', function(){
       };
 
       app.init({base: mockBase});
-      app.defaultConfiguration();
       app.load(mockComponent);
       app.start(function(err) {
         should.not.exist(err);
@@ -172,4 +173,73 @@ describe('application test', function(){
       server2Count.should.equal(1);
     });
   });
+
+  describe('#add and remove servers', function() {
+    it('should add servers and emit event and fetch the new server info by get methods', function(done) {
+      var newServers = [
+        {id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, wsPort: 3000},
+        {id: 'area-server-1', serverType: 'area', host: '127.0.0.1', port: 2234},
+      ];
+      app.init({base: mockBase});
+      app.event.on(pomelo.events.ADD_SERVERS, function(servers) {
+        // check event args
+        newServers.should.eql(servers);
+
+        // check servers
+        var curServers = app.getServers();
+        should.exist(curServers);
+        var item, i, l;
+        for(i=0, l=newServers.length; i<l; i++) {
+          item = newServers[i];
+          item.should.eql(curServers[item.id]);
+        }
+
+        // check get server by id
+        for(i=0, l=newServers.length; i<l; i++) {
+          item = newServers[i];
+          item.should.eql(app.getServerById(item.id));
+        }
+
+        // check server types
+        var types = [];
+        for(i=0, l=newServers.length; i<l; i++) {
+          item = newServers[i];
+          if(types.indexOf(item.serverType) < 0) {
+            types.push(item.serverType);
+          }
+        }
+        var types2 = app.getServerTypes();
+        types.length.should.equal(types2.length);
+        for(i=0, l=types.length; i<l; i++) {
+          types2.should.include(types[i]);
+        }
+
+        // check server type list
+        var slist;
+        for(i=0, l=newServers.length; i<l; i++) {
+          item = newServers[i];
+          slist = app.getServersByType(item.serverType);
+          should.exist(slist);
+          contains(slist, item).should.be.true;
+        }
+
+        done();
+      });
+
+      app.addServers(newServers);
+    });
+
+    it('should remove server info and emit event', function(done) {
+      done();
+    });
+  });
 });
+
+var contains = function(slist, sinfo) {
+  for(var i=0, l=slist.length; i<l; i++) {
+    if(slist[i].id === sinfo.id) {
+      return true;
+    }
+  }
+  return false;
+};

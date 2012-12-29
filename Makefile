@@ -1,9 +1,21 @@
+MOCHA_OPTS=
 TESTS = test/*
-REPORTER = spec
+REPORTER = dot
 TIMEOUT = 5000
 
 test:
 	@./node_modules/.bin/mocha \
-		--reporter $(REPORTER) --timeout $(TIMEOUT) $(TESTS)
+		--reporter $(REPORTER) --timeout $(TIMEOUT) $(TESTS) \
+		$(MOCHA_OPTS)
 
-.PHONY: test
+test-cov: lib-cov
+	@POMELO_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
+
+lib-cov:
+	@jscoverage lib lib-cov
+
+clean:
+	rm -f coverage.html
+	rm -fr lib-cov
+
+.PHONY: test clean

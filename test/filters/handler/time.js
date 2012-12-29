@@ -1,9 +1,8 @@
+var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-
-var serialFilter = require('../../../lib/filters/handler/serial');
-var FilterService = require('../../../lib/common/service/filterService');
+var serialFilter = require('../../../' + lib + '/filters/handler/time');
+var FilterService = require('../../../' + lib + '/common/service/filterService');
 var util = require('util');
-
 var mockSession = {
   key : "123"
 };
@@ -15,10 +14,11 @@ describe("#serialFilter",function(){
     var filter = serialFilter();
     service.before(filter);
 
+
     service.beforeFilter(null,mockSession,function(){
       should.exist(mockSession);
 
-      should.exist(mockSession.__serialTask__);
+      should.exist(mockSession.__startTime__);
       done();
     });
   });
@@ -31,17 +31,18 @@ describe("#serialFilter",function(){
 
     service.beforeFilter(null,mockSession,function(){
       should.exist(mockSession);
-      should.exist(mockSession.__serialTask__);
+      should.exist(mockSession.__startTime__);
       _session = mockSession;
     });
 
     service.after(filter);
 
-    service.afterFilter(null,null,mockSession,null,function(){
+    service.afterFilter(null,{route:"hello"},mockSession,null,function(){
       should.exist(mockSession);
       should.strictEqual(mockSession,_session);
     });
 
     setTimeout(done,WAIT_TIME);
+    done();
   });
 });

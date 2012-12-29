@@ -1,4 +1,4 @@
-var pomelo = require('../lib/pomelo');
+var pomelo = require('../');
 var should = require('should');
 var mockBase = process.cwd() + '/test';
 
