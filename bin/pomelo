@@ -213,7 +213,7 @@ function list() {
               rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
             }
             console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
-            process.exit(1);
+            process.exit(0);
           });
         }
       });
@@ -245,7 +245,7 @@ function terminal(signal) {
         setTimeout(function() {
           if(IF_HOME) exec('forever stop app.js');
           else exec('cd game-server && forever stop app.js');
-          process.exit(1);
+          process.exit(0);
         }, TIME_KILL_WAIT);
       }
       client.connect(id, config.host, config.port, function(err) {
@@ -256,9 +256,8 @@ function terminal(signal) {
           if(err) abort(STOPSERVER_ERROR);
           if(msg.status === "error") abort(STOPSERVER_ERROR);
           setTimeout(function() {
-            os.platform() === 'win32' ? exec(KILL_CMD_WIN):exec(KILL_CMD_LUX);
             fs.unlinkSync(TMP_FILE);
-            process.exit(1);
+            process.exit(0);
           }, TIME_KILL_WAIT);
         });
       });
