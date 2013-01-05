@@ -7,16 +7,37 @@ var channelName = 'test_channel';
 var mockBase = process.cwd() + '/test';
 
 describe('channel manager test', function() {
-  describe('createChannel', function() {
+  describe('#createChannel', function() {
     it('should create and return a channel with the specified name', function() {
       var channelService = new ChannelService();
       var channel = channelService.createChannel(channelName);
       should.exist(channel);
       channelName.should.equal(channel.name);
     });
+
+    it('should return the same channel if the name has already existed', function() {
+      var channelService = new ChannelService();
+      var channel = channelService.createChannel(channelName);
+      should.exist(channel);
+      channelName.should.equal(channel.name);
+      var channel2 = channelService.createChannel(channelName);
+      channel.should.equal(channel2);
+    });
   });
 
-  describe('getChannel', function() {
+  describe('#destroyChannel', function() {
+    it('should delete the channel instance', function() {
+      var channelService = new ChannelService();
+      var channel = channelService.createChannel(channelName);
+      should.exist(channel);
+      channelName.should.equal(channel.name);
+      channelService.destroyChannel(channelName);
+      var channel2 = channelService.createChannel(channelName);
+      channel.should.not.equal(channel2);
+    });
+  });
+
+  describe('#getChannel', function() {
     it('should return the channel with the specified name if it exists', function() {
       var channelService = new ChannelService();
       channelService.createChannel(channelName);
@@ -39,7 +60,7 @@ describe('channel manager test', function() {
     });
   });
 
-  describe('pushMessageByUids', function() {
+  describe('#pushMessageByUids', function() {
     it('should push message to the right frontend server by sid', function(done) {
       var sid1 = 'sid1', sid2 = 'sid2';
       var uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';

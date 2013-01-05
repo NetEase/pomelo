@@ -60,9 +60,10 @@ describe('path util test', function() {
       }
     });
 
-    it('should return null if the servers/ illegal', function() {
-      var p = pathUtil.listUserRemoteDir('some illegal base');
-      should.not.exist(p);
+    it('should throw err if the servers/ illegal', function() {
+      (function() {
+        pathUtil.listUserRemoteDir('some illegal base');
+      }).should.throw();
     });
   });
 
