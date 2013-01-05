@@ -9,6 +9,7 @@
     "seq-queue":"0.0.5",
     "crc":">=0.0.1",
     "cliff": ">=0.1.8",
+    "mkdirp": "0.3.3",
     "pomelo-loader":"0.0.4",
     "pomelo-rpc":"0.1.0",
     "pomelo-protocol":">=0.0.3",
