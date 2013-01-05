@@ -110,5 +110,72 @@ describe('channel manager test', function() {
         done();
       });
     });
+
+    it('should return err if all message fail to push', function(done) {
+      var sid1 = 'sid1', sid2 = 'sid2';
+      var uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
+      var mockUids = [{sid: sid1, uid: uid1}, {sid: sid2, uid: uid2}, {sid: sid2, uid: uid3}];
+      var mockMsg = {key: 'some remote message'};
+      var uidMap = {};
+      for(var i in mockUids) {
+        uidMap[mockUids[i].uid] = mockUids[i];
+      }
+
+      var invokeCount = 0;
+
+      var mockRpcInvoke = function(sid, rmsg, cb) {
+        invokeCount++;
+        cb(new Error('something wrong'));
+      };
+
+      var app = pomelo.createApp({base: mockBase});
+      app.rpcInvoke = mockRpcInvoke;
+      var channelService = new ChannelService(app);
+
+      channelService.pushMessageByUids(mockMsg, mockUids, function(err) {
+        invokeCount.should.equal(2);
+        should.exist(err);
+        err.message.should.equal('all uids push message fail');
+        done();
+      });
+    });
+
+    it('should return fail uid list if fail to push messge to some of the uids', function(done) {
+      var sid1 = 'sid1', sid2 = 'sid2';
+      var uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
+      var mockUids = [{sid: sid1, uid: uid1}, {sid: sid2, uid: uid2}, {sid: sid2, uid: uid3}];
+      var mockMsg = {key: 'some remote message'};
+      var uidMap = {};
+      for(var i in mockUids) {
+        uidMap[mockUids[i].uid] = mockUids[i];
+      }
+
+      var invokeCount = 0;
+
+      var mockRpcInvoke = function(sid, rmsg, cb) {
+        invokeCount++;
+        if(rmsg.args[1].indexOf(uid1) >= 0) {
+          cb(null, [uid1]);
+        } else if(rmsg.args[1].indexOf(uid3) >= 0) {
+          cb(null, [uid3]);
+        } else {
+          cb();
+        }
+      };
+
+      var app = pomelo.createApp({base: mockBase});
+      app.rpcInvoke = mockRpcInvoke;
+      var channelService = new ChannelService(app);
+
+      channelService.pushMessageByUids(mockMsg, mockUids, function(err, fails) {
+        invokeCount.should.equal(2);
+        should.not.exist(err);
+        should.exist(fails);
+        fails.length.should.equal(2);
+        fails.should.include(uid1);
+        fails.should.include(uid3);
+        done();
+      });
+    });
   });
 });

@@ -16,71 +16,126 @@ var mockApp = {
   }
 };
 
-var mockPlayer1 = {
-  uid : "123",
-  info : {
-    name : "fantasyni"
-  }
-};
+describe('connection service test', function() {
+  describe('#addLoginedUser', function() {
+    it('should add logined user and could fetch it later', function() {
+      var service = new ConnectionService(mockApp);
+      should.exist(service);
+      service.loginedCount.should.equal(0);
 
-var mockPlayer2 = {
-  uid : "111",
-  info : {
-    name : "fni"
-  }
-};
+      var uid = 'uid1';
+      var info = {msg: 'some other message'};
+      service.addLoginedUser(uid, info);
 
-describe("connectionService",function(){
-  it('should add login user info',function(done){
-    var mockService1 = new ConnectionService(mockApp);
-
-    mockService1.addLoginedUser(mockPlayer1.uid,mockPlayer1.info);
-    mockService1.loginedCount.should.equal(1);
-
-    should.exist(mockService1.logined[mockPlayer1.uid]);
-
-    mockService1.addLoginedUser(mockPlayer1.uid,mockPlayer1.info);
-    mockService1.loginedCount.should.equal(1);
-
-    should.exist(mockService1.logined[mockPlayer1.uid]);
-
-    mockService1.addLoginedUser(mockPlayer2.uid,mockPlayer2.info);
-    mockService1.loginedCount.should.equal(2);
-
-    should.exist(mockService1.logined[mockPlayer2.uid]);
-    done();
+      service.loginedCount.should.equal(1);
+      var record = service.logined[uid];
+      should.exist(record);
+      record.should.eql(info);
+    });
   });
 
-  it('should remove login user info',function(done){
-    var mockService1 = new ConnectionService(mockApp);
+  describe('#increaseConnectionCount', function() {
+    it('should increate connection count and could fetch it later', function() {
+      var service = new ConnectionService(mockApp);
+      should.exist(service);
+      service.connCount.should.equal(0);
 
-    mockService1.addLoginedUser(mockPlayer1.uid,mockPlayer1.info);
-    mockService1.addLoginedUser(mockPlayer2.uid,mockPlayer2.info);
-
-    mockService1.loginedCount.should.equal(2);
-
-    mockService1.removeLoginedUser(mockPlayer1.uid);
-
-    mockService1.loginedCount.should.equal(1);
-    should.not.exist(mockService1.logined[mockPlayer1.uid]);
-
-    done();
+      service.increaseConnectionCount();
+      service.connCount.should.equal(1);
+    });
   });
 
-  it('should getStatisticsInfo',function(done){
-    var mockService1 = new ConnectionService(mockApp);
+  describe('#removeLoginedUser', function() {
+    it('should remove logined user info with the uid', function() {
+      var service = new ConnectionService(mockApp);
+      should.exist(service);
+      service.loginedCount.should.equal(0);
 
-    mockService1.addLoginedUser(mockPlayer1.uid,mockPlayer1.info);
-    mockService1.addLoginedUser(mockPlayer2.uid,mockPlayer2.info);
-    mockService1.increaseConnectionCount();
-    mockService1.increaseConnectionCount();
+      var uid = 'uid1';
+      var info = {msg: 'some other message'};
+      service.addLoginedUser(uid, info);
 
-    var statisticsInfo = mockService1.getStatisticsInfo();
+      service.loginedCount.should.equal(1);
+      var record = service.logined[uid];
+      should.exist(record);
 
-    statisticsInfo.should.have.property('serverId','connector-server-1');
-    statisticsInfo.should.have.property('totalConnCount',2);
-    statisticsInfo.should.have.property('loginedCount',2);
-    statisticsInfo.should.have.property('loginedList').with.lengthOf(2);
+      var uid2 = 'uid2';
+      service.removeLoginedUser(uid2);
+      service.loginedCount.should.equal(1);
+      record = service.logined[uid];
+      should.exist(record);
+
+      service.removeLoginedUser(uid);
+      service.loginedCount.should.equal(0);
+      record = service.logined[uid];
+      should.not.exist(record);
+    });
+  });
+
+  describe('#decreaseConnectionCount', function() {
+    it('should decrease connection count only if uid is empty', function() {
+      var service = new ConnectionService(mockApp);
+      should.exist(service);
+
+      service.increaseConnectionCount();
+      service.connCount.should.equal(1);
+      service.decreaseConnectionCount();
+      service.connCount.should.equal(0);
+    });
+
+    it('should keep zero if connection count become zero', function() {
+      var service = new ConnectionService(mockApp);
+      should.exist(service);
+
+      service.connCount.should.equal(0);
+      service.decreaseConnectionCount();
+      service.connCount.should.equal(0);
+    });
+
+    it('should remove the logined info if uid is specified', function() {
+      var service = new ConnectionService(mockApp);
+      should.exist(service);
+
+      service.increaseConnectionCount();
+
+      var uid = 'uid1';
+      var info = {msg: 'some other message'};
+      service.addLoginedUser(uid, info);
+
+      service.connCount.should.equal(1);
+      service.logined[uid].should.eql(info);
+
+      service.decreaseConnectionCount(uid);
+
+      service.connCount.should.equal(0);
+      should.not.exist(service.logined[uid]);
+    });
+  });
+
+  it('should getStatisticsInfo',  function(done){
+    var service = new ConnectionService(mockApp);
+    var uid1 = 'uid1', uid2 = 'uid2';
+    var info1 = 'msg1', info2 = 'msg2';
+
+    service.increaseConnectionCount();
+    service.increaseConnectionCount();
+    service.increaseConnectionCount();
+
+    service.addLoginedUser(uid1, info1);
+    service.addLoginedUser(uid2, info2);
+
+
+    var sinfo = service.getStatisticsInfo();
+
+    sinfo.should.have.property('serverId', 'connector-server-1');
+    sinfo.should.have.property('totalConnCount', 3);
+    sinfo.should.have.property('loginedCount', 2);
+
+    var infos = sinfo.loginedList;
+    should.exist(infos);
+    infos.length.should.equal(2);
+    infos.should.include(info1);
+    infos.should.include(info2);
 
     done();
   });

@@ -3,6 +3,7 @@ var should = require('should');
 var pomelo = require('../../');
 var ChannelService = require('../../' + lib + '/common/service/channelService');
 
+var mockBase = process.cwd() + '/test';
 var channelName = 'test_channel';
 
 describe('channel test', function() {
@@ -30,7 +31,7 @@ describe('channel test', function() {
       channel.add(uid, null).should.be.false;
     });
 
-    it('should fail after the channel was destroied', function() {
+    it('should fail after the channel has been destroied', function() {
       var channelService = new ChannelService();
       var channel = channelService.createChannel(channelName);
       should.exist(channel);
@@ -96,6 +97,63 @@ describe('channel test', function() {
         item = uinfos[i];
         members.should.include(item.uid);
       }
+    });
+  });
+
+  describe('#pushMessage', function() {
+    it('should push message to the right frontend server by sid', function(done) {
+      var sid1 = 'sid1', sid2 = 'sid2';
+      var uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
+      var mockUids = [{sid: sid1, uid: uid1}, {sid: sid2, uid: uid2}, {sid: sid2, uid: uid3}];
+      var mockMsg = {key: 'some remote message'};
+      var uidMap = {};
+      for(var i in mockUids) {
+        uidMap[mockUids[i].uid] = mockUids[i];
+      }
+
+      var invokeCount = 0;
+
+      var mockRpcInvoke = function(sid, rmsg, cb) {
+        invokeCount++;
+        var args = rmsg.args;
+        var msg = JSON.parse(args[0]);
+        var uids = args[1];
+        mockMsg.should.eql(msg);
+
+        for(var j=0, l=uids.length; j<l; j++) {
+          var uid = uids[j];
+          var r2 = uidMap[uid];
+          r2.sid.should.equal(sid);
+        }
+
+        cb();
+      };
+
+      var app = pomelo.createApp({base: mockBase});
+      app.rpcInvoke = mockRpcInvoke;
+      var channelService = new ChannelService(app);
+
+      var channel = channelService.createChannel(channelName);
+      for(var i=0, l=mockUids.length; i<l; i++) {
+        channel.add(mockUids[i].uid, mockUids[i].sid);
+      }
+
+      channel.pushMessage(mockMsg, function() {
+        invokeCount.should.equal(2);
+        done();
+      });
+    });
+    it('should fail if channel has destroied', function() {
+      var channelService = new ChannelService();
+      var channel = channelService.createChannel(channelName);
+      should.exist(channel);
+
+      channel.destroy();
+
+      channel.pushMessage({}, function(err) {
+        should.exist(err);
+        err.message.should.equal('channel is not running now');
+      });
     });
   });
 });
