@@ -98,5 +98,17 @@ describe('channel manager test', function() {
         done();
       });
     });
+
+    it('should return an err if uids is empty', function(done) {
+      var mockMsg = {key: 'some remote message'};
+      var app = pomelo.createApp({base: mockBase});
+      var channelService = new ChannelService(app);
+
+      channelService.pushMessageByUids(mockMsg, null, function(err) {
+        should.exist(err);
+        err.message.should.equal('uids should not be empty');
+        done();
+      });
+    });
   });
 });
