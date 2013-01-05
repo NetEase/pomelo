@@ -12,3 +12,5 @@ node_modules/*
 *.sublime-project
 *.sublime-workspace
 lib/doc/
+lib-cov/
+coverage.html
