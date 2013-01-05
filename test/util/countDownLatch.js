@@ -1,5 +1,5 @@
 var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
-var countDownLatch = require('../../' + lib + '/util/countDownLatch');
+var CountDownLatch = require('../../' + lib + '/util/countDownLatch');
 var should = require('should');
 
 var cbCreator = (function() {
@@ -16,36 +16,51 @@ var cbCreator = (function() {
   };
 })();
 
-describe('countDownLatchTest', function() {
+describe('countdown latch test', function() {
   var countDownLatch1;
   var countDownLatch2;
 
-  before(function(done) {
-    countDownLatch1 = countDownLatch.createCountDownLatch(5, cbCreator.callback);
-    countDownLatch2 = countDownLatch.createCountDownLatch(2, cbCreator.callback);
-    done();
-  });
+  describe('#count down', function() {
+    it('should invoke the callback after the done method was invoked the specified times', function(done) {
+      var n = 3, doneCount = 0;
+      var cdl = CountDownLatch.createCountDownLatch(n, function() {
+        doneCount.should.equal(n);
+        done();
+      });
 
-  it('countdownLatch should be invoked callback 5 times', function(done) {
-    countDownLatch1.done();
-    should.exist(cbCreator.getCount());
-    cbCreator.getCount().should.equal(0);
-    countDownLatch1.done();
-    cbCreator.getCount().should.equal(0);
-    countDownLatch1.done();
-    cbCreator.getCount().should.equal(0);
-    countDownLatch1.done();
-    cbCreator.getCount().should.equal(0);
-    countDownLatch1.done();
-    cbCreator.getCount().should.equal(1);
-    cbCreator.count.should.equal(0);
+      for(var i=0; i<n; i++) {
+        doneCount++;
+        cdl.done();
+      }
+    });
 
-    countDownLatch2.done();
-    cbCreator.getCount().should.equal(1);
-    cbCreator.count.should.equal(0);
-    countDownLatch2.done();
-    cbCreator.getCount().should.equal(2);
-    cbCreator.count.should.equal(0);
-    done();
+    it('should throw exception if pass a negative or zero to the create method', function() {
+      (function() {
+        CountDownLatch.createCountDownLatch(-1, function() {});
+      }).should.throw();
+
+      (function() {
+        CountDownLatch.createCountDownLatch(0, function() {});
+      }).should.throw();
+    });
+
+    it('should throw exception if pass illegal cb to the create method', function() {
+      (function() {
+        CountDownLatch.createCountDownLatch(1, null);
+      }).should.throw();
+    });
+
+    it('should throw exception if try to invoke done metho of a latch that has fired cb', function() {
+      var n = 3;
+      var cdl = CountDownLatch.createCountDownLatch(n, function() {});
+
+      for(var i=0; i<n; i++) {
+        cdl.done();
+      }
+
+      (function() {
+        cdl.done();
+      }).should.throw();
+    });
   });
 });
