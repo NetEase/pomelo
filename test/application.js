@@ -110,6 +110,19 @@ describe('application test', function(){
       app.components.key2.should.eql(comp2);
       app.components.key3.should.eql(comp3());
     });
+
+    it('should ignore duplicated components', function() {
+      var key = 'key';
+      var comp1 = {content: 'some thing in comp1'};
+      var comp2 = {content: 'some thing in comp2'};
+
+      app.init({base: mockBase});
+      app.load(key, comp1);
+      app.load(key, comp2);
+
+      app.components[key].should.eql(comp1);
+      app.components[key].should.not.eql(comp2);
+    });
   });
 
   describe('#filter', function() {
@@ -243,6 +256,24 @@ describe('application test', function(){
 
       server1Count.should.equal(1);
       server2Count.should.equal(1);
+    });
+  });
+
+  describe('#route', function() {
+    it('should add route record and could fetch it later', function() {
+      var type1 = 'area', type2 = 'connector';
+      var func1 = function() {console.log('func1');};
+      var func2 = function() {console.log('func2');};
+
+      app.init({base: mockBase});
+
+      app.route(type1, func1);
+      app.route(type2, func2);
+
+      var routes = app.get('__routes__');
+      should.exist(routes);
+      func1.should.equal(routes[type1]);
+      func2.should.equal(routes[type2]);
     });
   });
 

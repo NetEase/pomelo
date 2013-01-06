@@ -23,6 +23,7 @@
   "devDependencies": {
     "should":">=0.0.1",
     "mocha":">=0.0.1",
-    "socket.io-client":">=0.0.1"
+    "socket.io-client":">=0.0.1",
+    "muk": ">=0.0.1"
   }
 }
