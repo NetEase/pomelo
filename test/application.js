@@ -112,6 +112,78 @@ describe('application test', function(){
     });
   });
 
+  describe('#filter', function() {
+    it('should add before filter and could fetch it later', function() {
+      var filters = [
+        function() {console.error('filter1');},
+        function() {}
+      ];
+
+      app.init({base: mockBase});
+
+      var i, l;
+      for(i=0, l=filters.length; i<l; i++) {
+        app.before(filters[i]);
+      }
+
+      var filters2 = app.get('__befores__');
+      should.exist(filters2);
+      filters2.length.should.equal(filters.length);
+      for(i=0, l=filters2.length; i<l; i++) {
+        filters2[i].should.equal(filters[i]);
+      }
+    });
+
+    it('should add after filter and could fetch it later', function() {
+      var filters = [
+        function() {console.error('filter1');},
+        function() {}
+      ];
+
+      app.init({base: mockBase});
+
+      var i, l;
+      for(i=0, l=filters.length; i<l; i++) {
+        app.after(filters[i]);
+      }
+
+      var filters2 = app.get('__afters__');
+      should.exist(filters2);
+      filters2.length.should.equal(filters.length);
+      for(i=0, l=filters2.length; i<l; i++) {
+        filters2[i].should.equal(filters[i]);
+      }
+    });
+
+    it('should add filter and could fetch it from before and after filter later', function() {
+      var filters = [
+        function() {console.error('filter1');},
+        function() {}
+      ];
+
+      app.init({base: mockBase});
+
+      var i, l;
+      for(i=0, l=filters.length; i<l; i++) {
+        app.filter(filters[i]);
+      }
+
+      var filters2 = app.get('__befores__');
+      should.exist(filters2);
+      filters2.length.should.equal(filters.length);
+      for(i=0, l=filters2.length; i<l; i++) {
+        filters2[i].should.equal(filters[i]);
+      }
+
+      var filters3 = app.get('__afters__');
+      should.exist(filters3);
+      filters3.length.should.equal(filters.length);
+      for(i=0, l=filters3.length; i<l; i++) {
+        filters2[i].should.equal(filters[i]);
+      }
+    });
+  });
+
   describe('#configure', function() {
     it('should execute the code block wtih the right environment', function() {
       var proCount = 0, devCount = 0;
