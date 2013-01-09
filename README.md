@@ -14,13 +14,21 @@ Pomelo is also suitable for realtime web application, its distributed architectu
 
 ## Features
 
-* High scalable multi-process architecture, supporting MMO based area partition and other partition strategies
-* Easy extention mechanisam, you can scale up your server types and server instances conveniently.
-* Easy request, response, broadcast and rpc mechnisam, almost zero configuration.
-* Focus on performance, a lot of stress testing and tune in performance and scalability
-* Providing a lot tools and libraries, which are quite useful for game development.
-* Providing full MMO demo code(html5 client), for good development reference.
-* Based on socket.io, which means it can support all the clients that compatible with socket.io.
+### Fast, scalable
+
+* Distributed(multi-process) architecture
+* Flexible server extention
+* Full performance optimization and test
+
+### Easy
+* Simple API, request, response, broadcast etc.
+* Lightweight, high develop efficiency based on node.js
+* Almost zero config, convention over configruation
+
+### Powerful
+* A lot of libraries and tools
+* Good reference, full docs, and open source MMO RPG demo 
+
 
 ## Why should you use pomelo?
 Fast, scalable, realtime game server development is not an easy job. A good container or framework can reduce the complexity.
