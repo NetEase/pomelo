@@ -1,4 +1,4 @@
-##pomelo - Pomelo is a fast, scalable game server framework for node.js
+##Pomelo -- a fast, scalable game server framework for node.js
 
 Pomelo is a fast, scalable game server framework for [node.js](http://nodejs.org).
 It provides the basic development framework and a lot of related components, including libraries and tools. 
