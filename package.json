@@ -15,7 +15,8 @@
     "pomelo-protocol":">=0.0.3",
     "pomelo-admin":"0.0.19",
     "pomelo-monitor":">=0.3.5",
-    "pomelo-logger": "0.0.2"
+    "pomelo-logger": "0.0.2",
+    "ws": ">=0.0.1"
   },
   "bin": {
     "pomelo":"./bin/pomelo"
