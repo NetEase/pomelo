@@ -53,6 +53,7 @@ You can also learn from our MMO demo:
 
 ## Contributors
 * NetEase, Inc.
+* Aaron Yoshitake
 * Eduard Gotwig
 
 
