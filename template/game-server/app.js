@@ -5,7 +5,6 @@ var pomelo = require('pomelo');
  */
 var app = pomelo.createApp();
 app.set('name', '$');
-app.defaultConfiguration();
 
 // start app
 app.start();
