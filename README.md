@@ -55,7 +55,7 @@ You can also learn from our MMO demo:
 * NetEase, Inc.
 * Aaron Yoshitake
 * Eduard Gotwig
-* Stoke Games
+* Eric Muyser
 
 
 ## License
