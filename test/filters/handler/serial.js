@@ -1,7 +1,9 @@
+var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var timeoutFilter = require('../../../lib/filters/handler/timeout');
-var FilterService = require('../../../lib/common/service/filterService');
+var serialFilter = require('../../../' + lib + '/filters/handler/serial');
+var FilterService = require('../../../' + lib + '/common/service/filterService');
 var util = require('util');
+
 var mockSession = {
   key : "123"
 };
@@ -10,26 +12,26 @@ var WAIT_TIME = 100;
 describe("#serialFilter",function(){
   it("should do before filter ok",function(done){
     var service = new FilterService();
-    var filter = timeoutFilter();
+    var filter = serialFilter();
     service.before(filter);
 
     service.beforeFilter(null,mockSession,function(){
       should.exist(mockSession);
 
-      should.exist(mockSession.__timeout__);
+      should.exist(mockSession.__serialTask__);
       done();
     });
   });
 
   it("should do after filter by doing before filter ok",function(done){
     var service = new FilterService();
-    var filter = timeoutFilter();
+    var filter = serialFilter();
     var _session ;
     service.before(filter);
 
     service.beforeFilter(null,mockSession,function(){
       should.exist(mockSession);
-      should.exist(mockSession.__timeout__);
+      should.exist(mockSession.__serialTask__);
       _session = mockSession;
     });
 
@@ -41,6 +43,5 @@ describe("#serialFilter",function(){
     });
 
     setTimeout(done,WAIT_TIME);
-    done();
   });
 });
