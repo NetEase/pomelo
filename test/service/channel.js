@@ -116,8 +116,9 @@ describe('channel test', function() {
       var mockRpcInvoke = function(sid, rmsg, cb) {
         invokeCount++;
         var args = rmsg.args;
-        var msg = JSON.parse(args[0]);
-        var uids = args[1];
+        var route = args[0];
+        var msg = args[1];
+        var uids = args[2];
         mockMsg.should.eql(msg);
 
         for(var j=0, l=uids.length; j<l; j++) {
