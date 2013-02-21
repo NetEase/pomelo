@@ -76,8 +76,9 @@ describe('channel manager test', function() {
       var mockRpcInvoke = function(sid, rmsg, cb) {
         invokeCount++;
         var args = rmsg.args;
-        var msg = JSON.parse(args[0]);
-        var uids = args[1];
+        var route = args[0];
+        var msg = args[1];
+        var uids = args[2];
         mockMsg.should.eql(msg);
 
         for(var j=0, l=uids.length; j<l; j++) {
@@ -154,9 +155,9 @@ describe('channel manager test', function() {
 
       var mockRpcInvoke = function(sid, rmsg, cb) {
         invokeCount++;
-        if(rmsg.args[1].indexOf(uid1) >= 0) {
+        if(rmsg.args[2].indexOf(uid1) >= 0) {
           cb(null, [uid1]);
-        } else if(rmsg.args[1].indexOf(uid3) >= 0) {
+        } else if(rmsg.args[2].indexOf(uid3) >= 0) {
           cb(null, [uid3]);
         } else {
           cb();
