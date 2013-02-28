@@ -1,3 +1,10 @@
+0.2.5 / 2013-2-28
+==================
+
+* dynamic add and remove servers (watchdog module)
+* fix filterService before filter bug
+* fix connector component bug
+
 0.2.4 / 2013-1-4
 ==================
 
