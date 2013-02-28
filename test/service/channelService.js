@@ -61,10 +61,15 @@ describe('channel manager test', function() {
   });
 
   describe('#pushMessageByUids', function() {
-    it('should push message to the right frontend server by sid', function(done) {
+    it('should push message to the right frontend server', function(done) {
       var sid1 = 'sid1', sid2 = 'sid2';
       var uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
-      var mockUids = [{sid: sid1, uid: uid1}, {sid: sid2, uid: uid2}, {sid: sid2, uid: uid3}];
+      var orgRoute = 'test.route.string';
+      var mockUids = [
+        {sid: sid1, uid: uid1},
+        {sid: sid2, uid: uid2},
+        {sid: sid2, uid: uid3}
+      ];
       var mockMsg = {key: 'some remote message'};
       var uidMap = {};
       for(var i in mockUids) {
@@ -94,7 +99,7 @@ describe('channel manager test', function() {
       app.rpcInvoke = mockRpcInvoke;
       var channelService = new ChannelService(app);
 
-      channelService.pushMessageByUids(mockMsg, mockUids, function() {
+      channelService.pushMessageByUids(orgRoute, mockMsg, mockUids, function() {
         invokeCount.should.equal(2);
         done();
       });
@@ -115,7 +120,11 @@ describe('channel manager test', function() {
     it('should return err if all message fail to push', function(done) {
       var sid1 = 'sid1', sid2 = 'sid2';
       var uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
-      var mockUids = [{sid: sid1, uid: uid1}, {sid: sid2, uid: uid2}, {sid: sid2, uid: uid3}];
+      var mockUids = [
+        {sid: sid1, uid: uid1},
+        {sid: sid2, uid: uid2},
+        {sid: sid2, uid: uid3}
+      ];
       var mockMsg = {key: 'some remote message'};
       var uidMap = {};
       for(var i in mockUids) {
@@ -175,6 +184,55 @@ describe('channel manager test', function() {
         fails.length.should.equal(2);
         fails.should.include(uid1);
         fails.should.include(uid3);
+        done();
+      });
+    });
+  });
+
+  describe('#broadcast', function() {
+    it('should push message to all specified frontend servers', function(done) {
+      var mockServers = [
+        {id: 'connector-1', serverType: 'connector', other: 'xxx1'},
+        {id: 'connector-2', serverType: 'connector', other: 'xxx2'},
+        {id: 'area-1', serverType: 'area', other: 'yyy1'},
+        {id: 'gate-1', serverType: 'gate', other: 'zzz1'},
+        {id: 'gate-2', serverType: 'gate', other: 'xxx1'},
+        {id: 'gate-3', serverType: 'gate', other: 'yyy1'}
+      ];
+      var connectorIds = ['connector-1', 'connector-2'];
+      var mockSType = 'connector';
+      var mockRoute = 'test.route.string';
+      var mockBinded = true;
+      var mockMsg = {key: 'some remote message'};
+
+      var invokeCount = 0;
+      var sids = [];
+
+      var mockRpcInvoke = function(sid, rmsg, cb) {
+        invokeCount++;
+        var args = rmsg.args;
+        var route = args[0];
+        var msg = args[1];
+        var binded = args[2];
+        mockMsg.should.eql(msg);
+        mockRoute.should.equal(route);
+        mockBinded.should.equal(binded);
+        sids.push(sid);
+        cb();
+      };
+
+      var app = pomelo.createApp({base: mockBase});
+      app.rpcInvoke = mockRpcInvoke;
+      app.addServers(mockServers);
+      var channelService = new ChannelService(app);
+
+      channelService.broadcast(mockSType, mockRoute, mockMsg,
+                               mockBinded, function() {
+        invokeCount.should.equal(2);
+        sids.length.should.equal(connectorIds.length);
+        for(var i=0, l=connectorIds.length; i<l; i++) {
+          sids.should.include(connectorIds[i]);
+        }
         done();
       });
     });
