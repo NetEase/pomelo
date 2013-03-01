@@ -1,0 +1,6 @@
+{
+  "name": "pomelo-client",
+  "description": "pomelo-client",
+  "local": [ "boot" ],
+  "paths": [ "local"]
+}

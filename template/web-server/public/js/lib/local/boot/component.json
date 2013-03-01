@@ -1,0 +1,12 @@
+{
+  "name": "boot",
+  "description": "Main app boot component",
+  "dependencies": {
+    "component/emitter":"master",
+    "NetEase/pomelo-protocol": "0.3.x",
+    "pomelonode/pomelo-protobuf": "*",
+    "pomelonode/pomelo-jsclient-socket": "master",
+    "component/jquery": "*"
+  },
+  "scripts": ["index.js"]
+}
