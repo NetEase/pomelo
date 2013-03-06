@@ -203,6 +203,7 @@ describe('channel manager test', function() {
       var mockSType = 'connector';
       var mockRoute = 'test.route.string';
       var mockBinded = true;
+      var opts = {binded: mockBinded};
       var mockMsg = {key: 'some remote message'};
 
       var invokeCount = 0;
@@ -227,7 +228,7 @@ describe('channel manager test', function() {
       var channelService = new ChannelService(app);
 
       channelService.broadcast(mockSType, mockRoute, mockMsg,
-                               mockBinded, function() {
+                               opts, function() {
         invokeCount.should.equal(2);
         sids.length.should.equal(connectorIds.length);
         for(var i=0, l=connectorIds.length; i<l; i++) {
