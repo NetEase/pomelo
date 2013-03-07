@@ -1,3 +1,11 @@
+0.3.1 / 2013-3-7
+==================
+
+* add hybridconnector to support socket and websocket
+* add route dictionary and protobuf for binary protocol
+* add localSession query interfaces
+* add broadcast method for ChannelService
+
 0.2.5 / 2013-2-28
 ==================
 
