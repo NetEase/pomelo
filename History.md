@@ -1,3 +1,7 @@
+0.3.2 / 2013-3-11
+* fix init template bug
+* modify command line help, version to --help, --version
+
 0.3.1 / 2013-3-7
 ==================
 
