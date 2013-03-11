@@ -1,0 +1,15 @@
+{
+  "name": "pomelo-jsclient-websocket",
+  "description": "pomelo-jsclient-websocket",
+  "keywords": [
+    "pomelo",
+    "jsclient",
+    "websocket"
+  ],
+  "version": "0.0.1",
+  "main": "lib/pomelo-client.js",
+  "scripts": [
+    "lib/pomelo-client.js"
+  ],
+  "repo": "https://github.com/pomelonode/pomelo-jsclient-websocket"
+}

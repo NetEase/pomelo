@@ -60,11 +60,11 @@ var args = process.argv.slice(2);
 (function() {
   var arg = args.shift();
   switch(arg) {
-  case 'help':
+  case '--help':
     legalArgNum(0);
     abort(usage);
     break;
-  case 'version':
+  case '--version':
     legalArgNum(0);
     abort(version);
     break;
