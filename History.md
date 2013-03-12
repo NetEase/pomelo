@@ -1,3 +1,6 @@
+0.3.3 / 2013-3-12
+* fix double string decode bug when not compressing route
+
 0.3.2 / 2013-3-11
 * fix init template bug
 * modify command line help, version to --help, --version
