@@ -1,3 +1,8 @@
+0.3.4 /2013-3-19
+* fix server not verifing useDict, useProtobuf bug
+* fix can not start pomelo from ide bug 
+* add host param in listen for hybridconnector, which is important for some load balance strategy
+
 0.3.3 / 2013-3-12
 * fix double string decode bug when not compressing route
 
