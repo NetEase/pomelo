@@ -1,3 +1,7 @@
+0.3.5/2013-3-25
+* fix log4js not compatible bug
+* fix function redefined in localSessionServie
+
 0.3.4 /2013-3-19
 * fix server not verifing useDict, useProtobuf bug
 * fix can not start pomelo from ide bug 
