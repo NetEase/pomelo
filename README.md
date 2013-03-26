@@ -1,7 +1,7 @@
 ##Pomelo -- a fast, scalable game server framework for node.js
 
 Pomelo is a fast, scalable game server framework for [node.js](http://nodejs.org).
-It provides the basic development framework and many related components, including libraries and tools. 
+It provides the basic development framework and many related components, including libraries and tools.
 Pomelo is also suitable for realtime web applications; its distributed architecture makes pomelo scale better than other realtime web frameworks.
 
  * Homepage: <http://pomelo.netease.com/>
@@ -9,7 +9,7 @@ Pomelo is also suitable for realtime web applications; its distributed architect
  * Documentation: <http://github.com/NetEase/pomelo>
  * Wiki: <https://github.com/NetEase/pomelo/wiki/>
  * Issues: <https://github.com/NetEase/pomelo/issues/>
- * Tags: game, nodejs 
+ * Tags: game, nodejs
 
 
 ## Features
@@ -82,3 +82,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
