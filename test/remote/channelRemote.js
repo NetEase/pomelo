@@ -3,6 +3,7 @@ var should = require('should');
 var pomelo = require('../../');
 var remote = require('../../' + lib + '/common/remote/frontend/channelRemote');
 var SessionService = require('../../' + lib + '/common/service/sessionService');
+var ChannelService = require('../../' + lib + '/common/service/channelService');
 
 var mockBase = process.cwd() + '/test';
 
@@ -66,6 +67,8 @@ describe('channel remote test', function() {
         invokeSids.push(sid);
       };
 
+      var channelService = new ChannelService();
+
       var session;
       for(var i=0, l=sids.length; i<l; i++) {
         session = sessionService.create(sids[i], frontendId);
@@ -78,8 +81,9 @@ describe('channel remote test', function() {
       app.components.__connector__ = {};
       app.components.__connector__.connector = {};
       app.set('sessionService', sessionService);
+      app.set('channelService', channelService);
       var channelRemote = remote(app);
-      channelRemote.broadcast(mockRoute, mockMsg, false, function() {
+      channelRemote.broadcast(mockRoute, mockMsg, null, function() {
         invokeCount.should.equal(sids.length);
         invokeSids.length.should.equal(uids.length);
         for(var i=0, l=sids.length; i<l; i++) {
@@ -105,6 +109,8 @@ describe('channel remote test', function() {
         invokeUids.push(uid);
       };
 
+      var channelService = new ChannelService();
+
       var session;
       for(var i=0, l=sids.length, j=0; i<l; i++) {
         session = sessionService.create(sids[i], frontendId);
@@ -118,8 +124,9 @@ describe('channel remote test', function() {
       app.components.__connector__ = {};
       app.components.__connector__.connector = {};
       app.set('sessionService', sessionService);
+      app.set('channelService', channelService);
       var channelRemote = remote(app);
-      channelRemote.broadcast(mockRoute, mockMsg, true, function() {
+      channelRemote.broadcast(mockRoute, mockMsg, {binded: true}, function() {
         invokeCount.should.equal(uids.length);
         invokeUids.length.should.equal(uids.length);
         for(var i=0, l=uids.length; i<l; i++) {
