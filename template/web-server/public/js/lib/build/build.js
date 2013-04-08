@@ -206,7 +206,25 @@ require.relative = function(parent) {
 
   return localRequire;
 };
+require.register("component-indexof/index.js", function(exports, require, module){
+
+var indexOf = [].indexOf;
+
+module.exports = function(arr, obj){
+  if (indexOf) return arr.indexOf(obj);
+  for (var i = 0; i < arr.length; ++i) {
+    if (arr[i] === obj) return i;
+  }
+  return -1;
+};
+});
 require.register("component-emitter/index.js", function(exports, require, module){
+
+/**
+ * Module dependencies.
+ */
+
+var index = require('indexof');
 
 /**
  * Expose `Emitter`.
@@ -311,7 +329,7 @@ Emitter.prototype.removeAllListeners = function(event, fn){
   }
 
   // remove specific handler
-  var i = callbacks.indexOf(fn._off || fn);
+  var i = index(callbacks, fn._off || fn);
   if (~i) callbacks.splice(i, 1);
   return this;
 };
@@ -793,7 +811,7 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
     }
 
     var result = [];
-    while(n !== 0){
+    do{
       var tmp = n % 128;
       var next = Math.floor(n/128);
 
@@ -802,7 +820,7 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
       }
       result.push(tmp);
       n = next;
-    }
+    }while(n !== 0);
 
     return result;
   };
@@ -988,7 +1006,6 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
 
     //Check msg
     if(!checkMsg(msg, protos)){
-      console.warn('check msg failed! msg : %j, proto : %j', msg, protos);
       return null;
     }
 
@@ -1028,7 +1045,7 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
             return false;
           }
         case 'optional' :
-          if(!!protos.__messages[proto.type]){
+          if(typeof(msg[name]) !== 'undefined'){
             if(!!protos.__messages[proto.type]){
               checkMsg(msg[name], protos.__messages[proto.type]);
             }
@@ -1269,7 +1286,6 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
 
         return str;
       default :
-        //console.log('object type : %j, protos: %j', type, protos);
         if(!!protos && !!protos.__messages[type]){
           var length = codec.decodeUInt32(getBytes());
           var msg = {};
@@ -1351,8 +1367,10 @@ require.register("pomelonode-pomelo-jsclient-websocket/lib/pomelo-client.js", fu
   //Map from request id to route
   var routeMap = {};
 
-  var heartbeatInterval = 5000;
-  var heartbeatTimeout = heartbeatInterval * 2;
+  var heartbeatInterval = 0;
+  var heartbeatTimeout = 0;
+  var nextHeartbeatTimeout = 0;
+  var gapThreshold = 100;   // heartbeat gap threashold
   var heartbeatId = null;
   var heartbeatTimeoutId = null;
 
@@ -1384,21 +1402,26 @@ require.register("pomelonode-pomelo-jsclient-websocket/lib/pomelo-client.js", fu
     initWebSocket(url, cb);
   };
 
-  var initWebSocket = function(url,cb){
+  var initWebSocket = function(url,cb) {
+    console.log('connect to ' + url);
     var onopen = function(event){
       var obj = Package.encode(Package.TYPE_HANDSHAKE, Protocol.strencode(JSON.stringify(handshakeBuffer)));
       send(obj);
     };
     var onmessage = function(event) {
       processPackage(Package.decode(event.data), cb);
+      // new package arrived, update the heartbeat timeout
+      if(heartbeatTimeout) {
+        nextHeartbeatTimeout = Date.now() + heartbeatTimeout;
+      }
     };
     var onerror = function(event) {
       pomelo.emit('io-error', event);
-      console.log('socket error: ', event);
+      console.error('socket error: ', event);
     };
     var onclose = function(event){
       pomelo.emit('close',event);
-      console.log('socket close: ', event);
+      console.error('socket close: ', event);
     };
     socket = new WebSocket(url);
     socket.binaryType = 'arraybuffer';
@@ -1481,6 +1504,11 @@ require.register("pomelonode-pomelo-jsclient-websocket/lib/pomelo-client.js", fu
   var handler = {};
 
   var heartbeat = function(data) {
+    if(!heartbeatInterval) {
+      // no heartbeat
+      return;
+    }
+
     var obj = Package.encode(Package.TYPE_HEARTBEAT);
     if(heartbeatTimeoutId) {
       clearTimeout(heartbeatTimeoutId);
@@ -1496,12 +1524,20 @@ require.register("pomelonode-pomelo-jsclient-websocket/lib/pomelo-client.js", fu
       heartbeatId = null;
       send(obj);
 
-      heartbeatTimeoutId = setTimeout(function() {
-        console.error('server heartbeat timeout');
-        pomelo.emit('heartbeat timeout');
-        pomelo.disconnect();
-      }, heartbeatTimeout);
+      nextHeartbeatTimeout = Date.now() + heartbeatTimeout;
+      heartbeatTimeoutId = setTimeout(heartbeatTimeoutCb, heartbeatTimeout);
     }, heartbeatInterval);
+  };
+
+  var heartbeatTimeoutCb = function() {
+    var gap = nextHeartbeatTimeout - Date.now();
+    if(gap > gapThreshold) {
+      heartbeatTimeoutId = setTimeout(heartbeatTimeoutCb, gap);
+    } else {
+      console.error('server heartbeat timeout');
+      pomelo.emit('heartbeat timeout');
+      pomelo.disconnect();
+    }
   };
 
   var handshake = function(data){
@@ -1528,7 +1564,6 @@ require.register("pomelonode-pomelo-jsclient-websocket/lib/pomelo-client.js", fu
 
   var onData = function(data){
     //probuff decode
-    //var msg = Protocol.strdecode(data);
     var msg = Message.decode(data);
 
     if(msg.id > 0){
@@ -1553,7 +1588,7 @@ require.register("pomelonode-pomelo-jsclient-websocket/lib/pomelo-client.js", fu
   handlers[Package.TYPE_DATA] = onData;
   handlers[Package.TYPE_KICK] = onKick;
 
-  var processPackage = function(msg){
+  var processPackage = function(msg) {
     handlers[msg.type](msg.body);
   };
 
@@ -1561,6 +1596,7 @@ require.register("pomelonode-pomelo-jsclient-websocket/lib/pomelo-client.js", fu
     if(!msg.id) {
       // server push message
       pomelo.emit(msg.route, msg.body);
+      return;
     }
 
     //if have a id then find the callback function with the request
@@ -1605,8 +1641,11 @@ require.register("pomelonode-pomelo-jsclient-websocket/lib/pomelo-client.js", fu
 
   var handshakeInit = function(data){
     if(data.sys && data.sys.heartbeat) {
-      heartbeatInterval = data.sys.heartbeat;       // heartbeat interval
-      heartbeatTimeout = heartbeatInterval * 2;     // max heartbeat timeout
+      heartbeatInterval = data.sys.heartbeat * 1000;   // heartbeat interval
+      heartbeatTimeout = heartbeatInterval * 2;        // max heartbeat timeout
+    } else {
+      heartbeatInterval = 0;
+      heartbeatTimeout = 0;
     }
 
     initData(data);
@@ -1657,18 +1696,17 @@ require.register("boot/index.js", function(exports, require, module){
 
   var protocol = require('pomelo-protocol');
   window.Protocol = protocol;
-  
+
   var protobuf = require('pomelo-protobuf');
   window.protobuf = protobuf;
-  
+
   var pomelo = require('pomelo-jsclient-websocket');
   window.pomelo = pomelo;
 
-  var jquery = require('jquery');
-  window.$ = jquery;
 });
 require.alias("boot/index.js", "pomelo-client/deps/boot/index.js");
 require.alias("component-emitter/index.js", "boot/deps/emitter/index.js");
+require.alias("component-indexof/index.js", "component-emitter/deps/indexof/index.js");
 
 require.alias("NetEase-pomelo-protocol/lib/protocol.js", "boot/deps/pomelo-protocol/lib/protocol.js");
 require.alias("NetEase-pomelo-protocol/lib/protocol.js", "boot/deps/pomelo-protocol/index.js");
