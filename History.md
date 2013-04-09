@@ -1,3 +1,8 @@
+0.3.6/2013-4-9
+* compatible with node 0.10 version
+* fix daemon forever bugs
+* add some unit test case
+
 0.3.5/2013-3-25
 * fix log4js not compatible bug
 * fix function redefined in localSessionServie
