@@ -214,10 +214,11 @@ describe('channel manager test', function() {
         var args = rmsg.args;
         var route = args[0];
         var msg = args[1];
-        var binded = args[2];
+        var opts = args[2];
         mockMsg.should.eql(msg);
         mockRoute.should.equal(route);
-        mockBinded.should.equal(binded);
+        should.exist(opts);
+        mockBinded.should.equal(opts.binded);
         sids.push(sid);
         cb();
       };
