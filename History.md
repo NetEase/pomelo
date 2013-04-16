@@ -1,3 +1,9 @@
+0.3.7/2013-4-16
+* update templates
+* sioconnector supports flashsocket
+* add `distinctHost` to hybridconnector
+* fix rpc `cacheMsg` configure bugs
+
 0.3.6/2013-4-9
 * compatible with node 0.10 version
 * fix daemon forever bugs
@@ -9,7 +15,7 @@
 
 0.3.4 /2013-3-19
 * fix server not verifing useDict, useProtobuf bug
-* fix can not start pomelo from ide bug 
+* fix can not start pomelo from ide bug
 * add host param in listen for hybridconnector, which is important for some load balance strategy
 
 0.3.3 / 2013-3-12
