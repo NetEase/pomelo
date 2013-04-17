@@ -7,10 +7,12 @@ var ChannelService = require('../../' + lib + '/common/service/channelService');
 
 var mockBase = process.cwd() + '/test';
 
+var WAIT_TIME = 200;
+
 describe('channel remote test', function() {
   describe('#pushMessage', function() {
     it('should push message the the specified clients', function(done) {
-      var sids = [1, 2, 3, 4, 5];
+      var sids = [1, 2, 3, 4, 5, 6];
       var uids = [11, 12, 13];
       var frontendId = 'frontend-server-id';
       var mockRoute = 'mock-route-string';
@@ -29,7 +31,7 @@ describe('channel remote test', function() {
       for(var i=0, l=sids.length, j=0; i<l; i++) {
         session = sessionService.create(sids[i], frontendId);
         if(i % 2) {
-          session.bind(uids[j]);
+          sessionService.bind(session.id, uids[j]);
           j++;
         }
       }
@@ -37,6 +39,18 @@ describe('channel remote test', function() {
       var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {};
       app.components.__connector__.connector = {};
+      app.components.__scheduler__ = {schedule: function(route, msg, recvs, opts, cb) {
+        mockMsg.should.eql(msg);
+        invokeCount += recvs.length;
+        var sess;
+        for(var i=0; i<recvs.length; i++) {
+          sess = sessionService.get(recvs[i]);
+          if(sess) {
+            invokeUids.push(sess.uid);
+          }
+        }
+        cb();
+      }};
       app.set('sessionService', sessionService);
       var channelRemote = remote(app);
       channelRemote.pushMessage(mockRoute, mockMsg, uids, function() {
@@ -58,15 +72,8 @@ describe('channel remote test', function() {
       var mockRoute = 'mock-route-string';
       var mockMsg = {msg: 'some test msg'};
       var invokeCount = 0;
-      var invokeSids = [];
 
       var sessionService = new SessionService();
-      sessionService.sendMessage = function(sid, msg) {
-        mockMsg.should.eql(msg);
-        invokeCount++;
-        invokeSids.push(sid);
-      };
-
       var channelService = new ChannelService();
 
       var session;
@@ -80,15 +87,18 @@ describe('channel remote test', function() {
       var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {};
       app.components.__connector__.connector = {};
+      app.components.__scheduler__ = {schedule: function(route, msg, recvs, opts, cb) {
+        invokeCount++;
+        mockMsg.should.eql(msg);
+        should.exist(opts);
+        should.equal(opts.isBroadcast, true);
+        cb();
+      }};
       app.set('sessionService', sessionService);
       app.set('channelService', channelService);
       var channelRemote = remote(app);
       channelRemote.broadcast(mockRoute, mockMsg, null, function() {
-        invokeCount.should.equal(sids.length);
-        invokeSids.length.should.equal(uids.length);
-        for(var i=0, l=sids.length; i<l; i++) {
-          invokeSids.should.include(sids[i]);
-        }
+        invokeCount.should.equal(1);
         done();
       });
     });
@@ -103,12 +113,6 @@ describe('channel remote test', function() {
       var invokeUids = [];
 
       var sessionService = new SessionService();
-      sessionService.sendMessageByUid = function(uid, msg) {
-        mockMsg.should.eql(msg);
-        invokeCount++;
-        invokeUids.push(uid);
-      };
-
       var channelService = new ChannelService();
 
       var session;
@@ -123,15 +127,19 @@ describe('channel remote test', function() {
       var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {};
       app.components.__connector__.connector = {};
+      app.components.__scheduler__ = {schedule: function(route, msg, recvs, opts, cb) {
+        invokeCount++;
+        mockMsg.should.eql(msg);
+        should.exist(opts);
+        true.should.equal(opts.isBroadcast);
+        true.should.equal(opts.binded);
+        cb();
+      }};
       app.set('sessionService', sessionService);
       app.set('channelService', channelService);
       var channelRemote = remote(app);
       channelRemote.broadcast(mockRoute, mockMsg, {binded: true}, function() {
-        invokeCount.should.equal(uids.length);
-        invokeUids.length.should.equal(uids.length);
-        for(var i=0, l=uids.length; i<l; i++) {
-          invokeUids.should.include(uids[i]);
-        }
+        invokeCount.should.equal(1);
         done();
       });
     });

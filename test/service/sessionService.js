@@ -24,7 +24,10 @@ describe('session service test', function() {
 
       service.bind(sid, uid, function(err) {
         should.not.exist(err);
-        session.should.eql(service.getByUid(uid));
+        var sessions = service.getByUid(uid);
+        should.exist(sessions);
+        sessions.length.should.equal(1);
+        session.should.eql(sessions[0]);
         eventCount.should.equal(1);
         done();
       });
@@ -221,7 +224,10 @@ describe('mock local session test', function() {
 
       msession.bind(uid, function(err) {
         should.not.exist(err);
-        session.should.eql(service.getByUid(uid));
+        var sessions = service.getByUid(uid);
+        should.exist(sessions);
+        sessions.length.should.equal(1);
+        session.should.eql(sessions[0]);
         eventCount.should.equal(1);
         done();
       });
