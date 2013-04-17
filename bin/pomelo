@@ -42,16 +42,15 @@ var NOWORKSPACE_ERROR = 'Please go to your game-server directory to start the ap
 var COMMAND_ERROR = 'The command is error format.';
 var INSTALLFOREVER_ERROR = 'Please install forever use command: npm install forever -g.';
 var CONNECT_ERROR = 'Fail to connect to admin console server.';
-var NODEINFO_ERROR = 'Fail to request node information.';
-var STOPSERVER_ERROR = 'Fail to stop server.';
 var FILEREAD_ERROR = 'Fail to read the file, please check if the application is started legally.';
 var RUNDAEMON_INFO = 'Application run in daemon.\nStop the application use the command:pomelo stop.';
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
+var ADDSUCCESS_INFO = 'Successfully add server.';
 
 /**
  * Usage documentation.
  */
-var usage = '' + '\n' + '  Usage: pomelo [action] [option]\n' + '\n' + '  Options:\n' + '  init  [path]        create new application\n' + '  start [option]      start the application\n' + '  list                list server information\n' + '  stop                stop the application\n' + '  kill  [--force]     kill the application\n' + '  version             output framework version\n' + '  help                output help information\n' + '  [option]            developement(default)/production --daemon';
+var usage = '' + '\n' + '  Usage: pomelo [action] [option]\n' + '\n' + '  Options:\n' + '  init  [path]        create new application\n' + '  start [option]      start the application\n' + '  list                list server information\n' + '  stop                stop the application\n' + '  kill  [--force]     kill the application\n' + '  --version             output framework version\n' + '  --help                output help information\n' + '  [option]            developement(default)/production --daemon';
 
 /**
  * Parse command arguments.
@@ -61,11 +60,11 @@ var args = process.argv.slice(2);
 (function() {
   var arg = args.shift();
   switch(arg) {
-  case 'help':
+  case '--help':
     legalArgNum(0);
     abort(usage);
     break;
-  case 'version':
+  case '--version':
     legalArgNum(0);
     abort(version);
     break;
@@ -80,8 +79,10 @@ var args = process.argv.slice(2);
   case 'start':
     start();
     break;
+  case 'add':
+    add();
+    break;
   case 'stop':
-    legalArgNum(0);
     terminal('stop');
     break;
   case 'kill':
@@ -201,10 +202,7 @@ function list() {
           client.request(co.moduleId, {
             signal: 'list'
           }, function(err, data) {
-            if(err) {
-              console.error(err);
-              abort(NODEINFO_ERROR);
-            }
+            if(err) console.error(err);            
             var msg = data.msg;
             var rows = [];
             rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
@@ -222,13 +220,38 @@ function list() {
 };
 
 /**
+ * Add server to application.
+ * 
+ */
+function add() {
+  if(IF_WORKSPACE) {
+    fs.readFile(TMP_FILE, function(err, data) {
+      if(err) abort(FILEREAD_ERROR);
+      var client = new adminClient();
+      MASTER_JSON = require(MASTER_CONFIG);
+      var config = MASTER_JSON[data.toString().split(':')[0]];
+      var id = 'pomelo_add_' + Date.now();  
+      client.connect(id, config.host, config.port, function(err) {
+        if(err) abort(CONNECT_ERROR);
+        else {
+          client.request(co.moduleId, {signal: 'add', args:args},function(err, msg) {
+            if(err) console.error(err);
+            else console.info(ADDSUCCESS_INFO);
+            process.exit(0);
+          });
+        }
+      });
+    });
+  }
+};
+
+/**
  * Terminal application.
  *
  * @param {String} signal stop/kill
  *
  */
 function terminal(signal) {
-  if(args.length > 1 || (args.length === 1 && args[0] !== '--force')) abort(COMMAND_ERROR);
   if(IF_WORKSPACE) {
     console.info(CLOSEAPP_INFO);
     if(args[0] === '--force') {
@@ -241,7 +264,7 @@ function terminal(signal) {
       MASTER_JSON = require(MASTER_CONFIG);
       var config = MASTER_JSON[data.toString().split(':')[0]];
       var id = 'pomelo_terminal_' + Date.now();
-      if(data.toString().split(':')[1] == 'true') {
+      if(data.toString().split(':')[1] === 'true' && args.length === 0) {
         setTimeout(function() {
           if(IF_HOME) exec('forever stop app.js');
           else exec('cd game-server && forever stop app.js');
@@ -251,12 +274,11 @@ function terminal(signal) {
       client.connect(id, config.host, config.port, function(err) {
         if(err) abort(CONNECT_ERROR);
         client.request(co.moduleId, {
-          signal: signal
+          signal: signal, ids: args
         }, function(err, msg) {
-          if(err) abort(STOPSERVER_ERROR);
-          if(msg.status === "error") abort(STOPSERVER_ERROR);
+          if(err) console.error(err);
           setTimeout(function() {
-            fs.unlinkSync(TMP_FILE);
+            if(msg.status === 'all') fs.unlinkSync(TMP_FILE);
             process.exit(0);
           }, TIME_KILL_WAIT);
         });
