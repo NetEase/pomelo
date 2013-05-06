@@ -1,27 +1,45 @@
-0.3.7/2013-4-16
+0.3.8/2013-5-6
+==================
+
+* fix tcpsocket close event bug
+* fix error handler bug
+
+0.3.7 / 2013-4-16
+==================
+
 * update templates
 * sioconnector supports flashsocket
 * add `distinctHost` to hybridconnector
 * fix rpc `cacheMsg` configure bugs
 
-0.3.6/2013-4-9
+0.3.6 / 2013-4-9
+==================
+
 * compatible with node 0.10 version
 * fix daemon forever bugs
 * add some unit test case
 
-0.3.5/2013-3-25
+0.3.5 / 2013-3-25
+==================
+
 * fix log4js not compatible bug
 * fix function redefined in localSessionServie
 
-0.3.4 /2013-3-19
+0.3.4 / 2013-3-19
+==================
+
 * fix server not verifing useDict, useProtobuf bug
 * fix can not start pomelo from ide bug
 * add host param in listen for hybridconnector, which is important for some load balance strategy
 
 0.3.3 / 2013-3-12
+==================
+
 * fix double string decode bug when not compressing route
 
 0.3.2 / 2013-3-11
+==================
+
 * fix init template bug
 * modify command line help, version to --help, --version
 
