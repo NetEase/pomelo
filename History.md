@@ -1,3 +1,12 @@
+0.3.10 / 2013-5-20
+==================
+
+* `pomelo-protocol` upgrades to 0.3.4
+* fix session bind bug in backend server
+* replace `childprocess.exec` with `spawn` in `starter.js`
+
+* fix configure bug
+
 0.3.9 / 2013-5-8
 ==================
 
