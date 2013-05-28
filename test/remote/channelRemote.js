@@ -37,20 +37,26 @@ describe('channel remote test', function() {
       }
 
       var app = pomelo.createApp({base: mockBase});
-      app.components.__connector__ = {};
-      app.components.__connector__.connector = {};
-      app.components.__scheduler__ = {schedule: function(route, msg, recvs, opts, cb) {
-        mockMsg.should.eql(msg);
-        invokeCount += recvs.length;
-        var sess;
-        for(var i=0; i<recvs.length; i++) {
-          sess = sessionService.get(recvs[i]);
-          if(sess) {
-            invokeUids.push(sess.uid);
-          }
+      app.components.__connector__ = {
+        send: function(reqId, route, msg, recvs, opts, cb) {
+          app.components.__scheduler__.schedule(reqId, route, msg, recvs, opts, cb);
         }
-        cb();
-      }};
+      };
+      app.components.__connector__.connector = {};
+      app.components.__scheduler__ = {
+        schedule: function(reqId, route, msg, recvs, opts, cb) {
+          mockMsg.should.eql(msg);
+          invokeCount += recvs.length;
+          var sess;
+          for(var i=0; i<recvs.length; i++) {
+            sess = sessionService.get(recvs[i]);
+            if(sess) {
+              invokeUids.push(sess.uid);
+            }
+          }
+          cb();
+        }
+      };
       app.set('sessionService', sessionService);
       var channelRemote = remote(app);
       channelRemote.pushMessage(mockRoute, mockMsg, uids, function() {
@@ -85,15 +91,21 @@ describe('channel remote test', function() {
       }
 
       var app = pomelo.createApp({base: mockBase});
-      app.components.__connector__ = {};
+      app.components.__connector__ = {
+        send: function(reqId, route, msg, recvs, opts, cb) {
+          app.components.__scheduler__.schedule(reqId, route, msg, recvs, opts, cb);
+        }
+      };
       app.components.__connector__.connector = {};
-      app.components.__scheduler__ = {schedule: function(route, msg, recvs, opts, cb) {
-        invokeCount++;
-        mockMsg.should.eql(msg);
-        should.exist(opts);
-        should.equal(opts.isBroadcast, true);
-        cb();
-      }};
+      app.components.__scheduler__ = {
+        schedule: function(reqId, route, msg, recvs, opts, cb) {
+          invokeCount++;
+          mockMsg.should.eql(msg);
+          should.exist(opts);
+          should.equal(opts.isBroadcast, true);
+          cb();
+        }
+      };
       app.set('sessionService', sessionService);
       app.set('channelService', channelService);
       var channelRemote = remote(app);
@@ -125,16 +137,22 @@ describe('channel remote test', function() {
       }
 
       var app = pomelo.createApp({base: mockBase});
-      app.components.__connector__ = {};
+      app.components.__connector__ = {
+        send: function(reqId, route, msg, recvs, opts, cb) {
+          app.components.__scheduler__.schedule(reqId, route, msg, recvs, opts, cb);
+        }
+      };
       app.components.__connector__.connector = {};
-      app.components.__scheduler__ = {schedule: function(route, msg, recvs, opts, cb) {
-        invokeCount++;
-        mockMsg.should.eql(msg);
-        should.exist(opts);
-        true.should.equal(opts.isBroadcast);
-        true.should.equal(opts.binded);
-        cb();
-      }};
+      app.components.__scheduler__ = {
+        schedule: function(reqId, route, msg, recvs, opts, cb) {
+          invokeCount++;
+          mockMsg.should.eql(msg);
+          should.exist(opts);
+          true.should.equal(opts.isBroadcast);
+          true.should.equal(opts.binded);
+          cb();
+        }
+      };
       app.set('sessionService', sessionService);
       app.set('channelService', channelService);
       var channelRemote = remote(app);
