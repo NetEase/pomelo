@@ -1,3 +1,9 @@
+0.4.1 / 2013-5-28
+==================
+
+* refactor protocol layers
+* support multiple sessions of the same user
+
 0.3.10 / 2013-5-20
 ==================
 
