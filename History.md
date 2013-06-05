@@ -1,3 +1,11 @@
+0.4.2 / 2013-6-5
+==================
+
+* fix duplicated bind session bug
+* add `disconnectOnTimeout` option for hybridconnector
+* fix empty group push bug in channel
+* fix protobuf encode bug
+
 0.4.1 / 2013-5-28
 ==================
 
