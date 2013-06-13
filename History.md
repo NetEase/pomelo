@@ -1,3 +1,9 @@
+0.4.3 / 2013-6-13
+==================
+
+* fix client heartbeat timeout bug
+* fix command line debug argument bug
+
 0.4.2 / 2013-6-5
 ==================
 
