@@ -4,6 +4,10 @@ var pomelo = require('../../');
 var GlobalChannelService = require('../../' + lib + '/common/service/globalChannelService');
 var async = require('async');
 
+/**
+ * NOTICE: configure your redis listening on 127.0.0.1:6379 first
+ */
+
 describe('global channel service test', function() {
 
   it('should add member to a channel, get it and remove it latter', function(done) {
