@@ -1,8 +1,9 @@
-0.4.4 / 2013-7-3
+0.4.5 / 2013-7-3
 =================
 
 * fix load scheduler component bug
 * fix hybridconnector check useDict bug
+* add keywords, issues, contributor infos to npm
 
 0.4.3 / 2013-6-13
 ==================
