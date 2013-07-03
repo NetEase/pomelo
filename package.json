@@ -2,6 +2,19 @@
   "name": "pomelo",
   "version": "0.4.3",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NetEase/pomelo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NetEase/pomelo/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/NetEase/pomelo#license"
+    }
+  ],
   "dependencies": {
     "socket.io": "0.9.13",
     "pomelo-sync": "0.0.3",
