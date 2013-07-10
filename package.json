@@ -19,7 +19,8 @@
     "ws": "0.4.25",
     "toobusy": "0.2.2",
     "pomelo-protobuf": "0.3.5",
-    "node-zookeeper-client": ">=0.1.1"
+    "node-zookeeper-client": ">=0.1.1",
+    "redis": "0.8.4"
   },
   "bin": {
     "pomelo": "./bin/pomelo"
