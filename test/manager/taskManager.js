@@ -1,6 +1,6 @@
 var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var taskManager = require('../../' + lib + '/common/service/taskManager');
+var taskManager = require('../../' + lib + '/common/manager/taskManager');
 
 // set timeout for test
 taskManager.timeout = 100;

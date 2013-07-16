@@ -1,6 +1,6 @@
 {
   "name": "pomelo",
-  "version": "0.4.6",
+  "version": "0.5.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -57,12 +57,14 @@
     "pomelo-loader": "0.0.4",
     "pomelo-rpc": "0.1.5",
     "pomelo-protocol": "0.1.1",
-    "pomelo-admin": "0.1.5",
+    "pomelo-admin": "0.1.6",
     "pomelo-monitor": "0.3.5",
     "pomelo-logger": "0.0.3",
     "ws": "0.4.25",
     "toobusy": "0.2.2",
-    "pomelo-protobuf": "0.3.5"
+    "pomelo-protobuf": "0.3.5",
+    "node-zookeeper-client": "0.1.1",
+    "redis": "0.8.4"
   },
   "bin": {
     "pomelo": "./bin/pomelo"
