@@ -1,7 +1,15 @@
+0.5.0 / 2013-7-16
+=================
+
+* high availability for master(with zookeeper)
+* support global channel(with redis)
+* server bind to CPU
+* server auto-restart when server does not work(configurable) 
+
 0.4.6 / 2013-7-15
 =================
 
-* fix pomelo-protocol bug, will lose message when requestId is 128 multiple
+* fix pomelo-protocol bug, which will lose message when requestId is 128 multiple
 
 0.4.5 / 2013-7-3
 =================
