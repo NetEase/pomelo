@@ -15,29 +15,6 @@
       "url": "https://github.com/NetEase/pomelo#license"
     }
   ],
-  "author": "NetEase Inc. <xieccy@gmail.com>",
-  "contributors": [
-    {
-      "name": "Charlie Crane",
-      "email": "xieccy@gmail.com"
-    },
-    {
-      "name": "Chang chang",
-      "email": "changchang005@gmail.com"
-    },
-    {
-      "name": "piohai",
-      "email": "piaohai@gmail.com"
-    },
-    {
-      "name": "peng yang",
-      "email": "pengyang633@126.com"
-    },
-    {
-      "name": "xiao gang",
-      "email": "zhhang0925@gamil.com"
-    }
-  ],
  "keywords": [
     "pomelo",
     "framework",

@@ -5,6 +5,7 @@
 * support global channel(with redis)
 * server bind to CPU
 * server auto-restart when server does not work(configurable) 
+* add beforeStop hook for application
 
 0.4.6 / 2013-7-15
 =================
