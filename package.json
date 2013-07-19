@@ -1,6 +1,6 @@
 {
   "name": "pomelo",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": false,
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "mkdirp": "0.3.3",
     "pomelo-loader": "0.0.4",
     "pomelo-rpc": "0.1.6",
-    "pomelo-protocol": "0.1.0",
+    "pomelo-protocol": "0.1.1",
     "pomelo-admin": "0.1.6",
     "pomelo-monitor": "0.3.5",
     "pomelo-logger": "0.0.3",
