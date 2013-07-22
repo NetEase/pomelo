@@ -1,3 +1,9 @@
+0.5.1 / 2013-7-19
+=================
+* update pomelo-protobuf version
+* receive servers console data event in production environment
+
+
 0.5.0 / 2013-7-16
 =================
 
