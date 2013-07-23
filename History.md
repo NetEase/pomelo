@@ -1,3 +1,9 @@
+0.5.2 / 2013-7-23
+=================
+* fix hybridsocket send message bug
+* fix globalChannel nextTick bug
+* add some test cases
+
 0.5.1 / 2013-7-19
 =================
 * update pomelo-protobuf version
