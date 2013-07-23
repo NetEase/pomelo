@@ -29,7 +29,6 @@ var TIME_KILL_WAIT = 5 * 1000;
 var CUR_DIR = process.cwd();
 var IF_HOME = utils.endsWith(CUR_DIR, 'game-server');
 var IF_WORKSPACE = fs.existsSync('./app.js') || fs.existsSync('game-server/app.js');
-var FOREVER = fs.existsSync(path.dirname(process.execPath) + '/forever');
 var HOME = IF_HOME ? CUR_DIR : path.join(CUR_DIR, 'game-server');
 var LOGS_DIR = IF_HOME ? path.join(CUR_DIR, 'logs') : path.join(CUR_DIR, 'game-server/logs');
 var MASTER_CONFIG = path.resolve(HOME, 'config/master.json');
@@ -174,11 +173,15 @@ function start() {
         console.log(data.toString());
       });
     } else {
-      if(FOREVER) {
         var cmd = 'forever start app.js env=' + mode;
-        ls = exec(cmd);
-        console.info(RUNDAEMON_INFO);
-      } else abort(INSTALLFOREVER_ERROR);
+        ls = exec(cmd, function(err, stdout, stderr) {
+          if(!!err) {
+            abort(INSTALLFOREVER_ERROR);
+          }
+          else {
+            console.info(RUNDAEMON_INFO);
+          }
+        });
     }
     fs.writeFile(TMP_FILE, mode + ':' + DAEMON);
   } else abort(NOWORKSPACE_ERROR);
