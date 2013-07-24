@@ -3,6 +3,7 @@ var should = require('should');
 var pomelo = require('../../');
 var GlobalChannelService = require('../../' + lib + '/common/service/globalChannelService');
 var async = require('async');
+var MockChannelManager = require('../manager/mockChannelManager');
 
 /**
  * NOTICE: configure your redis listening on 127.0.0.1:6379 first
@@ -14,7 +15,8 @@ describe('global channel service test', function() {
     var app = {};
     var opts = {
       port: 6379,
-      host: '127.0.0.1'
+      host: '127.0.0.1',
+      channelManager: MockChannelManager
     };
     var service = new GlobalChannelService(app, opts);
 
@@ -76,7 +78,8 @@ describe('global channel service test', function() {
     };
     var opts = {
       port: 6379,
-      host: '127.0.0.1'
+      host: '127.0.0.1',
+      channelManager: MockChannelManager
     };
     var service = new GlobalChannelService(app, opts);
 

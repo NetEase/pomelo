@@ -6,6 +6,8 @@ var SessionService = require('../../' + lib + '/common/service/sessionService');
 var ChannelService = require('../../' + lib + '/common/service/channelService');
 var GlobalChannelService = require('../../' + lib + '/common/service/globalChannelService');
 var countDownLatch = require('../../' + lib + '/util/countDownLatch');
+var MockChannelManager = require('../manager/mockChannelManager');
+
 
 var mockBase = process.cwd() + '/test';
 
@@ -183,7 +185,8 @@ describe('channel remote test', function() {
 
       var opts = {
         port: 6379,
-        host: '127.0.0.1'
+        host: '127.0.0.1',
+        channelManager: MockChannelManager
       };
       var mockRoute = 'mock-route-string';
       var mockMsg = {msg: 'some test msg'};
