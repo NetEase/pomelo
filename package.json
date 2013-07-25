@@ -24,7 +24,7 @@
     "server"
   ],
   "dependencies": {
-    "socket.io": "0.9.13",
+    "socket.io": "0.9.16",
     "pomelo-sync": "0.0.3",
     "async": "0.2.5",
     "seq-queue": "0.0.5",
