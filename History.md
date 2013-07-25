@@ -1,3 +1,9 @@
+0.5.3 / 2013-7-25
+=================
+* update check forever method
+* update socket.io transport
+* remove redis dependency for test cases
+
 0.5.2 / 2013-7-23
 =================
 * fix hybridsocket send message bug
