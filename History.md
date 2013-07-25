@@ -1,3 +1,7 @@
+0.5.4 / 2013-7-25
+=================
+* update pomelo-protocol version
+
 0.5.3 / 2013-7-25
 =================
 * update check forever method
