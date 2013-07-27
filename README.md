@@ -54,6 +54,7 @@ You can also learn from our MMO demo:
 ## Contributors
 * NetEase, Inc.
 * Aaron Yoshitake
+* D-Deo
 * Eduard Gotwig
 * Eric Muyser
 

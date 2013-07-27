@@ -3,7 +3,7 @@ var app = require('../' + lib + '/application');
 var pomelo = require('../');
 var should = require('should');
 
-var WAIT_TIME = 100;
+var WAIT_TIME = 300;
 var mockBase = process.cwd() + '/test';
 
 describe('application test', function(){
@@ -58,16 +58,19 @@ describe('application test', function(){
 
       var mockComponent = {
         start: function(cb) {
+          console.log('start invoked');
           startCount++;
           cb();
         },
 
         afterStart: function(cb) {
+          console.log('afterStart invoked');
           afterStartCount++;
           cb();
         },
 
         stop: function(force, cb) {
+          console.log('stop invoked');
           stopCount++;
           cb();
         }

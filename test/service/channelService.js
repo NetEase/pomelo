@@ -135,7 +135,7 @@ describe('channel manager test', function() {
 
       var mockRpcInvoke = function(sid, rmsg, cb) {
         invokeCount++;
-        cb(new Error('something wrong'));
+        cb(new Error('[TestMockError] mock rpc error'));
       };
 
       var app = pomelo.createApp({base: mockBase});

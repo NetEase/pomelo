@@ -1,3 +1,56 @@
+0.5.3 / 2013-7-25
+=================
+* update check forever method
+* update socket.io transport
+* remove redis dependency for test cases
+
+0.5.2 / 2013-7-23
+=================
+* fix hybridsocket send message bug
+* fix globalChannel nextTick bug
+* add some test cases
+
+0.5.1 / 2013-7-19
+=================
+* update pomelo-protobuf version
+* receive servers console data event in production environment
+
+
+0.5.0 / 2013-7-16
+=================
+
+* high availability for master(with zookeeper)
+* support global channel(with redis)
+* server bind to CPU
+* server auto-restart when server does not work(configurable) 
+* add beforeStop hook for application
+
+0.4.6 / 2013-7-15
+=================
+
+* fix pomelo-protocol bug, which will lose message when requestId is 128 multiple
+
+0.4.5 / 2013-7-3
+=================
+
+* fix load scheduler component bug
+* fix hybridconnector check useDict bug
+* add keywords, issues, contributor infos to npm
+
+0.4.3 / 2013-6-13
+==================
+
+* fix client heartbeat timeout bug
+* fix command line debug argument bug
+
+0.4.2 / 2013-6-5
+==================
+
+* fix duplicated bind session bug
+* add `disconnectOnTimeout` option for hybridconnector
+* fix empty group push bug in channel
+* fix protobuf encode bug
+
 0.4.1 / 2013-5-28
 ==================
 
