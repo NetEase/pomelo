@@ -29,16 +29,72 @@ describe('session service test', function() {
         sessions.length.should.equal(1);
         session.should.eql(sessions[0]);
         eventCount.should.equal(1);
+        service.bind(sid, uid, function(err) {
+          should.not.exist(err);
+          done();
+        });
+      });
+    });
+    it('should fail if already binded uid', function(done) {
+      var service = new SessionService();
+      var sid = 1, fid = 'frontend-server-1', socket = {};
+      var uid = 'py', test_uid = 'test';
+
+      var session = service.create(sid, fid, socket);
+
+      service.bind(sid, uid, null);
+
+      service.bind(sid, test_uid, function(err) {
+        should.exist(err);
         done();
       });
     });
-
     it('should fail if try to bind a session not exist', function(done) {
       var service = new SessionService();
       var sid = 1, uid = 'changchang';
 
       service.bind(sid, uid, function(err) {
         should.exist(err);
+        done();
+      });
+    });
+  });
+
+  describe('#unbind', function() {
+    it('should fail unbind session if session not exist', function(done) {
+      var service = new SessionService();
+      var sid = 1;
+      var uid = 'py';
+  
+      service.unbind(sid, uid, function(err) {
+        should.exist(err);
+        done();
+      });      
+    });
+    it('should fail unbind session if session not binded', function(done) {
+      var service = new SessionService();
+      var sid = 1, fid = 'frontend-server-1', socket = {};
+      var uid = 'py';
+
+      var session = service.create(sid, fid, socket);
+
+      service.unbind(sid, uid, function(err) {
+        should.exist(err);
+        done();
+      });
+    });
+    it('should fail to get session after session unbinded', function(done) {
+      var service = new SessionService();
+      var sid = 1, fid = 'frontend-server-1', socket = {};
+      var uid = 'py';
+
+      var session = service.create(sid, fid, socket);
+      service.bind(sid, uid, null);
+
+      service.unbind(sid, uid, function(err) {
+        should.not.exist(err);
+        var sessions = service.getByUid(uid);
+        should.not.exist(sessions);
         done();
       });
     });
@@ -202,6 +258,40 @@ describe('session service test', function() {
       });
     });
   });
+
+  describe('#forEachSession', function() {
+    it('should iterate all created sessions', function(done) {
+      var service = new SessionService();
+      var sid = 1, fid = 'frontend-server-1', socket = {};
+      var eventCount = 0;
+
+      var outter_session = service.create(sid, fid, socket);
+
+      service.forEachSession(function(session) {
+        should.exist(session);
+        outter_session.id.should.eql(session.id);
+        done();
+      });
+    });
+  });
+
+  describe('#forEachBindedSession', function() {
+    it('should iterate all binded sessions', function(done) {
+      var service = new SessionService();
+      var sid = 1, fid = 'frontend-server-1', socket = {};
+      var uid = 'py';
+
+      var outter_session = service.create(sid, fid, socket);
+      service.bind(sid, uid, null);
+
+      service.forEachBindedSession(function(session) {
+        should.exist(session);
+        outter_session.id.should.eql(session.id);
+        outter_session.uid.should.eql(session.uid);
+        done();
+      });
+    });
+  });
 });
 
 describe('mock local session test', function() {
@@ -229,6 +319,25 @@ describe('mock local session test', function() {
         sessions.length.should.equal(1);
         session.should.eql(sessions[0]);
         eventCount.should.equal(1);
+        done();
+      });
+    });
+  });
+
+  describe('#unbind', function() {
+    it('should fail to get session after session unbinded', function(done) {
+      var service = new SessionService();
+      var sid = 1, fid = 'frontend-server-1', socket = {};
+      var uid = 'py';
+
+      var session = service.create(sid, fid, socket);
+      var msession = session.mockLocalSession();
+
+      msession.bind(uid, null);
+      msession.unbind(uid, function(err) {
+        should.not.exist(err);
+        var sessions = service.getByUid(uid);
+        should.not.exist(sessions);
         done();
       });
     });
@@ -288,6 +397,21 @@ describe('mock local session test', function() {
         value2.should.eql(session.get(key2));
         done();
       });
+    });
+  });
+  
+  describe('#export', function() {
+    it('should equal mockLocalSession after export', function(done) {
+      var service = new SessionService();
+      var sid = 1, fid = 'frontend-server-1', socket = {};
+      var uid = 'py';
+
+      var session = service.create(sid, fid, socket);
+      var msession = session.mockLocalSession();
+      var esession = msession.export();
+      esession.id.should.eql(msession.id);
+      esession.frontendId.should.eql(msession.frontendId);
+      done();
     });
   });
 });
