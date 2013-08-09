@@ -1,3 +1,9 @@
+0.5.5 / 2013-8-9
+=================
+* fix sioconnector bug
+* fix localSession bug
+* merge pull request
+
 0.5.4 / 2013-7-25
 =================
 * update pomelo-protocol version
