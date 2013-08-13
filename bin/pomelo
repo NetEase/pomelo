@@ -100,19 +100,22 @@ var args = process.argv.slice(2);
  * @param {String} path
  */
 function init(path) {
-  emptyDirectory(path, function(empty) {
-    if(empty) {
-      createApplicationAt(path);
-    } else {
-      confirm('destination is not empty, continue? (y/n)', function(ok) {
-        if(ok) {
+  confirm('does your browser support WebSocket? (y/n)', function(isWs) {
+    emptyDirectory(path, function(empty) {
+      if(empty) {
+        process.stdin.destroy();
+        createApplicationAt(path, isWs);
+      } else {
+        confirm('destination is not empty, continue? (y/n)', function(force) {
           process.stdin.destroy();
-          createApplicationAt(path);
-        } else {
-          abort('aborting');
-        }
-      });
-    }
+          if(force) {
+            createApplicationAt(path, isWs);
+          } else {
+            abort('aborting');
+          }
+        });
+      };
+    });
   });
 };
 
@@ -121,22 +124,64 @@ function init(path) {
  *
  * @param {String} ph
  */
-function createApplicationAt(ph) {
+function createApplicationAt(ph, isWs) {
   var name = path.basename(path.resolve(CUR_DIR, ph));
   copy(path.join(__dirname, '../template/'), ph);
   mkdir(path.join(ph, 'game-server/logs'));
   mkdir(path.join(ph, 'shared'));
   setTimeout(function() {
-    var repalcefile = [path.resolve(ph, 'game-server/app.js'), path.resolve(ph, 'game-server/package.json'), path.resolve(ph, 'web-server/package.json')];
-    for(var i = 0; i < repalcefile.length; i++) {
-      var str = fs.readFileSync(repalcefile[i]).toString();
-      fs.writeFileSync(repalcefile[i], str.replace('$', name));
+    if (isWs) {
+
+      // use websocket
+      var unlinkFiles = ['game-server/app.js.sio', 
+                         'web-server/public/index.html.sio',
+                         'web-server/public/js/lib/pomeloclient.js',
+                         'web-server/public/js/lib/socket.io.js'];
+      for(var i = 0; i < unlinkFiles.length; ++i) {
+        fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+      }
+    } else {
+      // use socket.io
+      fs.unlinkSync(path.resolve(ph, 'game-server/app.js'));
+      fs.renameSync(path.resolve(ph, 'game-server/app.js.sio'),
+                    path.resolve(ph, 'game-server/app.js'));
+
+      fs.unlinkSync(path.resolve(ph, 'web-server/public/index.html'));
+      fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'),
+                    path.resolve(ph, 'web-server/public/index.html'));
+
+      // rmdir -r
+      var rmdir = function(dir) {
+        var list = fs.readdirSync(dir);
+        for(var i = 0; i < list.length; i++) {
+          var filename = path.join(dir, list[i]);
+          var stat = fs.statSync(filename);
+          if(filename == "." || filename == "..") {
+          } else if(stat.isDirectory()) {
+            rmdir(filename);
+          } else {
+            fs.unlinkSync(filename);
+          }
+        }
+        fs.rmdirSync(dir);
+      };
+
+      rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+      rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+      fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
+    }
+    var repalceFiles = ['game-server/app.js',
+                        'game-server/package.json',
+                        'web-server/package.json'];
+    for(var i = 0; i < repalceFiles.length; i++) {
+      var str = fs.readFileSync(path.resolve(ph, repalceFiles[i])).toString();
+      fs.writeFileSync(path.resolve(ph, repalceFiles[i]), str.replace('$', name));
     }
     var f = path.resolve(ph, 'game-server/package.json');
     var content = fs.readFileSync(f).toString();
     fs.writeFileSync(f, content.replace('#', version));
   }, TIME_INIT);
-};
+}
 
 /**
  * Start application.
