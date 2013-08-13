@@ -1,6 +1,6 @@
 {
   "name": "pomelo",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -24,18 +24,18 @@
     "server"
   ],
   "dependencies": {
-    "socket.io": "0.9.13",
+    "socket.io": "0.9.16",
     "async": "0.2.5",
     "seq-queue": "0.0.5",
     "crc": "0.2.0",
     "cliff": "0.1.8",
     "mkdirp": "0.3.3",
     "pomelo-loader": "0.0.4",
-    "pomelo-rpc": "0.1.6",
-    "pomelo-protocol": "0.1.0",
-    "pomelo-admin": "0.1.6",
+    "pomelo-rpc": "0.2.0",
+    "pomelo-protocol": "0.1.2",
+    "pomelo-admin": "0.2.0",
     "pomelo-monitor": "0.3.5",
-    "pomelo-logger": "0.0.3",
+    "pomelo-logger": "0.1.0",
     "ws": "0.4.25",
     "toobusy": "0.2.2",
     "pomelo-protobuf": "0.3.5",
