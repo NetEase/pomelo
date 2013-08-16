@@ -1,7 +1,54 @@
 {
   "name": "pomelo",
-  "version": "0.4.0",
+  "version": "0.4.8",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NetEase/pomelo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NetEase/pomelo/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/NetEase/pomelo#license"
+    }
+  ],
+  "author": {
+    "name": "NetEase Inc.",
+    "email": "xieccy@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Charlie Crane",
+      "email": "xieccy@gmail.com"
+    },
+    {
+      "name": "Chang chang",
+      "email": "changchang005@gmail.com"
+    },
+    {
+      "name": "piohai",
+      "email": "piaohai@gmail.com"
+    },
+    {
+      "name": "peng yang",
+      "email": "pengyang633@126.com"
+    },
+    {
+      "name": "xiao gang",
+      "email": "zhhang0925@gamil.com"
+    }
+  ],
+  "keywords": [
+    "pomelo",
+    "framework",
+    "game",
+    "web",
+    "realtime",
+    "server"
+  ],
   "dependencies": {
     "socket.io": "0.9.13",
     "pomelo-sync": "0.0.3",
@@ -11,11 +58,11 @@
     "cliff": "0.1.8",
     "mkdirp": "0.3.3",
     "pomelo-loader": "0.0.4",
-    "pomelo-rpc": "0.1.4",
-    "pomelo-protocol": "0.1.0",
-    "pomelo-admin": "0.1.5",
+    "pomelo-rpc": "0.1.5",
+    "pomelo-protocol": "0.1.1",
+    "pomelo-admin": "0.1.6",
     "pomelo-monitor": "0.3.5",
-    "pomelo-logger": "0.0.3",
+    "pomelo-logger": "0.1.1",
     "ws": "0.4.25",
     "toobusy": "0.2.2",
     "pomelo-protobuf": "0.3.5"

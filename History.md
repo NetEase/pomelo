@@ -1,3 +1,43 @@
+0.4.8 / 2013-8-16
+=================
+
+* update pomelo-logger
+* update pomelo log
+
+0.4.7 / 2013-7-24
+=================
+
+* receive servers console data event in production environment
+* update pomelo-protocol version
+* adjust socket.io transports sequence
+
+0.4.5 / 2013-7-3
+=================
+
+* fix load scheduler component bug
+* fix hybridconnector check useDict bug
+* add keywords, issues, contributor infos to npm
+
+0.4.3 / 2013-6-13
+==================
+
+* fix client heartbeat timeout bug
+* fix command line debug argument bug
+
+0.4.2 / 2013-6-5
+==================
+
+* fix duplicated bind session bug
+* add `disconnectOnTimeout` option for hybridconnector
+* fix empty group push bug in channel
+* fix protobuf encode bug
+
+0.4.1 / 2013-5-28
+==================
+
+* refactor protocol layers
+* support multiple sessions of the same user
+
 0.3.10 / 2013-5-20
 ==================
 
