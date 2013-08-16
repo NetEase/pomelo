@@ -2,6 +2,7 @@
   "name": "pomelo",
   "version": "0.5.5",
   "private": false,
+  "homepage": "https://github.com/NetEase/pomelo",
   "repository": {
     "type": "git",
     "url": "https://github.com/NetEase/pomelo.git"
