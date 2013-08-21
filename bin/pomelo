@@ -243,7 +243,7 @@ function list() {
       if(err) abort(FILEREAD_ERROR);
       var u = username || 'admin';
       var p = password || 'admin';
-      var client = new adminClient({username: u, password: p});
+      var client = new adminClient({username: u, password: p, md5: true});
       MASTER_JSON = require(MASTER_CONFIG);
       var config = MASTER_JSON[data.toString().split(':')[0]];
       var id = 'pomelo_list_' + Date.now();
@@ -295,7 +295,7 @@ function terminal(signal) {
       if(err) abort(FILEREAD_ERROR);
       var u = username || 'admin';
       var p = password || 'admin';
-      var client = new adminClient({username: u, password: p});
+      var client = new adminClient({username: u, password: p, md5: true});
       MASTER_JSON = require(MASTER_CONFIG);
       var config = MASTER_JSON[data.toString().split(':')[0]];
       var id = 'pomelo_terminal_' + Date.now();
