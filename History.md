@@ -1,3 +1,15 @@
+0.6.0 / 2013-8-26
+=================
+* interactive command line tool
+* plugin mechanism
+* data signature
+* handle invalid connections
+* rpc debug log
+* overload protection
+* servers reconnect mechanism
+* daemon start mode
+* packages upgrade
+
 0.5.5 / 2013-8-9
 =================
 * fix sioconnector bug
