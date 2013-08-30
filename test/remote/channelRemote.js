@@ -63,7 +63,7 @@ describe('channel remote test', function() {
       };
       app.set('sessionService', sessionService);
       var channelRemote = remote(app);
-      channelRemote.pushMessage(mockRoute, mockMsg, uids, function() {
+      channelRemote.pushMessage(mockRoute, mockMsg, uids, {isPush: true}, function() {
         invokeCount.should.equal(uids.length);
         invokeUids.length.should.equal(uids.length);
         for(var i=0, l=uids.length; i<l; i++) {

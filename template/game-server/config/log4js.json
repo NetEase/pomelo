@@ -1,57 +1,78 @@
 {
   "appenders": [
     {
-      "type": "file",
-      "filename": "./logs/node-log-${opts:serverId}.log",
-      "fileSize": 1048576,
-      "layout": {
-        "type": "basic"
-      },
-      "backups": 5
-    },
-    {
       "type": "console"
     },
     {
       "type": "file",
       "filename": "./logs/con-log-${opts:serverId}.log",
       "pattern": "connector",
-      "fileSize": 1048576,
+      "maxLogSize": 1048576,
       "layout": {
         "type": "basic"
       },
       "backups": 5,
-      "category":"con-log"
+      "category": "con-log"
     },
     {
       "type": "file",
       "filename": "./logs/rpc-log-${opts:serverId}.log",
-      "fileSize": 1048576,
+      "maxLogSize": 1048576,
       "layout": {
         "type": "basic"
       },
       "backups": 5,
-      "category":"rpc-log"
+      "category": "rpc-log"
     },
     {
       "type": "file",
       "filename": "./logs/forward-log-${opts:serverId}.log",
-      "fileSize": 1048576,
+      "maxLogSize": 1048576,
       "layout": {
         "type": "basic"
       },
       "backups": 5,
-      "category":"forward-log"
+      "category": "forward-log"
+    },
+    {
+     "type": "file",
+     "filename": "./logs/rpc-debug-${opts:serverId}.log",
+     "maxLogSize": 1048576,
+     "layout": {
+      "type": "basic"
+     },
+     "backups": 5,
+     "category": "rpc-debug"
     },
     {
       "type": "file",
       "filename": "./logs/crash.log",
-      "fileSize": 1048576,
+      "maxLogSize": 1048576,
       "layout": {
         "type": "basic"
       },
       "backups": 5,
       "category":"crash-log"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/admin.log",
+      "maxLogSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"admin-log"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/pomelo.log",
+      "maxLogSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"pomelo"
     }
   ],
 
@@ -60,5 +81,7 @@
     "forward-log": "ERROR"
   },
 
-  "replaceConsole": true
+  "replaceConsole": true,
+
+  "lineDebug": false
 }

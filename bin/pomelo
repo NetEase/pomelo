@@ -38,18 +38,21 @@ var KILL_CMD_WIN = 'taskkill /im node.exe /f';
 var MASTER_JSON;
 
 var NOWORKSPACE_ERROR = 'Please go to your game-server directory to start the application.';
-var COMMAND_ERROR = 'The command is error format.';
-var INSTALLFOREVER_ERROR = 'Please install forever use command: npm install forever -g.';
+var INSTALLFOREVER_ERROR = 'Please install forever use command first: npm install forever -g.';
 var CONNECT_ERROR = 'Fail to connect to admin console server.';
 var FILEREAD_ERROR = 'Fail to read the file, please check if the application is started legally.';
 var RUNDAEMON_INFO = 'Application run in daemon.\nStop the application use the command:pomelo stop.';
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
-var ADDSUCCESS_INFO = 'Successfully add server.';
+var ADD_SERVER_WARNING = 'The add action here is' + ' deprecated'.red + ', please use' + ' pomelo-cli'.green +' instead.';
 
-/**
- * Usage documentation.
- */
-var usage = '' + '\n' + '  Usage: pomelo [action] [option]\n' + '\n' + '  Options:\n' + '  init  [path]        create new application\n' + '  start [option]      start the application\n' + '  list                list server information\n' + '  stop                stop the application\n' + '  kill  [--force]     kill the application\n' + '  --version             output framework version\n' + '  --help                output help information\n' + '  [option]            developement(default)/production --daemon';
+var INIT_PROJ_NOTICE = "The default admin user is: \n"+ "  username".green + ": admin\n  " + "password".green+ ": admin\nYou can configure admin users by editing adminUser.json later.\n ";
+
+var USAGE = '' + '\n' + '  Usage: pomelo [action] [options]\n' + '\n' + '  Options:\n' + '  init  [path]        create new application\n' + '  start [development|production] [--daemon]      start the application\n' + '  list  [-u <username -p <password>] list server information\n' + '  stop  [-u <username> -p <password>] stop the application\n' + '  kill  [-u <username> -p <password>] [--force]     kill the application\n' + '  --version            output framework version\n' + '  --help                output this help information\n';
+
+var COMMAND_ERROR = 'Illegal command format.'.red + USAGE;
+
+var username;
+var password;
 
 /**
  * Parse command arguments.
@@ -61,15 +64,14 @@ var args = process.argv.slice(2);
   switch(arg) {
   case '--help':
     legalArgNum(0);
-    abort(usage);
+    abort(USAGE);
     break;
   case '--version':
     legalArgNum(0);
     abort(version);
     break;
   case 'list':
-    legalArgNum(0);
-    list();
+    parseUserAndPassword(list);
     break;
   case 'init':
     legalArgNum(1);
@@ -82,10 +84,10 @@ var args = process.argv.slice(2);
     add();
     break;
   case 'stop':
-    terminal('stop');
+    parseUserAndPassword(terminal.bind(null, 'stop'));
     break;
   case 'kill':
-    terminal('kill');
+    parseUserAndPassword(terminal.bind(null, 'kill'));
     break;
   default:
     abort(COMMAND_ERROR);
@@ -99,19 +101,23 @@ var args = process.argv.slice(2);
  * @param {String} path
  */
 function init(path) {
-  emptyDirectory(path, function(empty) {
-    if(empty) {
-      createApplicationAt(path);
-    } else {
-      confirm('destination is not empty, continue? (y/n)', function(ok) {
-        if(ok) {
+  console.log(INIT_PROJ_NOTICE);
+  confirm('Does your browser support WebSocket? (y/n)', function(isWs) {
+    emptyDirectory(path, function(empty) {
+      if(empty) {
+        process.stdin.destroy();
+        createApplicationAt(path, isWs);
+      } else {
+        confirm('Destination is not empty, continue? (y/n)', function(force) {
           process.stdin.destroy();
-          createApplicationAt(path);
-        } else {
-          abort('aborting');
-        }
-      });
-    }
+          if(force) {
+            createApplicationAt(path, isWs);
+          } else {
+            abort('Fail to init a project'.red);
+          }
+        });
+      };
+    });
   });
 };
 
@@ -120,22 +126,64 @@ function init(path) {
  *
  * @param {String} ph
  */
-function createApplicationAt(ph) {
+function createApplicationAt(ph, isWs) {
   var name = path.basename(path.resolve(CUR_DIR, ph));
   copy(path.join(__dirname, '../template/'), ph);
   mkdir(path.join(ph, 'game-server/logs'));
   mkdir(path.join(ph, 'shared'));
   setTimeout(function() {
-    var repalcefile = [path.resolve(ph, 'game-server/app.js'), path.resolve(ph, 'game-server/package.json'), path.resolve(ph, 'web-server/package.json')];
-    for(var i = 0; i < repalcefile.length; i++) {
-      var str = fs.readFileSync(repalcefile[i]).toString();
-      fs.writeFileSync(repalcefile[i], str.replace('$', name));
+    if (isWs) {
+
+      // use websocket
+      var unlinkFiles = ['game-server/app.js.sio', 
+                         'web-server/public/index.html.sio',
+                         'web-server/public/js/lib/pomeloclient.js',
+                         'web-server/public/js/lib/socket.io.js'];
+      for(var i = 0; i < unlinkFiles.length; ++i) {
+        fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+      }
+    } else {
+      // use socket.io
+      fs.unlinkSync(path.resolve(ph, 'game-server/app.js'));
+      fs.renameSync(path.resolve(ph, 'game-server/app.js.sio'),
+                    path.resolve(ph, 'game-server/app.js'));
+
+      fs.unlinkSync(path.resolve(ph, 'web-server/public/index.html'));
+      fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'),
+                    path.resolve(ph, 'web-server/public/index.html'));
+
+      // rmdir -r
+      var rmdir = function(dir) {
+        var list = fs.readdirSync(dir);
+        for(var i = 0; i < list.length; i++) {
+          var filename = path.join(dir, list[i]);
+          var stat = fs.statSync(filename);
+          if(filename == "." || filename == "..") {
+          } else if(stat.isDirectory()) {
+            rmdir(filename);
+          } else {
+            fs.unlinkSync(filename);
+          }
+        }
+        fs.rmdirSync(dir);
+      };
+
+      rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+      rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+      fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
+    }
+    var repalceFiles = ['game-server/app.js',
+                        'game-server/package.json',
+                        'web-server/package.json'];
+    for(var i = 0; i < repalceFiles.length; i++) {
+      var str = fs.readFileSync(path.resolve(ph, repalceFiles[i])).toString();
+      fs.writeFileSync(path.resolve(ph, repalceFiles[i]), str.replace('$', name));
     }
     var f = path.resolve(ph, 'game-server/package.json');
     var content = fs.readFileSync(f).toString();
     fs.writeFileSync(f, content.replace('#', version));
   }, TIME_INIT);
-};
+}
 
 /**
  * Start application.
@@ -192,15 +240,18 @@ function start() {
  *
  */
 function list() {
+  legalArgNum(0);
   if(IF_WORKSPACE) {
     fs.readFile(TMP_FILE, function(err, data) {
       if(err) abort(FILEREAD_ERROR);
-      var client = new adminClient();
+      var u = username || 'admin';
+      var p = password || 'admin';
+      var client = new adminClient({username: u, password: p, md5: true});
       MASTER_JSON = require(MASTER_CONFIG);
       var config = MASTER_JSON[data.toString().split(':')[0]];
       var id = 'pomelo_list_' + Date.now();
       client.connect(id, config.host, config.port, function(err) {
-        if(err) abort(CONNECT_ERROR);
+        if(err) abort(CONNECT_ERROR + err.red);
         else {
           client.request(co.moduleId, {
             signal: 'list'
@@ -224,28 +275,10 @@ function list() {
 
 /**
  * Add server to application.
- * 
+ * @deprecated use pomelo-cli instead
  */
 function add() {
-  if(IF_WORKSPACE) {
-    fs.readFile(TMP_FILE, function(err, data) {
-      if(err) abort(FILEREAD_ERROR);
-      var client = new adminClient();
-      MASTER_JSON = require(MASTER_CONFIG);
-      var config = MASTER_JSON[data.toString().split(':')[0]];
-      var id = 'pomelo_add_' + Date.now();  
-      client.connect(id, config.host, config.port, function(err) {
-        if(err) abort(CONNECT_ERROR);
-        else {
-          client.request(co.moduleId, {signal: 'add', args:args},function(err, msg) {
-            if(err) console.error(err);
-            else console.info(ADDSUCCESS_INFO);
-            process.exit(0);
-          });
-        }
-      });
-    });
-  }
+  console.log(ADD_SERVER_WARNING); 
 };
 
 /**
@@ -263,7 +296,9 @@ function terminal(signal) {
     }
     fs.readFile(TMP_FILE, function(err, data) {
       if(err) abort(FILEREAD_ERROR);
-      var client = new adminClient();
+      var u = username || 'admin';
+      var p = password || 'admin';
+      var client = new adminClient({username: u, password: p, md5: true});
       MASTER_JSON = require(MASTER_CONFIG);
       var config = MASTER_JSON[data.toString().split(':')[0]];
       var id = 'pomelo_terminal_' + Date.now();
@@ -275,13 +310,13 @@ function terminal(signal) {
         }, TIME_KILL_WAIT);
       }
       client.connect(id, config.host, config.port, function(err) {
-        if(err) abort(CONNECT_ERROR);
+        if(err) abort(CONNECT_ERROR + err.red);
         client.request(co.moduleId, {
           signal: signal, ids: args
         }, function(err, msg) {
           if(err) console.error(err);
           setTimeout(function() {
-            if(msg.status === 'all') fs.unlinkSync(TMP_FILE);
+            if(msg && msg.status === 'all') fs.unlinkSync(TMP_FILE);
             process.exit(0);
           }, TIME_KILL_WAIT);
         });
@@ -387,3 +422,36 @@ function mkdir(path, fn) {
     fn && fn();
   });
 }
+
+/**
+ * Parse args to get username and password for command list, stop, kill 
+ *
+ * @param {Function} cb 
+ */
+function parseUserAndPassword(cb) {
+  var res = [];
+  for (var i = 0; i < args.length; ++i) {
+    switch (args[i]) {
+      case '-u' :
+        if (i < args.length - 1) {
+          username = args[++i];
+        } else {
+          abort(COMMAND_ERROR);
+        }
+        break;
+      case '-p' :
+        if (i < args.length -1 ) {
+          password = args[++i];
+        } else {
+          abort(COMMAND_ERROR);
+        }
+        break;
+      default:
+        res.push(args[i]);
+    }
+  }
+  args = res;
+  cb.apply(null);
+}
+
+

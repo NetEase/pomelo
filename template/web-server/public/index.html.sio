@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Pomelo
+    </title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta http-equiv="content-style-type" content="text/css" />
+    <meta http-equiv="content-scripte-type" content="text/javascript" />
+    <meta name="author" content="netease" />
+    <meta name="version" content="1.0" />
+    <meta name="keywords" content="pomelo" />
+    <link type="text/css" rel="stylesheet" href="css/base.css" />
+    <script src="js/lib/socket.io.js">
+    </script>
+    <script src="js/lib/pomeloclient.js">
+    </script>
+    <script type="text/javascript">
+      var pomelo = window.pomelo;
+      var host = "127.0.0.1";
+      var port = "3010";
+      function show() {
+        pomelo.init({
+          host: host,
+          port: port,
+          log: true
+        }, function() {
+        pomelo.request("connector.entryHandler.entry", "hello pomelo", function(data) {
+            alert(data.msg);
+          });
+        });
+      }
+    </script>
+ 
+  </head>
+  <body>
+    <div class="g-doc">
+      <div class="g-banner" style="border:none">
+        <div class="logo">
+          <div class="img"></div>
+        </div>
+      </div>
+      <div class="g-background">
+        <div class="g-content">
+          Welcome to Pomelo
+        </div>
+      </div>
+      <div class="g-link">
+        Home:
+        <a href="https://github.com/NetEase/pomelo">https://github.com/NetEase/pomelo</a>
+      </div>
+      <div class="g-button">
+        <input id="test" type="button" value="Test Game Server" onclick="show()"/>
+      </div>
+    </div>
+  </body>
+</html>

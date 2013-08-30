@@ -1,7 +1,8 @@
 {
   "name": "pomelo",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "private": false,
+  "homepage": "https://github.com/NetEase/pomelo",
   "repository": {
     "type": "git",
     "url": "https://github.com/NetEase/pomelo.git"
@@ -24,24 +25,22 @@
     "server"
   ],
   "dependencies": {
-    "socket.io": "0.9.13",
-    "pomelo-sync": "0.0.3",
+    "socket.io": "0.9.16",
     "async": "0.2.5",
     "seq-queue": "0.0.5",
     "crc": "0.2.0",
     "cliff": "0.1.8",
     "mkdirp": "0.3.3",
     "pomelo-loader": "0.0.4",
-    "pomelo-rpc": "0.1.6",
-    "pomelo-protocol": "0.1.1",
-    "pomelo-admin": "0.1.6",
+    "pomelo-rpc": "0.2.0",
+    "pomelo-protocol": "0.1.2",
+    "pomelo-admin": "0.2.0",
     "pomelo-monitor": "0.3.5",
-    "pomelo-logger": "0.0.3",
+    "pomelo-logger": "0.1.1",
     "ws": "0.4.25",
     "toobusy": "0.2.2",
-    "pomelo-protobuf": "0.3.5",
-    "node-zookeeper-client": "0.1.1",
-    "redis": "0.8.4"
+    "pomelo-protobuf": "0.4.0",
+    "node-bignumber": "1.2.1"
   },
   "bin": {
     "pomelo": "./bin/pomelo"

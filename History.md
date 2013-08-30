@@ -1,3 +1,25 @@
+0.6.0 / 2013-8-26
+=================
+* interactive command line tool
+* plugin mechanism
+* data signature
+* handle invalid connections
+* rpc debug log
+* overload protection
+* servers reconnect mechanism
+* daemon start mode
+* packages upgrade
+
+0.5.5 / 2013-8-9
+=================
+* fix sioconnector bug
+* fix localSession bug
+* merge pull request
+
+0.5.4 / 2013-7-25
+=================
+* update pomelo-protocol version
+
 0.5.3 / 2013-7-25
 =================
 * update check forever method
