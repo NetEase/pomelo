@@ -1,3 +1,8 @@
+0.6.1 / 2013-9-2
+=================
+* update pomelo-admin & pomelo-rpc to 0.2.1
+* add rpcDebug module in master
+
 0.6.0 / 2013-8-26
 =================
 * interactive command line tool
