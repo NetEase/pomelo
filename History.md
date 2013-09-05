@@ -1,3 +1,9 @@
+0.6.2 / 2013-9-5
+=================
+* upgrade pomelo-admin to 0.2.2
+* update test cases
+* fix socket.on end bug
+
 0.6.1 / 2013-9-2
 =================
 * update pomelo-admin & pomelo-rpc to 0.2.1
