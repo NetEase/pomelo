@@ -81,4 +81,37 @@ describe('utils test', function() {
     });
   });
 
+  describe('#hasChineseChar', function() {
+    it('should return false if the string does not have any Chinese characters', function() {
+      var src = 'string without Chinese characters';
+      utils.hasChineseChar(src).should.be.false;
+    });
+
+    it('should return true if the string has Chinese characters', function() {
+      var src = 'string with Chinese characters 你好';
+      utils.hasChineseChar(src).should.be.true;
+    });
+  });
+
+  describe('#unicodeToUtf8', function() {
+    it('should return the origin string if the string does not have any Chinese characters', function() {
+      var src = 'string without Chinese characters';
+      utils.unicodeToUtf8(src).should.equal(src);
+    });
+
+    it('should not return the origin string if the string has Chinese characters', function() {
+      var src = 'string with Chinese characters 你好';
+      utils.unicodeToUtf8(src).should.not.equal(src);
+    });
+  });
+
+  describe('#isLocal', function() {
+    it('should return true if the ip is local', function() {
+      var ip = '127.0.0.1';
+      var host = 'localhost';
+      utils.isLocal(ip).should.be.true;
+      utils.isLocal(host).should.be.true;
+    });
+  });
+
 });
