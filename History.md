@@ -2,7 +2,7 @@
 =================
 * fix tcp socket package bug
 * update filter parameters
-* merge pull request
+* merge pull request localSession unbind #289
 
 0.6.2 / 2013-9-5
 =================
