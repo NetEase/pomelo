@@ -45,7 +45,7 @@ var RUNDAEMON_INFO = 'Application run in daemon.\nStop the application use the c
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
 var ADD_SERVER_WARNING = 'The add action here is' + ' deprecated'.red + ', please use' + ' pomelo-cli'.green +' instead.';
 
-var INIT_PROJ_NOTICE = "The default admin user is: \n"+ "  username".green + ": admin\n  " + "password".green+ ": admin\nYou can configure admin users by editing adminUser.json later.\n ";
+var INIT_PROJ_NOTICE = "\nThe default admin user is: \n\n"+ "  username".green + ": admin\n  " + "password".green+ ": admin\n\nYou can configure admin users by editing adminUser.json later.\n ";
 
 var USAGE = '' + '\n' + '  Usage: pomelo [action] [options]\n' + '\n' + '  Options:\n' + '  init  [path]        create new application\n' + '  start [development|production] [--daemon]      start the application\n' + '  list  [-u <username -p <password>] list server information\n' + '  stop  [-u <username> -p <password>] stop the application\n' + '  kill  [-u <username> -p <password>] [--force]     kill the application\n' + '  --version            output framework version\n' + '  --help                output this help information\n';
 
@@ -102,13 +102,13 @@ var args = process.argv.slice(2);
  */
 function init(path) {
   console.log(INIT_PROJ_NOTICE);
-  confirm('Does your browser support WebSocket? (y/n)', function(isWs) {
+  connectorIsWs(function(isWs) {
     emptyDirectory(path, function(empty) {
       if(empty) {
         process.stdin.destroy();
         createApplicationAt(path, isWs);
       } else {
-        confirm('Destination is not empty, continue? (y/n)', function(force) {
+        confirm('Destination is not empty, continue? (y/n) [no] ', function(force) {
           process.stdin.destroy();
           if(force) {
             createApplicationAt(path, isWs);
@@ -172,12 +172,12 @@ function createApplicationAt(ph, isWs) {
       rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
       fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
     }
-    var repalceFiles = ['game-server/app.js',
+    var replaceFiles = ['game-server/app.js',
                         'game-server/package.json',
                         'web-server/package.json'];
-    for(var i = 0; i < repalceFiles.length; i++) {
-      var str = fs.readFileSync(path.resolve(ph, repalceFiles[i])).toString();
-      fs.writeFileSync(path.resolve(ph, repalceFiles[i]), str.replace('$', name));
+    for(var i = 0; i < replaceFiles.length; i++) {
+      var str = fs.readFileSync(path.resolve(ph, replaceFiles[i])).toString();
+      fs.writeFileSync(path.resolve(ph, replaceFiles[i]), str.replace('$', name));
     }
     var f = path.resolve(ph, 'game-server/package.json');
     var content = fs.readFileSync(f).toString();
@@ -454,4 +454,25 @@ function parseUserAndPassword(cb) {
   cb.apply(null);
 }
 
-
+/**
+ * Get user's choice on connector selecting
+ * 
+ * @param {Function} cb
+ */
+function connectorIsWs(cb) {
+  prompt('Please select underly connector, 1 for WebSocket, 2 for socket.io: ', function(msg) {
+    switch(msg.trim()) {
+      case '':
+      case '1':
+         cb(true);
+         break;
+      case '2':
+         cb(false);
+         break;
+      default:
+         process.stdout.write('Invalid choice! Please input 1 or 2.'.red + '\n');
+         connectorIsWs(cb);
+         break;
+    }
+  });
+}
