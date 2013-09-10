@@ -1,6 +1,6 @@
 {
   "name": "pomelo",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "private": false,
   "homepage": "https://github.com/NetEase/pomelo",
   "repository": {
@@ -32,9 +32,9 @@
     "cliff": "0.1.8",
     "mkdirp": "0.3.3",
     "pomelo-loader": "0.0.4",
-    "pomelo-rpc": "0.2.0",
+    "pomelo-rpc": "0.2.1",
     "pomelo-protocol": "0.1.2",
-    "pomelo-admin": "0.2.0",
+    "pomelo-admin": "0.2.2",
     "pomelo-monitor": "0.3.5",
     "pomelo-logger": "0.1.1",
     "ws": "0.4.25",
