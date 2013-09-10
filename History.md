@@ -1,3 +1,9 @@
+0.6.3 / 2013-9-10
+=================
+* fix tcp socket package bug
+* update filter parameters
+* merge pull request
+
 0.6.2 / 2013-9-5
 =================
 * upgrade pomelo-admin to 0.2.2
