@@ -2,7 +2,7 @@
 
 Pomelo is a fast, scalable game server framework for [node.js](http://nodejs.org).
 It provides the basic development framework and many related components, including libraries and tools.
-Pomelo is also suitable for realtime web applications; its distributed architecture makes pomelo scale better than other realtime web frameworks.
+Pomelo is also suitable for real-time web applications; its distributed architecture makes pomelo scale better than other real-time web frameworks.
 
  * Homepage: <http://pomelo.netease.com/>
  * Mailing list: <https://groups.google.com/group/pomelo>
@@ -24,7 +24,7 @@ Pomelo is also suitable for realtime web applications; its distributed architect
 
 * Simple API: request, response, broadcast, etc.
 * Lightweight: high development efficiency based on node.js
-* Convention over configruation: almost zero config
+* Convention over configuration: almost zero config
 
 ### Powerful
 
@@ -33,13 +33,13 @@ Pomelo is also suitable for realtime web applications; its distributed architect
 
 
 ## Why should I use pomelo?
-Fast, scalable, realtime game server development is not an easy job, and a good container or framework can reduce its complexity.
-Unfortunately, not like web, the game server framework solution is quite rare, especially open source. Pomelo fills this gap, providing a full solution for building game server frameworks.
+Fast, scalable, real-time game server development is not an easy job, and a good container or framework can reduce its complexity.
+Unfortunately, unlike web, finding a game server framework solution is difficult, especially an open source solution. Pomelo fills this gap, providing a full solution for building game server frameworks.
 Pomelo has the following advantages:
-* The architecture is scalable. It uses multi-process, single thread runtime architecture, which has been proven in industry and is  especially suited to the node.js thread model.
-* Easy to use, the development model is quite similiar to web, using convention over configuration, almost zero config. The [API](http://pomelo.netease.com/api.html) is also easy to use.
-* The framework is extensible. Based on node.js micro module principle, the core of pomelo is small. All the components, libraries and tools are individual npm modules, anyone can create their own module to extend the framework.
-* The reference materials and documentation are quite complete. Besides documents, we also provide [an open-source MMO RPG demo](https://github.com/NetEase/pomelo/wiki/Introduction-to--Lord-of-Pomelo) (HTML5 client), which is a far better reference material than any book.
+* The architecture is scalable. It uses a multi-process, single thread runtime architecture, which has been proven in the industry and is especially suited to the node.js thread model.
+* Easy to use, the development model is quite similar to web, using convention over configuration, with almost zero config. The [API](http://pomelo.netease.com/api.html) is also easy to use.
+* The framework is extensible. Based on the node.js micro module principle, the core of pomelo is small. All of the components, libraries and tools are individual npm modules, and anyone can create their own module to extend the framework.
+* The reference materials and documentation are quite complete. In addition to the documentation, we also provide [an open-source MMO RPG demo](https://github.com/NetEase/pomelo/wiki/Introduction-to--Lord-of-Pomelo) (HTML5 client), which is a far better reference material than any book.
 
 ## How can I develop with pomelo?
 With the following references, you can quickly familiarize yourself with the pomelo development process:
