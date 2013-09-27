@@ -1,3 +1,9 @@
+0.6.4 / 2013-9-27
+=================
+* update logger config && test log4js config
+* update require pomelo path & unuse module
+* merge pull request update readme #295
+
 0.6.3 / 2013-9-10
 =================
 * fix tcp socket package bug
