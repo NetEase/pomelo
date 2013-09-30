@@ -1,3 +1,8 @@
+0.6.5 / 2013-9-30
+=================
+* fix server reconnect bug
+* upgrade pomelo-admin to 0.2.3
+
 0.6.4 / 2013-9-27
 =================
 * update logger config && test log4js config
