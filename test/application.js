@@ -320,6 +320,10 @@ describe('application test', function(){
         test2: function(cb) {
           console.log('condition2');
           cb(new Error('error'));
+        },
+        test3: function(cb) {
+          console.log('condition3');
+          cb();
         }
       };
       var handlers = {
