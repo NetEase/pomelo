@@ -12,26 +12,26 @@ var MockManager = function(app, opts) {
 module.exports = MockManager;
 
 MockManager.prototype.start = function(cb) {
-	this.usersMap = {};
-	utils.invokeCallback(cb);
+  this.usersMap = {};
+  utils.invokeCallback(cb);
 };
 
 MockManager.prototype.stop = function(force, cb) {
-	this.usersMap = null;
-	utils.invokeCallback(cb);
+  this.usersMap = null;
+  utils.invokeCallback(cb);
 };
 
 MockManager.prototype.add = function(name, uid, sid, cb) {
-	var key = genKey(this, name, sid);
-	if(!this.usersMap[key]) {
-		this.usersMap[key] = [];
-	}
-	this.usersMap[key].push(uid);
-	utils.invokeCallback(cb);
+  var key = genKey(this, name, sid);
+  if(!this.usersMap[key]) {
+    this.usersMap[key] = [];
+  }
+  this.usersMap[key].push(uid);
+  utils.invokeCallback(cb);
 };
 
 MockManager.prototype.leave = function(name, uid, sid, cb) {
-	var key = genKey(this, name, sid);
+  var key = genKey(this, name, sid);
   var res = deleteFrom(uid, this.usersMap[key]);
   if(this.usersMap[key] && this.usersMap[key].length === 0) {
     delete this.usersMap[sid];
@@ -40,10 +40,10 @@ MockManager.prototype.leave = function(name, uid, sid, cb) {
 };
 
 MockManager.prototype.getMembersBySid = function(name, sid, cb) {
-		var key = genKey(this, name, sid);
-		if(!this.usersMap[key])
-			this.usersMap[key] = [];
-		utils.invokeCallback(cb, null, this.usersMap[key]);
+    var key = genKey(this, name, sid);
+    if(!this.usersMap[key])
+      this.usersMap[key] = [];
+    utils.invokeCallback(cb, null, this.usersMap[key]);
 };
 
 MockManager.prototype.destroyChannel = function(name, cb) {
@@ -62,7 +62,7 @@ MockManager.prototype.destroyChannel = function(name, cb) {
   }
 
   for(var i = 0; i<removes.length; i++) {
-  	delete this.usersMap[removes[i]];
+    delete this.usersMap[removes[i]];
   }
   utils.invokeCallback(cb);
 };
