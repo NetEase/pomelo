@@ -73,6 +73,26 @@
         }
       ,"backups": 5,
       "category":"pomelo"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/pomelo-admin.log",
+      "maxLogSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"pomelo-admin"
+    },
+    {
+      "type": "file",
+      "filename": "./logs/pomelo-rpc.log",
+      "maxLogSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"pomelo-rpc"
     }
   ],
 

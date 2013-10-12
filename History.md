@@ -1,3 +1,10 @@
+0.6.6 / 2013-10-12
+=================
+* merge pull request #303 replace tab & remove session get value argument
+* upgrade pomelo-admin to 0.2.4
+* upgrade pomelo-monitor to 0.3.7
+* upgrade pomelo-rpc to 0.2.2
+
 0.6.5 / 2013-9-30
 =================
 * fix server reconnect bug
