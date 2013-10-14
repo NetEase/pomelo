@@ -1,3 +1,7 @@
+0.6.7 / 2013-10-14
+=================
+* fix masterha monitor reconnect bug
+
 0.6.6 / 2013-10-12
 =================
 * merge pull request #303 replace tab & remove session get value argument
