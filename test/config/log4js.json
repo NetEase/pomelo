@@ -62,6 +62,16 @@
       },
       "backups": 5,
       "category":"transaction-log"
+    },
+    {
+      "type": "file",
+      "filename": "./test/logs/transaction-error.log",
+      "fileSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category":"transaction-error-log"
     }
   ],
 
