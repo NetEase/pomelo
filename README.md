@@ -52,9 +52,10 @@ You can also learn from our MMO demo:
 * [Introduction to Lord of Pomelo](https://github.com/NetEase/pomelo/wiki/Introduction-to--Lord-of-Pomelo)
 
 ## Contributors
-* NetEase, Inc.
-* Aaron Yoshitake
-* D-Deo
+* NetEase, Inc. (@NetEase)
+* Peter Johnson(@missinglink)
+* Aaron Yoshitake 
+* D-Deo 
 * Eduard Gotwig
 * Eric Muyser
 
