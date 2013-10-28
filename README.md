@@ -55,10 +55,12 @@ You can also learn from our MMO demo:
 * NetEase, Inc. (@NetEase)
 * Peter Johnson(@missinglink)
 * Aaron Yoshitake 
-* D-Deo 
+* @D-Deo 
 * Eduard Gotwig
-* Eric Muyser
-
+* Eric Muyser(@stokegames)
+* @GeforceLee
+* Harold Jiang(@jzsues)
+* @ETiV
 
 ## License
 
