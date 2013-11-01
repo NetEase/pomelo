@@ -294,7 +294,7 @@ describe('session service test', function() {
   });
 });
 
-describe('mock local session test', function() {
+describe('frontend session test', function() {
   describe('#bind', function() {
     it('should get session by uid after binded', function(done) {
       var service = new SessionService();
@@ -303,16 +303,16 @@ describe('mock local session test', function() {
       var eventCount = 0;
 
       var session = service.create(sid, fid, socket);
-      var msession = session.mockLocalSession();
+      var fsession = session.toFrontendSession();
 
-      should.exist(msession);
+      should.exist(fsession);
 
-      msession.on('bind', function(euid) {
+      fsession.on('bind', function(euid) {
         eventCount++;
         uid.should.equal(euid);
       });
 
-      msession.bind(uid, function(err) {
+      fsession.bind(uid, function(err) {
         should.not.exist(err);
         var sessions = service.getByUid(uid);
         should.exist(sessions);
@@ -331,10 +331,10 @@ describe('mock local session test', function() {
       var uid = 'py';
 
       var session = service.create(sid, fid, socket);
-      var msession = session.mockLocalSession();
+      var fsession = session.toFrontendSession();
 
-      msession.bind(uid, null);
-      msession.unbind(uid, function(err) {
+      fsession.bind(uid, null);
+      fsession.unbind(uid, function(err) {
         should.not.exist(err);
         var sessions = service.getByUid(uid);
         should.not.exist(sessions);
@@ -344,19 +344,19 @@ describe('mock local session test', function() {
   });
 
   describe('#set/get', function() {
-    it('should update the key/value pair in mock local session but not session',
+    it('should update the key/value pair in frontend session but not session',
         function() {
       var service = new SessionService();
       var sid = 1, fid = 'frontend-server-1', socket = {};
       var key = 'key-1', value = 'value-1';
 
       var session = service.create(sid, fid, socket);
-      var msession = session.mockLocalSession();
+      var fsession = session.toFrontendSession();
 
-      msession.set(key, value);
+      fsession.set(key, value);
 
       should.not.exist(session.get(key));
-      value.should.eql(msession.get(key));
+      value.should.eql(fsession.get(key));
     });
   });
 
@@ -367,12 +367,12 @@ describe('mock local session test', function() {
       var key = 'key-1', value = 'value-1', key2 = 'key-2', value2 = {};
 
       var session = service.create(sid, fid, socket);
-      var msession = session.mockLocalSession();
+      var fsession = session.toFrontendSession();
 
-      msession.set(key, value);
-      msession.set(key2, value2);
+      fsession.set(key, value);
+      fsession.set(key2, value2);
 
-      msession.push(key, function(err) {
+      fsession.push(key, function(err) {
         should.not.exist(err);
         value.should.eql(session.get(key));
         should.not.exist(session.get(key2));
@@ -386,12 +386,12 @@ describe('mock local session test', function() {
       var key = 'key-1', value = 'value-1', key2 = 'key-2', value2 = {};
 
       var session = service.create(sid, fid, socket);
-      var msession = session.mockLocalSession();
+      var fsession = session.toFrontendSession();
 
-      msession.set(key, value);
-      msession.set(key2, value2);
+      fsession.set(key, value);
+      fsession.set(key2, value2);
 
-      msession.pushAll(function(err) {
+      fsession.pushAll(function(err) {
         should.not.exist(err);
         value.should.eql(session.get(key));
         value2.should.eql(session.get(key2));
@@ -401,16 +401,16 @@ describe('mock local session test', function() {
   });
   
   describe('#export', function() {
-    it('should equal mockLocalSession after export', function(done) {
+    it('should equal frontend session after export', function(done) {
       var service = new SessionService();
       var sid = 1, fid = 'frontend-server-1', socket = {};
       var uid = 'py';
 
       var session = service.create(sid, fid, socket);
-      var msession = session.mockLocalSession();
-      var esession = msession.export();
-      esession.id.should.eql(msession.id);
-      esession.frontendId.should.eql(msession.frontendId);
+      var fsession = session.toFrontendSession();
+      var esession = fsession.export();
+      esession.id.should.eql(fsession.id);
+      esession.frontendId.should.eql(fsession.frontendId);
       done();
     });
   });
