@@ -1,3 +1,7 @@
+0.6.8 / 2013-11-4
+=================
+* update pomelo-admin version
+
 0.6.7 / 2013-10-14
 =================
 * fix masterha monitor reconnect bug
