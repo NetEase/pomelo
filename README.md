@@ -43,13 +43,10 @@ Pomelo has the following advantages:
 
 ## How can I develop with pomelo?
 With the following references, you can quickly familiarize yourself with the pomelo development process:
-* [Architecture Overview of pomelo](https://github.com/NetEase/pomelo/wiki/Architecture-overview-of-pomelo)
-* [Quick Start Guide](https://github.com/NetEase/pomelo/wiki/Quick-start-guide)
-* [Tutorial](https://github.com/NetEase/pomelo/wiki/Tutorial)
-* [FAQ](https://github.com/NetEase/pomelo/wiki/FAQ)
+* [Pomelo documents](https://github.com/NetEase/pomelo/wiki)
+* [Getting started](https://github.com/NetEase/pomelo/wiki/Welcome-to-Pomelo)
+* [Tutorial](https://github.com/NetEase/pomelo/wiki/Preface)
 
-You can also learn from our MMO demo:
-* [Introduction to Lord of Pomelo](https://github.com/NetEase/pomelo/wiki/Introduction-to--Lord-of-Pomelo)
 
 ## Contributors
 * NetEase, Inc.
