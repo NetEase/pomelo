@@ -42,11 +42,11 @@ describe('channel remote test', function() {
       var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {
         send: function(reqId, route, msg, recvs, opts, cb) {
-          app.components.__scheduler__.schedule(reqId, route, msg, recvs, opts, cb);
+          app.components.__pushScheduler__.schedule(reqId, route, msg, recvs, opts, cb);
         }
       };
       app.components.__connector__.connector = {};
-      app.components.__scheduler__ = {
+      app.components.__pushScheduler__ = {
         schedule: function(reqId, route, msg, recvs, opts, cb) {
           mockMsg.should.eql(msg);
           invokeCount += recvs.length;
@@ -96,11 +96,11 @@ describe('channel remote test', function() {
       var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {
         send: function(reqId, route, msg, recvs, opts, cb) {
-          app.components.__scheduler__.schedule(reqId, route, msg, recvs, opts, cb);
+          app.components.__pushScheduler__.schedule(reqId, route, msg, recvs, opts, cb);
         }
       };
       app.components.__connector__.connector = {};
-      app.components.__scheduler__ = {
+      app.components.__pushScheduler__ = {
         schedule: function(reqId, route, msg, recvs, opts, cb) {
           invokeCount++;
           mockMsg.should.eql(msg);
@@ -142,11 +142,11 @@ describe('channel remote test', function() {
       var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {
         send: function(reqId, route, msg, recvs, opts, cb) {
-          app.components.__scheduler__.schedule(reqId, route, msg, recvs, opts, cb);
+          app.components.__pushScheduler__.schedule(reqId, route, msg, recvs, opts, cb);
         }
       };
       app.components.__connector__.connector = {};
-      app.components.__scheduler__ = {
+      app.components.__pushScheduler__ = {
         schedule: function(reqId, route, msg, recvs, opts, cb) {
           invokeCount++;
           mockMsg.should.eql(msg);

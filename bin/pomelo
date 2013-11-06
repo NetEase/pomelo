@@ -11,6 +11,7 @@ var fs = require('fs')
   , mkdirp = require('mkdirp')
   , co = require('../lib/modules/console')
   , utils = require('../lib/util/utils')
+  , starter = require('../lib/master/starter')
   , exec = require('child_process').exec
   , spawn = require('child_process').spawn
   , version = require('../package.json').version
@@ -88,6 +89,9 @@ var args = process.argv.slice(2);
     break;
   case 'kill':
     parseUserAndPassword(terminal.bind(null, 'kill'));
+    break;
+  case 'masterha':
+    parseUserAndPassword(startMasterha);
     break;
   default:
     abort(COMMAND_ERROR);
@@ -326,6 +330,49 @@ function terminal(signal) {
 };
 
 /**
+ * Start master slaves.
+ *
+ */
+function startMasterha() {
+  if(IF_HOME) {
+    switch(args.length) {
+      case 0:
+        abort(COMMAND_ERROR);
+        break;
+      case 1:
+        var path = HOME + args[0];
+        if(!fs.existsSync(path)) {
+          abort('Fail to find the masterha file on ' + path);
+          return;
+        }
+        var masterha = require(path)['masterha'];
+        for(var i=0; i<masterha.length; i++) {
+          var server = masterha[i];
+          server['mode'] = 'stand-alone';
+          server['masterha'] = 'true';
+          runServer(server);
+        }
+        break;
+      default:
+        var server = {};
+        for(var i=0; i<args.length; i++) {
+          if(args[i].indexOf('=') < 0) {
+            abort(COMMAND_ERROR);
+            return;
+          }
+          server[args[i].split('=')[0]] = args[i].split('=')[1];  
+        }
+        server['mode'] = 'stand-alone';
+        server['masterha'] = 'true';
+        runServer(server);
+        break;
+    }
+  } else {
+    abort(NOWORKSPACE_ERROR);
+  }
+};
+
+/**
  * Check if the given directory `path` is empty.
  *
  * @param {String} path
@@ -476,3 +523,29 @@ function connectorIsWs(cb) {
     }
   });
 }
+};
+
+/**
+ * Run server.
+ * 
+ * @param {Object} server server information
+ */
+function runServer(server) {
+  var cmd, key;
+  var main = path.resolve(HOME, 'app.js');
+  if(utils.isLocal(server.host)) {
+    var options = [];
+    options.push(main);
+    for(key in server) {
+      options.push(util.format('%s=%s', key, server[key]));
+    }
+    starter.localrun(process.execPath, null, options);
+  } else {
+    cmd = util.format('cd "%s" && "%s"', HOME, process.execPath);
+    cmd += util.format(' "%s" ', main);
+    for(key in server) {
+      cmd += util.format(' %s=%s ', key, server[key]);
+    }
+    starter.sshrun(cmd, server.host);
+  }
+};

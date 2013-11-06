@@ -280,6 +280,66 @@ describe('application test', function(){
     });
   });
 
+  describe('#transaction', function() {
+    it('should execute all conditions and handlers', function() {
+      var conditions = {
+        test1: function(cb) {
+          console.log('condition1');
+          cb();
+        },
+        test2: function(cb) {
+          console.log('condition2');
+          cb();
+        }
+      };
+      var flag = 1;
+      var handlers = {
+        do1: function(cb) {
+          console.log('handler1');
+          cb();
+        },
+        do2: function(cb) {
+          console.log('handler2');
+          if(flag < 3){
+            flag ++;
+            cb(new Error('error'));
+          } else {
+            cb();
+          }
+        }
+      };
+      app.transaction('test', conditions, handlers, 5);
+    });
+
+    it('shoud execute conditions with error and do not execute handlers', function() {
+      var conditions = {
+        test1: function(cb) {
+          console.log('condition1');
+          cb();
+        },
+        test2: function(cb) {
+          console.log('condition2');
+          cb(new Error('error'));
+        },
+        test3: function(cb) {
+          console.log('condition3');
+          cb();
+        }
+      };
+      var handlers = {
+        do1: function(cb) {
+          console.log('handler1');
+          cb();
+        },
+        do2: function(cb) {
+          console.log('handler2');
+          cb();
+        }
+      };
+      app.transaction('test', conditions, handlers);
+    });
+  });
+
   describe('#add and remove servers', function() {
     it('should add servers and emit event and fetch the new server info by get methods', function(done) {
       var newServers = [

@@ -2,8 +2,8 @@
   "appenders": [
     {
       "type": "file",
-      "filename": "test/logs/node-log-${opts:serverId}.log",
-      "maxLogSize": 1048576,
+      "filename": "./test/logs/node-log-${opts:serverId}.log",
+      "fileSize": 1048576,
       "layout": {
         "type": "basic"
       },
@@ -14,7 +14,7 @@
     },
     {
       "type": "file",
-      "filename": "test/logs/con-log-${opts:serverId}.log",
+      "filename": "./test/logs/con-log-${opts:serverId}.log",
       "pattern": "connector",
       "maxLogSize": 1048576,
       "layout": {
@@ -25,8 +25,8 @@
     },
     {
       "type": "file",
-      "filename": "test/logs/rpc-log-${opts:serverId}.log",
-      "maxLogSize": 1048576,
+      "filename": "./test/logs/rpc-log-${opts:serverId}.log",
+      "fileSize": 1048576,
       "layout": {
         "type": "basic"
       },
@@ -35,8 +35,8 @@
     },
     {
       "type": "file",
-      "filename": "test/logs/forward-log-${opts:serverId}.log",
-      "maxLogSize": 1048576,
+      "filename": "./test/logs/forward-log-${opts:serverId}.log",
+      "fileSize": 1048576,
       "layout": {
         "type": "basic"
       },
@@ -45,13 +45,33 @@
     },
     {
       "type": "file",
-      "filename": "test/logs/crash.log",
-      "maxLogSize": 1048576,
+      "filename": "./test/logs/crash.log",
+      "fileSize": 1048576,
       "layout": {
         "type": "basic"
       },
       "backups": 5,
       "category":"crash-log"
+    },
+    {
+      "type": "file",
+      "filename": "./test/logs/transaction.log",
+      "fileSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category":"transaction-log"
+    },
+    {
+      "type": "file",
+      "filename": "./test/logs/transaction-error.log",
+      "fileSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category":"transaction-error-log"
     }
   ],
 
