@@ -522,7 +522,6 @@ function connectorIsWs(cb) {
          break;
     }
   });
-}
 };
 
 /**
