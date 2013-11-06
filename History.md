@@ -1,3 +1,11 @@
+0.7.0 / 2013-11-6
+=================
+* crontab
+* global filter
+* transaction
+* pomelo-cli auto-complete
+* some components rename
+
 0.6.8 / 2013-11-4
 =================
 * update pomelo-admin version
