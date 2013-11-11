@@ -1,3 +1,8 @@
+0.7.1 / 2013-11-11
+=================
+* fix errorHandler bug
+* compatible for schedulerConfig
+
 0.7.0 / 2013-11-6
 =================
 * crontab
