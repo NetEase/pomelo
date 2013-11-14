@@ -194,20 +194,18 @@ function createApplicationAt(ph, isWs) {
  */
 function start() {
   var mode = DEV;
+  var param = args[0];
   switch(args.length) {
   case 0:
     break;
   case 1:
-    if(args[0] == DEV || args[0] == PRD) mode = args[0];
-    else if(args[0] == DEM) DAEMON = true;
-    else abort(COMMAND_ERROR);
+    if(param === DEM) DAEMON = true;
+    else mode = param;
     break;
   case 2:
-    if(args[0] == DEV || args[0] == PRD) {
-      mode = args[0];
-      if(args[1] == DEM) DAEMON = true;
-      else abort(COMMAND_ERROR);
-    } else abort(COMMAND_ERROR);
+    mode = param;
+    if(args[1] === DEM) DAEMON = true;
+    else abort(COMMAND_ERROR);
     break;
   default:
     abort(COMMAND_ERROR);
