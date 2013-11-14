@@ -1,3 +1,10 @@
+0.7.2 / 2013-11-14
+=================
+* add start server detached mode
+* add masterha for pomelo stop&list
+* fix auto-restart disconnect bug
+* update pomelo start for different envs
+
 0.7.1 / 2013-11-11
 =================
 * fix errorHandler bug
