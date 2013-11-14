@@ -52,8 +52,7 @@ var USAGE = '' + '\n' + '  Usage: pomelo [action] [options]\n' + '\n' + '  Optio
 
 var COMMAND_ERROR = 'Illegal command format.'.red + USAGE;
 
-var username;
-var password;
+var username, password, host, port;
 
 /**
  * Parse command arguments.
@@ -244,8 +243,8 @@ function start() {
  *
  */
 function list() {
-  legalArgNum(0);
-  if(IF_WORKSPACE) {
+  if(IF_WORKSPACE) {    
+    processArgs(args.shift());
     fs.readFile(TMP_FILE, function(err, data) {
       if(err) abort(FILEREAD_ERROR);
       var u = username || 'admin';
@@ -254,7 +253,7 @@ function list() {
       MASTER_JSON = require(MASTER_CONFIG);
       var config = MASTER_JSON[data.toString().split(':')[0]];
       var id = 'pomelo_list_' + Date.now();
-      client.connect(id, config.host, config.port, function(err) {
+      client.connect(id, host || config.host, port || config.port, function(err) {
         if(err) abort(CONNECT_ERROR + err.red);
         else {
           client.request(co.moduleId, {
@@ -294,9 +293,13 @@ function add() {
 function terminal(signal) {
   if(IF_WORKSPACE) {
     console.info(CLOSEAPP_INFO);
-    if(args[0] === '--force') {
+    var param = args.shift();
+    if(param === '--force') {
       os.platform() === 'win32' ? exec(KILL_CMD_WIN):exec(KILL_CMD_LUX);
       process.exit(1);
+      return;
+    } else {
+      processArgs(param);
     }
     fs.readFile(TMP_FILE, function(err, data) {
       if(err) abort(FILEREAD_ERROR);
@@ -313,7 +316,7 @@ function terminal(signal) {
           process.exit(0);
         }, TIME_KILL_WAIT);
       }
-      client.connect(id, config.host, config.port, function(err) {
+      client.connect(id, host || config.host, port || config.port, function(err) {
         if(err) abort(CONNECT_ERROR + err.red);
         client.request(co.moduleId, {
           signal: signal, ids: args
@@ -525,7 +528,7 @@ function connectorIsWs(cb) {
 };
 
 /**
- * Run server.
+ * Run slave master.
  * 
  * @param {Object} server server information
  */
@@ -548,3 +551,27 @@ function runServer(server) {
     starter.sshrun(cmd, server.host);
   }
 };
+
+/**
+ * Process arguments for slave master.
+ *
+ * @param {string} command argument
+ */
+function processArgs(param) {
+  if(!param) {
+    return;
+  }
+  switch(param) {
+    case '-h':
+      host = args.shift();
+      processArgs(args.shift());
+      break;
+    case '-P':
+      port = args.shift();
+      processArgs(args.shift());
+      break;
+    default:
+      abort(COMMAND_ERROR);
+      break;
+  }
+}; 
