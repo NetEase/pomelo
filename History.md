@@ -1,3 +1,7 @@
+0.7.3 / 2013-11-15
+=================
+* add heartbeat timeout option
+
 0.7.2 / 2013-11-14
 =================
 * add start server detached mode
