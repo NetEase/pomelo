@@ -11,6 +11,7 @@ var fs = require('fs')
   , mkdirp = require('mkdirp')
   , co = require('../lib/modules/console')
   , utils = require('../lib/util/utils')
+  , starter = require('../lib/master/starter')
   , exec = require('child_process').exec
   , spawn = require('child_process').spawn
   , version = require('../package.json').version
@@ -51,8 +52,7 @@ var USAGE = '' + '\n' + '  Usage: pomelo [action] [options]\n' + '\n' + '  Optio
 
 var COMMAND_ERROR = 'Illegal command format.'.red + USAGE;
 
-var username;
-var password;
+var username, password, host, port;
 
 /**
  * Parse command arguments.
@@ -88,6 +88,9 @@ var args = process.argv.slice(2);
     break;
   case 'kill':
     parseUserAndPassword(terminal.bind(null, 'kill'));
+    break;
+  case 'masterha':
+    parseUserAndPassword(startMasterha);
     break;
   default:
     abort(COMMAND_ERROR);
@@ -191,20 +194,18 @@ function createApplicationAt(ph, isWs) {
  */
 function start() {
   var mode = DEV;
+  var param = args[0];
   switch(args.length) {
   case 0:
     break;
   case 1:
-    if(args[0] == DEV || args[0] == PRD) mode = args[0];
-    else if(args[0] == DEM) DAEMON = true;
-    else abort(COMMAND_ERROR);
+    if(param === DEM) DAEMON = true;
+    else mode = param;
     break;
   case 2:
-    if(args[0] == DEV || args[0] == PRD) {
-      mode = args[0];
-      if(args[1] == DEM) DAEMON = true;
-      else abort(COMMAND_ERROR);
-    } else abort(COMMAND_ERROR);
+    mode = param;
+    if(args[1] === DEM) DAEMON = true;
+    else abort(COMMAND_ERROR);
     break;
   default:
     abort(COMMAND_ERROR);
@@ -240,8 +241,8 @@ function start() {
  *
  */
 function list() {
-  legalArgNum(0);
-  if(IF_WORKSPACE) {
+  if(IF_WORKSPACE) {    
+    processArgs(args.shift());
     fs.readFile(TMP_FILE, function(err, data) {
       if(err) abort(FILEREAD_ERROR);
       var u = username || 'admin';
@@ -250,7 +251,7 @@ function list() {
       MASTER_JSON = require(MASTER_CONFIG);
       var config = MASTER_JSON[data.toString().split(':')[0]];
       var id = 'pomelo_list_' + Date.now();
-      client.connect(id, config.host, config.port, function(err) {
+      client.connect(id, host || config.host, port || config.port, function(err) {
         if(err) abort(CONNECT_ERROR + err.red);
         else {
           client.request(co.moduleId, {
@@ -290,9 +291,13 @@ function add() {
 function terminal(signal) {
   if(IF_WORKSPACE) {
     console.info(CLOSEAPP_INFO);
-    if(args[0] === '--force') {
+    var param = args.shift();
+    if(param === '--force') {
       os.platform() === 'win32' ? exec(KILL_CMD_WIN):exec(KILL_CMD_LUX);
       process.exit(1);
+      return;
+    } else {
+      processArgs(param);
     }
     fs.readFile(TMP_FILE, function(err, data) {
       if(err) abort(FILEREAD_ERROR);
@@ -309,7 +314,7 @@ function terminal(signal) {
           process.exit(0);
         }, TIME_KILL_WAIT);
       }
-      client.connect(id, config.host, config.port, function(err) {
+      client.connect(id, host || config.host, port || config.port, function(err) {
         if(err) abort(CONNECT_ERROR + err.red);
         client.request(co.moduleId, {
           signal: signal, ids: args
@@ -323,6 +328,49 @@ function terminal(signal) {
       });
     });
   } else abort(NOWORKSPACE_ERROR);
+};
+
+/**
+ * Start master slaves.
+ *
+ */
+function startMasterha() {
+  if(IF_HOME) {
+    switch(args.length) {
+      case 0:
+        abort(COMMAND_ERROR);
+        break;
+      case 1:
+        var path = HOME + args[0];
+        if(!fs.existsSync(path)) {
+          abort('Fail to find the masterha file on ' + path);
+          return;
+        }
+        var masterha = require(path)['masterha'];
+        for(var i=0; i<masterha.length; i++) {
+          var server = masterha[i];
+          server['mode'] = 'stand-alone';
+          server['masterha'] = 'true';
+          runServer(server);
+        }
+        break;
+      default:
+        var server = {};
+        for(var i=0; i<args.length; i++) {
+          if(args[i].indexOf('=') < 0) {
+            abort(COMMAND_ERROR);
+            return;
+          }
+          server[args[i].split('=')[0]] = args[i].split('=')[1];  
+        }
+        server['mode'] = 'stand-alone';
+        server['masterha'] = 'true';
+        runServer(server);
+        break;
+    }
+  } else {
+    abort(NOWORKSPACE_ERROR);
+  }
 };
 
 /**
@@ -475,4 +523,53 @@ function connectorIsWs(cb) {
          break;
     }
   });
-}
+};
+
+/**
+ * Run slave master.
+ * 
+ * @param {Object} server server information
+ */
+function runServer(server) {
+  var cmd, key;
+  var main = path.resolve(HOME, 'app.js');
+  if(utils.isLocal(server.host)) {
+    var options = [];
+    options.push(main);
+    for(key in server) {
+      options.push(util.format('%s=%s', key, server[key]));
+    }
+    starter.localrun(process.execPath, null, options);
+  } else {
+    cmd = util.format('cd "%s" && "%s"', HOME, process.execPath);
+    cmd += util.format(' "%s" ', main);
+    for(key in server) {
+      cmd += util.format(' %s=%s ', key, server[key]);
+    }
+    starter.sshrun(cmd, server.host);
+  }
+};
+
+/**
+ * Process arguments for slave master.
+ *
+ * @param {string} command argument
+ */
+function processArgs(param) {
+  if(!param) {
+    return;
+  }
+  switch(param) {
+    case '-h':
+      host = args.shift();
+      processArgs(args.shift());
+      break;
+    case '-P':
+      port = args.shift();
+      processArgs(args.shift());
+      break;
+    default:
+      abort(COMMAND_ERROR);
+      break;
+  }
+}; 
