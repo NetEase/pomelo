@@ -1,3 +1,8 @@
+0.6.9 / 2013-11-15
+=================
+* add start server detached
+* update pomelo start for different envs
+
 0.6.7 / 2013-10-14
 =================
 * fix masterha monitor reconnect bug
