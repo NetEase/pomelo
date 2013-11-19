@@ -44,7 +44,7 @@ var CONNECT_ERROR = 'Fail to connect to admin console server.';
 var FILEREAD_ERROR = 'Fail to read the file, please check if the application is started legally.';
 var RUNDAEMON_INFO = 'Application run in daemon.\nStop the application use the command:pomelo stop.';
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
-var ADD_SERVER_WARNING = 'The add action here is' + ' deprecated'.red + ', please use' + ' pomelo-cli'.green +' instead.';
+var ADD_SUCCESS_INFO= 'Successfully add server.';
 
 var INIT_PROJ_NOTICE = "\nThe default admin user is: \n\n"+ "  username".green + ": admin\n  " + "password".green+ ": admin\n\nYou can configure admin users by editing adminUser.json later.\n ";
 
@@ -81,7 +81,7 @@ var args = process.argv.slice(2);
     start();
     break;
   case 'add':
-    add();
+    parseUserAndPassword(add);
     break;
   case 'stop':
     parseUserAndPassword(terminal.bind(null, 'stop'));
@@ -242,7 +242,7 @@ function start() {
  */
 function list() {
   if(IF_WORKSPACE) {    
-    processArgs(args.shift());
+    processHostAndPortArgs();
     fs.readFile(TMP_FILE, function(err, data) {
       if(err) abort(FILEREAD_ERROR);
       var u = username || 'admin';
@@ -276,10 +276,33 @@ function list() {
 
 /**
  * Add server to application.
- * @deprecated use pomelo-cli instead
+ * 
  */
 function add() {
-  console.log(ADD_SERVER_WARNING); 
+  if(IF_WORKSPACE) {    
+    processHostAndPortArgs();
+    fs.readFile(TMP_FILE, function(err, data) {
+      if(err) abort(FILEREAD_ERROR);
+      var u = username || 'admin';
+      var p = password || 'admin';
+      var client = new adminClient({username: u, password: p, md5: true});
+      MASTER_JSON = require(MASTER_CONFIG);
+      var config = MASTER_JSON[data.toString().split(':')[0]];
+      var id = 'pomelo_add_' + Date.now();
+      client.connect(id, host || config.host, port || config.port, function(err) {
+        if(err) abort(CONNECT_ERROR + err.red);
+        else {
+          client.request(co.moduleId, {
+            signal: 'add', args: args
+          }, function(err, msg) {
+            if(err) console.error(err);            
+            else console.info(ADD_SUCCESS_INFO); 
+            process.exit(0);
+          });
+        }
+      });
+    });
+  } else abort(NOWORKSPACE_ERROR);
 };
 
 /**
@@ -297,7 +320,8 @@ function terminal(signal) {
       process.exit(1);
       return;
     } else {
-      processArgs(param);
+      args.unshift(param);
+      processHostAndPortArgs();
     }
     fs.readFile(TMP_FILE, function(err, data) {
       if(err) abort(FILEREAD_ERROR);
@@ -555,21 +579,28 @@ function runServer(server) {
  *
  * @param {string} command argument
  */
-function processArgs(param) {
-  if(!param) {
-    return;
+function processHostAndPortArgs() {
+  var res = [];
+  for (var i = 0; i < args.length; ++i) {
+    switch(args[i]) {
+      case '-h':
+        if (i < args.length - 1) {
+          host = args[++i];
+        } else {
+          abort(COMMAND_ERROR);
+        }
+        break;
+      case '-P':
+         if (i < args.length - 1) {
+          port = args[++i];
+        } else {
+          abort(COMMAND_ERROR);
+        }
+        break;
+      default:
+        res.push(args[i]);
+        break;
+    }
   }
-  switch(param) {
-    case '-h':
-      host = args.shift();
-      processArgs(args.shift());
-      break;
-    case '-P':
-      port = args.shift();
-      processArgs(args.shift());
-      break;
-    default:
-      abort(COMMAND_ERROR);
-      break;
-  }
+  args = res;
 }; 
