@@ -5,7 +5,7 @@
     },
     {
       "type": "file",
-      "filename": "./logs/con-log-${opts:serverId}.log",
+      "filename": "${opts:base}/logs/con-log-${opts:serverId}.log",
       "pattern": "connector",
       "maxLogSize": 1048576,
       "layout": {
@@ -16,7 +16,7 @@
     },
     {
       "type": "file",
-      "filename": "./logs/rpc-log-${opts:serverId}.log",
+      "filename": "${opts:base}/logs/rpc-log-${opts:serverId}.log",
       "maxLogSize": 1048576,
       "layout": {
         "type": "basic"
@@ -26,7 +26,7 @@
     },
     {
       "type": "file",
-      "filename": "./logs/forward-log-${opts:serverId}.log",
+      "filename": "${opts:base}/logs/forward-log-${opts:serverId}.log",
       "maxLogSize": 1048576,
       "layout": {
         "type": "basic"
@@ -36,7 +36,7 @@
     },
     {
      "type": "file",
-     "filename": "./logs/rpc-debug-${opts:serverId}.log",
+     "filename": "${opts:base}/logs/rpc-debug-${opts:serverId}.log",
      "maxLogSize": 1048576,
      "layout": {
       "type": "basic"
@@ -46,7 +46,7 @@
     },
     {
       "type": "file",
-      "filename": "./logs/crash.log",
+      "filename": "${opts:base}/logs/crash.log",
       "maxLogSize": 1048576,
       "layout": {
         "type": "basic"
@@ -56,7 +56,7 @@
     },
     {
       "type": "file",
-      "filename": "./logs/admin.log",
+      "filename": "${opts:base}/logs/admin.log",
       "maxLogSize": 1048576,
       "layout": {
           "type": "basic"
@@ -66,7 +66,7 @@
     },
     {
       "type": "file",
-      "filename": "./logs/pomelo.log",
+      "filename": "${opts:base}/logs/pomelo.log",
       "maxLogSize": 1048576,
       "layout": {
           "type": "basic"
@@ -76,7 +76,7 @@
     },
     {
       "type": "file",
-      "filename": "./logs/pomelo-admin.log",
+      "filename": "${opts:base}/logs/pomelo-admin.log",
       "maxLogSize": 1048576,
       "layout": {
           "type": "basic"
@@ -86,7 +86,7 @@
     },
     {
       "type": "file",
-      "filename": "./logs/pomelo-rpc.log",
+      "filename": "${opts:base}/logs/pomelo-rpc.log",
       "maxLogSize": 1048576,
       "layout": {
           "type": "basic"
