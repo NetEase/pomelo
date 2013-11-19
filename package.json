@@ -41,7 +41,8 @@
     "ws": "0.4.25",
     "toobusy": "0.2.2",
     "pomelo-protobuf": "0.4.0",
-    "node-bignumber": "1.2.1"
+    "node-bignumber": "1.2.1",
+    "commander": "2.0.0"
   },
   "bin": {
     "pomelo": "./bin/pomelo"
