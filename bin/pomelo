@@ -320,7 +320,7 @@ function terminal(signal) {
       process.exit(1);
       return;
     } else {
-      args.unshift(param);
+      if (param) args.unshift(param);
       processHostAndPortArgs();
     }
     fs.readFile(TMP_FILE, function(err, data) {
