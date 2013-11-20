@@ -1,3 +1,9 @@
+0.7.4 / 2013-11-20
+=================
+* fix pomelo add command
+* master start servers in 2 mode, detached in production, no detched in development
+
+
 0.7.3 / 2013-11-15
 =================
 * add heartbeat timeout option
