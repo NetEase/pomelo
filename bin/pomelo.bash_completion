@@ -1,0 +1,62 @@
+# pomelo(1) completion
+# please put this file into /etc/bash_completion.d
+
+have pomelo &&
+_pomelo()
+{
+    COMPREPLY=()
+    local cur prev
+    _get_comp_words_by_ref cur prev
+
+    case $prev in
+        list|stop|add)
+            COMPREPLY=( $( compgen -W "-u --username -p --password -h --host -P --port --help" -- "$cur" ) )
+            return 0;
+            ;;
+        init)
+            _filedir
+            return 0
+            ;;
+        start)
+            COMPREPLY=( $( compgen -W "-d --daemon -e --env --help" -- "$cur" ) )
+            return 0
+            ;;
+        kill)
+            COMPREPLY=( $( compgen -W "-f --force -u --username -p --password -h --host -P --port --help" -- "$cur" ) )
+            return 0
+            ;;
+        -u|-p|-h|-P|-e)
+            return 0
+            ;;
+        masterha)
+            return 0
+            ;;
+        --help|--version|-V)
+            # argument required but no completions available
+            return 0
+            ;;
+    esac
+
+    if [[ ${COMP_WORDS[@]#start} != ${COMP_WORDS[@]} ]] 
+    then
+        COMPREPLY=( $( compgen -W "-d --daemon -e --env --help"  -- "$cur") )
+        return 0;
+    fi
+    
+    if [[ ${COMP_WORDS[@]#list} != ${COMP_WORDS[@]} || ${COMP_WORDS[@]#stop} != ${COMP_WORDS[@]} || ${COMP_WORDS[@]#add} != ${COMP_WORDS[@]} ]] 
+    then
+        COMPREPLY=( $( compgen -W "-u --username -p --password -h --host -P --port --help"  -- "$cur") )
+        return 0;
+    fi
+
+    if [[ ${COMP_WORDS[@]#kill} != ${COMP_WORDS[@]} ]] 
+    then
+        COMPREPLY=( $( compgen -W "-f --force -u --username -p --password -h --host -P --port --help"  -- "$cur") )
+        return 0;
+    fi
+
+    COMPREPLY=( $( compgen -W "list init start stop kill  --help --version -V add masterha" -- "$cur" ) )
+    return 0
+} &&
+complete -F _pomelo pomelo
+
