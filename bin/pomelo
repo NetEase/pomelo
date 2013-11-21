@@ -258,20 +258,25 @@ function list() {
         var servers = [];
         rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
         for(var key in msg) {
-          var server = msg[key];
-          var serverId = new String(server['serverId']);
-          serverId.server = server;
-          servers.push(serverId);
+          servers.push(msg[key]);
         }
-        servers.sort();
+        servers.sort(function(a,b) {
+          if (a['serverType'] > b['serverType']) {
+            return 1;
+          } else if (a['serverType'] < b['serverType']) {
+            return -1;
+          } else if (a['serverId'] > b['serverId']) {
+            return 1;
+          } else if (a['serverId'] < b['serverId']) {
+            return -1;
+          } else return 0;
+        });
 
-       for (var i = 0; i < servers.length; ++i) { 
-          var serverId = servers[i];
-          var server =serverId.server;
+       servers.forEach(function(server) {
           rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
-       }
-        console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
-        process.exit(0);
+       });
+       console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
+       process.exit(0);
       });
     }
   });
