@@ -258,14 +258,17 @@ function list() {
         var servers = [];
         rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
         for(var key in msg) {
-          var server = msg[key];
-          var serverType = new String(server['serverType']);
-          serverType.server = server;
-          servers.push(serverType);
+          servers.push(msg[key]);
         }
-        servers.sort();
-        servers.forEach(function(serverType) {
-          var server = serverType.server;
+        servers.sort(function(a,b) {
+          if (a['serverType'] !== b['serverType']) {
+            return a['serverType'] > b['serverType'];
+          } else {
+            return a['serverId'] > b['serverId'];
+          }
+        });
+
+        servers.forEach(function(server) {
           rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
         });
         console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
