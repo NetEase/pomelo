@@ -241,37 +241,38 @@ function start() {
  *
  */
 function list() {
-  if(IF_WORKSPACE) {    
-    processArgs(args.shift());
-    fs.readFile(TMP_FILE, function(err, data) {
-      if(err) abort(FILEREAD_ERROR);
-      var u = username || 'admin';
-      var p = password || 'admin';
-      var client = new adminClient({username: u, password: p, md5: true});
-      MASTER_JSON = require(MASTER_CONFIG);
-      var config = MASTER_JSON[data.toString().split(':')[0]];
-      var id = 'pomelo_list_' + Date.now();
-      client.connect(id, host || config.host, port || config.port, function(err) {
-        if(err) abort(CONNECT_ERROR + err.red);
-        else {
-          client.request(co.moduleId, {
+  processArgs(args.shift());
+  var u = username || 'admin';
+  var p = password || 'admin';
+  var client = new adminClient({username: u, password: p, md5: true});
+  var id = 'pomelo_list_' + Date.now();
+  client.connect(id, host || '127.0.0.1', port || '3005', function(err) {
+    if(err) abort(CONNECT_ERROR + err.red);
+    else {
+      client.request(co.moduleId, {
             signal: 'list'
-          }, function(err, data) {
-            if(err) console.error(err);            
-            var msg = data.msg;
-            var rows = [];
-            rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
-            for(var key in msg) {
-              var server = msg[key];
-              rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
-            }
-            console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
-            process.exit(0);
-          });
+      }, function(err, data) {
+        if(err) console.error(err);            
+        var msg = data.msg;
+        var rows = [];
+        var servers = [];
+        rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
+        for(var key in msg) {
+          var server = msg[key];
+          var serverType = new String(server['serverType']);
+          serverType.server = server;
+          servers.push(serverType);
         }
+        servers.sort();
+        servers.forEach(function(serverType) {
+          var server = serverType.server;
+          rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
+        });
+        console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
+        process.exit(0);
       });
-    });
-  } else abort(NOWORKSPACE_ERROR);
+    }
+  });
 };
 
 /**
