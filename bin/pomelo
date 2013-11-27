@@ -40,9 +40,9 @@ var FILEREAD_ERROR = 'Fail to read the file, please check if the application is 
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
 var ADD_SERVER_INFO = 'Successfully add server.';
 var INIT_PROJ_NOTICE = '\nThe default admin user is: \n\n'+ '  username'.green + ': admin\n  ' + 'password'.green+ ': admin\n\nYou can configure admin users by editing adminUser.json later.\n ';
-var SCRIPT_NOT_FOUND = 'Fail to find an appropriate script to run,\nplease check the current work directory or the arguments passed to.\n';
-var MASTER_HA_NOT_FOUND = 'Fail to find an appropriate masterha config file, \nplease check the current work directory or the arguments passed to.\n';
-var COMMAND_ERROR = 'Illegal command format. Use `pomelo --help` to get more info.'.red;
+var SCRIPT_NOT_FOUND = 'Fail to find an appropriate script to run,\nplease check the current work directory or the arguments passed to.\n'.red;
+var MASTER_HA_NOT_FOUND = 'Fail to find an appropriate masterha config file, \nplease check the current work directory or the arguments passed to.\n'.red;
+var COMMAND_ERROR = 'Illegal command format. Use `pomelo --help` to get more info.\n'.red;
 var DAEMON_INFO = 'The application is running in the background now.\n';
 
 program.version(version);
@@ -226,7 +226,7 @@ function start(opts) {
   }
 
   var absScript = path.resolve(opts.gameServerDir, 'app.js');
-  if (!fs.existsSync(absScript)) abort(SCRIPT_NOT_FOUND + 'Your specified script:' + absScript);
+  if (!fs.existsSync(absScript)) abort(SCRIPT_NOT_FOUND);
 
   var logDir = path.resolve(opts.gameServerDir, 'logs');
   if (!fs.existsSync(logDir)) fs.mkdir(logDir);
@@ -453,7 +453,7 @@ function mkdir(path, fn) {
  * @param {Function} cb
  */
 function connectorIsWs(cb) {
-  prompt('Please select underly connector, 1 for WebSocket, 2 for socket.io: [1] ', function(msg) {
+  prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io: [1] ', function(msg) {
     switch(msg.trim()) {
       case '':
       case '1':
