@@ -52,6 +52,10 @@
     "mocha": ">=0.0.1",
     "socket.io-client": ">=0.0.1",
     "jscoverage": ">=0.0.1",
-    "muk": ">=0.0.1"
+    "muk": ">=0.0.1",
+    "grunt": "~0.4.2",
+    "grunt-mocha-test": "0.8.x",
+    "grunt-jscoverage": "0.0.3",
+    "grunt-contrib-clean" : "0.5.x"
   }
 }
