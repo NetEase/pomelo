@@ -5,7 +5,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks("grunt-jscoverage"); 
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   var src = ['test/manager/taskManager.js', 'test/filters/*.js', 
   'test/remote/*.js', 'test/service/*.js', 'test/util/*.js', 'test/*.js'];
