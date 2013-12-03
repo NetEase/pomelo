@@ -1,3 +1,8 @@
+0.7.6 / 2013-12-3
+=================
+* upgrade pomelo-rpc to 0.2.4
+* upgrade pomelo-admin to 0.2.6(fix reconnect bug)
+
 0.7.5 / 2013-11-27
 =================
 * fix pomelo kill bug
