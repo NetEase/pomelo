@@ -1,3 +1,7 @@
+0.6.11 / 2013-12-05
+=================
+* upgrade pomelo-admin to 0.2.6
+
 0.6.9 / 2013-11-15
 =================
 * add start server detached
