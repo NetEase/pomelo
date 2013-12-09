@@ -3,21 +3,21 @@
 /**
  * Module dependencies.
  */
-var fs = require('fs')
-  , os = require('os')
-  , path = require('path')
-  , util = require('util')
-  , cliff = require('cliff')
-  , mkdirp = require('mkdirp')
-  , co = require('../lib/modules/console')
-  , utils = require('../lib/util/utils')
-  , starter = require('../lib/master/starter')
-  , exec = require('child_process').exec
-  , spawn = require('child_process').spawn
-  , version = require('../package.json').version
-  , adminClient = require('pomelo-admin').adminClient
-  , constants = require('../lib/util/constants')
-  , program = require('commander')
+var fs = require('fs'),
+  os = require('os'),
+  path = require('path'),
+  util = require('util'),
+  cliff = require('cliff'),
+  mkdirp = require('mkdirp'),
+  co = require('../lib/modules/console'),
+  utils = require('../lib/util/utils'),
+  starter = require('../lib/master/starter'),
+  exec = require('child_process').exec,
+  spawn = require('child_process').spawn,
+  version = require('../package.json').version,
+  adminClient = require('pomelo-admin').adminClient,
+  constants = require('../lib/util/constants'),
+  program = require('commander');
 
 /**
  *  Constant Variables
@@ -50,16 +50,16 @@ program.version(version);
 program.command('init <path>')
   .description('create a new application')
   .action(function(path) {
-    init(path); 
+    init(path);
   });
 
 program.command('start')
   .description('start the application')
   .option('-e, --env <env>', 'the used environment', DEFAULT_ENV)
   .option('-d, --daemon', 'enable the daemon start')
-  .option('-g, --game-server-dir <game-server-dir>', 'game-server dir', DEFAULT_GAME_SERVER_DIR) 
+  .option('-g, --game-server-dir <game-server-dir>', 'game-server dir', DEFAULT_GAME_SERVER_DIR)
   .action(function(opts) {
-    start(opts); 
+    start(opts);
   });
 
 program.command('list')
@@ -69,7 +69,7 @@ program.command('list')
   .option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
   .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
   .action(function(opts) {
-    list(opts); 
+    list(opts);
   });
 
 program.command('add')
@@ -81,7 +81,7 @@ program.command('add')
   .action(function() {
     var args = [].slice.call(arguments, 0);
     var opts = args[args.length - 1];
-    opts.args = args.slice(0, -1); 
+    opts.args = args.slice(0, -1);
     add(opts);
   });
 
@@ -98,7 +98,7 @@ program.command('stop')
     terminal('stop', opts);
   });
 
-program.command('kill') 
+program.command('kill')
   .description('kill the application')
   .option('-u, --username <username>', 'administration user name', DEFAULT_USERNAME)
   .option('-p, --password <password>', 'administration password', DEFAULT_PWD)
@@ -108,8 +108,8 @@ program.command('kill')
   .action(function() {
     var args = [].slice.call(arguments, 0);
     var opts = args[args.length - 1];
-    opts.serverIds = args.slice(0, -1); 
-    terminal('kill', opts); 
+    opts.serverIds = args.slice(0, -1);
+    terminal('kill', opts);
   });
 
 program.command('masterha')
@@ -147,10 +147,10 @@ function init(path) {
             abort('Fail to init a project'.red);
           }
         });
-      };
+      }
     });
   });
-};
+}
 
 /**
  * Create directory and files at the given directory `path`.
@@ -165,7 +165,7 @@ function createApplicationAt(ph, isWs) {
   setTimeout(function() {
     if (isWs) {
       // use websocket
-      var unlinkFiles = ['game-server/app.js.sio', 
+      var unlinkFiles = ['game-server/app.js.sio',
                          'web-server/public/index.html.sio',
                          'web-server/public/js/lib/pomeloclient.js',
                          'web-server/public/js/lib/socket.io.js'];
@@ -188,7 +188,7 @@ function createApplicationAt(ph, isWs) {
         for(var i = 0; i < list.length; i++) {
           var filename = path.join(dir, list[i]);
           var stat = fs.statSync(filename);
-          if(filename == "." || filename == "..") {
+          if(filename === "." || filename === "..") {
           } else if(stat.isDirectory()) {
             rmdir(filename);
           } else {
@@ -205,9 +205,9 @@ function createApplicationAt(ph, isWs) {
     var replaceFiles = ['game-server/app.js',
                         'game-server/package.json',
                         'web-server/package.json'];
-    for(var i = 0; i < replaceFiles.length; i++) {
-      var str = fs.readFileSync(path.resolve(ph, replaceFiles[i])).toString();
-      fs.writeFileSync(path.resolve(ph, replaceFiles[i]), str.replace('$', name));
+    for(var j = 0; j < replaceFiles.length; j++) {
+      var str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
+      fs.writeFileSync(path.resolve(ph, replaceFiles[j]), str.replace('$', name));
     }
     var f = path.resolve(ph, 'game-server/package.json');
     var content = fs.readFileSync(f).toString();
@@ -226,10 +226,14 @@ function start(opts) {
   }
 
   var absScript = path.resolve(opts.gameServerDir, 'app.js');
-  if (!fs.existsSync(absScript)) abort(SCRIPT_NOT_FOUND);
+  if (!fs.existsSync(absScript)) {
+    abort(SCRIPT_NOT_FOUND);
+  }
 
   var logDir = path.resolve(opts.gameServerDir, 'logs');
-  if (!fs.existsSync(logDir)) fs.mkdir(logDir);
+  if (!fs.existsSync(logDir)) {
+    fs.mkdir(logDir);
+  }
 
   var ls;
   if (opts.daemon) {
@@ -246,8 +250,7 @@ function start(opts) {
       console.log(data.toString());
     });
   }
-};
-
+}
 
 /**
  * List pomelo processes.
@@ -258,29 +261,37 @@ function list(opts) {
   var id = 'pomelo_list_' + Date.now();
   connectToMaster(id, opts, function(client) {
     client.request(co.moduleId, {signal: 'list'}, function(err, data) {
-      if(err) console.error(err);            
+      if(err) {
+        console.error(err);
+      }
       var servers = [];
       for(var key in data.msg) {
         servers.push(data.msg[key]);
       }
       var comparer = function(a, b) {
-        if (a['serverType'] < b['serverType']) return -1;
-        else if (a['serverType'] > b['serverType']) return 1;
-        else if (a['serverId'] < b['serverId']) return -1;
-        else if (a['serverId'] > b['serverId']) return 1;
-        else return 0;
+        if (a.serverType < b.serverType) {
+          return -1;
+        } else if (a.serverType > b.serverType) {
+          return 1;
+        } else if (a.serverId < b.serverId) {
+          return -1;
+        } else if (a.serverId > b.serverId) {
+          return 1;
+        } else {
+          return 0;
+        }
       };
-      servers.sort(comparer);  
+      servers.sort(comparer);
       var rows = [];
       rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
       servers.forEach(function(server) {
-        rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
+        rows.push([server.serverId, server.serverType, server.pid, server.heapUsed, server.uptime]);
       });
       console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
       process.exit(0);
     });
   });
-};
+}
 
 /**
  * Add server to application.
@@ -290,13 +301,17 @@ function list(opts) {
 function add(opts) {
   var id = 'pomelo_add_' + Date.now();
   connectToMaster(id, opts, function(client) {
-    client.request(co.moduleId, { signal: 'add', args: opts.args }, function(err, msg) {
-      if(err) console.error(err);            
-      else console.info(ADD_SERVER_INFO);
+    client.request(co.moduleId, { signal: 'add', args: opts.args }, function(err) {
+      if(err) {
+        console.error(err);
+      }
+      else {
+        console.info(ADD_SERVER_INFO);
+      }
       process.exit(0);
     });
   });
-};
+}
 
 /**
  * Terminal application.
@@ -308,27 +323,35 @@ function terminal(signal, opts) {
   console.info(CLOSEAPP_INFO);
   // option force just for `kill`
   if(opts.force){
-    os.platform() === 'win32' ? exec(KILL_CMD_WIN):exec(KILL_CMD_LUX);
+    if (os.platform() === 'win32') {
+      exec(KILL_CMD_WIN);
+    } else {
+      exec(KILL_CMD_LUX);
+    }
     process.exit(1);
     return;
-  } 
+  }
   var id = 'pomelo_terminal_' + Date.now();
   connectToMaster(id, opts, function(client) {
     client.request(co.moduleId, {
       signal: signal, ids: opts.serverIds
-    }, function(err, msg) {
-      if(err) console.error(err.red);
+    }, function(err) {
+      if(err) {
+        console.error(err.red);
+      }
       setTimeout(function() {
         process.exit(0);
       }, TIME_KILL_WAIT);
     });
   });
-};
+}
 
 function connectToMaster(id, opts, cb) {
   var client = new adminClient({username: opts.username, password: opts.password, md5: true});
   client.connect(id, opts.host, opts.port, function(err) {
-    if(err) abort(CONNECT_ERROR + err.red);
+    if(err) {
+      abort(CONNECT_ERROR + err.red);
+    }
     if(typeof cb === 'function') {
       cb(client);
     }
@@ -344,16 +367,16 @@ function startMasterha(opts) {
   if (!utils.endsWith(opts.gameServerDir, 'game-server')) {
     opts.gameServerDir = path.join(opts.gameServerDir, 'game-server');
   }
-  var configFile = path.join(opts.gameServerDir, constants.FilePath.MASTER_HA); 
+  var configFile = path.join(opts.gameServerDir, constants.FilePath.MASTER_HA);
   if(!fs.existsSync(configFile)) {
     abort(MASTER_HA_NOT_FOUND);
   }
-  var masterha = require(configFile)['masterha'];
+  var masterha = require(configFile).masterha;
   for(var i=0; i<masterha.length; i++) {
     var server = masterha[i];
-    server['mode'] = 'stand-alone';
-    server['masterha'] = 'true';
-    server['home'] = opts.gameServerDir; 
+    server.mode = 'stand-alone';
+    server.masterha = 'true';
+    server.home = opts.gameServerDir;
     runServer(server);
   }
 }
@@ -366,10 +389,12 @@ function startMasterha(opts) {
  */
 function emptyDirectory(path, fn) {
   fs.readdir(path, function(err, files) {
-    if(err && 'ENOENT' != err.code) abort(FILEREAD_ERROR);
+    if(err && 'ENOENT' !== err.code) {
+      abort(FILEREAD_ERROR);
+    }
     fn(!files || !files.length);
   });
-};
+}
 
 /**
  * Prompt confirmation with the given `msg`.
@@ -381,7 +406,7 @@ function confirm(msg, fn) {
   prompt(msg, function(val) {
     fn(/^ *y(es)?/i.test(val));
   });
-};
+}
 
 /**
  * Prompt input with the given `msg` and callback `fn`.
@@ -390,13 +415,16 @@ function confirm(msg, fn) {
  * @param {Function} fn
  */
 function prompt(msg, fn) {
-  if(' ' == msg[msg.length - 1]) process.stdout.write(msg);
-  else console.log(msg);
+  if(' ' === msg[msg.length - 1]) {
+    process.stdout.write(msg);
+  } else {
+    console.log(msg);
+  }
   process.stdin.setEncoding('ascii');
   process.stdin.once('data', function(data) {
     fn(data);
   }).resume();
-};
+}
 
 /**
  * Exit with the given `str`.
@@ -406,7 +434,7 @@ function prompt(msg, fn) {
 function abort(str) {
   console.error(str);
   process.exit(1);
-};
+}
 
 /**
  * Copy template files to project.
@@ -415,23 +443,29 @@ function abort(str) {
  * @param {String} target
  */
 function copy(origin, target) {
-  if(!fs.existsSync(origin)) abort(origin + 'does not exist.');
+  if(!fs.existsSync(origin)) {
+    abort(origin + 'does not exist.');
+  }
   if(!fs.existsSync(target)) {
     mkdir(target);
     console.log('   create : '.green + target);
   }
   fs.readdir(origin, function(err, datalist) {
-    if(err) abort(FILEREAD_ERROR);
+    if(err) {
+      abort(FILEREAD_ERROR);
+    }
     for(var i = 0; i < datalist.length; i++) {
       var oCurrent = path.resolve(origin, datalist[i]);
       var tCurrent = path.resolve(target, datalist[i]);
       if(fs.statSync(oCurrent).isFile()) {
         fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
         console.log('   create : '.green + tCurrent);
-      } else if(fs.statSync(oCurrent).isDirectory()) copy(oCurrent, tCurrent);
+      } else if(fs.statSync(oCurrent).isDirectory()) {
+        copy(oCurrent, tCurrent);
+      }
     }
   });
-};
+}
 
 /**
  * Mkdir -p.
@@ -441,9 +475,13 @@ function copy(origin, target) {
  */
 function mkdir(path, fn) {
   mkdirp(path, 0755, function(err){
-    if (err) throw err;
+    if(err) {
+      throw err;
+    }
     console.log('   create : '.green + path);
-    fn && fn();
+    if(typeof fn === 'function') {
+      fn();
+    }
   });
 }
 
@@ -468,7 +506,7 @@ function connectorIsWs(cb) {
          break;
     }
   });
-};
+}
 
 /**
  * Run server.
@@ -477,7 +515,7 @@ function connectorIsWs(cb) {
  */
 function runServer(server) {
   var cmd, key;
-  var main = path.resolve(server['home'], 'app.js');
+  var main = path.resolve(server.home, 'app.js');
   if(utils.isLocal(server.host)) {
     var options = [];
     options.push(main);
@@ -486,12 +524,12 @@ function runServer(server) {
     }
     starter.localrun(process.execPath, null, options);
   } else {
-    cmd = util.format('cd "%s" && "%s"', server['home'], process.execPath);
+    cmd = util.format('cd "%s" && "%s"', server.home, process.execPath);
     cmd += util.format(' "%s" ', main);
     for(key in server) {
       cmd += util.format(' %s=%s ', key, server[key]);
     }
     starter.sshrun(cmd, server.host);
   }
-};
+}
 
