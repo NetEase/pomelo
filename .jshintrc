@@ -1,23 +1,13 @@
 {
-  "predef": [
-    "describe",
-    "it",
-    "before",
-    "beforeEach",
-    "after",
-    "afterEach",
-    "window",
-    "__resources__"
-  ],
-  "es5": true,
   "node": true,
+  "camelcase": true,
   "eqeqeq": true,
   "undef": true,
+  "unused": true,
   "curly": true,
-  "bitwise": true,
-  "immed": false,
   "newcap": true,
   "nonew": true,
-  "white": false,
-  "strict": false
+  "trailing": true,
+  "smarttabs": true,
+  "noarg": true
 }
