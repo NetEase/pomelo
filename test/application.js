@@ -561,6 +561,19 @@ describe('application test', function(){
       }, WAIT_TIME);
     });
   });
+  describe('#use', function() {
+    it('should ', function(done) {
+      var plugin = {
+        components: mockBase + '/mock-plugin/components/',
+        events: mockBase + '/mock-plugin/events/'
+      };
+      var opts = {};
+      app.use(plugin, opts);
+      should.exist(app.event.listeners('bind_session'));
+      should.exist(app.components.mockPlugin);
+      done();
+    });
+  });
 });
 
 var contains = function(slist, sinfo) {
