@@ -562,7 +562,7 @@ describe('application test', function(){
     });
   });
   describe('#use', function() {
-    it('should ', function(done) {
+    it('should exist plugin component and event', function(done) {
       var plugin = {
         components: mockBase + '/mock-plugin/components/',
         events: mockBase + '/mock-plugin/events/'
