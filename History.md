@@ -1,3 +1,8 @@
+0.7.7 / 2013-12-16
+=================
+* upgrade pomelo-loader to 0.0.6
+* upgrade pomelo-logger to 0.1.2(add dynamic change logger level feature)
+
 0.7.6 / 2013-12-3
 =================
 * upgrade pomelo-rpc to 0.2.4
