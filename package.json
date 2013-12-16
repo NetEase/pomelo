@@ -36,7 +36,7 @@
     "pomelo-protocol": "0.1.2",
     "pomelo-admin": "0.2.6",
     "pomelo-monitor": "0.3.7",
-    "pomelo-logger": "0.1.1",
+    "pomelo-logger": "0.1.2",
     "pomelo-schedule": "0.3.4",
     "ws": "0.4.25",
     "toobusy": "0.2.2",
