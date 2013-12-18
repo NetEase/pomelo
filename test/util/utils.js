@@ -114,4 +114,14 @@ describe('utils test', function() {
     });
   });
 
+  describe('#loadCluster', function() {
+    it('should produce cluster servers', function() {
+      var clusterServer = {host: '127.0.0.1', port: '3010++', serverType: 'chat', cluster: true, clusterCount: 2};
+      var serverMap = {};
+      var app = {clusterSeq:{}};
+      utils.loadCluster(app, clusterServer, serverMap);
+      utils.size(serverMap).should.equal(2);
+    });
+  });
+
 });
