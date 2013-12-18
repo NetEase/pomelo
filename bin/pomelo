@@ -40,7 +40,7 @@ var FILEREAD_ERROR = 'Fail to read the file, please check if the application is 
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
 var ADD_SERVER_INFO = 'Successfully add server.';
 var INIT_PROJ_NOTICE = '\nThe default admin user is: \n\n'+ '  username'.green + ': admin\n  ' + 'password'.green+ ': admin\n\nYou can configure admin users by editing adminUser.json later.\n ';
-var SCRIPT_NOT_FOUND = 'Fail to find an appropriate script to run,\nplease check the current work directory or the arguments passed to.\n'.red;
+var SCRIPT_NOT_FOUND = 'Fail to find an appropriate script to run,\nplease check the current work directory or the directory specified by option `--directory`.\n'.red;
 var MASTER_HA_NOT_FOUND = 'Fail to find an appropriate masterha config file, \nplease check the current work directory or the arguments passed to.\n'.red;
 var COMMAND_ERROR = 'Illegal command format. Use `pomelo --help` to get more info.\n'.red;
 var DAEMON_INFO = 'The application is running in the background now.\n';
@@ -56,8 +56,8 @@ program.command('init <path>')
 program.command('start')
   .description('start the application')
   .option('-e, --env <env>', 'the used environment', DEFAULT_ENV)
-  .option('-d, --daemon', 'enable the daemon start')
-  .option('-g, --game-server-dir <game-server-dir>', 'game-server dir', DEFAULT_GAME_SERVER_DIR)
+  .option('-D, --daemon', 'enable the daemon start')
+  .option('-d, --directory, <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
   .action(function(opts) {
     start(opts);
   });
@@ -114,7 +114,7 @@ program.command('kill')
 
 program.command('masterha')
   .description('start all the slaves of the master')
-  .option('-g, --game-server-dir <game-server-dir>', 'game server dir', DEFAULT_GAME_SERVER_DIR)
+  .option('-d, --directory <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
   .action(function(opts) {
     startMasterha(opts);
   });
@@ -221,16 +221,12 @@ function createApplicationAt(ph, isWs) {
  * @param {Object} opts options for `start` operation
  */
 function start(opts) {
-  if (!utils.endsWith(opts.gameServerDir, 'game-server')) {
-    opts.gameServerDir = path.join(opts.gameServerDir, 'game-server');
-  }
-
-  var absScript = path.resolve(opts.gameServerDir, 'app.js');
+  var absScript = path.resolve(opts.directory, 'app.js');
   if (!fs.existsSync(absScript)) {
     abort(SCRIPT_NOT_FOUND);
   }
 
-  var logDir = path.resolve(opts.gameServerDir, 'logs');
+  var logDir = path.resolve(opts.directory, 'logs');
   if (!fs.existsSync(logDir)) {
     fs.mkdir(logDir);
   }
@@ -364,10 +360,7 @@ function connectToMaster(id, opts, cb) {
  * @param {String} option for `startMasterha` operation
  */
 function startMasterha(opts) {
-  if (!utils.endsWith(opts.gameServerDir, 'game-server')) {
-    opts.gameServerDir = path.join(opts.gameServerDir, 'game-server');
-  }
-  var configFile = path.join(opts.gameServerDir, constants.FilePath.MASTER_HA);
+  var configFile = path.join(opts.directory, constants.FilePath.MASTER_HA);
   if(!fs.existsSync(configFile)) {
     abort(MASTER_HA_NOT_FOUND);
   }
@@ -376,7 +369,7 @@ function startMasterha(opts) {
     var server = masterha[i];
     server.mode = 'stand-alone';
     server.masterha = 'true';
-    server.home = opts.gameServerDir;
+    server.home = opts.directory;
     runServer(server);
   }
 }
