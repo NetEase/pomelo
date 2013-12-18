@@ -218,7 +218,7 @@ describe('channel manager test', function() {
         mockMsg.should.eql(msg);
         mockRoute.should.equal(route);
         should.exist(opts);
-        mockBinded.should.equal(opts.binded);
+        mockBinded.should.equal(opts.userOptions.binded);
         sids.push(sid);
         cb();
       };
