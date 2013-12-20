@@ -47,10 +47,10 @@ var DAEMON_INFO = 'The application is running in the background now.\n';
 
 program.version(version);
 
-program.command('init <path>')
+program.command('init [path]')
   .description('create a new application')
   .action(function(path) {
-    init(path);
+    init(path || CUR_DIR);
   });
 
 program.command('start')
