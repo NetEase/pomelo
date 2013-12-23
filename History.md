@@ -1,3 +1,15 @@
+0.8.0 / 2013-12-24
+=================
+* refactor bin/pomelo
+* pushScheduler add option
+* add rpc invoke method
+* lifecycle callback feature
+* add rcp filter interface
+* simplify servers.json configuration
+* pomelo-logger dynamic log level
+* pomelo-rpc & pomelo-admin white list
+* pomelo-data-plugin
+
 0.7.7 / 2013-12-16
 =================
 * upgrade pomelo-loader to 0.0.6
