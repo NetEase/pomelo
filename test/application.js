@@ -200,6 +200,78 @@ describe('application test', function(){
     });
   });
 
+   describe('#globalFilter', function() {
+    it('should add before global filter and could fetch it later', function() {
+      var filters = [
+        function() {console.error('global filter1');},
+        function() {}
+      ];
+
+      app.init({base: mockBase});
+
+      var i, l;
+      for(i=0, l=filters.length; i<l; i++) {
+        app.globalBefore(filters[i]);
+      }
+
+      var filters2 = app.get('__globalBefores__');
+      should.exist(filters2);
+      filters2.length.should.equal(filters.length);
+      for(i=0, l=filters2.length; i<l; i++) {
+        filters2[i].should.equal(filters[i]);
+      }
+    });
+
+    it('should add after global filter and could fetch it later', function() {
+      var filters = [
+        function() {console.error('filter1');},
+        function() {}
+      ];
+
+      app.init({base: mockBase});
+
+      var i, l;
+      for(i=0, l=filters.length; i<l; i++) {
+        app.globalAfter(filters[i]);
+      }
+
+      var filters2 = app.get('__globalAfters__');
+      should.exist(filters2);
+      filters2.length.should.equal(filters.length);
+      for(i=0, l=filters2.length; i<l; i++) {
+        filters2[i].should.equal(filters[i]);
+      }
+    });
+
+    it('should add filter and could fetch it from before and after filter later', function() {
+      var filters = [
+        function() {console.error('filter1');},
+        function() {}
+      ];
+
+      app.init({base: mockBase});
+
+      var i, l;
+      for(i=0, l=filters.length; i<l; i++) {
+        app.globalFilter(filters[i]);
+      }
+
+      var filters2 = app.get('__globalBefores__');
+      should.exist(filters2);
+      filters2.length.should.equal(filters.length);
+      for(i=0, l=filters2.length; i<l; i++) {
+        filters2[i].should.equal(filters[i]);
+      }
+
+      var filters3 = app.get('__globalAfters__');
+      should.exist(filters3);
+      filters3.length.should.equal(filters.length);
+      for(i=0, l=filters3.length; i<l; i++) {
+        filters2[i].should.equal(filters[i]);
+      }
+    });
+  });
+
   describe('#configure', function() {
     it('should execute the code block wtih the right environment', function() {
       var proCount = 0, devCount = 0;
@@ -463,6 +535,43 @@ describe('application test', function(){
 
       app.addServers(newServers);
       app.removeServers(delIds);
+    });
+  });
+
+  describe('#beforeStopHook', function() {
+    it('should be called before application stopped.', function(done) {
+      var count = 0;
+      app.init({base: mockBase});
+      app.beforeStopHook(function() {
+        count++;
+      });
+      app.start(function(err) {
+        should.not.exist(err);
+      });
+
+      setTimeout(function() {
+        // wait for after start
+        app.stop(false);
+
+        setTimeout(function() {
+          // wait for stop
+          count.should.equal(1);
+          done();
+        }, WAIT_TIME);
+      }, WAIT_TIME);
+    });
+  });
+  describe('#use', function() {
+    it('should exist plugin component and event', function(done) {
+      var plugin = {
+        components: mockBase + '/mock-plugin/components/',
+        events: mockBase + '/mock-plugin/events/'
+      };
+      var opts = {};
+      app.use(plugin, opts);
+      should.exist(app.event.listeners('bind_session'));
+      should.exist(app.components.mockPlugin);
+      done();
     });
   });
 });
