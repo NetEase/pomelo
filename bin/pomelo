@@ -333,7 +333,7 @@ function terminal(signal, opts) {
       signal: signal, ids: opts.serverIds
     }, function(err) {
       if(err) {
-        console.error(err.red);
+        console.error(err);
       }
       setTimeout(function() {
         process.exit(0);
