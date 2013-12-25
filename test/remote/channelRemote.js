@@ -105,14 +105,14 @@ describe('channel remote test', function() {
           invokeCount++;
           mockMsg.should.eql(msg);
           should.exist(opts);
-          should.equal(opts.isBroadcast, true);
+          should.equal(opts.type, 'broadcast');
           cb();
         }
       };
       app.set('sessionService', sessionService);
       app.set('channelService', channelService);
       var channelRemote = remote(app);
-      channelRemote.broadcast(mockRoute, mockMsg, null, function() {
+      channelRemote.broadcast(mockRoute, mockMsg, {type: 'broadcast'}, function() {
         invokeCount.should.equal(1);
         done();
       });
@@ -151,15 +151,15 @@ describe('channel remote test', function() {
           invokeCount++;
           mockMsg.should.eql(msg);
           should.exist(opts);
-          true.should.equal(opts.isBroadcast);
-          true.should.equal(opts.binded);
+          should.equal(opts.type, 'broadcast');
+          true.should.equal(opts.userOptions.binded);
           cb();
         }
       };
       app.set('sessionService', sessionService);
       app.set('channelService', channelService);
       var channelRemote = remote(app);
-      channelRemote.broadcast(mockRoute, mockMsg, {binded: true}, function() {
+      channelRemote.broadcast(mockRoute, mockMsg, {type: 'broadcast', userOptions: {binded: true}}, function() {
         invokeCount.should.equal(1);
         done();
       });

@@ -3,100 +3,128 @@
 /**
  * Module dependencies.
  */
-var fs = require('fs')
-  , os = require('os')
-  , path = require('path')
-  , util = require('util')
-  , cliff = require('cliff')
-  , mkdirp = require('mkdirp')
-  , co = require('../lib/modules/console')
-  , utils = require('../lib/util/utils')
-  , starter = require('../lib/master/starter')
-  , exec = require('child_process').exec
-  , spawn = require('child_process').spawn
-  , version = require('../package.json').version
-  , adminClient = require('pomelo-admin').adminClient;
+var fs = require('fs'),
+  os = require('os'),
+  path = require('path'),
+  util = require('util'),
+  cliff = require('cliff'),
+  mkdirp = require('mkdirp'),
+  co = require('../lib/modules/console'),
+  utils = require('../lib/util/utils'),
+  starter = require('../lib/master/starter'),
+  exec = require('child_process').exec,
+  spawn = require('child_process').spawn,
+  version = require('../package.json').version,
+  adminClient = require('pomelo-admin').adminClient,
+  constants = require('../lib/util/constants'),
+  program = require('commander');
 
 /**
- *  Common Variables
+ *  Constant Variables
  */
-var DEV = 'development';
-var PRD = 'production';
-var DEM = '--daemon';
-var DAEMON = false;
 var TIME_INIT = 1 * 1000;
 var TIME_KILL_WAIT = 5 * 1000;
-
-var CUR_DIR = process.cwd();
-var IF_HOME = utils.endsWith(CUR_DIR, 'game-server');
-var IF_WORKSPACE = fs.existsSync('./app.js') || fs.existsSync('game-server/app.js');
-var HOME = IF_HOME ? CUR_DIR : path.join(CUR_DIR, 'game-server');
-var LOGS_DIR = IF_HOME ? path.join(CUR_DIR, 'logs') : path.join(CUR_DIR, 'game-server/logs');
-var MASTER_CONFIG = path.resolve(HOME, 'config/master.json');
-var TMP_FILE = path.resolve(LOGS_DIR, 'tmp');
 var KILL_CMD_LUX = 'kill -9 `ps -ef|grep node|awk \'{print $2}\'`';
 var KILL_CMD_WIN = 'taskkill /im node.exe /f';
-var MASTER_JSON;
 
-var NOWORKSPACE_ERROR = 'Please go to your game-server directory to start the application.';
-var INSTALLFOREVER_ERROR = 'Please install forever use command first: npm install forever -g.';
+var CUR_DIR = process.cwd();
+var DEFAULT_GAME_SERVER_DIR = CUR_DIR;
+var DEFAULT_USERNAME = 'admin';
+var DEFAULT_PWD = 'admin';
+var DEFAULT_ENV = 'development';
+var DEFAULT_MASTER_HOST = '127.0.0.1';
+var DEFAULT_MASTER_PORT = 3005;
+
 var CONNECT_ERROR = 'Fail to connect to admin console server.';
 var FILEREAD_ERROR = 'Fail to read the file, please check if the application is started legally.';
-var RUNDAEMON_INFO = 'Application run in daemon.\nStop the application use the command:pomelo stop.';
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
-var ADD_SUCCESS_INFO= 'Successfully add server.';
+var ADD_SERVER_INFO = 'Successfully add server.';
+var INIT_PROJ_NOTICE = '\nThe default admin user is: \n\n'+ '  username'.green + ': admin\n  ' + 'password'.green+ ': admin\n\nYou can configure admin users by editing adminUser.json later.\n ';
+var SCRIPT_NOT_FOUND = 'Fail to find an appropriate script to run,\nplease check the current work directory or the directory specified by option `--directory`.\n'.red;
+var MASTER_HA_NOT_FOUND = 'Fail to find an appropriate masterha config file, \nplease check the current work directory or the arguments passed to.\n'.red;
+var COMMAND_ERROR = 'Illegal command format. Use `pomelo --help` to get more info.\n'.red;
+var DAEMON_INFO = 'The application is running in the background now.\n';
 
-var INIT_PROJ_NOTICE = "\nThe default admin user is: \n\n"+ "  username".green + ": admin\n  " + "password".green+ ": admin\n\nYou can configure admin users by editing adminUser.json later.\n ";
+program.version(version);
 
-var USAGE = '' + '\n' + '  Usage: pomelo [action] [options]\n' + '\n' + '  Options:\n' + '  init  [path]        create new application\n' + '  start [development|production] [--daemon]      start the application\n' + '  list  [-u <username -p <password>] list server information\n' + '  stop  [-u <username> -p <password>] stop the application\n' + '  kill  [-u <username> -p <password>] [--force]     kill the application\n' + '  --version            output framework version\n' + '  --help                output this help information\n';
+program.command('init [path]')
+  .description('create a new application')
+  .action(function(path) {
+    init(path || CUR_DIR);
+  });
 
-var COMMAND_ERROR = 'Illegal command format.'.red + USAGE;
+program.command('start')
+  .description('start the application')
+  .option('-e, --env <env>', 'the used environment', DEFAULT_ENV)
+  .option('-D, --daemon', 'enable the daemon start')
+  .option('-d, --directory, <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
+  .action(function(opts) {
+    start(opts);
+  });
 
-var username, password, host, port;
+program.command('list')
+  .description('list the servers')
+  .option('-u, --username <username>', 'administration user name', DEFAULT_USERNAME)
+  .option('-p, --password <password>', 'administration password', DEFAULT_PWD)
+  .option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
+  .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
+  .action(function(opts) {
+    list(opts);
+  });
 
-/**
- * Parse command arguments.
- */
-var args = process.argv.slice(2);
+program.command('add')
+  .description('add a new server')
+  .option('-u, --username <username>', 'administration user name', DEFAULT_USERNAME)
+  .option('-p, --password <password>', 'administration password', DEFAULT_PWD)
+  .option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
+  .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
+  .action(function() {
+    var args = [].slice.call(arguments, 0);
+    var opts = args[args.length - 1];
+    opts.args = args.slice(0, -1);
+    add(opts);
+  });
 
-(function() {
-  var arg = args.shift();
-  switch(arg) {
-  case '--help':
-    legalArgNum(0);
-    abort(USAGE);
-    break;
-  case '--version':
-    legalArgNum(0);
-    abort(version);
-    break;
-  case 'list':
-    parseUserAndPassword(list);
-    break;
-  case 'init':
-    legalArgNum(1);
-    init(args[0]);
-    break;
-  case 'start':
-    start();
-    break;
-  case 'add':
-    parseUserAndPassword(add);
-    break;
-  case 'stop':
-    parseUserAndPassword(terminal.bind(null, 'stop'));
-    break;
-  case 'kill':
-    parseUserAndPassword(terminal.bind(null, 'kill'));
-    break;
-  case 'masterha':
-    parseUserAndPassword(startMasterha);
-    break;
-  default:
-    abort(COMMAND_ERROR);
-    break;
-  }
-})();
+program.command('stop')
+  .description('stop the servers, for multiple servers, use `pomelo stop server-id-1 server-id-2`')
+  .option('-u, --username <username>', 'administration user name', DEFAULT_USERNAME)
+  .option('-p, --password <password>', 'administration password', DEFAULT_PWD)
+  .option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
+  .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
+  .action(function() {
+    var args = [].slice.call(arguments, 0);
+    var opts = args[args.length - 1];
+    opts.serverIds = args.slice(0, -1);
+    terminal('stop', opts);
+  });
+
+program.command('kill')
+  .description('kill the application')
+  .option('-u, --username <username>', 'administration user name', DEFAULT_USERNAME)
+  .option('-p, --password <password>', 'administration password', DEFAULT_PWD)
+  .option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
+  .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
+  .option('-f, --force', 'using this option would kill all the node processes')
+  .action(function() {
+    var args = [].slice.call(arguments, 0);
+    var opts = args[args.length - 1];
+    opts.serverIds = args.slice(0, -1);
+    terminal('kill', opts);
+  });
+
+program.command('masterha')
+  .description('start all the slaves of the master')
+  .option('-d, --directory <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
+  .action(function(opts) {
+    startMasterha(opts);
+  });
+
+program.command('*')
+  .action(function() {
+    console.log(COMMAND_ERROR);
+  });
+
+program.parse(process.argv);
 
 /**
  * Init application at the given directory `path`.
@@ -119,10 +147,10 @@ function init(path) {
             abort('Fail to init a project'.red);
           }
         });
-      };
+      }
     });
   });
-};
+}
 
 /**
  * Create directory and files at the given directory `path`.
@@ -136,9 +164,8 @@ function createApplicationAt(ph, isWs) {
   mkdir(path.join(ph, 'shared'));
   setTimeout(function() {
     if (isWs) {
-
       // use websocket
-      var unlinkFiles = ['game-server/app.js.sio', 
+      var unlinkFiles = ['game-server/app.js.sio',
                          'web-server/public/index.html.sio',
                          'web-server/public/js/lib/pomeloclient.js',
                          'web-server/public/js/lib/socket.io.js'];
@@ -161,7 +188,7 @@ function createApplicationAt(ph, isWs) {
         for(var i = 0; i < list.length; i++) {
           var filename = path.join(dir, list[i]);
           var stat = fs.statSync(filename);
-          if(filename == "." || filename == "..") {
+          if(filename === "." || filename === "..") {
           } else if(stat.isDirectory()) {
             rmdir(filename);
           } else {
@@ -178,9 +205,9 @@ function createApplicationAt(ph, isWs) {
     var replaceFiles = ['game-server/app.js',
                         'game-server/package.json',
                         'web-server/package.json'];
-    for(var i = 0; i < replaceFiles.length; i++) {
-      var str = fs.readFileSync(path.resolve(ph, replaceFiles[i])).toString();
-      fs.writeFileSync(path.resolve(ph, replaceFiles[i]), str.replace('$', name));
+    for(var j = 0; j < replaceFiles.length; j++) {
+      var str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
+      fs.writeFileSync(path.resolve(ph, replaceFiles[j]), str.replace('$', name));
     }
     var f = path.resolve(ph, 'game-server/package.json');
     var content = fs.readFileSync(f).toString();
@@ -191,211 +218,161 @@ function createApplicationAt(ph, isWs) {
 /**
  * Start application.
  *
+ * @param {Object} opts options for `start` operation
  */
-function start() {
-  var mode = DEV;
-  var param = args[0];
-  switch(args.length) {
-  case 0:
-    break;
-  case 1:
-    if(param === DEM) DAEMON = true;
-    else mode = param;
-    break;
-  case 2:
-    mode = param;
-    if(args[1] === DEM) DAEMON = true;
-    else abort(COMMAND_ERROR);
-    break;
-  default:
-    abort(COMMAND_ERROR);
-    break;
-  };
-  if(IF_HOME) {
-    var ls;
-    if(!DAEMON) {
-      ls = spawn(process.execPath, [path.resolve(HOME, 'app.js'), 'env=' + mode]);
-      ls.stdout.on('data', function(data) {
-        console.log(data.toString());
-      });
-      ls.stderr.on('data', function(data) {
-        console.log(data.toString());
-      });
-    } else {
-        var cmd = 'forever start app.js env=' + mode;
-        ls = exec(cmd, function(err, stdout, stderr) {
-          if(!!err) {
-            abort(INSTALLFOREVER_ERROR);
-          }
-          else {
-            console.info(RUNDAEMON_INFO);
-          }
-        });
-    }
-    fs.writeFile(TMP_FILE, mode + ':' + DAEMON);
-  } else abort(NOWORKSPACE_ERROR);
-};
+function start(opts) {
+  var absScript = path.resolve(opts.directory, 'app.js');
+  if (!fs.existsSync(absScript)) {
+    abort(SCRIPT_NOT_FOUND);
+  }
+
+  var logDir = path.resolve(opts.directory, 'logs');
+  if (!fs.existsSync(logDir)) {
+    fs.mkdir(logDir);
+  }
+
+  var ls;
+  if (opts.daemon) {
+    ls = spawn(process.execPath, [absScript, 'env=' + opts.env], {detached: true, stdio: 'ignore'});
+    ls.unref();
+    console.log(DAEMON_INFO);
+    process.exit(0);
+  } else {
+    ls = spawn(process.execPath, [absScript, 'env=' + opts.env]);
+    ls.stdout.on('data', function(data) {
+      console.log(data.toString());
+    });
+    ls.stderr.on('data', function(data) {
+      console.log(data.toString());
+    });
+  }
+}
 
 /**
  * List pomelo processes.
  *
+ * @param {Object} opts options for `list` operation
  */
-function list() {
-  if(IF_WORKSPACE) {    
-    processHostAndPortArgs();
-    fs.readFile(TMP_FILE, function(err, data) {
-      if(err) abort(FILEREAD_ERROR);
-      var u = username || 'admin';
-      var p = password || 'admin';
-      var client = new adminClient({username: u, password: p, md5: true});
-      MASTER_JSON = require(MASTER_CONFIG);
-      var config = MASTER_JSON[data.toString().split(':')[0]];
-      var id = 'pomelo_list_' + Date.now();
-      client.connect(id, host || config.host, port || config.port, function(err) {
-        if(err) abort(CONNECT_ERROR + err.red);
-        else {
-          client.request(co.moduleId, {
-            signal: 'list'
-          }, function(err, data) {
-            if(err) console.error(err);            
-            var msg = data.msg;
-            var rows = [];
-            rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
-            for(var key in msg) {
-              var server = msg[key];
-              rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
-            }
-            console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
-            process.exit(0);
-          });
+function list(opts) {
+  var id = 'pomelo_list_' + Date.now();
+  connectToMaster(id, opts, function(client) {
+    client.request(co.moduleId, {signal: 'list'}, function(err, data) {
+      if(err) {
+        console.error(err);
+      }
+      var servers = [];
+      for(var key in data.msg) {
+        servers.push(data.msg[key]);
+      }
+      var comparer = function(a, b) {
+        if (a.serverType < b.serverType) {
+          return -1;
+        } else if (a.serverType > b.serverType) {
+          return 1;
+        } else if (a.serverId < b.serverId) {
+          return -1;
+        } else if (a.serverId > b.serverId) {
+          return 1;
+        } else {
+          return 0;
         }
+      };
+      servers.sort(comparer);
+      var rows = [];
+      rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
+      servers.forEach(function(server) {
+        rows.push([server.serverId, server.serverType, server.pid, server.heapUsed, server.uptime]);
       });
+      console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
+      process.exit(0);
     });
-  } else abort(NOWORKSPACE_ERROR);
-};
+  });
+}
 
 /**
  * Add server to application.
- * 
+ *
+ * @param {Object} opts options for `add` operation
  */
-function add() {
-  if(IF_WORKSPACE) {    
-    processHostAndPortArgs();
-    fs.readFile(TMP_FILE, function(err, data) {
-      if(err) abort(FILEREAD_ERROR);
-      var u = username || 'admin';
-      var p = password || 'admin';
-      var client = new adminClient({username: u, password: p, md5: true});
-      MASTER_JSON = require(MASTER_CONFIG);
-      var config = MASTER_JSON[data.toString().split(':')[0]];
-      var id = 'pomelo_add_' + Date.now();
-      client.connect(id, host || config.host, port || config.port, function(err) {
-        if(err) abort(CONNECT_ERROR + err.red);
-        else {
-          client.request(co.moduleId, {
-            signal: 'add', args: args
-          }, function(err, msg) {
-            if(err) console.error(err);            
-            else console.info(ADD_SUCCESS_INFO); 
-            process.exit(0);
-          });
-        }
-      });
+function add(opts) {
+  var id = 'pomelo_add_' + Date.now();
+  connectToMaster(id, opts, function(client) {
+    client.request(co.moduleId, { signal: 'add', args: opts.args }, function(err) {
+      if(err) {
+        console.error(err);
+      }
+      else {
+        console.info(ADD_SERVER_INFO);
+      }
+      process.exit(0);
     });
-  } else abort(NOWORKSPACE_ERROR);
-};
+  });
+}
 
 /**
  * Terminal application.
  *
  * @param {String} signal stop/kill
- *
+ * @param {Object} opts options for `stop/kill` operation
  */
-function terminal(signal) {
-  if(IF_WORKSPACE) {
-    console.info(CLOSEAPP_INFO);
-    var param = args.shift();
-    if(param === '--force') {
-      os.platform() === 'win32' ? exec(KILL_CMD_WIN):exec(KILL_CMD_LUX);
-      process.exit(1);
-      return;
+function terminal(signal, opts) {
+  console.info(CLOSEAPP_INFO);
+  // option force just for `kill`
+  if(opts.force){
+    if (os.platform() === 'win32') {
+      exec(KILL_CMD_WIN);
     } else {
-      if (param) args.unshift(param);
-      processHostAndPortArgs();
+      exec(KILL_CMD_LUX);
     }
-    fs.readFile(TMP_FILE, function(err, data) {
-      if(err) abort(FILEREAD_ERROR);
-      var u = username || 'admin';
-      var p = password || 'admin';
-      var client = new adminClient({username: u, password: p, md5: true});
-      MASTER_JSON = require(MASTER_CONFIG);
-      var config = MASTER_JSON[data.toString().split(':')[0]];
-      var id = 'pomelo_terminal_' + Date.now();
-      if(data.toString().split(':')[1] === 'true' && args.length === 0) {
-        setTimeout(function() {
-          if(IF_HOME) exec('forever stop app.js');
-          else exec('cd game-server && forever stop app.js');
-          process.exit(0);
-        }, TIME_KILL_WAIT);
+    process.exit(1);
+    return;
+  }
+  var id = 'pomelo_terminal_' + Date.now();
+  connectToMaster(id, opts, function(client) {
+    client.request(co.moduleId, {
+      signal: signal, ids: opts.serverIds
+    }, function(err) {
+      if(err) {
+        console.error(err.red);
       }
-      client.connect(id, host || config.host, port || config.port, function(err) {
-        if(err) abort(CONNECT_ERROR + err.red);
-        client.request(co.moduleId, {
-          signal: signal, ids: args
-        }, function(err, msg) {
-          if(err) console.error(err);
-          setTimeout(function() {
-            if(msg && msg.status === 'all') fs.unlinkSync(TMP_FILE);
-            process.exit(0);
-          }, TIME_KILL_WAIT);
-        });
-      });
+      setTimeout(function() {
+        process.exit(0);
+      }, TIME_KILL_WAIT);
     });
-  } else abort(NOWORKSPACE_ERROR);
-};
+  });
+}
+
+function connectToMaster(id, opts, cb) {
+  var client = new adminClient({username: opts.username, password: opts.password, md5: true});
+  client.connect(id, opts.host, opts.port, function(err) {
+    if(err) {
+      abort(CONNECT_ERROR + err.red);
+    }
+    if(typeof cb === 'function') {
+      cb(client);
+    }
+  });
+}
 
 /**
  * Start master slaves.
  *
+ * @param {String} option for `startMasterha` operation
  */
-function startMasterha() {
-  if(IF_HOME) {
-    switch(args.length) {
-      case 0:
-        abort(COMMAND_ERROR);
-        break;
-      case 1:
-        var path = HOME + args[0];
-        if(!fs.existsSync(path)) {
-          abort('Fail to find the masterha file on ' + path);
-          return;
-        }
-        var masterha = require(path)['masterha'];
-        for(var i=0; i<masterha.length; i++) {
-          var server = masterha[i];
-          server['mode'] = 'stand-alone';
-          server['masterha'] = 'true';
-          runServer(server);
-        }
-        break;
-      default:
-        var server = {};
-        for(var i=0; i<args.length; i++) {
-          if(args[i].indexOf('=') < 0) {
-            abort(COMMAND_ERROR);
-            return;
-          }
-          server[args[i].split('=')[0]] = args[i].split('=')[1];  
-        }
-        server['mode'] = 'stand-alone';
-        server['masterha'] = 'true';
-        runServer(server);
-        break;
-    }
-  } else {
-    abort(NOWORKSPACE_ERROR);
+function startMasterha(opts) {
+  var configFile = path.join(opts.directory, constants.FilePath.MASTER_HA);
+  if(!fs.existsSync(configFile)) {
+    abort(MASTER_HA_NOT_FOUND);
   }
-};
+  var masterha = require(configFile).masterha;
+  for(var i=0; i<masterha.length; i++) {
+    var server = masterha[i];
+    server.mode = 'stand-alone';
+    server.masterha = 'true';
+    server.home = opts.directory;
+    runServer(server);
+  }
+}
 
 /**
  * Check if the given directory `path` is empty.
@@ -405,10 +382,12 @@ function startMasterha() {
  */
 function emptyDirectory(path, fn) {
   fs.readdir(path, function(err, files) {
-    if(err && 'ENOENT' != err.code) abort(FILEREAD_ERROR);
+    if(err && 'ENOENT' !== err.code) {
+      abort(FILEREAD_ERROR);
+    }
     fn(!files || !files.length);
   });
-};
+}
 
 /**
  * Prompt confirmation with the given `msg`.
@@ -420,7 +399,7 @@ function confirm(msg, fn) {
   prompt(msg, function(val) {
     fn(/^ *y(es)?/i.test(val));
   });
-};
+}
 
 /**
  * Prompt input with the given `msg` and callback `fn`.
@@ -429,13 +408,16 @@ function confirm(msg, fn) {
  * @param {Function} fn
  */
 function prompt(msg, fn) {
-  if(' ' == msg[msg.length - 1]) process.stdout.write(msg);
-  else console.log(msg);
+  if(' ' === msg[msg.length - 1]) {
+    process.stdout.write(msg);
+  } else {
+    console.log(msg);
+  }
   process.stdin.setEncoding('ascii');
   process.stdin.once('data', function(data) {
     fn(data);
   }).resume();
-};
+}
 
 /**
  * Exit with the given `str`.
@@ -445,16 +427,7 @@ function prompt(msg, fn) {
 function abort(str) {
   console.error(str);
   process.exit(1);
-};
-
-/**
- * Check whether the number of arguments is legal.
- *
- * @param {Number} argNum
- */
-function legalArgNum(argNum) {
-  if(args.length != argNum) abort(COMMAND_ERROR);
-};
+}
 
 /**
  * Copy template files to project.
@@ -463,23 +436,29 @@ function legalArgNum(argNum) {
  * @param {String} target
  */
 function copy(origin, target) {
-  if(!fs.existsSync(origin)) abort(origin + 'is not exist.');
+  if(!fs.existsSync(origin)) {
+    abort(origin + 'does not exist.');
+  }
   if(!fs.existsSync(target)) {
     mkdir(target);
-    console.log('   \x1b[36mcreate\x1b[0m : ' + target);
+    console.log('   create : '.green + target);
   }
   fs.readdir(origin, function(err, datalist) {
-    if(err) abort(FILEREAD_ERROR);
+    if(err) {
+      abort(FILEREAD_ERROR);
+    }
     for(var i = 0; i < datalist.length; i++) {
       var oCurrent = path.resolve(origin, datalist[i]);
       var tCurrent = path.resolve(target, datalist[i]);
       if(fs.statSync(oCurrent).isFile()) {
         fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
-        console.log('   \x1b[36mcreate\x1b[0m : ' + tCurrent);
-      } else if(fs.statSync(oCurrent).isDirectory()) copy(oCurrent, tCurrent);
+        console.log('   create : '.green + tCurrent);
+      } else if(fs.statSync(oCurrent).isDirectory()) {
+        copy(oCurrent, tCurrent);
+      }
     }
   });
-};
+}
 
 /**
  * Mkdir -p.
@@ -489,41 +468,14 @@ function copy(origin, target) {
  */
 function mkdir(path, fn) {
   mkdirp(path, 0755, function(err){
-    if (err) throw err;
-    console.log('   \033[36mcreate\033[0m : ' + path);
-    fn && fn();
-  });
-}
-
-/**
- * Parse args to get username and password for command list, stop, kill 
- *
- * @param {Function} cb 
- */
-function parseUserAndPassword(cb) {
-  var res = [];
-  for (var i = 0; i < args.length; ++i) {
-    switch (args[i]) {
-      case '-u' :
-        if (i < args.length - 1) {
-          username = args[++i];
-        } else {
-          abort(COMMAND_ERROR);
-        }
-        break;
-      case '-p' :
-        if (i < args.length -1 ) {
-          password = args[++i];
-        } else {
-          abort(COMMAND_ERROR);
-        }
-        break;
-      default:
-        res.push(args[i]);
+    if(err) {
+      throw err;
     }
-  }
-  args = res;
-  cb.apply(null);
+    console.log('   create : '.green + path);
+    if(typeof fn === 'function') {
+      fn();
+    }
+  });
 }
 
 /**
@@ -532,7 +484,7 @@ function parseUserAndPassword(cb) {
  * @param {Function} cb
  */
 function connectorIsWs(cb) {
-  prompt('Please select underly connector, 1 for WebSocket, 2 for socket.io: ', function(msg) {
+  prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io: [1] ', function(msg) {
     switch(msg.trim()) {
       case '':
       case '1':
@@ -542,21 +494,21 @@ function connectorIsWs(cb) {
          cb(false);
          break;
       default:
-         process.stdout.write('Invalid choice! Please input 1 or 2.'.red + '\n');
+         console.log('Invalid choice! Please input 1 or 2.'.red + '\n');
          connectorIsWs(cb);
          break;
     }
   });
-};
+}
 
 /**
- * Run slave master.
+ * Run server.
  * 
  * @param {Object} server server information
  */
 function runServer(server) {
   var cmd, key;
-  var main = path.resolve(HOME, 'app.js');
+  var main = path.resolve(server.home, 'app.js');
   if(utils.isLocal(server.host)) {
     var options = [];
     options.push(main);
@@ -565,42 +517,11 @@ function runServer(server) {
     }
     starter.localrun(process.execPath, null, options);
   } else {
-    cmd = util.format('cd "%s" && "%s"', HOME, process.execPath);
+    cmd = util.format('cd "%s" && "%s"', server.home, process.execPath);
     cmd += util.format(' "%s" ', main);
     for(key in server) {
       cmd += util.format(' %s=%s ', key, server[key]);
     }
     starter.sshrun(cmd, server.host);
   }
-};
-
-/**
- * Process arguments for slave master.
- *
- * @param {string} command argument
- */
-function processHostAndPortArgs() {
-  var res = [];
-  for (var i = 0; i < args.length; ++i) {
-    switch(args[i]) {
-      case '-h':
-        if (i < args.length - 1) {
-          host = args[++i];
-        } else {
-          abort(COMMAND_ERROR);
-        }
-        break;
-      case '-P':
-         if (i < args.length - 1) {
-          port = args[++i];
-        } else {
-          abort(COMMAND_ERROR);
-        }
-        break;
-      default:
-        res.push(args[i]);
-        break;
-    }
-  }
-  args = res;
-}; 
+}
