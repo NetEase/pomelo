@@ -1,3 +1,9 @@
+0.8.1 / 2013-12-31
+=================
+* upgrade pomelo-rpc to 0.2.6
+* handle rpc filter error
+* add test cases
+
 0.8.0 / 2013-12-24
 =================
 * refactor bin/pomelo
