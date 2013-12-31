@@ -1,7 +1,7 @@
 MOCHA_OPTS=
 TESTS = test/*
 REPORTER = dot
-TIMEOUT = 5000
+TIMEOUT = 6000
 
 test:
 	@./node_modules/.bin/mocha \
