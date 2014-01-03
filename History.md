@@ -1,3 +1,8 @@
+0.8.2 / 2013-01-03
+=================
+* fix session kick bug issue #355
+* fix add rpc filter bug
+
 0.8.1 / 2013-12-31
 =================
 * upgrade pomelo-rpc to 0.2.6
