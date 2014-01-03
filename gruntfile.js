@@ -5,9 +5,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks("grunt-jscoverage"); 
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   var src = ['test/manager/taskManager.js', 'test/filters/*.js', 
   'test/remote/*.js', 'test/service/*.js', 'test/util/*.js', 'test/*.js'];
+
   // Project configuration.
   grunt.initConfig({
     // Metadata.
@@ -43,10 +45,13 @@ module.exports = function(grunt) {
         src: ['coverage.html']
       }
     },
+    jshint: {
+      all: ['lib/*']
+    }
   });
 
   // Default task.
-  grunt.registerTask('default', ['clean', 'jscoverage', 'mochaTest:dot']);
+  grunt.registerTask('default', ['clean', 'jscoverage', 'mochaTest:dot', 'jshint:all']);
 
   grunt.registerTask('test-cov', 'run mocha html-cov reporter to coverage.html', function() {
     process.env.POMELO_COV = 1;
