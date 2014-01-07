@@ -1,3 +1,6 @@
+0.6.12 / 2014-01-07
+=================
+* modify the implemetation of `pomelo kill`, make it more reliable
 
 0.6.11 / 2013-12-05
 =================
