@@ -327,11 +327,18 @@ function terminal(signal) {
         client.request(co.moduleId, {
           signal: signal, ids: args
         }, function(err, msg) {
-          if(err) console.error(err);
-          setTimeout(function() {
-            if(msg && msg.status === 'all') fs.unlinkSync(TMP_FILE);
-            process.exit(0);
-          }, TIME_KILL_WAIT);
+          if(err) {
+            console.error(err);
+          }
+          if(signal === 'kill') {
+            if(msg && msg.code === 'ok') {
+              console.log('All the servers have been terminated');
+              fs.unlinkSync(TMP_FILE);
+            } else {
+              console.log('There may be some servers remained:', msg.serverIds);
+            }
+          }
+          process.exit(0);
         });
       });
     });
