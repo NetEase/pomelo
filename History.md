@@ -1,3 +1,10 @@
+0.8.3 / 2013-01-16
+=================
+* add tcp socket close option
+* upgrade pomelo-rpc 0.2.7
+* upgrade pomelo-admin 0.2.8
+* upgrade pomelo-schedule 0.3.7
+
 0.8.2 / 2013-01-03
 =================
 * fix session kick bug issue #355
