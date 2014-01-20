@@ -256,7 +256,7 @@ function list() {
         var msg = data.msg;
         var rows = [];
         var servers = [];
-        rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
+        rows.push(['serverId', 'serverType', 'pid', 'rss(M)', 'heapTotal(M)', 'heapUsed(M)', 'uptime(m)']);
         for(var key in msg) {
           servers.push(msg[key]);
         }
@@ -273,9 +273,9 @@ function list() {
         });
 
        servers.forEach(function(server) {
-          rows.push([server['serverId'], server['serverType'], server['pid'], server['heapUsed'], server['uptime']]);
+          rows.push([server['serverId'], server['serverType'], server['pid'], server['rss'], server['heapTotal'], server['heapUsed'], server['uptime']]);
        });
-       console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
+       console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'cyan', 'magenta', 'white', 'yellow']));
        process.exit(0);
       });
     }
