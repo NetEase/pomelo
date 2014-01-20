@@ -360,7 +360,7 @@ function connectToMaster(id, opts, cb) {
  * @param {String} option for `startMasterha` operation
  */
 function startMasterha(opts) {
-  var configFile = path.join(opts.directory, constants.FilePath.MASTER_HA);
+  var configFile = path.join(opts.directory, constants.FILEPATH.MASTER_HA);
   if(!fs.existsSync(configFile)) {
     abort(MASTER_HA_NOT_FOUND);
   }
