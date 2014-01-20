@@ -1,3 +1,7 @@
+0.6.13 / 2014-01-20
+================
+* add rss & heapTotal info for `pomelo list`
+
 0.6.12 / 2014-01-07
 =================
 * modify the implemetation of `pomelo kill`, make it more reliable
