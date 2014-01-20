@@ -1,3 +1,7 @@
+0.8.4 / 2013-01-20
+=================
+* fix bin/pomelo spell bug
+
 0.8.3 / 2013-01-16
 =================
 * add tcp socket close option
