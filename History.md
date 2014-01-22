@@ -1,3 +1,8 @@
+0.8.5 / 2013-01-22
+=================
+* upgrade pomelo-rpc 0.2.8
+* upgrade pomelo-scheduler 0.3.8
+
 0.8.4 / 2013-01-20
 =================
 * fix bin/pomelo spell bug
