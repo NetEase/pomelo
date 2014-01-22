@@ -1,3 +1,8 @@
+0.8.6 / 2013-01-22
+=================
+* upgrade pomelo-rpc 0.2.9
+* upgrade pomelo-admin 0.2.9
+
 0.8.5 / 2013-01-22
 =================
 * upgrade pomelo-rpc 0.2.8
