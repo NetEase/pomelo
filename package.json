@@ -1,6 +1,6 @@
 {
   "name": "pomelo",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "private": false,
   "homepage": "https://github.com/NetEase/pomelo",
   "repository": {
@@ -39,7 +39,7 @@
     "pomelo-logger": "0.1.2",
     "pomelo-scheduler": "0.3.8",
     "ws": "0.4.25",
-    "toobusy": "0.2.2",
+    "toobusy": "0.2.4",
     "pomelo-protobuf": "0.4.0",
     "node-bignumber": "1.2.1",
     "commander": "2.0.0"

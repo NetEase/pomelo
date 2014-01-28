@@ -1,3 +1,7 @@
+0.8.7 / 2013-01-28
+=================
+* refactor pomelo command, report remained servers if kill failed 
+
 0.8.6 / 2013-01-22
 =================
 * upgrade pomelo-rpc 0.2.9
