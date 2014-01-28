@@ -331,13 +331,18 @@ function terminal(signal, opts) {
   connectToMaster(id, opts, function(client) {
     client.request(co.moduleId, {
       signal: signal, ids: opts.serverIds
-    }, function(err) {
+    }, function(err, msg) {
       if(err) {
         console.error(err);
       }
-      setTimeout(function() {
-        process.exit(0);
-      }, TIME_KILL_WAIT);
+      if(signal === 'kill') {
+        if(msg.code === 'ok') {
+          console.log('All the servers have been terminated!');
+        } else {
+          console.log('There may be some servers remained:', msg.serverIds);
+        }
+      }
+      process.exit(0);
     });
   });
 }
