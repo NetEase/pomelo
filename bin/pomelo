@@ -233,13 +233,15 @@ function start(opts) {
   }
   
   var ls;
+  var type = opts.type || constants.RESERVED.ALL;
+
   if (opts.daemon) {
-    ls = spawn(process.execPath, [absScript, 'env=' + opts.env, 'type=' + opts.type], {detached: true, stdio: 'ignore'});
+    ls = spawn(process.execPath, [absScript, 'env=' + opts.env, 'type=' + type], {detached: true, stdio: 'ignore'});
     ls.unref();
     console.log(DAEMON_INFO);
     process.exit(0);
   } else {
-    ls = spawn(process.execPath, [absScript, 'env=' + opts.env, 'type=' + opts.type]);
+    ls = spawn(process.execPath, [absScript, 'env=' + opts.env, 'type=' + type]);
     ls.stdout.on('data', function(data) {
       console.log(data.toString());
     });
@@ -319,8 +321,8 @@ function add(opts) {
 function terminal(signal, opts) {
   console.info(CLOSEAPP_INFO);
   // option force just for `kill`
-  if(opts.force){
-    if (os.platform() === 'win32') {
+  if(opts.force) {
+    if (os.platform() === constants.PLATFORM.WIN) {
       exec(KILL_CMD_WIN);
     } else {
       exec(KILL_CMD_LUX);
@@ -368,7 +370,7 @@ function startMasterha(opts) {
   var masterha = require(configFile).masterha;
   for(var i=0; i<masterha.length; i++) {
     var server = masterha[i];
-    server.mode = 'stand-alone';
+    server.mode = constants.RESERVED.STAND_ALONE;
     server.masterha = 'true';
     server.home = opts.directory;
     runServer(server);
