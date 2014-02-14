@@ -60,6 +60,7 @@ program.command('start')
   .option('-D, --daemon', 'enable the daemon start')
   .option('-d, --directory, <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
   .option('-t, --type <server-type>,', 'start server type')
+  .option('-i, --id <server-id>', 'start server id')
   .action(function(opts) {
     start(opts);
   });
@@ -248,14 +249,17 @@ function start(opts) {
   
   var ls;
   var type = opts.type || constants.RESERVED.ALL;
-
+  var params = [absScript, 'env=' + opts.env, 'type=' + type];
+  if(!!opts.id) {
+    params.push('startId=' + opts.id);
+  }
   if (opts.daemon) {
-    ls = spawn(process.execPath, [absScript, 'env=' + opts.env, 'type=' + type], {detached: true, stdio: 'ignore'});
+    ls = spawn(process.execPath, params, {detached: true, stdio: 'ignore'});
     ls.unref();
     console.log(DAEMON_INFO);
     process.exit(0);
   } else {
-    ls = spawn(process.execPath, [absScript, 'env=' + opts.env, 'type=' + type]);
+    ls = spawn(process.execPath, params);
     ls.stdout.on('data', function(data) {
       console.log(data.toString());
     });
