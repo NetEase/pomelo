@@ -121,10 +121,9 @@ program.command('restart')
   .option('-p, --password <password>', 'administration password', DEFAULT_PWD)
   .option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
   .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
-  .action(function() {
-    var args = [].slice.call(arguments, 0);
-    var opts = args[args.length - 1];
-    opts.serverIds = args.slice(0, -1);
+  .option('-t, --type <server-type>,', 'start server type')
+  .option('-i, --id <server-id>', 'start server id')
+  .action(function(opts) {
     restart(opts);
   });
 
@@ -365,12 +364,21 @@ function terminal(signal, opts) {
 
 function restart(opts) {
   var id = 'pomelo_restart_' + Date.now();
+  var serverIds = [];
+  var type = null;
+  if(!!opts.id) {
+    serverIds.push(opts.id);
+  }
+  if(!!opts.type) {
+    type = opts.type;
+  }
   connectToMaster(id, opts, function(client) {
-    client.request(co.moduleId, { signal: 'restart', ids: opts.serverIds }, function(err) {
-      if(err) {
+    client.request(co.moduleId, { signal: 'restart', ids: serverIds, type: type}, function(err, fails) {
+      if(!!err) {
         console.error(err);
-      }
-      else {
+      } else if(!!fails.length) {
+        console.info('restart fails server ids: %j', fails);
+      } else {
         console.info(RESTART_SERVER_INFO);
       }
       process.exit(0);
