@@ -1,3 +1,7 @@
+0.8.8 / 2013-02-19
+=================
+* fix some typos in comment
+
 0.8.7 / 2013-01-28
 =================
 * refactor pomelo command, report remained servers if kill failed 
