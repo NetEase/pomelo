@@ -1,3 +1,7 @@
+0.8.9 / 2013-02-21
+=================
+* fix fin_wait2 caused by socket.end bug
+
 0.8.8 / 2013-02-19
 =================
 * fix some typos in comment
