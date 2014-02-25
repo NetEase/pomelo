@@ -1,3 +1,13 @@
+0.9.0 / 2013-02-26
+=================
+* rpc support for zmq
+* rpc requests callback timeout
+* rpc support for hot restart
+* optimize for command line
+* support for connection blacklist
+* protobuf support for decodeIO-protobuf.js
+* channel serialization interface
+
 0.8.9 / 2013-02-21
 =================
 * fix fin_wait2 caused by socket.end bug
