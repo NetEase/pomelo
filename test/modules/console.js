@@ -40,11 +40,11 @@ describe('console module test', function() {
 			});
 
 			var msg3 = {signal: 'addCron'};
-			module.monitorHandler(null, msg3, null);
+			module.monitorHandler(agent2, msg3, null);
 		 	rs.length.should.eql(1);
 
 		 	var msg4 = {signal: 'removeCron'};
-		 	module.monitorHandler(null, msg4, null);
+		 	module.monitorHandler(agent2, msg4, null);
 		 	rs.length.should.eql(1);
 		});
 	});
@@ -91,6 +91,9 @@ describe('console module test', function() {
 							case 'env':
 							  return 'dev';
 						}
+					},
+					set: function(value) {
+						return value;
 					}
 				}
 			};
