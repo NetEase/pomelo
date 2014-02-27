@@ -1,3 +1,7 @@
+0.6.15 / 2014-02-27
+================
+* add restart-force option
+
 0.6.14 / 2014-02-18
 ================
 * update rpc version
