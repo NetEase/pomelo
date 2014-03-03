@@ -1,3 +1,10 @@
+0.9.1 / 2013-03-03
+=================
+* fix pomelo stop auto-restart bug
+* add restart-force option
+* add application.require method
+* export constants.js
+
 0.9.0 / 2013-02-26
 =================
 * rpc support for zmq
