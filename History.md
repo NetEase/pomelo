@@ -1,3 +1,10 @@
+0.9.2 / 2013-03-10
+=================
+* merge pull request sshPort
+* merge pull request #438
+* fix hybridconnector dict bug
+* upgrade pomelo-rpc to 0.3.2
+
 0.9.1 / 2013-03-03
 =================
 * fix pomelo stop auto-restart bug
