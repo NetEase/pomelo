@@ -1,3 +1,7 @@
+0.9.3 / 2013-03-11
+=================
+* upgrade pomelo-admin to 0.3.2 for npm reason
+
 0.9.2 / 2013-03-10
 =================
 * merge pull request sshPort
