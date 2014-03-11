@@ -39,6 +39,7 @@ var CONNECT_ERROR = 'Fail to connect to admin console server.';
 var FILEREAD_ERROR = 'Fail to read the file, please check if the application is started legally.';
 var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
 var ADD_SERVER_INFO = 'Successfully add server.';
+var RESTART_SERVER_INFO = 'Successfully restart server.';
 var INIT_PROJ_NOTICE = '\nThe default admin user is: \n\n'+ '  username'.green + ': admin\n  ' + 'password'.green+ ': admin\n\nYou can configure admin users by editing adminUser.json later.\n ';
 var SCRIPT_NOT_FOUND = 'Fail to find an appropriate script to run,\nplease check the current work directory or the directory specified by option `--directory`.\n'.red;
 var MASTER_HA_NOT_FOUND = 'Fail to find an appropriate masterha config file, \nplease check the current work directory or the arguments passed to.\n'.red;
@@ -58,6 +59,8 @@ program.command('start')
   .option('-e, --env <env>', 'the used environment', DEFAULT_ENV)
   .option('-D, --daemon', 'enable the daemon start')
   .option('-d, --directory, <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
+  .option('-t, --type <server-type>,', 'start server type')
+  .option('-i, --id <server-id>', 'start server id')
   .action(function(opts) {
     start(opts);
   });
@@ -110,6 +113,18 @@ program.command('kill')
     var opts = args[args.length - 1];
     opts.serverIds = args.slice(0, -1);
     terminal('kill', opts);
+  });
+
+program.command('restart')
+  .description('restart the servers, for multiple servers, use `pomelo restart server-id-1 server-id-2`')
+  .option('-u, --username <username>', 'administration user name', DEFAULT_USERNAME)
+  .option('-p, --password <password>', 'administration password', DEFAULT_PWD)
+  .option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
+  .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
+  .option('-t, --type <server-type>,', 'start server type')
+  .option('-i, --id <server-id>', 'start server id')
+  .action(function(opts) {
+    restart(opts);
   });
 
 program.command('masterha')
@@ -230,15 +245,20 @@ function start(opts) {
   if (!fs.existsSync(logDir)) {
     fs.mkdir(logDir);
   }
-
+  
   var ls;
+  var type = opts.type || constants.RESERVED.ALL;
+  var params = [absScript, 'env=' + opts.env, 'type=' + type];
+  if(!!opts.id) {
+    params.push('startId=' + opts.id);
+  }
   if (opts.daemon) {
-    ls = spawn(process.execPath, [absScript, 'env=' + opts.env], {detached: true, stdio: 'ignore'});
+    ls = spawn(process.execPath, params, {detached: true, stdio: 'ignore'});
     ls.unref();
     console.log(DAEMON_INFO);
     process.exit(0);
   } else {
-    ls = spawn(process.execPath, [absScript, 'env=' + opts.env]);
+    ls = spawn(process.execPath, params);
     ls.stdout.on('data', function(data) {
       console.log(data.toString());
     });
@@ -279,11 +299,11 @@ function list(opts) {
       };
       servers.sort(comparer);
       var rows = [];
-      rows.push(['serverId', 'serverType', 'pid', 'heapUsed(M)', 'uptime(m)']);
+      rows.push(['serverId', 'serverType', 'pid', 'rss(M)', 'heapTotal(M)', 'heapUsed(M)', 'uptime(m)']);
       servers.forEach(function(server) {
-        rows.push([server.serverId, server.serverType, server.pid, server.heapUsed, server.uptime]);
+        rows.push([server.serverId, server.serverType, server.pid, server.rss, server.heapTotal, server.heapUsed, server.uptime]);
       });
-      console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'white', 'yellow']));
+      console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'cyan', 'magenta', 'white', 'yellow']));
       process.exit(0);
     });
   });
@@ -318,8 +338,8 @@ function add(opts) {
 function terminal(signal, opts) {
   console.info(CLOSEAPP_INFO);
   // option force just for `kill`
-  if(opts.force){
-    if (os.platform() === 'win32') {
+  if(opts.force) {
+    if (os.platform() === constants.PLATFORM.WIN) {
       exec(KILL_CMD_WIN);
     } else {
       exec(KILL_CMD_LUX);
@@ -331,13 +351,42 @@ function terminal(signal, opts) {
   connectToMaster(id, opts, function(client) {
     client.request(co.moduleId, {
       signal: signal, ids: opts.serverIds
-    }, function(err) {
+    }, function(err, msg) {
       if(err) {
         console.error(err);
       }
-      setTimeout(function() {
-        process.exit(0);
-      }, TIME_KILL_WAIT);
+      if(signal === 'kill') {
+        if(msg.code === 'ok') {
+          console.log('All the servers have been terminated!');
+        } else {
+          console.log('There may be some servers remained:', msg.serverIds);
+        }
+      }
+      process.exit(0);
+    });
+  });
+}
+
+function restart(opts) {
+  var id = 'pomelo_restart_' + Date.now();
+  var serverIds = [];
+  var type = null;
+  if(!!opts.id) {
+    serverIds.push(opts.id);
+  }
+  if(!!opts.type) {
+    type = opts.type;
+  }
+  connectToMaster(id, opts, function(client) {
+    client.request(co.moduleId, { signal: 'restart', ids: serverIds, type: type}, function(err, fails) {
+      if(!!err) {
+        console.error(err);
+      } else if(!!fails.length) {
+        console.info('restart fails server ids: %j', fails);
+      } else {
+        console.info(RESTART_SERVER_INFO);
+      }
+      process.exit(0);
     });
   });
 }
@@ -360,14 +409,14 @@ function connectToMaster(id, opts, cb) {
  * @param {String} option for `startMasterha` operation
  */
 function startMasterha(opts) {
-  var configFile = path.join(opts.directory, constants.FilePath.MASTER_HA);
+  var configFile = path.join(opts.directory, constants.FILEPATH.MASTER_HA);
   if(!fs.existsSync(configFile)) {
     abort(MASTER_HA_NOT_FOUND);
   }
   var masterha = require(configFile).masterha;
   for(var i=0; i<masterha.length; i++) {
     var server = masterha[i];
-    server.mode = 'stand-alone';
+    server.mode = constants.RESERVED.STAND_ALONE;
     server.masterha = 'true';
     server.home = opts.directory;
     runServer(server);

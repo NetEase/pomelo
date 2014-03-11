@@ -40,16 +40,32 @@ describe('console module test', function() {
 			});
 
 			var msg3 = {signal: 'addCron'};
-			module.monitorHandler(null, msg3, null);
+			module.monitorHandler(agent2, msg3, null);
 		 	rs.length.should.eql(1);
 
 		 	var msg4 = {signal: 'removeCron'};
-		 	module.monitorHandler(null, msg4, null);
+		 	module.monitorHandler(agent2, msg4, null);
 		 	rs.length.should.eql(1);
 		});
 	});
 
 	describe('#clientHandler', function() {
+    var _exit;
+    var _setTimeout;
+    var exitCount = 0;
+
+    before(function(done) {
+      _exit = process.exit;
+      _setTimeout = setTimeout;
+      done();
+    });
+
+    after(function(done) {
+      process.exit = _exit;
+      setTimeout = _setTimeout;
+      done();
+    });
+
 		var opts = {
 				app: {
 					clusterSeq: {},
@@ -75,33 +91,59 @@ describe('console module test', function() {
 							case 'env':
 							  return 'dev';
 						}
+					},
+					set: function(value) {
+						return value;
 					}
 				}
 			};
 		var module = new consoleModule(opts);
 		it('should execute kill command', function(done) {
 			var msg = {signal: 'kill'};
-			var agent1 = {};
-			var agent2 = {
+      process.exit = function() {exitCount++;};
+      setTimeout = function(cb, timeout) {
+        if (timeout > 3000) {
+          timeout = 3000;
+        }
+        _setTimeout(cb, timeout);
+      };
+
+      var agent1 = {
+				request: function(recordId, moduleId, msg, cb) {
+					cb('chat-server-1');
+        },
 				idMap: {
 					'chat-server-1': {
 						type: 'chat',
-						id: 'chat-server-1',
-						pid: 888888
+						id: 'chat-server-1'
 					}
 				}
 			};
 			module.clientHandler(agent1, msg, function(err, result) {
-				should.exist(err);
-				should.not.exist(result);
+        should.not.exist(err);
+        should.exist(result.code);
 			});
 
+      var agent2 = {
+				request: function(recordId, moduleId, msg, cb) {
+					cb(null);
+        },
+				idMap: {
+					'chat-server-1': {
+						type: 'chat',
+						id: 'chat-server-1'
+					}
+				}
+			};
 			module.clientHandler(agent2, msg, function(err, result) {
-				should.not.exist(err);
-				result.status.should.eql('all');
-				done();
+        should.not.exist(err);
+        should.exist(result.code);
+        result.code.should.eql('remained');
+        exitCount.should.greaterThan(0);
+        done();
 			});
 		});
+
 		it('should execute stop command', function(done) {
 			var msg1 = {signal: 'stop', ids: ['chat-server-1']};
 			var msg2 = {signal: 'stop', ids:[]};
