@@ -1,3 +1,10 @@
+0.9.4 / 2014-03-20
+=================
+* merge pull request from zhaohaojie
+* merge pull request from wuxian
+* merge pull request from roytan883
+* fix history.md year bug
+
 0.9.3 / 2014-03-11
 =================
 * upgrade pomelo-admin to 0.3.2 for npm reason
