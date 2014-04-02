@@ -1,3 +1,10 @@
+0.9.5 / 2014-04-02
+=================
+* add support for different env
+* add session count method in sessionService
+* emit start_all_event
+* better prompt for init project
+
 0.9.4 / 2014-03-20
 =================
 * merge pull request from zhaohaojie
