@@ -533,7 +533,7 @@ function mkdir(path, fn) {
  * @param {Function} cb
  */
 function connectorIsWs(cb) {
-  prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io: [1] ', function(msg) {
+  prompt('Please select underly connector, 1 for native socket(support websocket), 2 for socket.io: [1] ', function(msg) {
     switch(msg.trim()) {
       case '':
       case '1':
