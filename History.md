@@ -1,3 +1,10 @@
+0.9.6 / 2014-04-16
+=================
+* merge pull request #472
+* merge pull request #475
+* merge pull request #485
+* update ssh config
+
 0.9.5 / 2014-04-02
 =================
 * add support for different env
