@@ -1,3 +1,9 @@
+0.6.16 / 2014-04-16
+================
+* fix pomelo-rpc bug
+* add pomelo-admin log
+* update ssh config
+
 0.6.15 / 2014-02-27
 ================
 * add restart-force option
