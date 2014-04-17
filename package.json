@@ -42,7 +42,8 @@
     "toobusy": "0.2.4",
     "pomelo-protobuf": "0.4.0",
     "node-bignumber": "1.2.1",
-    "commander": "2.0.0"
+    "commander": "2.0.0",
+    "ndaemonize": "0.0.2"
   },
   "bin": {
     "pomelo": "./bin/pomelo"
