@@ -1,3 +1,8 @@
+0.9.7 / 2014-04-25
+=================
+* merge pull request #486
+* add channelservice rpc error info
+
 0.9.6 / 2014-04-16
 =================
 * merge pull request #472
