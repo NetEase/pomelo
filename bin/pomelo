@@ -252,20 +252,25 @@ function start(opts) {
   if(!!opts.id) {
     params.push('startId=' + opts.id);
   }
+
   if (opts.daemon) {
-    ls = spawn(process.execPath, params, {detached: true, stdio: 'ignore'});
-    ls.unref();
-    console.log(DAEMON_INFO);
-    process.exit(0);
-  } else {
-    ls = spawn(process.execPath, params);
-    ls.stdout.on('data', function(data) {
-      console.log(data.toString());
-    });
-    ls.stderr.on('data', function(data) {
-      console.log(data.toString());
-    });
+    params.push('daemonize=true');
   }
+
+  ls = spawn(process.execPath, params);
+  ls.stdout.on('data', function(data) {
+    console.log(data.toString());
+  });
+
+  ls.stderr.on('data', function(data) {
+    console.log(data.toString());
+  });
+
+  ls.on('exit', function() {
+    if (opts.daemon) {
+      console.log(DAEMON_INFO);
+    }
+  });
 }
 
 /**
