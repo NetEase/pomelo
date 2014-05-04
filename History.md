@@ -1,3 +1,8 @@
+0.9.8 / 2014-05-04
+=================
+* remove unused module
+* update constants definition
+
 0.9.7 / 2014-04-25
 =================
 * merge pull request #486
