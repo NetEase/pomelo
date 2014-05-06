@@ -34,7 +34,7 @@
     "pomelo-loader": "0.0.6",
     "pomelo-rpc": "0.3.2",
     "pomelo-protocol": "0.1.3",
-    "pomelo-admin": "0.3.3",
+    "pomelo-admin": "0.3.4",
     "pomelo-monitor": "0.3.7",
     "pomelo-logger": "0.1.2",
     "pomelo-scheduler": "0.3.8",
