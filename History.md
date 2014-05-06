@@ -1,3 +1,10 @@
+0.9.9 / 2014-05-06
+=================
+* merge pull request #495
+* merge pull request #499
+* merge pull request #501
+* upgrade pomelo-admin to 0.3.4
+
 0.9.8 / 2014-05-04
 =================
 * remove unused module
