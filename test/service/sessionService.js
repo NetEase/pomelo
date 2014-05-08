@@ -190,9 +190,11 @@ describe('session service test', function() {
   });
 
   describe('#kick', function() {
-    it('should kick the session', function(done) {
+    it('should kick the sessions', function(done) {
       var service = new SessionService();
-      var sid = 1, fid = 'frontend-server-1';
+      var sid1 = 1, fid1 = 'frontend-server-1';
+      var sid2 = 2, fid2 = 'frontend-server-1';
+
       var socket = {
         emit: function(){},
         disconnect: function(){}
@@ -200,18 +202,62 @@ describe('session service test', function() {
       var uid = 'changchang';
       var eventCount = 0;
 
-      var session = service.create(sid, fid, socket);
-      session.on('closed', function() {
+      var session1 = service.create(sid1, fid1, socket);
+      var session2 = service.create(sid2, fid2, socket);
+      session1.on('closed', function() {
         eventCount++;
       });
 
-      service.bind(sid, uid, function(err) {
-        service.kick(uid, function(err) {
-          should.not.exist(err);
-          should.not.exist(service.get(sid));
-          should.not.exist(service.getByUid(uid));
-          eventCount.should.equal(1);
-          done();
+      session2.on('closed', function() {
+        eventCount++;
+      });
+
+      service.bind(sid1, uid, function(err) {
+        service.bind(sid2, uid, function(err) {
+          service.kick(uid, function(err) {
+            should.not.exist(err);
+            should.not.exist(service.get(sid1));
+            should.not.exist(service.get(sid2));
+            should.not.exist(service.getByUid(uid));
+            eventCount.should.equal(2);
+            done();
+          });
+        });
+      });
+    });
+
+    it('should kick the session by sessionId', function(done) {
+      var service = new SessionService();
+      var sid1 = 1, fid1 = 'frontend-server-1';
+      var sid2 = 2, fid2 = 'frontend-server-1';
+
+      var socket = {
+        emit: function(){},
+        disconnect: function(){}
+      };
+      var uid = 'changchang';
+      var eventCount = 0;
+
+      var session1 = service.create(sid1, fid1, socket);
+      var session2 = service.create(sid2, fid2, socket);
+      session1.on('closed', function() {
+        eventCount++;
+      });
+
+      session2.on('closed', function() {
+        eventCount++;
+      });
+
+      service.bind(sid1, uid, function(err) {
+        service.bind(sid2, uid, function(err) {
+          service.kickBySessionId(sid1, function(err) {
+            should.not.exist(err);
+            should.not.exist(service.get(sid1));
+            should.exist(service.get(sid2));
+            should.exist(service.getByUid(uid));
+            eventCount.should.equal(1);
+            done();
+          });
         });
       });
     });
