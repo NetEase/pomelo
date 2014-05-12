@@ -207,7 +207,6 @@ var Channel = function(name, service) {
   this.records = {};      // member records. key: uid
   this.__channelService__ = service;
   this.state = ST_INITED;
-  this.userAmount =0;
 };
 
 /**
@@ -223,7 +222,6 @@ Channel.prototype.add = function(uid, sid) {
     var res = add(uid, sid, this.groups);
     if(res) {
       this.records[uid] = {sid: sid, uid: uid};
-      this.userAmount =this.userAmount+1;
     }
     addToStore(this.__channelService__, genKey(this.__channelService__, this.name), genValue(sid, uid));
     return res;
@@ -242,24 +240,12 @@ Channel.prototype.leave = function(uid, sid) {
     return false;
   }
   delete this.records[uid];
-  this.userAmount =this.userAmount-1;
-  if(this.userAmount<0) this.userAmount=0;//robust
   removeFromStore(this.__channelService__, genKey(this.__channelService__, this.name), genValue(sid, uid));
   var res = deleteFrom(uid, sid, this.groups[sid]);
   if(this.groups[sid] && this.groups[sid].length === 0) {
     delete this.groups[sid];
   }
   return res;
-};
-/**
- * Get channel UserAmount in a channel.
-
- *
- * @return {number } channel member amount
- */
-Channel.prototype.getUserAmount = function() {
- 
-  return this.userAmount;
 };
 
 /**
