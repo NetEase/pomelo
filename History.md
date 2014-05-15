@@ -1,3 +1,11 @@
+0.9.10 / 2014-05-15
+=================
+* merge pull request #505
+* merge pull request #506
+* merge pull request from kaisatec
+* add getClientAddressBySessionId in sessionService
+
+
 0.9.9 / 2014-05-06
 =================
 * merge pull request #495
