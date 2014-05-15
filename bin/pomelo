@@ -148,16 +148,16 @@ program.parse(process.argv);
  */
 function init(path) {
   console.log(INIT_PROJ_NOTICE);
-  connectorIsWs(function(isWs) {
+  connectorType(function(type) {
     emptyDirectory(path, function(empty) {
       if(empty) {
         process.stdin.destroy();
-        createApplicationAt(path, isWs);
+        createApplicationAt(path, type);
       } else {
         confirm('Destination is not empty, continue? (y/n) [no] ', function(force) {
           process.stdin.destroy();
           if(force) {
-            createApplicationAt(path, isWs);
+            createApplicationAt(path, type);
           } else {
             abort('Fail to init a project'.red);
           }
@@ -172,63 +172,134 @@ function init(path) {
  *
  * @param {String} ph
  */
-function createApplicationAt(ph, isWs) {
+function createApplicationAt(ph, type) {
   var name = path.basename(path.resolve(CUR_DIR, ph));
   copy(path.join(__dirname, '../template/'), ph);
   mkdir(path.join(ph, 'game-server/logs'));
   mkdir(path.join(ph, 'shared'));
-  setTimeout(function() {
-    if (isWs) {
-      // use websocket
-      var unlinkFiles = ['game-server/app.js.sio',
-                         'web-server/public/index.html.sio',
-                         'web-server/public/js/lib/pomeloclient.js',
-                         'web-server/public/js/lib/socket.io.js'];
-      for(var i = 0; i < unlinkFiles.length; ++i) {
-        fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+  // rmdir -r
+  var rmdir = function(dir) {
+    var list = fs.readdirSync(dir);
+    for(var i = 0; i < list.length; i++) {
+      var filename = path.join(dir, list[i]);
+      var stat = fs.statSync(filename);
+      if(filename === "." || filename === "..") {
+      } else if(stat.isDirectory()) {
+        rmdir(filename);
+      } else {
+        fs.unlinkSync(filename);
       }
-    } else {
-      // use socket.io
-      fs.unlinkSync(path.resolve(ph, 'game-server/app.js'));
-      fs.renameSync(path.resolve(ph, 'game-server/app.js.sio'),
-                    path.resolve(ph, 'game-server/app.js'));
-
-      fs.unlinkSync(path.resolve(ph, 'web-server/public/index.html'));
-      fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'),
-                    path.resolve(ph, 'web-server/public/index.html'));
-
-      // rmdir -r
-      var rmdir = function(dir) {
-        var list = fs.readdirSync(dir);
-        for(var i = 0; i < list.length; i++) {
-          var filename = path.join(dir, list[i]);
-          var stat = fs.statSync(filename);
-          if(filename === "." || filename === "..") {
-          } else if(stat.isDirectory()) {
-            rmdir(filename);
-          } else {
-            fs.unlinkSync(filename);
+    }
+    fs.rmdirSync(dir);
+  };
+  setTimeout(function() {
+    switch(type) {
+      case '1':
+         // use websocket
+         var unlinkFiles = ['game-server/app.js.sio',
+         'game-server/app.js.wss',
+         'game-server/app.js.sio.wss',
+         'web-server/app.js.https',
+         'web-server/public/index.html.sio',
+         'web-server/public/js/lib/pomeloclient.js',
+         'web-server/public/js/lib/pomeloclient.js.wss',
+         'web-server/public/js/lib/build/build.js.wss',
+         'web-server/public/js/lib/socket.io.js'];
+         for(var i = 0; i < unlinkFiles.length; ++i) {
+            fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+         }
+        break;
+        case '2':
+          // use socket.io
+          var unlinkFiles = ['game-server/app.js',
+          'game-server/app.js.wss',
+          'game-server/app.js.sio.wss',
+          'web-server/app.js.https',
+          'web-server/public/index.html',
+          'web-server/public/js/lib/component.json',
+          'web-server/public/js/lib/pomeloclient.js.wss'];
+          for(var i = 0; i < unlinkFiles.length; ++i) {
+            fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
           }
-        }
-        fs.rmdirSync(dir);
-      };
 
-      rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
-      rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
-      fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
-    }
-    var replaceFiles = ['game-server/app.js',
-                        'game-server/package.json',
-                        'web-server/package.json'];
-    for(var j = 0; j < replaceFiles.length; j++) {
-      var str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
-      fs.writeFileSync(path.resolve(ph, replaceFiles[j]), str.replace('$', name));
-    }
-    var f = path.resolve(ph, 'game-server/package.json');
-    var content = fs.readFileSync(f).toString();
-    fs.writeFileSync(f, content.replace('#', version));
-  }, TIME_INIT);
+          fs.renameSync(path.resolve(ph, 'game-server/app.js.sio'), path.resolve(ph, 'game-server/app.js'));
+          fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+
+          rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+          rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+          break;
+        case '3':
+          // use websocket wss
+          var unlinkFiles = ['game-server/app.js.sio',
+          'game-server/app.js',
+          'game-server/app.js.sio.wss',
+          'web-server/app.js',
+          'web-server/public/index.html.sio',
+          'web-server/public/js/lib/pomeloclient.js',
+          'web-server/public/js/lib/pomeloclient.js.wss',
+          'web-server/public/js/lib/build/build.js',
+          'web-server/public/js/lib/socket.io.js'];
+          for(var i = 0; i < unlinkFiles.length; ++i) {
+            fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+          }
+
+          fs.renameSync(path.resolve(ph, 'game-server/app.js.wss'), path.resolve(ph, 'game-server/app.js'));
+          fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
+          fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/build/build.js.wss'), path.resolve(ph, 'web-server/public/js/lib/build/build.js'));
+          break;
+        case '4':
+          // use socket.io wss
+           var unlinkFiles = ['game-server/app.js.sio',
+          'game-server/app.js',
+          'game-server/app.js.wss',
+          'web-server/app.js',
+          'web-server/public/index.html',
+          'web-server/public/js/lib/pomeloclient.js'];
+          for(var i = 0; i < unlinkFiles.length; ++i) {
+            fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+          }
+
+          fs.renameSync(path.resolve(ph, 'game-server/app.js.sio.wss'), path.resolve(ph, 'game-server/app.js'));
+          fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
+          fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+          fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/pomeloclient.js.wss'), path.resolve(ph, 'web-server/public/js/lib/pomeloclient.js'));
+
+          rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+          rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+          fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
+          break;
+        case '5':
+          // use socket.io wss
+           var unlinkFiles = ['game-server/app.js.sio',
+          'game-server/app.js',
+          'game-server/app.js.wss',
+          'game-server/app.js.sio.wss',
+          'web-server/app.js.https',
+          'web-server/public/index.html',
+          'web-server/public/js/lib/component.json',
+          'web-server/public/js/lib/pomeloclient.js.wss'];
+          for(var i = 0; i < unlinkFiles.length; ++i) {
+            fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+          }
+          
+          fs.renameSync(path.resolve(ph, 'game-server/app.js.udp'), path.resolve(ph, 'game-server/app.js'));
+          rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+          rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+          break;
+        }
+        var replaceFiles = ['game-server/app.js',
+        'game-server/package.json',
+        'web-server/package.json'];
+        for(var j = 0; j < replaceFiles.length; j++) {
+          var str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
+          fs.writeFileSync(path.resolve(ph, replaceFiles[j]), str.replace('$', name));
+        }
+        var f = path.resolve(ph, 'game-server/package.json');
+        var content = fs.readFileSync(f).toString();
+        fs.writeFileSync(f, content.replace('#', version));
+      }, TIME_INIT);
 }
+
 
 /**
  * Start application.
@@ -532,19 +603,22 @@ function mkdir(path, fn) {
  * 
  * @param {Function} cb
  */
-function connectorIsWs(cb) {
-  prompt('Please select underly connector, 1 for native socket(also support websocket), 2 for socket.io(for browser based app): [1] ', function(msg) {
+function connectorType(cb) {
+  prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io, 3 for wss, 4 for socket.io(wss), 5 for udp: [1] ', function(msg) {
     switch(msg.trim()) {
       case '':
-      case '1':
-         cb(true);
+         cb(1);
          break;
+      case '1':
       case '2':
-         cb(false);
+      case '3':
+      case '4':
+      case '5':
+         cb(msg.trim());
          break;
       default:
-         console.log('Invalid choice! Please input 1 or 2.'.red + '\n');
-         connectorIsWs(cb);
+         console.log('Invalid choice! Please input 1 - 5.'.red + '\n');
+         connectorType(cb);
          break;
     }
   });
