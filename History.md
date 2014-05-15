@@ -5,7 +5,6 @@
 * merge pull request from kaisatec
 * add getClientAddressBySessionId in sessionService
 
-
 0.9.9 / 2014-05-06
 =================
 * merge pull request #495
