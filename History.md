@@ -1,3 +1,13 @@
+1.0.0-pre / 2014-05-16
+=================
+* add udpconnector
+* pomelo-rpc load balancing and fault tolerance
+* connector wss & tls support
+* pomelo-zookeeper-plugin
+* pomelo-scale-plugin
+* environment directory configuration support
+* pomelo-cli dynamic script
+
 0.9.10 / 2014-05-15
 =================
 * merge pull request #505
