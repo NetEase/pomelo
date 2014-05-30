@@ -50,9 +50,9 @@
     "pomelo": "./bin/pomelo"
   },
   "devDependencies": {
-    "should": ">=0.0.1",
+    "should": "3.3.1",
     "mocha": ">=0.0.1",
-    "socket.io-client": ">=0.0.1",
+    "socket.io-client": "0.9.16",
     "jscoverage": ">=0.0.1",
     "muk": ">=0.0.1",
     "grunt": "~0.4.2",
