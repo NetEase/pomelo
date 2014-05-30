@@ -3,7 +3,6 @@
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks("grunt-jscoverage"); 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
@@ -12,12 +11,6 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    jscoverage: {
-      options: {
-        inputDirectory: 'lib',
-        outputDirectory: 'lib-cov'
-      }
-    },
     mochaTest: {
        test: {
         options: {
@@ -36,9 +29,6 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      coverage: {
-        src: ['lib-cov/']
-      },
       "coverage.html" : {
         src: ['coverage.html']
       }
@@ -49,5 +39,5 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', ['clean', 'jscoverage', 'mochaTest', 'jshint:all']);
+  grunt.registerTask('default', ['clean', 'mochaTest', 'jshint']);
 };
