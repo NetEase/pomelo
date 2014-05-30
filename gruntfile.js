@@ -12,8 +12,6 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    // Metadata.
-    pkg: grunt.file.readJSON('package.json'),
     jscoverage: {
       options: {
         inputDirectory: 'lib',
@@ -21,10 +19,10 @@ module.exports = function(grunt) {
       }
     },
     mochaTest: {
-      dot: {
+       test: {
         options: {
-          reporter: 'dot',
-          timeout: 5000
+          reporter: 'spec',
+          require: 'coverage/blanket'
         },
         src: src
       },
@@ -51,10 +49,5 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', ['clean', 'jscoverage', 'mochaTest:dot', 'jshint:all']);
-
-  grunt.registerTask('test-cov', 'run mocha html-cov reporter to coverage.html', function() {
-    process.env.POMELO_COV = 1;
-    grunt.task.run(['mochaTest:coverage']);
-  });
+  grunt.registerTask('default', ['clean', 'jscoverage', 'mochaTest', 'jshint:all']);
 };

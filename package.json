@@ -59,6 +59,7 @@
     "grunt-mocha-test": "0.8.x",
     "grunt-jscoverage": "0.0.3",
     "grunt-contrib-clean": "0.5.x",
-    "grunt-contrib-jshint": "~0.8.0"
+    "grunt-contrib-jshint": "~0.8.0",
+    "blanket": "~1.1.6"
   }
 }
