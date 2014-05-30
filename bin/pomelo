@@ -199,6 +199,7 @@ function createApplicationAt(ph, type) {
          var unlinkFiles = ['game-server/app.js.sio',
          'game-server/app.js.wss',
          'game-server/app.js.sio.wss',
+         'game-server/app.js.udp',
          'web-server/app.js.https',
          'web-server/public/index.html.sio',
          'web-server/public/js/lib/pomeloclient.js',
@@ -213,6 +214,7 @@ function createApplicationAt(ph, type) {
           // use socket.io
           var unlinkFiles = ['game-server/app.js',
           'game-server/app.js.wss',
+          'game-server/app.js.udp',
           'game-server/app.js.sio.wss',
           'web-server/app.js.https',
           'web-server/public/index.html',
@@ -232,6 +234,7 @@ function createApplicationAt(ph, type) {
           // use websocket wss
           var unlinkFiles = ['game-server/app.js.sio',
           'game-server/app.js',
+          'game-server/app.js.udp',
           'game-server/app.js.sio.wss',
           'web-server/app.js',
           'web-server/public/index.html.sio',
@@ -251,6 +254,7 @@ function createApplicationAt(ph, type) {
           // use socket.io wss
            var unlinkFiles = ['game-server/app.js.sio',
           'game-server/app.js',
+          'game-server/app.js.udp',
           'game-server/app.js.wss',
           'web-server/app.js',
           'web-server/public/index.html',
