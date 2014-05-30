@@ -7,7 +7,7 @@ var Handler = function(app) {
 };
 
 /**
- * New client entry chat server.
+ * New client entry.
  *
  * @param  {Object}   msg     request message
  * @param  {Object}   session current session object
@@ -16,4 +16,28 @@ var Handler = function(app) {
  */
 Handler.prototype.entry = function(msg, session, next) {
   next(null, {code: 200, msg: 'game server is ok.'});
+};
+
+/**
+ * Publish route for mqtt connector.
+ *
+ * @param  {Object}   msg     request message
+ * @param  {Object}   session current session object
+ * @param  {Function} next    next stemp callback
+ * @return {Void}
+ */
+Handler.prototype.publish = function(msg, session, next) {
+  next(null, {code: 200, msg: 'publish message is ok.'});
+};
+
+/**
+ * Subscribe route for mqtt connector.
+ *
+ * @param  {Object}   msg     request message
+ * @param  {Object}   session current session object
+ * @param  {Function} next    next stemp callback
+ * @return {Void}
+ */
+Handler.prototype.subscribe = function(msg, session, next) {
+  next(null, {code: 200, msg: 'subscribe message is ok.'});
 };
