@@ -1,5 +1,4 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
-var CountDownLatch = require('../../' + lib + '/util/countDownLatch');
+var CountDownLatch = require('../../lib/util/countDownLatch');
 var should = require('should');
 
 var cbCreator = (function() {

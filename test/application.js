@@ -1,5 +1,4 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
-var app = require('../' + lib + '/application');
+var app = require('../lib/application');
 var pomelo = require('../');
 var should = require('should');
 

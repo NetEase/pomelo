@@ -1,7 +1,6 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
 var pomelo = require('../../');
-var ChannelService = require('../../' + lib + '/common/service/channelService');
+var ChannelService = require('../../lib/common/service/channelService');
 
 var channelName = 'test_channel';
 var mockBase = process.cwd() + '/test';

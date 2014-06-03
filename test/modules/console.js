@@ -1,7 +1,6 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
 var pomelo = require('../../');
-var consoleModule = require('../../' + lib + '/modules/console');
+var consoleModule = require('../../lib/modules/console');
 
 describe('console module test', function() {
 	describe('#monitorHandler', function() {

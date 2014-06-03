@@ -1,6 +1,5 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var HandlerService = require('../../' + lib + '/common/service/handlerService');
+var HandlerService = require('../../lib/common/service/handlerService');
 
 var mockApp = {
   serverType: 'connector',
