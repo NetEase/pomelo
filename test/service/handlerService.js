@@ -39,7 +39,9 @@ describe('handler service test', function() {
         }
       };
 
-      var service = new HandlerService(mockApp);
+      var mockOpts = {};
+
+      var service = new HandlerService(mockApp, mockOpts);
       service.handlerMap = {connector: mockHandlers};
 
       service.handle(mockRouteRecord, mockMsg, mockSession, function() {
@@ -51,7 +53,8 @@ describe('handler service test', function() {
 
     it('should return an error if can not find the appropriate handler locally', function(done) {
       var mockHandlers = {};
-      var service = new HandlerService(mockApp);
+      var mockOpts = {};
+      var service = new HandlerService(mockApp, mockOpts);
       service.handlerMap = {connector: mockHandlers};
 
       service.handle(mockRouteRecord, mockMsg, mockSession, function(err) {
