@@ -1,7 +1,5 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
-
 var DEFAULT_PREFIX = 'POMELO:CHANNEL';
-var utils = require('../../' + lib + '/util/utils');
+var utils = require('../../lib/util/utils');
 
 var MockManager = function(app, opts) {
   this.app = app;

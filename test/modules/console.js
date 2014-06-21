@@ -1,7 +1,6 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
 var pomelo = require('../../');
-var consoleModule = require('../../' + lib + '/modules/console');
+var consoleModule = require('../../lib/modules/console');
 
 describe('console module test', function() {
 	describe('#monitorHandler', function() {
@@ -10,6 +9,11 @@ describe('console module test', function() {
 			var rs;
 			var opts = {
 				app: {
+					components: {
+						__connector__: {
+							blacklist: []
+						}
+					},
 					stop: function(value) {
 						flag = value;
 					},
@@ -18,6 +22,9 @@ describe('console module test', function() {
 					},
 					removeCrons: function(array) {
 						rs = array;
+					},
+					isFrontend: function() {
+						return true;
 					}
 				}
 			};
@@ -46,6 +53,12 @@ describe('console module test', function() {
 		 	var msg4 = {signal: 'removeCron'};
 		 	module.monitorHandler(agent2, msg4, null);
 		 	rs.length.should.eql(1);
+
+		 	var msg5 = {signal: 'blacklist', blacklist: ['127.0.0.1']};
+		 	module.monitorHandler(agent1, msg5, null);
+		 	opts.app.components.__connector__.blacklist.length.should.eql(1);
+
+
 		});
 	});
 
@@ -94,6 +107,9 @@ describe('console module test', function() {
 					},
 					set: function(value) {
 						return value;
+					},
+					getServersByType: function() {
+						return [{id: 'chat-server-1'}];
 					}
 				}
 			};
@@ -139,7 +155,6 @@ describe('console module test', function() {
         should.not.exist(err);
         should.exist(result.code);
         result.code.should.eql('remained');
-        exitCount.should.greaterThan(0);
         done();
 			});
 		});
@@ -164,6 +179,7 @@ describe('console module test', function() {
 				done();
 			});
 		});
+
 		it('should execute list command', function() {
 			var msg = {signal: 'list'};
 			var agent = {
@@ -181,6 +197,7 @@ describe('console module test', function() {
 				should.exist(result.msg);
 			});
 		});
+
 		it('should execute add command', function() {
 			var msg1 = {signal: 'add', args: ['host=127.0.0.1', 'port=88888', 'clusterCount=2']};
 			var msg2 = {signal: 'add', args: ['host=127.0.0.1', 'port=88888', 'id=chat-server-1', 'serverType=chat']};
@@ -193,5 +210,39 @@ describe('console module test', function() {
 				result.status.should.eql('ok');
 			});
 		});
+
+		it('should execute blacklist command', function() {
+			var msg1 = {signal: 'blacklist', args: ['127.0.0.1']};
+			var msg2 = {signal: 'blacklist', args: ['abc']};
+			var agent = {
+				notifyAll: function(moduleId, msg) {
+
+				}
+			};
+			module.clientHandler(agent, msg1, function(err, result) {
+				result.status.should.eql('ok');
+			});
+			module.clientHandler(agent, msg2, function(err, result) {
+				should.exist(err);
+			});
+		});
+
+		it('should execute restart command', function() {
+			var msg1 = {signal: 'restart', ids:['chat-server-1']};
+			var msg2 = {signal: 'restart', type:'chat', ids:[]};
+			var agent = {
+				request: function(recordId, moduleId, msg, cb) {
+					cb(null);
+				}
+			};
+			module.clientHandler(agent, msg1, function(err, result) {
+				should.exist(err);
+			});
+			module.clientHandler(agent, msg2, function(err, result) {
+				should.exist(err);
+			});
+
+		});
+
 	});
 });

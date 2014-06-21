@@ -1,6 +1,5 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var FilterService = require('../../' + lib + '/common/service/filterService');
+var FilterService = require('../../lib/common/service/filterService');
 
 var WAIT_TIME = 50;
 

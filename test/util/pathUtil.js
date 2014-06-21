@@ -1,6 +1,5 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
-var pathUtil = require('../../' + lib + '/util/pathUtil');
-var utils = require('../../' + lib + '/util/utils');
+var pathUtil = require('../../lib/util/pathUtil');
+var utils = require('../../lib/util/utils');
 var should = require('should');
 var fs = require('fs');
 

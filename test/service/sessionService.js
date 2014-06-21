@@ -1,7 +1,6 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
 var pomelo = require('../../');
-var SessionService = require('../../' + lib + '/common/service/sessionService');
+var SessionService = require('../../lib/common/service/sessionService');
 
 describe('session service test', function() {
   describe('#bind', function() {

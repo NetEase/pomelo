@@ -1,6 +1,5 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var rpcLogFilter = require('../../../' + lib + '/filters/rpc/rpcLog');
+var rpcLogFilter = require('../../../lib/filters/rpc/rpcLog');
 
 var mockData = {
   serverId : "connector-server-1",

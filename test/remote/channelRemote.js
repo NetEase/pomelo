@@ -1,10 +1,9 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
 var pomelo = require('../../');
-var remote = require('../../' + lib + '/common/remote/frontend/channelRemote');
-var SessionService = require('../../' + lib + '/common/service/sessionService');
-var ChannelService = require('../../' + lib + '/common/service/channelService');
-var countDownLatch = require('../../' + lib + '/util/countDownLatch');
+var remote = require('../../lib/common/remote/frontend/channelRemote');
+var SessionService = require('../../lib/common/service/sessionService');
+var ChannelService = require('../../lib/common/service/channelService');
+var countDownLatch = require('../../lib/util/countDownLatch');
 var MockChannelManager = require('../manager/mockChannelManager');
 
 

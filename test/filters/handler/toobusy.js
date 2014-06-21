@@ -1,7 +1,6 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var toobusyFilter = require('../../../' + lib + '/filters/handler/toobusy');
-var FilterService = require('../../../' + lib + '/common/service/filterService');
+var toobusyFilter = require('../../../lib/filters/handler/toobusy');
+var FilterService = require('../../../lib/common/service/filterService');
 var util = require('util');
 var mockSession = {
   key : "123"

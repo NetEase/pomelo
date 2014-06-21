@@ -1,3 +1,9 @@
+1.0.0 / 2014-06-19
+=================
+* mqtt connector
+* support ie6,7,8 with sioconnector
+* support hot update partially
+
 1.0.0-pre / 2014-05-16
 =================
 * add udpconnector

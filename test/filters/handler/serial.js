@@ -1,7 +1,6 @@
-var lib = process.env.POMELO_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var serialFilter = require('../../../' + lib + '/filters/handler/serial');
-var FilterService = require('../../../' + lib + '/common/service/filterService');
+var serialFilter = require('../../../lib/filters/handler/serial');
+var FilterService = require('../../../lib/common/service/filterService');
 var util = require('util');
 
 var mockSession = {
