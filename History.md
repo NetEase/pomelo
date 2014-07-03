@@ -1,4 +1,4 @@
-1.0.1 / 2014-06-19
+1.0.1 / 2014-07-03
 =================
 * merge pull request #538 #541 #545 #546 #547
 * update master watchdog notify method
