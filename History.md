@@ -1,3 +1,9 @@
+1.0.1 / 2014-06-19
+=================
+* merge pull request #538 #541 #545 #546 #547
+* update master watchdog notify method
+* upgrade pomelo-rpc to 0.4.2
+
 1.0.0 / 2014-06-19
 =================
 * mqtt connector
