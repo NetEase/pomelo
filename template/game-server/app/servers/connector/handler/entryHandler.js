@@ -11,7 +11,7 @@ var Handler = function(app) {
  *
  * @param  {Object}   msg     request message
  * @param  {Object}   session current session object
- * @param  {Function} next    next stemp callback
+ * @param  {Function} next    next step callback
  * @return {Void}
  */
 Handler.prototype.entry = function(msg, session, next) {
@@ -23,7 +23,7 @@ Handler.prototype.entry = function(msg, session, next) {
  *
  * @param  {Object}   msg     request message
  * @param  {Object}   session current session object
- * @param  {Function} next    next stemp callback
+ * @param  {Function} next    next step callback
  * @return {Void}
  */
 Handler.prototype.publish = function(msg, session, next) {
@@ -39,7 +39,7 @@ Handler.prototype.publish = function(msg, session, next) {
  *
  * @param  {Object}   msg     request message
  * @param  {Object}   session current session object
- * @param  {Function} next    next stemp callback
+ * @param  {Function} next    next step callback
  * @return {Void}
  */
 Handler.prototype.subscribe = function(msg, session, next) {
