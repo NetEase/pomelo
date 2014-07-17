@@ -1,3 +1,8 @@
+0.6.19 / 2014-07-17
+================
+* add for different env
+* fix server reconnect bug
+
 0.6.18 / 2014-05-06
 ================
 * add unstarted option
