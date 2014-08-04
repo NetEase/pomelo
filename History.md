@@ -1,6 +1,16 @@
 1.0.3 / 2014-07-18
 =================
-* merge pull request #559 #560 #562 #564
+* [NEW] dictVersion : Similar to `protoVersion`, add `dictVersion` and skip sending dict when handshaking if possible.
+  [#572](https://github.com/NetEase/pomelo/pull/572)
+* [FIX] CRON : Upgrade pomelo-scheduler to v0.3.9. Fix a bug that will loss tasks if The number of days next month is greater than this month.
+  [#560](https://github.com/NetEase/pomelo/pull/560)
+  [pomelo-scheduler#4](https://github.com/NetEase/pomelo-scheduler/pull/4)
+* [FIX] hot update : Remove the error logging if a server doesn't have any handler.
+  [#562](https://github.com/NetEase/pomelo/pull/562)
+* [NEW] protobuf : Add `protobuf cache` into libpomelo, and add `useProto` handshake option to tell the client whether to use the protobuf.
+  [#564](https://github.com/NetEase/pomelo/pull/564)
+  [libpomelo#58](https://github.com/NetEase/libpomelo/pull/58)
+  [discuss(chinese)](http://nodejs.netease.com/topic/53c6c126898634292c8157a2)
 
 1.0.2 / 2014-07-10
 =================
