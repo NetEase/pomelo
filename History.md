@@ -1,3 +1,10 @@
+1.0.4 / 2014-08-26
+=================
+* [NEW] upgrade pomelo-rpc to 0.4.3
+* [NEW] upgrade pomelo-logger to 0.1.6
+* [FIX] pomelo-masterha-plugin reconnect bug miss parameter env
+* [#582](https://github.com/NetEase/pomelo/pull/582)
+
 1.0.3 / 2014-07-18
 =================
 * [NEW] dictVersion : Similar to `protoVersion`, add `dictVersion` and skip sending dict when handshaking if possible.
