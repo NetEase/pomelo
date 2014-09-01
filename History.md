@@ -1,3 +1,7 @@
+0.6.20 / 2014-09-01
+================
+* fix pomelo-rpc replace server bug
+
 0.6.19 / 2014-07-17
 ================
 * add for different env
