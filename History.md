@@ -1,3 +1,14 @@
+1.1.0 / 2014-09-12
+=================
+* [NEW] fit for libpomelo2
+* [NEW] upgrade pomelo-rpc to 0.4.5
+  [#612](https://github.com/NetEase/pomelo/pull/612)
+* [FIX] close http server after WebSocketServer.close
+  [#613](https://github.com/NetEase/pomelo/pull/613)
+* [FIX] update timeout.js
+  [#614](https://github.com/NetEase/pomelo/pull/614)
+* [FIX] fix typo
+
 1.0.4 / 2014-08-26
 =================
 * [NEW] upgrade pomelo-rpc to 0.4.3
