@@ -1,3 +1,13 @@
+1.1.1 / 2014-10-10
+=================
+* [NEW] upgrade pomelo-protocol to 0.1.4
+  [#616](https://github.com/NetEase/pomelo/pull/616)
+* [FIX] incorrect this scope
+  [#622](https://github.com/NetEase/pomelo/pull/622)
+* [FIX] fix bug on arg parse
+  [#623](https://github.com/NetEase/pomelo/pull/623)
+* [FIX] connection without communication bug
+
 1.1.0 / 2014-09-12
 =================
 * [NEW] fit for libpomelo2
