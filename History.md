@@ -1,3 +1,14 @@
+1.1.2 / 2014-11-12
+=================
+* [NEW] introduce updateUserInfo for connectionService
+  [#637](https://github.com/NetEase/pomelo/pull/637)
+* [FIX] fix wrong variable err using 
+  [#642](https://github.com/NetEase/pomelo/pull/642)
+* [NEW] introduce cancelShutdownHook
+  [#644]7(https://github.com/NetEase/pomelo/pull/644)
+* [FIX] revert PR #613, which should not be accepted
+  [#649](https://github.com/NetEase/pomelo/pull/649)
+
 1.1.1 / 2014-10-10
 =================
 * [NEW] upgrade pomelo-protocol to 0.1.4
