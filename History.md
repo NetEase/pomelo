@@ -1,3 +1,13 @@
+1.1.4 / 2015-01-23
+=================
+  [#670](https://github.com/NetEase/pomelo/pull/670)
+  [#669](https://github.com/NetEase/pomelo/pull/669)
+  [#666](https://github.com/NetEase/pomelo/pull/666)
+  [#665](https://github.com/NetEase/pomelo/pull/665)
+  [#662](https://github.com/NetEase/pomelo/pull/662)
+  [#659](https://github.com/NetEase/pomelo/pull/659)
+  [#657](https://github.com/NetEase/pomelo/pull/657)
+  [#653]7(https://github.com/NetEase/pomelo/pull/653)
 1.1.2 / 2014-11-12
 =================
 * [NEW] introduce updateUserInfo for connectionService
