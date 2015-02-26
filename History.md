@@ -1,3 +1,6 @@
+1.1.5 / 2015-02-26
+=================
+  * [NEW] upgrade pomelo-rpc to 0.4.7
 1.1.4 / 2015-01-23
 =================
   [#670](https://github.com/NetEase/pomelo/pull/670)
