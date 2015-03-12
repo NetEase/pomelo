@@ -1,3 +1,8 @@
+1.1.6 / 2015-03-12
+=================
+  * [NEW] add configure file automatically reload feature
+  * [NEW] add mqtt connector heartbeat timeout option
+  * [NEW] upgrade pomelo-rpc to 0.4.8
 1.1.5 / 2015-02-26
 =================
   * [NEW] upgrade pomelo-rpc to 0.4.7
