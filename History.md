@@ -3,9 +3,11 @@
   * [NEW] add configure file automatically reload feature
   * [NEW] add mqtt connector heartbeat timeout option
   * [NEW] upgrade pomelo-rpc to 0.4.8
+
 1.1.5 / 2015-02-26
 =================
   * [NEW] upgrade pomelo-rpc to 0.4.7
+
 1.1.4 / 2015-01-23
 =================
   [#670](https://github.com/NetEase/pomelo/pull/670)
@@ -15,7 +17,8 @@
   [#662](https://github.com/NetEase/pomelo/pull/662)
   [#659](https://github.com/NetEase/pomelo/pull/659)
   [#657](https://github.com/NetEase/pomelo/pull/657)
-  [#653]7(https://github.com/NetEase/pomelo/pull/653)
+  [#653](https://github.com/NetEase/pomelo/pull/653)
+
 1.1.2 / 2014-11-12
 =================
 * [NEW] introduce updateUserInfo for connectionService
