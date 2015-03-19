@@ -26,7 +26,7 @@
 * [FIX] fix wrong variable err using 
   [#642](https://github.com/NetEase/pomelo/pull/642)
 * [NEW] introduce cancelShutdownHook
-  [#644]7(https://github.com/NetEase/pomelo/pull/644)
+  [#644](https://github.com/NetEase/pomelo/pull/644)
 * [FIX] revert PR #613, which should not be accepted
   [#649](https://github.com/NetEase/pomelo/pull/649)
 
