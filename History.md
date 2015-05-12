@@ -1,3 +1,13 @@
+1.1.7 / 2015-05-12
+=================
+  * [#706](https://github.com/NetEase/pomelo/pull/706)
+  * [#707](https://github.com/NetEase/pomelo/pull/707)
+  * [#443](https://github.com/NetEase/pomelo/pull/443)
+  * [#444](https://github.com/NetEase/pomelo/pull/444)
+  * [#713](https://github.com/NetEase/pomelo/pull/713)
+  * [NEW] upgrade pomelo-rpc to 0.4.9
+  * [NEW] upgrade pomelo-admin to 0.4.3
+
 1.1.6 / 2015-03-12
 =================
   * [NEW] add configure file automatically reload feature
