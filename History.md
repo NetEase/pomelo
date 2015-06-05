@@ -1,8 +1,15 @@
+1.1.9 / 2015-06-05
+=================
+  * [NEW] upgrade pomelo-rpc to 0.4.10
+  * [NEW] upgrade pomelo-admin to 0.4.3
+  * [NEW] upgrade pomelo-logger to 0.1.7
+
 1.1.8 / 2015-05-29
 =================
   * fix bug on verison calculating when update proto files
   * avoid modules loading error on windows
   * [NEW] upgrade pomelo-protocol to 0.1.6
+  
 1.1.7 / 2015-05-12
 =================
   * [#706](https://github.com/NetEase/pomelo/pull/706)
