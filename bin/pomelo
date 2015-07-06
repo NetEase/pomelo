@@ -61,6 +61,7 @@ program.command('start')
   .option('-d, --directory, <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
   .option('-t, --type <server-type>,', 'start server type')
   .option('-i, --id <server-id>', 'start server id')
+  .option('--harmony', 'enable node harmony features')
   .action(function(opts) {
     start(opts);
   });
@@ -352,6 +353,9 @@ function start(opts) {
   var params = [absScript, 'env=' + opts.env, 'type=' + type];
   if(!!opts.id) {
     params.push('startId=' + opts.id);
+  }
+  if(opts.harmony) {
+    params = ['--harmony'].concat(params);
   }
   if (opts.daemon) {
     ls = spawn(process.execPath, params, {detached: true, stdio: 'ignore'});
