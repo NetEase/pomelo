@@ -44,7 +44,8 @@
     "node-bignumber": "1.2.1",
     "commander": "2.0.0",
     "mqtt": "0.3.9",
-    "node-zookeeper-client": "0.2.2"
+    "node-zookeeper-client": "0.2.2",
+    "node-uuid": "1.4.3"
   },
   "bin": {
     "pomelo": "./bin/pomelo"
