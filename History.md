@@ -1,3 +1,11 @@
+1.2.0 / 2015-09-18
+=================
+  * [NEW] upgrade pomelo-admin to 0.4.5
+  * [#751](https://github.com/NetEase/pomelo/pull/741)
+  * [#741](https://github.com/NetEase/pomelo/pull/741)
+  * [#740](https://github.com/NetEase/pomelo/pull/740)
+  * [FIX] fix wrong variable in protobuf
+
 1.1.9 / 2015-06-05
 =================
   * [NEW] upgrade pomelo-rpc to 0.4.10
