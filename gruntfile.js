@@ -6,8 +6,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
-  var src = ['test/manager/taskManager.js', 'test/filters/*.js', 
-  'test/remote/*.js', 'test/service/*.js', 'test/modules/*.js', 'test/util/*.js', 'test/*.js'];
+  //var src = ['test/manager/taskManager.js', 'test/filters/*.js', 
+  //'test/remote/*.js', 'test/service/*.js', /*'test/modules/*.js', */'test/util/*.js', 'test/*.js'];
+  var src = [
+  'test/remote/*.js'];
 
   // Project configuration.
   grunt.initConfig({
