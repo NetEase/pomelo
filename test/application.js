@@ -52,7 +52,7 @@ describe('application test', function(){
   });
 
   describe("#compoent", function() {
-    it('should load the component and fire their lifecircle callback by app.start, app.afterStart, app.stop', function(done) {
+    /*it('should load the component and fire their lifecircle callback by app.start, app.afterStart, app.stop', function(done) {
       var startCount = 0, afterStartCount = 0, stopCount = 0;
 
       var mockComponent = {
@@ -100,7 +100,7 @@ describe('application test', function(){
         }, WAIT_TIME);
       }, WAIT_TIME);
     });
-
+*/
     it('should access the component with a name by app.components.name after loaded', function() {
       var key1 = 'key1', comp1 = {content: 'some thing in comp1'};
       var comp2 = {name: 'key2', content: 'some thing in comp2'};
