@@ -9,6 +9,7 @@ module.exports = function(grunt) {
   var src = ['test/manager/taskManager.js', 'test/filters/*.js', 
   'test/remote/*.js', 'test/service/*.js', 'test/modules/*.js', 'test/util/*.js', 'test/*.js'];
 
+
   // Project configuration.
   grunt.initConfig({
     mochaTest: {
@@ -35,7 +36,10 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: ['lib/*']
+      all: ['lib/*'],
+      options: {
+                 node: true
+               }
     }
   });
 

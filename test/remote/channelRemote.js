@@ -1,11 +1,11 @@
 var should = require('should');
-var pomelo = require('../../');
+//var pomelo = require('../../');
 var remote = require('../../lib/common/remote/frontend/channelRemote');
 var SessionService = require('../../lib/common/service/sessionService');
 var ChannelService = require('../../lib/common/service/channelService');
 var countDownLatch = require('../../lib/util/countDownLatch');
 var MockChannelManager = require('../manager/mockChannelManager');
-
+var app = require('../mock-base/app/mockApplication.js');
 
 var mockBase = process.cwd() + '/test';
 
@@ -38,7 +38,7 @@ describe('channel remote test', function() {
         }
       }
 
-      var app = pomelo.createApp({base: mockBase});
+      //var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {
         send: function(reqId, route, msg, recvs, opts, cb) {
           app.components.__pushScheduler__.schedule(reqId, route, msg, recvs, opts, cb);
@@ -92,7 +92,7 @@ describe('channel remote test', function() {
         }
       }
 
-      var app = pomelo.createApp({base: mockBase});
+      //var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {
         send: function(reqId, route, msg, recvs, opts, cb) {
           app.components.__pushScheduler__.schedule(reqId, route, msg, recvs, opts, cb);
@@ -138,7 +138,7 @@ describe('channel remote test', function() {
         }
       }
 
-      var app = pomelo.createApp({base: mockBase});
+      //var app = pomelo.createApp({base: mockBase});
       app.components.__connector__ = {
         send: function(reqId, route, msg, recvs, opts, cb) {
           app.components.__pushScheduler__.schedule(reqId, route, msg, recvs, opts, cb);
