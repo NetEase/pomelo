@@ -1,5 +1,6 @@
-'use strict';
 #!/usr/bin/env node
+
+"use strict";
 
 /**
  * Module dependencies.
@@ -368,7 +369,7 @@ function copy(origin, target) {
  * @param {Function} fn
  */
 function mkdir(path, fn) {
-  mkdirp(path, 0755, function(err){
+  mkdirp(path, '0755', function(err){
     if(err) {
       throw err;
     }
