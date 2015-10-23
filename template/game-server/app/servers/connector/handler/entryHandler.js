@@ -15,7 +15,7 @@ var Handler = function(app) {
  * @return {Void}
  */
 Handler.prototype.entry = function(msg, session, next) {
-  next(null, {code: 200, msg: 'game server is ok.'});
+  next(null, {code: 200, msg: 'Welcome to pomelo 2.0.'});
 };
 
 /**

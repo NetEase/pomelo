@@ -33,51 +33,51 @@
     // If there is no 'error' event listener then throw.
     if (type === 'error') {
       if (!this._events || !this._events.error ||
-          (isArray(this._events.error) && !this._events.error.length))
-        {
-          if (this.domain) {
-            var er = arguments[1];
-            er.domain_emitter = this;
-            er.domain = this.domain;
-            er.domain_thrown = false;
-            this.domain.emit('error', er);
-            return false;
-          }
+        (isArray(this._events.error) && !this._events.error.length))
+      {
+        if (this.domain) {
+          var er = arguments[1];
+          er.domain_emitter = this;
+          er.domain = this.domain;
+          er.domain_thrown = false;
+          this.domain.emit('error', er);
+          return false;
+        }
 
-          if (arguments[1] instanceof Error) {
+        if (arguments[1] instanceof Error) {
             throw arguments[1]; // Unhandled 'error' event
           } else {
             throw new Error("Uncaught, unspecified 'error' event.");
           }
           return false;
         }
-    }
-
-    if (!this._events) return false;
-    var handler = this._events[type];
-    if (!handler) return false;
-
-    if (typeof handler == 'function') {
-      if (this.domain) {
-        this.domain.enter();
       }
-      switch (arguments.length) {
+
+      if (!this._events) return false;
+      var handler = this._events[type];
+      if (!handler) return false;
+
+      if (typeof handler == 'function') {
+        if (this.domain) {
+          this.domain.enter();
+        }
+        switch (arguments.length) {
         // fast cases
         case 1:
-          handler.call(this);
+        handler.call(this);
         break;
         case 2:
-          handler.call(this, arguments[1]);
+        handler.call(this, arguments[1]);
         break;
         case 3:
-          handler.call(this, arguments[1], arguments[2]);
+        handler.call(this, arguments[1], arguments[2]);
         break;
         // slower
         default:
-          var l = arguments.length;
+        var l = arguments.length;
         var args = new Array(l - 1);
         for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
-        handler.apply(this, args);
+          handler.apply(this, args);
       }
       if (this.domain) {
         this.domain.exit();
@@ -92,7 +92,7 @@
       var args = new Array(l - 1);
       for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
 
-      var listeners = handler.slice();
+        var listeners = handler.slice();
       for (var i = 0, l = listeners.length; i < l; i++) {
         listeners[i].apply(this, args);
       }
@@ -116,7 +116,7 @@
     // To avoid recursion in the case that type == "newListeners"! Before
     // adding it to the listeners, first emit "newListeners".
     this.emit('newListener', type, typeof listener.listener === 'function' ?
-              listener.listener : listener);
+      listener.listener : listener);
 
     if (!this._events[type]) {
       // Optimize the case of one listener. Don't need the extra array object.
@@ -144,9 +144,9 @@
       if (m && m > 0 && this._events[type].length > m) {
         this._events[type].warned = true;
         console.error('(node) warning: possible EventEmitter memory ' +
-                      'leak detected. %d listeners added. ' +
-                      'Use emitter.setMaxListeners() to increase limit.',
-        this._events[type].length);
+          'leak detected. %d listeners added. ' +
+          'Use emitter.setMaxListeners() to increase limit.',
+          this._events[type].length);
         console.trace();
       }
     }
@@ -187,22 +187,22 @@
       var position = -1;
       for (var i = 0, length = list.length; i < length; i++) {
         if (list[i] === listener ||
-            (list[i].listener && list[i].listener === listener))
-          {
-            position = i;
-            break;
-          }
+          (list[i].listener && list[i].listener === listener))
+        {
+          position = i;
+          break;
+        }
       }
 
       if (position < 0) return this;
       list.splice(position, 1);
     } else if (list === listener ||
-               (list.listener && list.listener === listener))
-      {
-        delete this._events[type];
-      }
+     (list.listener && list.listener === listener))
+    {
+      delete this._events[type];
+    }
 
-      return this;
+    return this;
   };
 
   EventEmitter.prototype.removeAllListeners = function(type) {
@@ -236,13 +236,13 @@
 (function (exports, global) {
 
   var Protocol = exports;
- 
+  
   var HEADER = 5;
 
   var Message = function(id,route,body){
-      this.id = id;
-      this.route = route;
-      this.body = body;
+    this.id = id;
+    this.route = route;
+    this.body = body;
   };
 
 /**
@@ -254,23 +254,23 @@
  * socketio current support string
  *
  */
-Protocol.encode = function(id,route,msg){
-    var msgStr = JSON.stringify(msg);
-    if (route.length>255) { throw new Error('route maxlength is overflow'); }
-    var byteArray = new Uint16Array(HEADER + route.length + msgStr.length);
-    var index = 0;
-    byteArray[index++] = (id>>24) & 0xFF;
-    byteArray[index++] = (id>>16) & 0xFF;
-    byteArray[index++] = (id>>8) & 0xFF;
-    byteArray[index++] = id & 0xFF;
-    byteArray[index++] = route.length & 0xFF;
-    for(var i = 0;i<route.length;i++){
-        byteArray[index++] = route.charCodeAt(i);
-    }
-    for (var i = 0; i < msgStr.length; i++) {
-        byteArray[index++] = msgStr.charCodeAt(i);
-    }
-    return bt2Str(byteArray,0,byteArray.length);
+ Protocol.encode = function(id,route,msg){
+  var msgStr = JSON.stringify(msg);
+  if (route.length>255) { throw new Error('route maxlength is overflow'); }
+  var byteArray = new Uint16Array(HEADER + route.length + msgStr.length);
+  var index = 0;
+  byteArray[index++] = (id>>24) & 0xFF;
+  byteArray[index++] = (id>>16) & 0xFF;
+  byteArray[index++] = (id>>8) & 0xFF;
+  byteArray[index++] = id & 0xFF;
+  byteArray[index++] = route.length & 0xFF;
+  for(var i = 0;i<route.length;i++){
+    byteArray[index++] = route.charCodeAt(i);
+  }
+  for (var i = 0; i < msgStr.length; i++) {
+    byteArray[index++] = msgStr.charCodeAt(i);
+  }
+  return bt2Str(byteArray,0,byteArray.length);
 };
 
 
@@ -282,26 +282,26 @@ Protocol.encode = function(id,route,msg){
  *msg String data
  *return Message Object
  */
-Protocol.decode = function(msg){
-    var idx, len = msg.length, arr = new Array( len );
-    for ( idx = 0 ; idx < len ; ++idx ) {
-        arr[idx] = msg.charCodeAt(idx);
-    }
-    var index = 0;
-    var buf = new Uint16Array(arr);
-    var id = ((buf[index++] <<24) | (buf[index++])  << 16  |  (buf[index++]) << 8 | buf[index++]) >>>0; 
-    var routeLen = buf[HEADER-1];
-    var route = bt2Str(buf,HEADER, routeLen+HEADER);
-    var body = bt2Str(buf,routeLen+HEADER,buf.length);  
-    return new Message(id,route,body);
+ Protocol.decode = function(msg){
+  var idx, len = msg.length, arr = new Array( len );
+  for ( idx = 0 ; idx < len ; ++idx ) {
+    arr[idx] = msg.charCodeAt(idx);
+  }
+  var index = 0;
+  var buf = new Uint16Array(arr);
+  var id = ((buf[index++] <<24) | (buf[index++])  << 16  |  (buf[index++]) << 8 | buf[index++]) >>>0; 
+  var routeLen = buf[HEADER-1];
+  var route = bt2Str(buf,HEADER, routeLen+HEADER);
+  var body = bt2Str(buf,routeLen+HEADER,buf.length);  
+  return new Message(id,route,body);
 };
 
 var bt2Str = function(byteArray,start,end) {
-    var result = "";
-    for(var i = start; i < byteArray.length && i<end; i++) {
-        result = result + String.fromCharCode(byteArray[i]);
-    };
-    return result;
+  var result = "";
+  for(var i = start; i < byteArray.length && i<end; i++) {
+    result = result + String.fromCharCode(byteArray[i]);
+  };
+  return result;
 }
 
 })('object' === typeof module ? module.exports : (this.Protocol = {}), this);
@@ -322,20 +322,15 @@ var bt2Str = function(byteArray,start,end) {
   var id = 1;
   var callbacks = {};
 
-  pomelo.init = function(params, cb){
+  pomelo.init = function(params, cb) {
     pomelo.params = params;
     params.debug = true;
     var host = params.host;
     var port = params.port;
 
-    var url = 'ws://' + host;
-    if(port) {
-      url +=  ':' + port;
-    }
+    socket = io.connect('ws://' + host + ':' + port, {reconnection: false, transports: ['websocket']});
 
-    socket = io.connect(url, {'force new connection': true, reconnect: false});
-
-    socket.on('connect', function(){
+    socket.on('connect', function() {
       console.log('[pomeloclient.init] websocket connected!');
       if (cb) {
         cb(socket);
@@ -391,9 +386,9 @@ var bt2Str = function(byteArray,start,end) {
       cb = arguments[2];
     }
     msg = filter(msg,route);
-  id++; 
-  callbacks[id] = cb;
-  var sg = Protocol.encode(id,route,msg);
+    id++; 
+    callbacks[id] = cb;
+    var sg = Protocol.encode(id,route,msg);
     socket.send(sg);
   };
 
@@ -432,7 +427,7 @@ var bt2Str = function(byteArray,start,end) {
           pomelo.emit(route,msg);
         }
       } else {
-          pomelo.emit(msg.body.route,msg.body);
+        pomelo.emit(msg.body.route,msg.body);
       }
     }
   };

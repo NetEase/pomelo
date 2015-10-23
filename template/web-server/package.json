@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": false,
   "dependencies": {
-    "express": "3.4.8"
+    "express": "4.10.2",
+    "serve-static": "1.10.0"
   }
 }

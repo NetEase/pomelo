@@ -50,6 +50,14 @@
   font-size: 15pt;
 }
 
+.g-result {
+  height: 100px;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 18pt;
+  color: #FF0000;
+}
+
 .g-button {
   margin-top: 10px;
   text-align: center;
