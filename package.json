@@ -40,7 +40,7 @@
     "pomelo-admin": "0.4.5",
     "pomelo-logger": "0.1.7",
     "pomelo-scheduler": "0.3.9",
-    "ws": "0.4.25",
+    "ws": "0.8.0",
     "pomelo-protobuf": "0.4.0",
     "node-bignumber": "1.2.1",
     "commander": "2.0.0",
