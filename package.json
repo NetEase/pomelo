@@ -46,7 +46,7 @@
     "mqtt": "0.3.9",
     "node-zookeeper-client": "0.2.2",
     "node-uuid": "1.4.3",
-    "redis": "2.0.1"
+    "ioredis": "1.10.0"
   },
   "bin": {
     "pomelo": "./bin/pomelo"
