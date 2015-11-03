@@ -31,7 +31,7 @@ describe('cmd test', function() {
                 }
             };
 
-            var data = {command: 1};
+            var data = {command: 'stop'};
             commander.init(client, JSON.stringify(data));
             flag.should.eql(true);
 /*
@@ -39,7 +39,7 @@ describe('cmd test', function() {
             commander.init(client, JSON.stringify(data));
             flag.should.eql(true);
 */
-            data = {command: 3, cron: {
+            data = {command: 'addCron', cron: {
                                             type: 'chat',
                                             id: 'chat-server-1'
                                       }
@@ -47,7 +47,7 @@ describe('cmd test', function() {
             commander.init(client, JSON.stringify(data));
             rs.length.should.eql(1);
 
-            data = {command: 4, cron: {
+            data = {command: 'removeCron', cron: {
                                             type: 'chat',
                                             id: 'chat-server-1'
                                       }
@@ -55,7 +55,7 @@ describe('cmd test', function() {
             commander.init(client, JSON.stringify(data));
             rs.length.should.eql(1);
 
-            data = {command: 5, blacklist: ['127.0.0.1'] };
+            data = {command: 'blacklist', blacklist: ['127.0.0.1'] };
             commander.init(client, JSON.stringify(data));
             client.app.components.__connector__.blacklist.length.should.eql(1);
         });
