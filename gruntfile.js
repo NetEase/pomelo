@@ -38,7 +38,8 @@ module.exports = function(grunt) {
     jshint: {
       all: ['lib/*'],
       options: {
-                 node: true
+                 node: true,
+                 sub: true
                }
     }
   });
