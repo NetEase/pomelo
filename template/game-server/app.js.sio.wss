@@ -21,6 +21,8 @@ app.configure('production|development', function(){
   app.set('connectorConfig',
     {
       connector : pomelo.connectors.sioconnector,
+      //websocket, polling
+      transports : ['websocket'],
       key: fs.readFileSync('../shared/server.key'),
   		cert: fs.readFileSync('../shared/server.crt')
     });
