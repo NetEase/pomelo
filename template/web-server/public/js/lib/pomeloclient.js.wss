@@ -328,12 +328,7 @@ var bt2Str = function(byteArray,start,end) {
     var host = params.host;
     var port = params.port;
 
-    var url = 'https://' + host;
-    if(port) {
-      url +=  ':' + port;
-    }
-
-    socket = io.connect(url, {'force new connection': true, reconnect: false});
+    socket = io.connect('wss://' + host + ':' + port, {reconnection: false, transports: ['websocket']});
 
     socket.on('connect', function(){
       console.log('[pomeloclient.init] websocket connected!');
