@@ -6,6 +6,7 @@
 
 var has = Object.prototype.hasOwnProperty;
 
+/* Refer to https://github.com/componentjs/require/blob/master/lib/require.js */
 /**
  * Require the given path.
  *
