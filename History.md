@@ -1,7 +1,14 @@
+1.2.1 / 2015-12-31
+================
+  * [NEW] upgrade ws to 0.8.0
+  * [#771](https://github.com/NetEase/pomelo/pull/771)
+  * [#774](https://github.com/NetEase/pomelo/pull/774)
+  * [FIX] tls: destory connection when clientError
+
 1.2.0 / 2015-09-18
 =================
   * [NEW] upgrade pomelo-admin to 0.4.5
-  * [#751](https://github.com/NetEase/pomelo/pull/741)
+  * [#751](https://github.com/NetEase/pomelo/pull/751)
   * [#741](https://github.com/NetEase/pomelo/pull/741)
   * [#740](https://github.com/NetEase/pomelo/pull/740)
   * [FIX] fix wrong variable in protobuf
