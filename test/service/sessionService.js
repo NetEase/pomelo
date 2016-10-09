@@ -64,11 +64,11 @@ describe('session service test', function() {
       var service = new SessionService();
       var sid = 1;
       var uid = 'py';
-  
+
       service.unbind(sid, uid, function(err) {
         should.exist(err);
         done();
-      });      
+      });
     });
     it('should fail unbind session if session not binded', function(done) {
       var service = new SessionService();
@@ -444,7 +444,7 @@ describe('frontend session test', function() {
       });
     });
   });
-  
+
   describe('#export', function() {
     it('should equal frontend session after export', function(done) {
       var service = new SessionService();

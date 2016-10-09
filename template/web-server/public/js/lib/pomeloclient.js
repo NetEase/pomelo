@@ -236,7 +236,7 @@
 (function (exports, global) {
 
   var Protocol = exports;
- 
+
   var HEADER = 5;
 
   var Message = function(id,route,body){
@@ -289,10 +289,10 @@ Protocol.decode = function(msg){
     }
     var index = 0;
     var buf = new Uint16Array(arr);
-    var id = ((buf[index++] <<24) | (buf[index++])  << 16  |  (buf[index++]) << 8 | buf[index++]) >>>0; 
+    var id = ((buf[index++] <<24) | (buf[index++])  << 16  |  (buf[index++]) << 8 | buf[index++]) >>>0;
     var routeLen = buf[HEADER-1];
     var route = bt2Str(buf,HEADER, routeLen+HEADER);
-    var body = bt2Str(buf,routeLen+HEADER,buf.length);  
+    var body = bt2Str(buf,routeLen+HEADER,buf.length);
     return new Message(id,route,body);
 };
 
@@ -391,7 +391,7 @@ var bt2Str = function(byteArray,start,end) {
       cb = arguments[2];
     }
     msg = filter(msg,route);
-  id++; 
+  id++;
   callbacks[id] = cb;
   var sg = Protocol.encode(id,route,msg);
     socket.send(sg);
@@ -406,7 +406,7 @@ var bt2Str = function(byteArray,start,end) {
     if(msg.id) {
       //if have a id then find the callback function with the request
       var cb = callbacks[msg.id];
-      
+
       delete callbacks[msg.id];
       if(typeof cb !== 'function') {
         console.log('[pomeloclient.processMessage] cb is not a function for request ' + msg.id);
@@ -452,5 +452,5 @@ var bt2Str = function(byteArray,start,end) {
     return msg;
   }
 
-  
+
 })();
