@@ -1,3 +1,10 @@
+## 网易 pomelo 1.2.3 
+
+修改内容
+- es6 语法 
+- 升级 插件
+
+
 ## Pomelo -- a fast, scalable game server framework for node.js
 
 Pomelo is a fast, scalable game server framework for [node.js](http://nodejs.org).
