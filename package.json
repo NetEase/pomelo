@@ -28,7 +28,6 @@
     "server"
   ],
   "dependencies": {
-    "socket.io": "0.9.16",
     "async": "0.2.5",
     "seq-queue": "0.0.5",
     "crc": "0.2.0",
@@ -40,10 +39,11 @@
     "pomelo-admin": "0.4.5",
     "pomelo-logger": "0.1.7",
     "pomelo-scheduler": "0.3.9",
-    "ws": "0.8.0",
     "pomelo-protobuf": "0.4.0",
     "node-bignumber": "1.2.1",
     "commander": "2.0.0",
+    "ws": "*",
+    "socket.io": "*",
     "mqtt": "0.3.9"
   },
   "bin": {
@@ -51,8 +51,8 @@
   },
   "devDependencies": {
     "should": "3.3.1",
-    "mocha": ">=0.0.1",
-    "socket.io-client": "0.9.16",
+    "mocha": "*",
+    "socket.io-client": "*",
     "muk": ">=0.0.1",
     "grunt": "~0.4.2",
     "grunt-mocha-test": "0.8.x",
