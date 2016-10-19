@@ -17,10 +17,10 @@ describe('console module test', function() {
 					stop: function(value) {
 						flag = value;
 					},
-					addCrons: function(array) {
+					addCrones: function(array) {
 						rs = array;
 					},
-					removeCrons: function(array) {
+					removeCrones: function(array) {
 						rs = array;
 					},
 					isFrontend: function() {
