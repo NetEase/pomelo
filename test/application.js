@@ -2,7 +2,7 @@ var app = require('../lib/application');
 var pomelo = require('../');
 var should = require('should');
 
-var WAIT_TIME = 1000;
+var WAIT_TIME = 500;
 var mockBase = process.cwd() + '/test';
 
 describe('application test', function(){
@@ -423,7 +423,7 @@ describe('application test', function(){
         newServers.should.eql(servers);
 
         // check servers
-        var curServers = app.getServers();
+        var curServers = app.Servers;
         should.exist(curServers);
         var item, i, l;
         for(i=0, l=newServers.length; i<l; i++) {
@@ -445,7 +445,7 @@ describe('application test', function(){
             types.push(item.serverType);
           }
         }
-        var types2 = app.getServerTypes();
+        var types2 = app.ServerTypes;
         types.length.should.equal(types2.length);
         for(i=0, l=types.length; i<l; i++) {
           types2.should.include(types[i]);
@@ -491,7 +491,7 @@ describe('application test', function(){
         delIds.should.eql(ids);
 
         // check servers
-        var curServers = app.getServers();
+        var curServers = app.Servers;
         should.exist(curServers);
         var item, i, l;
         for(i=0, l=destServers.length; i<l; i++) {
@@ -514,7 +514,7 @@ describe('application test', function(){
             types.push(item.serverType);
           }
         }
-        var types2 = app.getServerTypes();
+        var types2 = app.ServerTypes;
         types.length.should.equal(types2.length);
         for(i=0, l=types.length; i<l; i++) {
           types2.should.include(types[i]);
@@ -560,6 +560,7 @@ describe('application test', function(){
       }, WAIT_TIME);
     });
   });
+
   describe('#use', function() {
     it('should exist plugin component and event', function(done) {
       var plugin = {
