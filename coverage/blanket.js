@@ -1,6 +1,4 @@
-var path = require('path');
-var srcDir = path.join(__dirname, '..', 'lib');
+const path = require('path');
+const srcDir = path.join(__dirname, '..', 'lib');
 
-require('blanket')({
-  pattern: srcDir
-});
+require('blanket')({pattern : srcDir});

@@ -39,19 +39,19 @@
     "pomelo-admin": "0.4.5",
     "pomelo-logger": "0.1.7",
     "pomelo-scheduler": "0.3.9",
+    "ws": "*",
+    "socket.io": "*",
     "pomelo-protobuf": "0.4.0",
     "node-bignumber": "1.2.1",
     "commander": "2.0.0",
-    "lodash":"*",
-    "ws": "*",
-    "socket.io": "*",
-    "mqtt": "0.3.9"
+    "mqtt": "*",
+    "lodash":"*"
   },
   "bin": {
     "pomelo": "./bin/pomelo"
   },
   "devDependencies": {
-    "should": "3.3.1",
+    "should": "*",
     "mocha": "*",
     "socket.io-client": "*",
     "muk": ">=0.0.1",

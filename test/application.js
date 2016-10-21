@@ -2,7 +2,7 @@ var app = require('../lib/application');
 var pomelo = require('../');
 var should = require('should');
 
-var WAIT_TIME = 5000;
+var WAIT_TIME = 500;
 var mockBase = process.cwd() + '/test';
 
 describe('application test', function(){
