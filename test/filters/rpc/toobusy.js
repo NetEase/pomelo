@@ -1,5 +1,5 @@
 var should = require('should');
-var toobusyFilter = require('../../../lib/filters/rpc/toobusy');
+var toobusyFilter = require('../../../lib/filters/rpc/toobusy')();
 
 var mockData = {
   serverId : "connector-server-1",

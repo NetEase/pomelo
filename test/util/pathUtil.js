@@ -55,7 +55,7 @@ describe('path util test', function() {
       should.exist(p);
       expectNames.length.should.equal(p.length);
       for(var i=0, l=expectNames.length; i<l; i++) {
-        p.should.include(expectNames[i]);
+        p.should.containEql(expectNames[i]);
       }
     });
 
