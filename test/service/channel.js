@@ -95,7 +95,7 @@ describe('channel test', function() {
       members.length.should.equal(uinfos.length);
       for(i=0, l=uinfos.length; i<l; i++) {
         item = uinfos[i];
-        members.should.include(item.uid);
+        members.should.containEql(item.uid);
       }
     });
   });

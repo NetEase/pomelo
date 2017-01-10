@@ -3,6 +3,7 @@
 修改内容
 - es6 语法 
 - 升级 插件
+- 支持 es7
 
 
 ## Pomelo -- a fast, scalable game server framework for node.js

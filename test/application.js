@@ -423,7 +423,7 @@ describe('application test', function(){
         newServers.should.eql(servers);
 
         // check servers
-        var curServers = app.Servers;
+        var curServers = app.getServers();
         should.exist(curServers);
         var item, i, l;
         for(i=0, l=newServers.length; i<l; i++) {
@@ -445,10 +445,10 @@ describe('application test', function(){
             types.push(item.serverType);
           }
         }
-        var types2 = app.ServerTypes;
+        var types2 = app.getServerTypes();
         types.length.should.equal(types2.length);
         for(i=0, l=types.length; i<l; i++) {
-          types2.should.include(types[i]);
+          types2.should.containEql(types[i]);
         }
 
         // check server type list
@@ -491,7 +491,7 @@ describe('application test', function(){
         delIds.should.eql(ids);
 
         // check servers
-        var curServers = app.Servers;
+        var curServers = app.getServers();
         should.exist(curServers);
         var item, i, l;
         for(i=0, l=destServers.length; i<l; i++) {
@@ -514,10 +514,10 @@ describe('application test', function(){
             types.push(item.serverType);
           }
         }
-        var types2 = app.ServerTypes;
+        var types2 = app.getServerTypes();
         types.length.should.equal(types2.length);
         for(i=0, l=types.length; i<l; i++) {
-          types2.should.include(types[i]);
+          types2.should.containEql(types[i]);
         }
 
         // check server type list
