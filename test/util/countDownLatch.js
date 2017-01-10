@@ -1,4 +1,4 @@
-var CountDownLatch = require('../../lib/util/countDownLatch');
+var CreateCountDownLatch = require('../../lib/util/countDownLatch');
 var should = require('should');
 
 var cbCreator = (function() {
@@ -22,7 +22,7 @@ describe('countdown latch test', function() {
   describe('#count down', function() {
     it('should invoke the callback after the done method was invoked the specified times', function(done) {
       var n = 3, doneCount = 0;
-      var cdl = CountDownLatch.createCountDownLatch(n, function() {
+      var cdl = CreateCountDownLatch(n, function() {
         doneCount.should.equal(n);
         done();
       });
@@ -35,23 +35,23 @@ describe('countdown latch test', function() {
 
     it('should throw exception if pass a negative or zero to the create method', function() {
       (function() {
-        CountDownLatch.createCountDownLatch(-1, function() {});
+        CreateCountDownLatch(-1, function() {});
       }).should.throw();
 
       (function() {
-        CountDownLatch.createCountDownLatch(0, function() {});
+        CreateCountDownLatch(0, function() {});
       }).should.throw();
     });
 
     it('should throw exception if pass illegal cb to the create method', function() {
       (function() {
-        CountDownLatch.createCountDownLatch(1, null);
+        CreateCountDownLatch(1, null);
       }).should.throw();
     });
 
     it('should throw exception if try to invoke done metho of a latch that has fired cb', function() {
       var n = 3;
-      var cdl = CountDownLatch.createCountDownLatch(n, function() {});
+      var cdl = CreateCountDownLatch(n, function() {});
 
       for(var i=0; i<n; i++) {
         cdl.done();
@@ -64,7 +64,7 @@ describe('countdown latch test', function() {
 
     it('should invoke the callback if timeout', function() {
       var n = 3;
-      var cdl = CountDownLatch.createCountDownLatch(n, {timeout: 3000}, function(isTimeout) {
+      var cdl = CreateCountDownLatch(n, {timeout: 3000}, function(isTimeout) {
         isTimeout.should.equal(true);
       });
 
