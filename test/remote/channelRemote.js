@@ -65,7 +65,7 @@ describe('channel remote test', function() {
         invokeCount.should.equal(uids.length);
         invokeUids.length.should.equal(uids.length);
         for(var i=0, l=uids.length; i<l; i++) {
-          invokeUids.should.include(uids[i]);
+          invokeUids.should.containEql(uids[i]);
         }
         done();
       });

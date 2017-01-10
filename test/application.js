@@ -2,7 +2,7 @@ var app = require('../lib/application');
 var pomelo = require('../');
 var should = require('should');
 
-var WAIT_TIME = 1000;
+var WAIT_TIME = 500;
 var mockBase = process.cwd() + '/test';
 
 describe('application test', function(){
@@ -448,7 +448,7 @@ describe('application test', function(){
         var types2 = app.getServerTypes();
         types.length.should.equal(types2.length);
         for(i=0, l=types.length; i<l; i++) {
-          types2.should.include(types[i]);
+          types2.should.containEql(types[i]);
         }
 
         // check server type list
@@ -517,7 +517,7 @@ describe('application test', function(){
         var types2 = app.getServerTypes();
         types.length.should.equal(types2.length);
         for(i=0, l=types.length; i<l; i++) {
-          types2.should.include(types[i]);
+          types2.should.containEql(types[i]);
         }
 
         // check server type list
@@ -560,6 +560,7 @@ describe('application test', function(){
       }, WAIT_TIME);
     });
   });
+
   describe('#use', function() {
     it('should exist plugin component and event', function(done) {
       var plugin = {

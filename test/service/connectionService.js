@@ -133,8 +133,8 @@ describe('connection service test', function() {
     var infos = sinfo.loginedList;
     should.exist(infos);
     infos.length.should.equal(2);
-    infos.should.include(info1);
-    infos.should.include(info2);
+    infos.should.containEql(info1);
+    infos.should.containEql(info2);
 
     done();
   });
