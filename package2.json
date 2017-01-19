@@ -1,6 +1,7 @@
 {
   "name": "pomelo",
-  "version": "2.2.0",
+  "version": "1.2.0",
+  "private": false,
   "homepage": "https://github.com/NetEase/pomelo",
   "repository": {
     "type": "git",
@@ -25,19 +26,19 @@
     "server"
   ],
   "dependencies": {
-    "socket.io": "1.7.2",
+    "socket.io": "0.9.16",
     "async": "0.2.5",
     "seq-queue": "0.0.5",
     "crc": "0.2.0",
     "cliff": "0.1.8",
     "mkdirp": "0.3.3",
     "pomelo-loader": "0.0.6",
-    "pomelo-rpc": "1.0.6",
+    "pomelo-rpc": "^0.5.3",
     "pomelo-protocol": "0.1.6",
-    "pomelo-admin": "1.0.0",
+    "pomelo-admin": "^0.5.0",
     "pomelo-logger": "0.1.7",
     "pomelo-scheduler": "0.3.9",
-    "ws": "1.1.1",
+    "ws": "0.4.25",
     "pomelo-protobuf": "0.4.0",
     "node-bignumber": "1.2.1",
     "commander": "2.0.0",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "should": "3.3.1",
     "mocha": ">=0.0.1",
+    "socket.io-client": "0.9.16",
     "muk": ">=0.0.1",
     "grunt": "~0.4.2",
     "grunt-mocha-test": "0.8.x",
