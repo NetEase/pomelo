@@ -1,3 +1,7 @@
+2.2.2 / 2017-1-20
+=================
+  * [#899](https://github.com/NetEase/pomelo/pull/899)
+
 2.2.1 / 2017-1-20
 =================
   * [FIX] fix push message with no array
