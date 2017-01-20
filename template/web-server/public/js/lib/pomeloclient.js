@@ -333,7 +333,7 @@ var bt2Str = function(byteArray,start,end) {
       url +=  ':' + port;
     }
 
-    socket = io.connect(url, {'force new connection': true, reconnect: false});
+    socket = io(url, {'force new connection': true, reconnect: false});
 
     socket.on('connect', function(){
       console.log('[pomeloclient.init] websocket connected!');

@@ -11,12 +11,12 @@ app.configure('production|development', 'connector', function(){
   app.set('connectorConfig',
     {
       connector : pomelo.connectors.sioconnector,
-      //websocket, htmlfile, xhr-polling, jsonp-polling, flashsocket
-      transports : ['websocket'],
+      // 'websocket', 'polling-xhr', 'polling-jsonp', 'polling'
+      transports : ['websocket', 'polling'],
       heartbeats : true,
-      closeTimeout : 60,
-      heartbeatTimeout : 60,
-      heartbeatInterval : 25
+      closeTimeout : 60 * 1000,
+      heartbeatTimeout : 60 * 1000,
+      heartbeatInterval : 25 * 1000
     });
 });
 
