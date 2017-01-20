@@ -1,3 +1,13 @@
+2.2.1 / 2017-1-20
+=================
+  * [FIX] fix push message with no array
+
+2.2.0 / 2017-1-19
+=================
+  * [NEW] upgrade pomelo-rpc to 1.0.6, rpc protocol moved to MQTT
+  * [NEW] upgrade pomelo-admin to 1.0.0
+  * [NEW] pure javaScript without need to install c++ addons 
+
 1.2.1 / 2015-12-31
 ================
   * [NEW] upgrade ws to 0.8.0
