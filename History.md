@@ -1,3 +1,7 @@
+2.2.3 / 2017-1-20
+=================
+  * [NEW] upgrade socket.io to 1.7.x
+
 2.2.2 / 2017-1-20
 =================
   * [#899](https://github.com/NetEase/pomelo/pull/899)
