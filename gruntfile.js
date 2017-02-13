@@ -6,14 +6,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
-  var src = ['test/manager/taskManager.js', 'test/filters/*.js', 
-  'test/remote/*.js', 'test/service/*.js', 'test/modules/*.js', 'test/util/*.js', 'test/*.js'];
+  var src = ['test/manager/taskManager.js', 'test/filters/*.js',
+             'test/remote/*.js', 'test/service/*.js', 'test/modules/*.js',
+             'test/util/*.js', 'test/*.js'];
 
 
   // Project configuration.
   grunt.initConfig({
     mochaTest: {
-       test: {
+      test: {
         options: {
           reporter: 'spec',
           timeout: 5000,
@@ -31,16 +32,16 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      "coverage.html" : {
+      'coverage.html': {
         src: ['coverage.html']
       }
     },
     jshint: {
       all: ['lib/*'],
       options: {
-                 node: true,
-                 sub: true
-               }
+        node: true,
+        sub: true
+      }
     }
   });
 
