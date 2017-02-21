@@ -1,4 +1,4 @@
-## Pomelo -- a fast, scalable game server framework for node.js
+## Pomelo -- 为node.js而生的高性能, 高可伸缩 的游戏服务器框架
 
 Pomelo 是一个基于nodejs的高性能, 高可伸缩的游戏服务器框架.
 它提供了基础的开发框架和很多相关的工具和库.
