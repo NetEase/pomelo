@@ -63,6 +63,9 @@ With the following references, you can quickly familiarize yourself with the pom
 * [Getting started](https://github.com/NetEase/pomelo/wiki/Welcome-to-Pomelo)
 * [Tutorial](https://github.com/NetEase/pomelo/wiki/Preface)
 
+# 启动请注意
+sudo pomelo start ; 一定要带上sudo, 否则logs没有写权限，会导致内存一直飙升。
+
 
 ## Contributors
 * NetEase, Inc. (@NetEase)
