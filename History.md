@@ -1,3 +1,8 @@
+2.2.5 / 2017-1-22
+=================
+  * [#815](https://github.com/NetEase/pomelo/pull/815)
+  * [#901](https://github.com/NetEase/pomelo/pull/901)
+
 2.2.4 / 2017-1-20
 =================
   * [NEW] upgrade pomelo-rpc to 1.0.7
