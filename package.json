@@ -47,7 +47,7 @@
     "node-zookeeper-client": "0.2.2",
     "node-uuid": "1.4.3",
     "ioredis": "1.10.0",
-	"redis": "0.12.1"
+    "redis": "0.12.1"
   },
   "bin": {
     "pomelo": "./bin/pomelo"
