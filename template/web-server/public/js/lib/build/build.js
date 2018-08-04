@@ -461,19 +461,23 @@ require.register("NetEase-pomelo-protocol/lib/protocol.js", function(exports, re
       }else if(bytes[offset] < 224){
         charCode = ((bytes[offset] & 0x3f)<<6) + (bytes[offset+1] & 0x3f);
         offset += 2;
-      }else{
+      }else if(bytes[offset] < 240){
         charCode = ((bytes[offset] & 0x0f)<<12) + ((bytes[offset+1] & 0x3f)<<6) + (bytes[offset+2] & 0x3f);
         offset += 3;
+      }else if(bytes[offset] < 256) {
+        charCode = ((bytes[offset] & 0x07)<<18) + ((bytes[offset+1] & 0x3f)<<12) + ((bytes[offset+2] & 0x3f)<<6) + (bytes[offset+3] & 0x3f);
+        offset += 4;
       }
       array.push(charCode);
     }
+    var codeToString = String.fromCodePoint || String.fromCharCode;
     var res = '';
     var chunk = 8 * 1024;
     var i;
     for (i = 0; i < array.length / chunk; i++) {
-        res += String.fromCharCode.apply(null, array.slice(i * chunk, (i + 1) * chunk));
+        res += codeToString.apply(null, array.slice(i * chunk, (i + 1) * chunk));
     }
-    res += String.fromCharCode.apply(null, array.slice(i * chunk));
+    res += codeToString.apply(null, array.slice(i * chunk));
     return res;
   };
 
