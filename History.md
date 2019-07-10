@@ -1,3 +1,6 @@
+2.2.6 / 2019-7-10
+=================
+   * [NEW] upgrade pomelo-admin to 1.0.1
 2.2.5 / 2017-1-22
 =================
   * [#815](https://github.com/NetEase/pomelo/pull/815)
