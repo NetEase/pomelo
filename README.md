@@ -35,7 +35,7 @@ Pomelo is also suitable for real-time web applications; its distributed architec
 
 ### Powerful
 
-* Many clients support, including javascript, flash, android, iOS, cocos2d-x, C
+* Many clients support, including JavaScript, flash, Android, iOS, Cocos2d-x, C
 * Many libraries and tools, including command line tool, admin tool, performance test tool, AI, path finding etc.
 * Good reference materials: full docs, many examples and [an open-source MMO RPG demo](https://github.com/NetEase/pomelo/wiki/Introduction-to--Lord-of-Pomelo)
 
