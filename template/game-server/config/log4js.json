@@ -93,12 +93,23 @@
         }
       ,"backups": 5,
       "category":"pomelo-rpc"
+    },
+	{
+      "type": "file",
+      "filename": "${opts:base}/logs/flowFilter.log",
+      "maxLogSize": 1048576,
+      "layout": {
+          "type": "basic"
+        }
+      ,"backups": 5,
+      "category":"flowFilter"
     }
   ],
 
   "levels": {
     "rpc-log" : "ERROR",
-    "forward-log": "ERROR"
+    "forward-log": "ERROR",
+	"flowFilter": "WARN"	
   },
 
   "replaceConsole": true,
