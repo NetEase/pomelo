@@ -37,6 +37,7 @@
     "pomelo-rpc": "1.0.7",
     "pomelo-protocol": "0.1.6",
     "pomelo-admin-js":"^1.0.3",
+    "pomelo-logger-x": "^0.1.0",
     "pomelo-scheduler": "0.3.9",
     "ws": "1.1.1",
     "pomelo-protobuf": "0.4.0",
