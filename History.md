@@ -50,7 +50,7 @@
 =================
   * [NEW] upgrade pomelo-rpc to 0.4.10
   * [NEW] upgrade pomelo-admin to 0.4.4
-  * [NEW] upgrade pomelo-logger-x to 0.1.7
+  * [NEW] upgrade pomelo-logger to 0.1.7
 
 1.1.8 / 2015-05-29
 =================
@@ -124,7 +124,7 @@
 1.0.4 / 2014-08-26
 =================
 * [NEW] upgrade pomelo-rpc to 0.4.3
-* [NEW] upgrade pomelo-logger-x to 0.1.6
+* [NEW] upgrade pomelo-logger to 0.1.6
 * [FIX] pomelo-masterha-plugin reconnect bug miss parameter env
 * [#582](https://github.com/NetEase/pomelo/pull/582)
 
@@ -293,14 +293,14 @@
 * lifecycle callback feature
 * add rcp filter interface
 * simplify servers.json configuration
-* pomelo-logger-x dynamic log level
+* pomelo-logger dynamic log level
 * pomelo-rpc & pomelo-admin white list
 * pomelo-data-plugin
 
 0.7.7 / 2013-12-16
 =================
 * upgrade pomelo-loader to 0.0.6
-* upgrade pomelo-logger-x to 0.1.2(add dynamic change logger level feature)
+* upgrade pomelo-logger to 0.1.2(add dynamic change logger level feature)
 
 0.7.6 / 2013-12-3
 =================
