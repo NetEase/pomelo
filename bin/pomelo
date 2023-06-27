@@ -15,7 +15,7 @@ var fs = require('fs'),
   exec = require('child_process').exec,
   spawn = require('child_process').spawn,
   version = require('../package.json').version,
-  adminClient = require('pomelo-admin').adminClient,
+  adminClient = require('pomelo-admin-js').adminClient,
   constants = require('../lib/util/constants'),
   program = require('commander');
 
